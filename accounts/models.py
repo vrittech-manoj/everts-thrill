@@ -18,7 +18,7 @@ class CustomUser(AbstractUser):
     is_active = models.BooleanField(default=True)
     remarks = models.CharField(max_length=200,null=True,default = '')
 
-    is_verified = models.BooleanField(default=False,null=True)
+    is_verified = models.BooleanField(default=False)
 
     created_date = models.DateTimeField(auto_now_add=True)
     updated_date = models.DateTimeField(auto_now=True)

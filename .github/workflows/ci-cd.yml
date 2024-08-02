@@ -26,6 +26,12 @@ jobs:
       run: |
         pip install -r requirements.txt
 
+    - name: Flush and migrate database
+      run: |
+        python manage.py flush --no-input
+        python manage.py makemigrations
+        python manage.py migrate
+
     - name: Run tests
       run: |
         python manage.py test
