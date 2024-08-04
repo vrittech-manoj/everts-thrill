@@ -68,6 +68,7 @@ INSTALLED_APPS = [
     'testonomial',
     'queries',
     'accountsmanagement',
+    'setupemail',
 ]
 
 # ASGI_APPLICATION = 'trek.asgi.application'
@@ -193,3 +194,12 @@ EMAIL_HOST = os.getenv('smtp.gmail.com')
 EMAIL_PORT = os.getenv('EMAIL_PORT')
 EMAIL_HOST_USER = os.getenv('EMAIL_HOST_USER')
 EMAIL_HOST_PASSWORD = os.getenv('EMAIL_HOST_PASSWORD')
+
+
+EMAIL_BACKEND = 'setupemail.utilities.custom_email_setup_backend.CustomEmailBackend'
+
+INTERNAL_IPS = [
+    # ...
+    "127.0.0.1",
+    # ...
+]

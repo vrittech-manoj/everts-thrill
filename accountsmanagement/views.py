@@ -1,6 +1,6 @@
 from django.shortcuts import render
 from rest_framework import generics, status, viewsets, response
-from .serializers import EmailNumberSerializer, CustomPasswordResetSerializer, TokenValidationSerializer,ContactMeSerializer,EmailResetSerializer,EmailChangeGetOtpSerializer,CompanyEmailResetSerializer,EmailChangeOtpTokenValidationSerializer
+from .serializers import EmailNumberSerializer, CustomPasswordResetSerializer, TokenValidationSerializer,ContactMeSerializer,EmailResetSerializer,EmailChangeGetOtpSerializer
 from accounts.models import CustomUser
 from django.utils.http import urlsafe_base64_encode
 from django.utils.encoding import force_bytes
@@ -10,10 +10,12 @@ from django.conf import settings
 from django.core.mail import send_mail
 from django.contrib.auth.hashers import check_password
 
+
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status
 from rest_framework_simplejwt.tokens import RefreshToken
+from .sms_sender import SendSms,ContactMe
 from django.db.models import Q
 from django.core.cache import cache
 
@@ -42,7 +44,7 @@ class EmailCheckView(generics.GenericAPIView):
             otp = self.generate_otp(user.id)
 
             reset_verification = "reset_password"
-            subject = 'Pacific OTP'
+            subject = 'lead-management OTP'
             if '@' in email:
                 email = user.email
                 sendMail(email, otp,subject,reset_verification)
@@ -103,7 +105,7 @@ class EmailChangeGetOtpView(generics.GenericAPIView):
                 {"message": "User doesn't exists"},
                 status=status.HTTP_400_BAD_REQUEST,
             )
-        
+
 class CustomPasswordResetView(generics.GenericAPIView):
     serializer_class = CustomPasswordResetSerializer
     
@@ -117,6 +119,7 @@ class CustomPasswordResetView(generics.GenericAPIView):
             user.save()
             message = "Password Reset Complete"
             stat = status.HTTP_200_OK
+            print(" password save ")
         else:
             message = "Password Reset not Completed"
             stat = status.HTTP_400_BAD_REQUEST
@@ -125,21 +128,6 @@ class CustomPasswordResetView(generics.GenericAPIView):
         return response.Response(
             {"message": message},
             status=stat,
-        )
-    
-
-class EmailChangeOtpVerifyView(generics.GenericAPIView):
-    serializer_class = EmailChangeOtpTokenValidationSerializer
-    
-    def post(self, request, *args, **kwargs):
-        serializer = self.serializer_class(data=request.data, context={"kwargs":kwargs})
-        serializer.is_valid(raise_exception=True)
-        
-        return response.Response(
-            {"message": "Your Token is Validate",
-             'data' : serializer.data,
-            },
-            status=status.HTTP_200_OK,
         )
 
 class EmailResetView(generics.GenericAPIView):
@@ -154,18 +142,22 @@ class EmailResetView(generics.GenericAPIView):
             message = "password does not match"
             stat = status.HTTP_200_OK
         if serializer.validated_data.get('token_validate') == True:
+            print("validate  data")
             user.email = serializer.data.get('second_email')
             user.save()
             message = "Email Reset Complete"
             stat = status.HTTP_200_OK
+            print(" Email Reset save ")
         else:
             message = "Email Can Not reset"
             stat = status.HTTP_400_BAD_REQUEST
+            print("Email Reset not save")
 
         return response.Response(
             {"message": message},
             status=stat,
         )
+    
 
 class VerifyUserPasswordToken(generics.GenericAPIView):
     serializer_class = TokenValidationSerializer
@@ -214,14 +206,14 @@ def sendMail(email, reset_url,subject,reset_verification):
             <table align="center" cellpadding="0" cellspacing="0" border="0" width="100%" style="max-width: 600px; font-family: Poppins; background: whitesmoke; padding: 20px; border-radius: 6px;">
                 <tr>
                     <td align="center" bgcolor="#FFFFFF" style="padding: 20px;">
-                        <img src="https://pacifichunt.com/assets/pacific_black-DJtHbvqB.svg" alt="" width="132" style="display: block; margin: 0 auto;">
-                        <p style="color: #0B53A7; font-weight: 600; font-size: 18px; margin-top: 20px;">Pacific</p>
+                        <img src="https://lead-management.com.np/assets/logo-Ds_vvW8g.png" alt="" width="132" style="display: block; margin: 0 auto;">
+                        <p style="color: #0B53A7; font-weight: 600; font-size: 18px; margin-top: 20px;">lead-management</p>
                         <p style="color: #0B53A7; font-weight: 600; font-size: 18px; margin-top: 20px;">Please verify your account</p>
                         <p style="text-align: center; font-weight: 400;">Click the button below to verify your account.</p>
                         <a href="{reset_url}" style="text-decoration: none; background: #0B53A7; color: #FFFFFF; padding: 10px 20px; border-radius: 3px; display: inline-block; margin-top: 15px;">Verify Your Account</a>
-                        <p style="text-align: center; margin-top: 20px;">Please visit <a href="https://pacifichunt.com/" style="text-decoration: none; color: #0B53A7; font-weight: 600;">https://pacifichunt.com/</a> for any enquiries.</p>
+                        <p style="text-align: center; margin-top: 20px;">Please visit <a href="https://lead-management.com.np/" style="text-decoration: none; color: #0B53A7; font-weight: 600;">https://lead-management.com.np/</a> for any enquiries.</p>
                         <p style="margin: 0; text-align: center;"><span style="font-weight: 600;">Tel:</span>+977 97798000000</p>
-                        <p style="margin: 0; text-align: center; text-decoration: none;"><span style="font-weight: 600;">Fax:</span>+97798000000 <span style="font-weight: 600; margin-left: 10px;">E-mail:</span>hi@pacifichunt.com</p>
+                        <p style="margin: 0; text-align: center; text-decoration: none;"><span style="font-weight: 600;">Fax:</span>+97798000000 <span style="font-weight: 600; margin-left: 10px;">E-mail:</span> info@lead-management.com</p>
                     </td>
                 </tr>
             </table>
@@ -232,14 +224,14 @@ def sendMail(email, reset_url,subject,reset_verification):
             <table align="center" cellpadding="0" cellspacing="0" border="0" width="100%" style="max-width: 600px; font-family: Poppins; background: whitesmoke; padding: 20px; border-radius: 6px;">
                 <tr>
                     <td align="center" bgcolor="#FFFFFF" style="padding: 20px;">
-                        <img src="https://pacifichunt.com/assets/pacific_black-DJtHbvqB.svg" alt="" width="132" style="display: block; margin: 0 auto;">
-                        <p style="color: #0B53A7; font-weight: 600; font-size: 18px; margin-top: 20px;">Pacific</p>
+                        <img src="https://lead-management.com.np/assets/logo-Ds_vvW8g.png" alt="" width="132" style="display: block; margin: 0 auto;">
+                        <p style="color: #0B53A7; font-weight: 600; font-size: 18px; margin-top: 20px;">lead-management</p>
                         <p style="color: #0B53A7; font-weight: 600; font-size: 18px; margin-top: 20px;">Please change your Password</p>
                         <p style="text-align: center; font-weight: 400;">Your OTP code to reset password is</p>
                         <span style="text-decoration: none; background: #0B53A7; color: #FFFFFF; padding: 10px 20px; border-radius: 3px; display: inline-block; margin-top: 15px;">{reset_url}</span>
-                        <p style="text-align: center; margin-top: 20px;">Please visit <a href="https://pacifichunt.com/" style="text-decoration: none; color: #0B53A7; font-weight: 600;">https://pacifichunt.com</a> for any enquiries.</p>
-                        <!------<p style="margin: 0; text-align: center;"><span style="font-weight: 600;">Tel:</span> 01-210020</p>----->
-                        <p style="margin: 0; text-align: center; text-decoration: none;"><span style="font-weight: 600;">Phone:</span> +977 9800000000 <span style="font-weight: 600; margin-left: 10px;">E-mail:</span> hi@pacifichunt.com </p>
+                        <p style="text-align: center; margin-top: 20px;">Please visit <a href="https://lead-management.com.np/" style="text-decoration: none; color: #0B53A7; font-weight: 600;">https://lead-management.com.np</a> for any enquiries.</p>
+                        <p style="margin: 0; text-align: center;"><span style="font-weight: 600;">Tel:</span> 01-5244366</p>
+                        <p style="margin: 0; text-align: center; text-decoration: none;"><span style="font-weight: 600;">Phone:</span> +977 9802348565 <span style="font-weight: 600; margin-left: 10px;">E-mail:</span> support@lead-management.com</p>
                     </td>
                 </tr>
             </table>
@@ -278,7 +270,7 @@ class ContactmeView(generics.GenericAPIView):
            
         return response.Response(
             {
-            "message": "Email has sent to Pacific Owner, please kindly wait for response"
+            "message": "Email has sent to lead-management Owner, please kindly wait for response"
             },
             status=status.HTTP_200_OK,
         )
