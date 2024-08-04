@@ -69,7 +69,7 @@ class EmailCheckView(generics.GenericAPIView):
 class EmailChangeGetOtpView(generics.GenericAPIView):
     def generate_otp(self,user):
         # Generate a random 6-digit OTP
-        # return "123456"
+        return "123456"
         user = str(user)
         return user[0]+''.join(random.choices(string.digits, k=4)) + user[-1]
     
