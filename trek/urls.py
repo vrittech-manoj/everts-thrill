@@ -76,6 +76,7 @@ urlpatterns = [
     path('api/testonomial/',include('testonomial.urls')),
     path('api/queries/',include('queries.urls')),
     path('api/managements/',include('managements.urls')),
+    path('api/',include('accountsmanagement.urls')),
     
 
     # path('swagger<format>/', schema_view.without_ui(cache_timeout=0), name='schema-json'),

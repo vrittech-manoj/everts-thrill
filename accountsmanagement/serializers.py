@@ -1,19 +1,28 @@
 from rest_framework import serializers
 from accounts.models import CustomUser
-from django.contrib.auth.hashers import make_password
-
+from django.contrib.auth.hashers import make_password,check_password
+from company.models import Company
 from django.core.cache import cache
 from django.db.models import Q
 
-def TokenValidate(token,email):
-    user = CustomUser.objects.filter(Q(email=email) | Q(phone = email))
+def TokenValidate(token,email,key):
+    user = CustomUser.objects.filter(Q(email=email))
     if user.exists():
         user = user.first()
-        user.save()
-        user_check_key = f"password_reset_otp_{user.id}"
+        user_check_key = key+str(user.id)
         token_access = cache.get(user_check_key)
         if token_access == token:
             user.is_verified = True
+            user.save()
+            return True
+    return False
+
+def CompanyTokenValidate(token,email,key):
+    company = Company.objects.filter(email=email)
+    if company.exists():
+        company_check_key = key+str(company.first().id)
+        token_access = cache.get(company_check_key)
+        if token_access == token:
             return True
     return False
     
@@ -25,7 +34,19 @@ class TokenValidationSerializer(serializers.Serializer):
     def validate_otp(self, value):
         # Perform your token validation logic here
         email = self.initial_data.get('email')  # Access email from initial data
-        if not TokenValidate(value,email):
+        if not TokenValidate(value,email,"password_reset_otp_"):
+            raise serializers.ValidationError("Invalid token")
+        return value
+    
+
+class EmailChangeOtpTokenValidationSerializer(serializers.Serializer):
+    otp = serializers.CharField()
+    email = serializers.CharField()
+    
+    def validate_otp(self, value):
+        # Perform your token validation logic here
+        email = self.initial_data.get('email')  # Access email from initial data
+        if not TokenValidate(value,email,"email_reset_otp_"):
             raise serializers.ValidationError("Invalid token")
         return value
 
@@ -45,14 +66,125 @@ class CustomPasswordResetSerializer(serializers.Serializer):
     def validate_token(self, value):
         # Perform your token validation logic here
         email = self.initial_data.get('email')  # Access email from initial data
-        if not TokenValidate(value,email):
+        if not TokenValidate(value,email,"password_reset_otp_"):
             raise serializers.ValidationError("Invalid token")
         return value
     
     def validate(self, attrs):
         attrs  =  super().validate(attrs)
  
-        if TokenValidate(self.initial_data.get('token') ,self.initial_data.get('email')):
+        if TokenValidate(self.initial_data.get('token') ,self.initial_data.get('email'),"password_reset_otp_"):
+            attrs['token_validate'] = True
+        else:
+            attrs['token_validate'] = False
+        return attrs
+    
+class EmailResetSerializer(serializers.Serializer):
+    token = serializers.CharField(min_length=5)
+    second_email = serializers.EmailField()
+    email = serializers.EmailField()
+    password = serializers.CharField(max_length=255)
+
+    class Meta:
+        fields = '__all__'
+
+
+    def validate_token(self, value):
+        print("validiting token")
+        # Perform your token validation logic here
+        email = self.initial_data.get('email')  # Access email from initial data
+        
+        if not TokenValidate(value,email,"email_reset_otp_"):
+            raise serializers.ValidationError("Invalid token")
+        return value
+    
+
+    def validate_email(self, value):
+
+        email = self.initial_data.get('email')  # Access email from initial data
+        
+
+        user = CustomUser.objects.filter(Q(email=email))
+        if not user.exists():
+            raise serializers.ValidationError("Your account does not exists!.")
+        return value
+    
+    def validate_password(self, value):
+
+        email = self.initial_data.get('email')  # Access email from initial data
+        input_password = self.initial_data.get('password')
+
+        user = CustomUser.objects.filter(Q(email=email))
+        if not user.exists():
+            raise serializers.ValidationError("Your account does not exists | You are unauthorized user.")
+        if not check_password(input_password,CustomUser.objects.get(email=email).password):
+            raise serializers.ValidationError("You are unauthorized user")
+     
+        return value
+     
+    
+    def validate(self, attrs):
+        attrs  =  super().validate(attrs)
+
+        if TokenValidate(self.initial_data.get('token') ,self.initial_data.get('email'),"email_reset_otp_"):
+            attrs['token_validate'] = True
+        else:
+            attrs['token_validate'] = False
+        return attrs
+    
+
+class CompanyEmailResetSerializer(serializers.Serializer):
+    token = serializers.CharField(min_length=5)
+    second_email = serializers.EmailField()
+    email = serializers.EmailField()
+    password = serializers.CharField(max_length=255)
+
+    class Meta:
+        fields = '__all__'
+
+
+    def validate_token(self, value):
+        email = self.initial_data.get('email')  # Access email from initial data
+        
+        if not CompanyTokenValidate(value,email,"company_email_reset_otp_"):
+            raise serializers.ValidationError("Invalid token")
+        return value
+    
+
+    def validate_email(self, value):
+
+        email = self.initial_data.get('email')  # Access email from initial data
+        
+
+        company = Company.objects.filter(Q(email=email))
+        if not company.exists():
+            raise serializers.ValidationError("Your company does not exists!.")
+        return value
+    
+    def validate_password(self, value):
+        
+
+        email = self.initial_data.get('email')  # Access email from initial data
+        input_password = self.initial_data.get('password')
+
+        company = Company.objects.filter(Q(email=email))
+        if not company.exists():
+            raise serializers.ValidationError("Your company does not exists!.")
+
+        user = company.first().owner
+        print(user)
+        if not user:
+            raise serializers.ValidationError("Your account does not exists | You are unauthorized user.")
+        if not check_password(input_password,user.password):
+            raise serializers.ValidationError("You are unauthorized user")
+     
+        return value
+     
+    
+    def validate(self, attrs):
+        attrs  =  super().validate(attrs)
+
+        if CompanyTokenValidate(self.initial_data.get('token') ,self.initial_data.get('email'),"company_email_reset_otp_"):
             attrs['token_validate'] = True
         else:
             attrs['token_validate'] = False
@@ -60,7 +192,11 @@ class CustomPasswordResetSerializer(serializers.Serializer):
 
  
 class EmailNumberSerializer(serializers.Serializer):
-    email = serializers.CharField()
+    email = serializers.EmailField()
+
+class EmailChangeGetOtpSerializer(serializers.Serializer):
+    email = serializers.EmailField()
+    second_email = serializers.EmailField()
 
 
 class ContactMeSerializer(serializers.Serializer):

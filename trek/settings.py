@@ -67,6 +67,7 @@ INSTALLED_APPS = [
     'payment',
     'testonomial',
     'queries',
+    'accountsmanagement',
 ]
 
 # ASGI_APPLICATION = 'trek.asgi.application'

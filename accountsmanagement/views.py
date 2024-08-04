@@ -1,6 +1,6 @@
 from django.shortcuts import render
 from rest_framework import generics, status, viewsets, response
-from .serializers import EmailNumberSerializer, CustomPasswordResetSerializer, TokenValidationSerializer,ContactMeSerializer
+from .serializers import EmailNumberSerializer, CustomPasswordResetSerializer, TokenValidationSerializer,ContactMeSerializer,EmailResetSerializer,EmailChangeGetOtpSerializer,CompanyEmailResetSerializer,EmailChangeOtpTokenValidationSerializer
 from accounts.models import CustomUser
 from django.utils.http import urlsafe_base64_encode
 from django.utils.encoding import force_bytes
@@ -8,6 +8,8 @@ from django.contrib.auth.tokens import PasswordResetTokenGenerator
 from django.urls import reverse
 from django.conf import settings
 from django.core.mail import send_mail
+from django.contrib.auth.hashers import check_password
+from company.models import Company
 
 
 from rest_framework.views import APIView
@@ -21,13 +23,14 @@ from django.core.cache import cache
 import random
 import string
 
-otp_time_expired = 120
+otp_time_expired = 1200
 site_f  = "https://lims.dftqc.gov.np" #http://localhost:4200"#"https://dev-lims.netlify.app"#"https://lims.dftqc.gov.np"
 
 class EmailCheckView(generics.GenericAPIView):
 
     def generate_otp(self,user):
         # Generate a random 6-digit OTP
+        # return "123456"
         user = str(user)
         return user[0]+''.join(random.choices(string.digits, k=4)) + user[-1]
     
@@ -42,7 +45,7 @@ class EmailCheckView(generics.GenericAPIView):
             otp = self.generate_otp(user.id)
 
             reset_verification = "reset_password"
-            subject = 'Cnex OTP'
+            subject = 'Pacific OTP'
             if '@' in email:
                 email = user.email
                 sendMail(email, otp,subject,reset_verification)
@@ -54,7 +57,7 @@ class EmailCheckView(generics.GenericAPIView):
 
             return response.Response(
                 {
-                "message": "password reset otp has been sent to your email address"
+                "message": "otp has been sent to your email address"
                 },
                 status=status.HTTP_200_OK,
             )
@@ -64,6 +67,84 @@ class EmailCheckView(generics.GenericAPIView):
                 status=status.HTTP_400_BAD_REQUEST,
             )
         
+class EmailChangeGetOtpView(generics.GenericAPIView):
+    def generate_otp(self,user):
+        # Generate a random 6-digit OTP
+        # return "123456"
+        user = str(user)
+        return user[0]+''.join(random.choices(string.digits, k=4)) + user[-1]
+    
+    serializer_class = EmailChangeGetOtpSerializer
+    def post(self, request):
+        serializer = self.serializer_class(data=request.data)
+        serializer.is_valid(raise_exception=True)
+        email = serializer.data["email"]
+        user = CustomUser.objects.filter(Q(email=email) | Q(phone = email)).first()
+        if user:
+        
+            otp = self.generate_otp(user.id)
+
+            reset_verification = "reset_email"
+            subject = 'Pacific OTP'
+            if '@' in email:
+                email = user.email
+                sendMail(serializer.data["second_email"], otp,subject,reset_verification)
+            else:
+                SendSms(contact=email,otp=otp,message=subject)
+          
+            cache_key = f"email_reset_otp_{user.id}"
+            cache.set(cache_key, otp, timeout=otp_time_expired)
+
+            return response.Response(
+                {
+                "message": f"otp has been sent to your email address {serializer.data['second_email']} "
+                },
+                status=status.HTTP_200_OK,
+            )
+        else:
+            return response.Response(
+                {"message": "User doesn't exists"},
+                status=status.HTTP_400_BAD_REQUEST,
+            )
+        
+class CompanyEmailChangeGetOtpView(generics.GenericAPIView):
+    def generate_otp(self,company):
+        # Generate a random 6-digit OTP
+        user = str(user)
+        return user[0]+''.join(random.choices(string.digits, k=4)) + user[-1]
+    
+    serializer_class = EmailChangeGetOtpSerializer
+    def post(self, request):
+        serializer = self.serializer_class(data=request.data)
+        serializer.is_valid(raise_exception=True)
+        email = serializer.data["email"]
+        company = Company.objects.filter(Q(email=email)).first()
+        if company:
+        
+            otp = self.generate_otp(company.id)
+
+            reset_verification = "reset_email"
+            subject = 'Pacific OTP'
+            if '@' in email:
+                email = company.email
+                sendMail(serializer.data["second_email"], otp,subject,reset_verification)
+            else:
+                SendSms(contact=email,otp=otp,message=subject)
+            # company_email_reset_otp_4  company_email_reset_otp_4
+            cache_key = f"company_email_reset_otp_{company.id}"
+            cache.set(cache_key, otp, timeout=otp_time_expired)
+
+            return response.Response(
+                {
+                "message": f"otp has been sent to your email address {serializer.data['second_email']} "
+                },
+                status=status.HTTP_200_OK,
+            )
+        else:
+            return response.Response(
+                {"message": "User doesn't exists"},
+                status=status.HTTP_400_BAD_REQUEST,
+            )
 
 class CustomPasswordResetView(generics.GenericAPIView):
     serializer_class = CustomPasswordResetSerializer
@@ -78,11 +159,76 @@ class CustomPasswordResetView(generics.GenericAPIView):
             user.save()
             message = "Password Reset Complete"
             stat = status.HTTP_200_OK
-            print(" password save ")
         else:
             message = "Password Reset not Completed"
             stat = status.HTTP_400_BAD_REQUEST
             print("password not save")
+
+        return response.Response(
+            {"message": message},
+            status=stat,
+        )
+    
+
+class EmailChangeOtpVerifyView(generics.GenericAPIView):
+    serializer_class = EmailChangeOtpTokenValidationSerializer
+    
+    def post(self, request, *args, **kwargs):
+        serializer = self.serializer_class(data=request.data, context={"kwargs":kwargs})
+        serializer.is_valid(raise_exception=True)
+        
+        return response.Response(
+            {"message": "Your Token is Validate",
+             'data' : serializer.data,
+            },
+            status=status.HTTP_200_OK,
+        )
+
+class EmailResetView(generics.GenericAPIView):
+    serializer_class = EmailResetSerializer
+    
+    def post(self, request, *args, **kwargs):
+        serializer = self.serializer_class(data=request.data, context={"kwargs":kwargs})
+        serializer.is_valid(raise_exception=True)
+     
+        user = CustomUser.objects.get(Q(email = serializer.data.get('email')))
+        if not check_password(serializer.data.get('password'),user.password):
+            message = "password does not match"
+            stat = status.HTTP_200_OK
+        if serializer.validated_data.get('token_validate') == True:
+            user.email = serializer.data.get('second_email')
+            user.save()
+            message = "Email Reset Complete"
+            stat = status.HTTP_200_OK
+        else:
+            message = "Email Can Not reset"
+            stat = status.HTTP_400_BAD_REQUEST
+
+        return response.Response(
+            {"message": message},
+            status=stat,
+        )
+    
+
+class CompanyEmailResetView(generics.GenericAPIView):
+    serializer_class = CompanyEmailResetSerializer
+    
+    def post(self, request, *args, **kwargs):
+        serializer = self.serializer_class(data=request.data, context={"kwargs":kwargs,})
+        serializer.is_valid(raise_exception=True)
+     
+        company = Company.objects.get(email = serializer.data.get('email'))
+        if not check_password(serializer.data.get('password'),company.owner.password):
+            message = "password does not match"
+            stat = status.HTTP_200_OK
+        if serializer.validated_data.get('token_validate') == True:
+            company.email = serializer.data.get('second_email')
+            company.save()
+            message = "Email Reset Complete"
+            stat = status.HTTP_200_OK
+        else:
+            message = "Email Can Not reset"
+            stat = status.HTTP_400_BAD_REQUEST
 
         return response.Response(
             {"message": message},
@@ -137,14 +283,14 @@ def sendMail(email, reset_url,subject,reset_verification):
             <table align="center" cellpadding="0" cellspacing="0" border="0" width="100%" style="max-width: 600px; font-family: Poppins; background: whitesmoke; padding: 20px; border-radius: 6px;">
                 <tr>
                     <td align="center" bgcolor="#FFFFFF" style="padding: 20px;">
-                        <img src="https://cnex.com.np/assets/logo-Ds_vvW8g.png" alt="" width="132" style="display: block; margin: 0 auto;">
-                        <p style="color: #0B53A7; font-weight: 600; font-size: 18px; margin-top: 20px;">Cnex</p>
+                        <img src="https://pacifichunt.com/assets/pacific_black-DJtHbvqB.svg" alt="" width="132" style="display: block; margin: 0 auto;">
+                        <p style="color: #0B53A7; font-weight: 600; font-size: 18px; margin-top: 20px;">Pacific</p>
                         <p style="color: #0B53A7; font-weight: 600; font-size: 18px; margin-top: 20px;">Please verify your account</p>
                         <p style="text-align: center; font-weight: 400;">Click the button below to verify your account.</p>
                         <a href="{reset_url}" style="text-decoration: none; background: #0B53A7; color: #FFFFFF; padding: 10px 20px; border-radius: 3px; display: inline-block; margin-top: 15px;">Verify Your Account</a>
-                        <p style="text-align: center; margin-top: 20px;">Please visit <a href="https://cnex.com.np/" style="text-decoration: none; color: #0B53A7; font-weight: 600;">https://cnex.com.np/</a> for any enquiries.</p>
+                        <p style="text-align: center; margin-top: 20px;">Please visit <a href="https://pacifichunt.com/" style="text-decoration: none; color: #0B53A7; font-weight: 600;">https://pacifichunt.com/</a> for any enquiries.</p>
                         <p style="margin: 0; text-align: center;"><span style="font-weight: 600;">Tel:</span>+977 97798000000</p>
-                        <p style="margin: 0; text-align: center; text-decoration: none;"><span style="font-weight: 600;">Fax:</span>+97798000000 <span style="font-weight: 600; margin-left: 10px;">E-mail:</span> info@cnex.com</p>
+                        <p style="margin: 0; text-align: center; text-decoration: none;"><span style="font-weight: 600;">Fax:</span>+97798000000 <span style="font-weight: 600; margin-left: 10px;">E-mail:</span>hi@pacifichunt.com</p>
                     </td>
                 </tr>
             </table>
@@ -155,14 +301,14 @@ def sendMail(email, reset_url,subject,reset_verification):
             <table align="center" cellpadding="0" cellspacing="0" border="0" width="100%" style="max-width: 600px; font-family: Poppins; background: whitesmoke; padding: 20px; border-radius: 6px;">
                 <tr>
                     <td align="center" bgcolor="#FFFFFF" style="padding: 20px;">
-                        <img src="https://cnex.com.np/assets/logo-Ds_vvW8g.png" alt="" width="132" style="display: block; margin: 0 auto;">
-                        <p style="color: #0B53A7; font-weight: 600; font-size: 18px; margin-top: 20px;">Cnex</p>
+                        <img src="https://pacifichunt.com/assets/pacific_black-DJtHbvqB.svg" alt="" width="132" style="display: block; margin: 0 auto;">
+                        <p style="color: #0B53A7; font-weight: 600; font-size: 18px; margin-top: 20px;">Pacific</p>
                         <p style="color: #0B53A7; font-weight: 600; font-size: 18px; margin-top: 20px;">Please change your Password</p>
                         <p style="text-align: center; font-weight: 400;">Your OTP code to reset password is</p>
                         <span style="text-decoration: none; background: #0B53A7; color: #FFFFFF; padding: 10px 20px; border-radius: 3px; display: inline-block; margin-top: 15px;">{reset_url}</span>
-                        <p style="text-align: center; margin-top: 20px;">Please visit <a href="https://cnex.com.np/" style="text-decoration: none; color: #0B53A7; font-weight: 600;">https://cnex.com.np</a> for any enquiries.</p>
-                        <p style="margin: 0; text-align: center;"><span style="font-weight: 600;">Tel:</span> 01-5244366</p>
-                        <p style="margin: 0; text-align: center; text-decoration: none;"><span style="font-weight: 600;">Phone:</span> +977 9802348565 <span style="font-weight: 600; margin-left: 10px;">E-mail:</span> support@cnex.com</p>
+                        <p style="text-align: center; margin-top: 20px;">Please visit <a href="https://pacifichunt.com/" style="text-decoration: none; color: #0B53A7; font-weight: 600;">https://pacifichunt.com</a> for any enquiries.</p>
+                        <!------<p style="margin: 0; text-align: center;"><span style="font-weight: 600;">Tel:</span> 01-210020</p>----->
+                        <p style="margin: 0; text-align: center; text-decoration: none;"><span style="font-weight: 600;">Phone:</span> +977 9800000000 <span style="font-weight: 600; margin-left: 10px;">E-mail:</span> hi@pacifichunt.com </p>
                     </td>
                 </tr>
             </table>
@@ -201,7 +347,7 @@ class ContactmeView(generics.GenericAPIView):
            
         return response.Response(
             {
-            "message": "Email has sent to Cnex Owner, please kindly wait for response"
+            "message": "Email has sent to Pacific Owner, please kindly wait for response"
             },
             status=status.HTTP_200_OK,
         )
