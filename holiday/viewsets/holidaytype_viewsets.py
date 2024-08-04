@@ -13,7 +13,7 @@ class HolidayTypeViewsets(viewsets.ModelViewSet):
 
     filter_backends = [SearchFilter,DjangoFilterBackend,OrderingFilter]
     search_fields = ['name']
-    ordering_fields = ['id']
+    ordering_fields = ['id','name']
     filterset_fields = {
         'name': ['exact', 'icontains'],
     }
