@@ -9,14 +9,11 @@ from django.urls import reverse
 from django.conf import settings
 from django.core.mail import send_mail
 from django.contrib.auth.hashers import check_password
-from company.models import Company
-
 
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status
 from rest_framework_simplejwt.tokens import RefreshToken
-from .sms_sender import SendSms,ContactMe
 from django.db.models import Q
 from django.core.cache import cache
 
@@ -107,45 +104,6 @@ class EmailChangeGetOtpView(generics.GenericAPIView):
                 status=status.HTTP_400_BAD_REQUEST,
             )
         
-class CompanyEmailChangeGetOtpView(generics.GenericAPIView):
-    def generate_otp(self,company):
-        # Generate a random 6-digit OTP
-        user = str(user)
-        return user[0]+''.join(random.choices(string.digits, k=4)) + user[-1]
-    
-    serializer_class = EmailChangeGetOtpSerializer
-    def post(self, request):
-        serializer = self.serializer_class(data=request.data)
-        serializer.is_valid(raise_exception=True)
-        email = serializer.data["email"]
-        company = Company.objects.filter(Q(email=email)).first()
-        if company:
-        
-            otp = self.generate_otp(company.id)
-
-            reset_verification = "reset_email"
-            subject = 'Pacific OTP'
-            if '@' in email:
-                email = company.email
-                sendMail(serializer.data["second_email"], otp,subject,reset_verification)
-            else:
-                SendSms(contact=email,otp=otp,message=subject)
-            # company_email_reset_otp_4  company_email_reset_otp_4
-            cache_key = f"company_email_reset_otp_{company.id}"
-            cache.set(cache_key, otp, timeout=otp_time_expired)
-
-            return response.Response(
-                {
-                "message": f"otp has been sent to your email address {serializer.data['second_email']} "
-                },
-                status=status.HTTP_200_OK,
-            )
-        else:
-            return response.Response(
-                {"message": "User doesn't exists"},
-                status=status.HTTP_400_BAD_REQUEST,
-            )
-
 class CustomPasswordResetView(generics.GenericAPIView):
     serializer_class = CustomPasswordResetSerializer
     
@@ -208,33 +166,6 @@ class EmailResetView(generics.GenericAPIView):
             {"message": message},
             status=stat,
         )
-    
-
-class CompanyEmailResetView(generics.GenericAPIView):
-    serializer_class = CompanyEmailResetSerializer
-    
-    def post(self, request, *args, **kwargs):
-        serializer = self.serializer_class(data=request.data, context={"kwargs":kwargs,})
-        serializer.is_valid(raise_exception=True)
-     
-        company = Company.objects.get(email = serializer.data.get('email'))
-        if not check_password(serializer.data.get('password'),company.owner.password):
-            message = "password does not match"
-            stat = status.HTTP_200_OK
-        if serializer.validated_data.get('token_validate') == True:
-            company.email = serializer.data.get('second_email')
-            company.save()
-            message = "Email Reset Complete"
-            stat = status.HTTP_200_OK
-        else:
-            message = "Email Can Not reset"
-            stat = status.HTTP_400_BAD_REQUEST
-
-        return response.Response(
-            {"message": message},
-            status=stat,
-        )
-    
 
 class VerifyUserPasswordToken(generics.GenericAPIView):
     serializer_class = TokenValidationSerializer

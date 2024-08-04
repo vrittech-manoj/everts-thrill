@@ -1,7 +1,6 @@
 from rest_framework import serializers
 from accounts.models import CustomUser
 from django.contrib.auth.hashers import make_password,check_password
-from company.models import Company
 from django.core.cache import cache
 from django.db.models import Q
 
