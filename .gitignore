@@ -1,4 +1,4 @@
-# champadevi/settings.py
+# champadevi/settingss.py
 # git rm --cached champadevi/.env
 # git add -f champadevi/.env   git commit -m "Re-add settings.py to be tracked by Git"
 
