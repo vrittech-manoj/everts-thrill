@@ -13,7 +13,7 @@ class Package(models.Model):
     name = models.CharField(max_length=400, unique=True)
     slug = models.SlugField(unique=True, blank=True)
     description = models.TextField(null=True, blank=True)
-    image = models.ImageField(upload_to="holiday/holiday_type_image/", null=True, blank=True)
+    image = models.ImageField(upload_to="destination/destination_type_image/", null=True, blank=True)
 
     def __str__(self):
         return self.name
@@ -36,7 +36,7 @@ class Destination(models.Model):
     inclusion_and_exclusion = models.TextField(null=True, default='', blank=True)
     ltinerary = models.TextField()
     trip_map_url = models.URLField(null=True, blank=True)
-    trip_map_image = models.ImageField(upload_to="holiday/trip-map/images/", null=True, blank=True)
+    trip_map_image = models.ImageField(upload_to="destination/trip-map/images/", null=True, blank=True)
     gear_and_equipment = models.TextField(null=True, default='', blank=True)
     useful_information = models.TextField(null=True, default='', blank=True)
     
@@ -65,15 +65,15 @@ class Destination(models.Model):
 
 
 class DestinationGalleryImages(models.Model):
-    holiday_trip = models.ForeignKey(Destination, related_name="galleryimages", on_delete=models.CASCADE)
-    image = models.ImageField(upload_to="holiday/images/", null=True, blank=True)
+    destination_trip = models.ForeignKey(Destination, related_name="galleryimages", on_delete=models.CASCADE)
+    image = models.ImageField(upload_to="destination/images/", null=True, blank=True)
 
 
 class DestinationReview(models.Model):
     user = models.ForeignKey(CustomUser, related_name="review", on_delete=models.CASCADE)
     stars = models.PositiveIntegerField(default=1, validators=[MaxValueValidator(5)], help_text="Enter a number less than 5 stars")
     comments = models.CharField(max_length=2000)
-    holiday_trip = models.ForeignKey(Destination, related_name="review", on_delete=models.CASCADE)
+    destination_trip = models.ForeignKey(Destination, related_name="review", on_delete=models.CASCADE)
 
     def __str__(self) -> str:
         return str(self.user.username) + ':' + '*' * self.stars
