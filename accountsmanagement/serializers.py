@@ -7,7 +7,6 @@ from django.db.models import Q
 
 def TokenValidate(token,email,key):
     user = CustomUser.objects.filter(Q(email=email))
-    print("user exists",user,email)
     if user.exists():
         user = user.first()
         user_check_key = key+str(user.id)

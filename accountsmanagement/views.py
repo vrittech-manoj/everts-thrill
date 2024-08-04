@@ -52,6 +52,7 @@ class EmailCheckView(generics.GenericAPIView):
                 SendSms(contact=email,otp=otp,message=subject)
           
             cache_key = f"password_reset_otp_{user.id}"
+        
             cache.set(cache_key, otp, timeout=otp_time_expired)
 
             return response.Response(
