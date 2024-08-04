@@ -26,7 +26,7 @@ if current_os == "Linux" and server_type == "AWS":
     dotenv_path = os.path.join(os.path.dirname(__file__), '.env') #server env
     print(current_os ,f":{server_type} server env connected")
 else:
-    dotenv_path = os.path.join(os.path.dirname(__file__), 'local_env') #this is local env
+    dotenv_path = os.path.join(os.path.dirname(__file__), 'env_local') #this is local env
     print(current_os , ":local env connected")
 load_dotenv(dotenv_path)
 
