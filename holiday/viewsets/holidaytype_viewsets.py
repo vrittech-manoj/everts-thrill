@@ -11,6 +11,13 @@ class HolidayTypeViewsets(viewsets.ModelViewSet):
     pagination_class = MyPageNumberPagination
     queryset  = HolidayType.objects.all()
 
+    filter_backends = [SearchFilter,DjangoFilterBackend,OrderingFilter]
+    search_fields = ['id','name','stars']
+    ordering_fields = ['name','id']
+    filterset_fields = {
+        'name': ['exact','icontains'],
+    }
+
     def get_serializer_class(self):
         if self.action in ['create','update','partial_update']:
             return HolidayTypeWriteSerializers
