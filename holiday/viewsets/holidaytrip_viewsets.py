@@ -14,10 +14,11 @@ class HolidayTripViewsets(viewsets.ModelViewSet):
     queryset  = HolidayTrip.objects.all()
 
     filter_backends = [SearchFilter,DjangoFilterBackend,OrderingFilter]
-    search_fields = ['id','title','holiday_type']
+    search_fields = ['id','title','holiday_type','name']
     ordering_fields = ['title','id']
     filterset_fields = {
         'title': ['exact', 'icontains'],
+        'name': ['exact', 'icontains'],
         'holiday_type': ['exact'],
         'stay_type':['exact'],
         'nature_of_trip': ['exact', 'icontains'],
