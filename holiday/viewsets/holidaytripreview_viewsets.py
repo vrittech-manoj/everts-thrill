@@ -12,9 +12,9 @@ class HolidayTripReviewViewsets(viewsets.ModelViewSet):
     filter_backends = [SearchFilter,DjangoFilterBackend,OrderingFilter]
     search_fields = ['user']
     ordering_fields = ['stars','id']
-    filterset_fields = {
-        'stars': ['exact'],
-    }
+    # filterset_fields = {
+    #     'stars': ['exact'],
+    # }
 
     def get_serializer_class(self):
         if self.action in ['create','update','partial_update']:

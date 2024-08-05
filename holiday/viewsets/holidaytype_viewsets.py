@@ -16,7 +16,6 @@ class HolidayTypeViewsets(viewsets.ModelViewSet):
     ordering_fields = ['name','id']
     filterset_fields = {
         'name': ['exact','icontains'],
-        'stars': ['exact'],
     }
 
     def get_serializer_class(self):
