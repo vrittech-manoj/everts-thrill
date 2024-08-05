@@ -12,10 +12,11 @@ class HolidayTypeViewsets(viewsets.ModelViewSet):
     queryset  = HolidayType.objects.all()
 
     filter_backends = [SearchFilter,DjangoFilterBackend,OrderingFilter]
-    search_fields = ['id','name','stars']
+    search_fields = ['name']
     ordering_fields = ['name','id']
     filterset_fields = {
         'name': ['exact','icontains'],
+        'stars': ['exact'],
     }
 
     def get_serializer_class(self):
