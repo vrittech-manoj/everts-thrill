@@ -9,7 +9,7 @@ class HolidayTypeViewsets(viewsets.ModelViewSet):
     permission_classes = [AdminViewSetsPermission]
     authentication_classes = [JWTAuthentication]
     pagination_class = MyPageNumberPagination
-    queryset  = HolidayType.objects.all()
+    queryset  = HolidayType.objects.all().order_by("-id")
 
     filter_backends = [SearchFilter,DjangoFilterBackend,OrderingFilter]
     search_fields = ['name']
