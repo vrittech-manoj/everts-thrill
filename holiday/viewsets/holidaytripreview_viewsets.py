@@ -11,7 +11,7 @@ class HolidayTripReviewViewsets(viewsets.ModelViewSet):
 
     filter_backends = [SearchFilter,DjangoFilterBackend,OrderingFilter]
     search_fields = ['user']
-    ordering_fields = ['stars','id']
+    ordering_fields = ['id']
     # filterset_fields = {
     #     'stars': ['exact'],
     # }

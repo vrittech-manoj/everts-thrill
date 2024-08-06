@@ -13,10 +13,9 @@ class HolidayTypeViewsets(viewsets.ModelViewSet):
 
     filter_backends = [SearchFilter,DjangoFilterBackend,OrderingFilter]
     search_fields = ['name']
-    ordering_fields = ['name','id']
-    filterset_fields = {
-        'name': ['exact','icontains'],
-    }
+    ordering_fields = ['id']
+    # filterset_fields = {
+    # }
 
     def get_serializer_class(self):
         if self.action in ['create','update','partial_update']:
