@@ -18,10 +18,8 @@ class HolidayTripViewsets(viewsets.ModelViewSet):
     ordering_fields = ['title','id']
     filterset_fields = {
         'title': ['exact', 'icontains'],
-        'holiday_type': ['exact'],
         'stay_type':['exact'],
         'nature_of_trip': ['exact', 'icontains'],
-        'day_stay': ['exact'],
     }
 
     def get_serializer_class(self):
