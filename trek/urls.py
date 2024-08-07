@@ -41,6 +41,8 @@ from activities.routers.routers import router as activities_router
 from collection.routers.routers import router as collection_router
 from destination.routers.routers import router as destination_router
 
+from trek.utilities.bulk_delete import BulkDelete
+
 router = routers.DefaultRouter()
 
 router.registry.extend(accounts_router.registry)
@@ -85,6 +87,7 @@ urlpatterns = [
     path('api/',include(collection_router.urls)),
     path('api/',include(activities_router.urls)),
     path('api/',include(holiday_router.urls)),
+    path('api/bulk-delete/<str:delete_type>/',BulkDelete.as_view(),name="bulk_delete"),
     
 
     #path('swagger<format>/', schema_view.without_ui(cache_timeout=0), name='schema-json'),

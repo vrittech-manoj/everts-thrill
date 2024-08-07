@@ -12,6 +12,8 @@ from blog.models import Blog
 from holiday.models import  HolidayTrip,HolidayType
 from queries.models import Queries 
 from booking.models import HolidayTripBook
+from activities.models import Activity
+from collection.models import Collection
 
 from drf_yasg import openapi
 from drf_yasg.utils import swagger_auto_schema
@@ -48,14 +50,10 @@ class BulkDelete(APIView):
             query = Queries.objects.filter(id__in=delete_ids)
         elif delete_type == "booking":
             query = HolidayTripBook.objects.filter(id__in=delete_ids)
-        # elif delete_type == "education-level":
-        #     query = EducationLevel.objects.filter(id__in=delete_ids)
-        # elif delete_type == "experience-level":
-        #     query = WorkExperience.objects.filter(id__in=delete_ids)
-        # elif delete_type == "job-timing":
-        #     query = JobTiming.objects.filter(id__in=delete_ids)
-        # elif delete_type == "work-location":
-        #     query = JobLocation.objects.filter(id__in=delete_ids)
+        elif delete_type == "activities":
+            query = Activity.objects.filter(id__in=delete_ids)
+        elif delete_type == "collection":
+            query = Collection.objects.filter(id__in=delete_ids)
         else:
             return Response({"error": 'Unknown data type'}, status=status.HTTP_400_BAD_REQUEST)
         
