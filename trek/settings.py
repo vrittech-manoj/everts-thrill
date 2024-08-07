@@ -69,6 +69,10 @@ INSTALLED_APPS = [
     'queries',
     'accountsmanagement',
     'setupemail',
+    'collection',
+    'activities',
+    'destination',
+    'faqs'
 ]
 
 # ASGI_APPLICATION = 'trek.asgi.application'
