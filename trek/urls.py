@@ -36,6 +36,10 @@ from payment.urls import router as payment_router
 from queries.urls import router as queries_router
 from services.urls import router as services_router
 from testonomial.urls import router as testonomial_router
+from holiday.routers.routers import router as holiday_router
+from activities.routers.routers import router as activities_router
+from collection.routers.routers import router as collection_router
+from destination.routers.routers import router as destination_router
 
 router = routers.DefaultRouter()
 
@@ -77,6 +81,10 @@ urlpatterns = [
     path('api/queries/',include('queries.urls')),
     path('api/managements/',include('managements.urls')),
     path('api/',include('accountsmanagement.urls')),
+    path('api/',include(destination_router.urls)),
+    path('api/',include(collection_router.urls)),
+    path('api/',include(activities_router.urls)),
+    path('api/',include(holiday_router.urls)),
     
 
     #path('swagger<format>/', schema_view.without_ui(cache_timeout=0), name='schema-json'),

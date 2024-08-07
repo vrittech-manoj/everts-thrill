@@ -4,6 +4,8 @@ import uuid
 from django.utils.text import slugify
 from django.core.validators import MaxValueValidator
 from faqs.models import Faqs
+from activities.models import Activity
+from collection.models import Collection
 
    
 
@@ -51,6 +53,9 @@ class HolidayTrip(models.Model):
     group_size = models.PositiveIntegerField() #number of person allowed
     duration = models.PositiveIntegerField() #number of day stay
     accomodation = models.CharField(max_length = 450) #hotel  restore etc
+    
+    activities = models.ForeignKey(Activity,on_delete = models.SET_NULL,null=True)
+    collection = models.ForeignKey(Collection,on_delete = models.SET_NULL,null=True)
 
     meals = models.CharField(max_length = 5000) #meals provided
     best_season = models.CharField(max_length = 3000,null=True,blank=True)
