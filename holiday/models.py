@@ -6,6 +6,7 @@ from django.core.validators import MaxValueValidator
 from faqs.models import Faqs
 from activities.models import Activity
 from collection.models import Collection
+from faqs.models import Faqs
 
    
 
@@ -79,7 +80,7 @@ class HolidayTrip(models.Model):
     created_date = models.DateTimeField(auto_now_add=True)
     updated_date = models.DateTimeField(auto_now=True)
 
-    faqs = models.ForeignKey(Faqs,on_delete = models.SET_NULL,null=True)
+    faqs = models.ManyToManyField(Faqs)
     
     def __str__(self):
         return self.title
