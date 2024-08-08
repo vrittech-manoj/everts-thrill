@@ -40,6 +40,8 @@ from holiday.routers.routers import router as holiday_router
 from activities.routers.routers import router as activities_router
 from collection.routers.routers import router as collection_router
 from destination.routers.routers import router as destination_router
+from faqs.routers.routers import router as faqs_router
+from departure.routers.routers import router as departure_router
 
 from trek.utilities.bulk_delete import BulkDelete
 
@@ -87,14 +89,12 @@ urlpatterns = [
     path('api/',include(collection_router.urls)),
     path('api/',include(activities_router.urls)),
     path('api/',include(holiday_router.urls)),
+    path('api/',include(faqs_router.urls)),
     path('api/bulk-delete/<str:delete_type>/',BulkDelete.as_view(),name="bulk_delete"),
+    path('api/',include(departure_router.urls)),
     
 
     #path('swagger<format>/', schema_view.without_ui(cache_timeout=0), name='schema-json'),
     path('', schema_view.with_ui('swagger', cache_timeout=0), name='schema-swagger-ui'),
     path('redoc/', schema_view.with_ui('redoc', cache_timeout=0), name='schema-redoc'),
 ]+ static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
-
-#*********This is faqs router registered by autoapi*********
-from faqs.routers.routers import router as faqs_router
-urlpatterns.append(path('api/',include(faqs_router.urls)))

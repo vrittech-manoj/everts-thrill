@@ -7,6 +7,7 @@ from faqs.models import Faqs
 from activities.models import Activity
 from collection.models import Collection
 from faqs.models import Faqs
+from departure.models import Departure
 
    
 
@@ -72,9 +73,7 @@ class HolidayTrip(models.Model):
     is_price = models.BooleanField(default = False)
     price  =  models.PositiveIntegerField(default = 0)
 
-    upcoming_departure_date = models.DateTimeField(auto_now_add=True,null=True,blank=True)
-    upcoming_departure_status = models.BooleanField(default = False,null=True,blank=True)
-    upcoming_departure_price = models.PositiveIntegerField(default = 0,null=True,blank=True)
+    departure = models.ManyToManyField(Departure)
 
     
     created_date = models.DateTimeField(auto_now_add=True)
