@@ -44,6 +44,7 @@ from faqs.routers.routers import router as faqs_router
 from departure.routers.routers import router as departure_router
 from booking.routers.routers import router as booking_router
 from company.routers.routers import router as company_router
+from herosection.routers.routers import router as herosection_router
 
 from trek.utilities.bulk_delete import BulkDelete
 
@@ -96,6 +97,7 @@ urlpatterns = [
     path('api/',include(departure_router.urls)),
     path('api/',include(company_router.urls)),
     path('api/',include(booking_router.urls)),
+    path('api/',include(herosection_router.urls)),
     
     
 
