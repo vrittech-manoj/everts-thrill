@@ -11,7 +11,7 @@ class Faqs(models.Model):
     description = models.TextField()
     faq_type = models.CharField(max_length=11, choices=FAQ_TYPE_CHOICES, default='company')
     destination = models.ForeignKey(
-        'holiday.Destination',
+        'destination.Destination',
         related_name="faqs_for_destination",
         on_delete=models.CASCADE,
         null=True,

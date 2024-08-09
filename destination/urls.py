@@ -4,7 +4,7 @@ from .viewsets import holidaytrip_viewsets,holidaytripreview_viewsets,holidaytyp
 
 router = DefaultRouter()
 
-router.register('holiday-trip', holidaytrip_viewsets.HolidayTripViewsets, basename="HolidayTripViewsets")
+router.register('destination', holidaytrip_viewsets.HolidayTripViewsets, basename="HolidayTripViewsets")
 router.register('holiday-trip-type', holidaytype_viewsets.HolidayTypeViewsets, basename="HolidayTypeViewsets")
 router.register('holiday-trip-type-review', holidaytripreview_viewsets.HolidayTripReviewViewsets, basename="HolidayTripReviewViewsets")
 

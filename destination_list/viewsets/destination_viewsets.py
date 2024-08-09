@@ -1,7 +1,7 @@
 from rest_framework import viewsets
 from rest_framework.filters import SearchFilter, OrderingFilter
 from django_filters.rest_framework import DjangoFilterBackend
-from ..models import Destination
+from ..models import Destination_list
 from ..serializers.destination_serializers import DestinationListSerializers, DestinationRetrieveSerializers, DestinationWriteSerializers
 from ..utilities.importbase import *
 
@@ -10,7 +10,7 @@ class destinationViewsets(viewsets.ModelViewSet):
     # permission_classes = [destinationPermission]
     # authentication_classes = [JWTAuthentication]
     #pagination_class = MyPageNumberPagination
-    queryset = Destination.objects.all()
+    queryset = Destination_list.objects.all()
 
     filter_backends = [SearchFilter, DjangoFilterBackend, OrderingFilter]
     search_fields = ['id']

@@ -40,7 +40,7 @@ def isOwner(request):
 #         return True
 #     return False
 
-class destinationPermission(BasePermission):
+class holidayPermission(BasePermission):
     def has_permission(self, request, view):
         if view.action in ["list"]:
             return True

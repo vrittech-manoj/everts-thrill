@@ -9,7 +9,7 @@ from drf_yasg import openapi
 from drf_yasg.utils import swagger_auto_schema
 
 from blog.models import Blog
-from holiday.models import  Destination,HolidayType
+from destination.models import  Destination,HolidayType
 from queries.models import Queries 
 from booking.models import HolidayTripBook
 from activities.models import Activity

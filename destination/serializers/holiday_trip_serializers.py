@@ -1,15 +1,10 @@
 from rest_framework import serializers
-from ..models import Destination, HolidayTripGalleryImages, Faqs, Departure
+from ..models import Destination, HolidayTripGalleryImages, Departure
 
 class HolidayTripGalleryImagesSerializer(serializers.ModelSerializer):
     class Meta:
         model = HolidayTripGalleryImages
         fields = '__all__'
-
-class FaqsSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Faqs
-        fields = ['id', 'title', 'description']
 
 class DepartureSerializer(serializers.ModelSerializer):
     class Meta:
@@ -18,7 +13,6 @@ class DepartureSerializer(serializers.ModelSerializer):
 
 class HolidayTriplistUserSerializers(serializers.ModelSerializer):
     images = HolidayTripGalleryImagesSerializer(many=True, read_only=True)
-    faqs = FaqsSerializer(many=True, read_only=True)
     departures = DepartureSerializer(many=True, read_only=True)
 
     class Meta:
@@ -27,7 +21,6 @@ class HolidayTriplistUserSerializers(serializers.ModelSerializer):
 
 class HolidayTriplistAdminSerializers(serializers.ModelSerializer):
     images = HolidayTripGalleryImagesSerializer(many=True, read_only=True)
-    faqs = FaqsSerializer(many=True, read_only=True)
     departures = DepartureSerializer(many=True, read_only=True)
 
     class Meta:
@@ -36,7 +29,6 @@ class HolidayTriplistAdminSerializers(serializers.ModelSerializer):
 
 class HolidayTripRetrieveUserSerializers(serializers.ModelSerializer):
     images = HolidayTripGalleryImagesSerializer(many=True, read_only=True)
-    faqs = FaqsSerializer(many=True, read_only=True)
     departures = DepartureSerializer(many=True, read_only=True)
 
     class Meta:
@@ -45,7 +37,6 @@ class HolidayTripRetrieveUserSerializers(serializers.ModelSerializer):
 
 class HolidayTripRetrieveAdminSerializers(serializers.ModelSerializer):
     images = HolidayTripGalleryImagesSerializer(many=True, read_only=True)
-    faqs = FaqsSerializer(many=True, read_only=True)
     departures = DepartureSerializer(many=True, read_only=True)
 
     class Meta:
@@ -54,7 +45,6 @@ class HolidayTripRetrieveAdminSerializers(serializers.ModelSerializer):
 
 class HolidayTripWriteSerializers(serializers.ModelSerializer):
     images = HolidayTripGalleryImagesSerializer(many=True, required=False)
-    faqs = FaqsSerializer(many=True, required=False)
     departures = DepartureSerializer(many=True, required=False)
 
     class Meta:
@@ -67,8 +57,6 @@ class HolidayTripWriteSerializers(serializers.ModelSerializer):
         images_data = validated_data.pop('images', [])
         holiday_trip = Destination.objects.create(**validated_data)
 
-        for faq_data in faqs_data:
-            Faqs.objects.create(holiday_trip=holiday_trip, **faq_data)
 
         for departure_data in departures_data:
             Departure.objects.create(holiday_trip=holiday_trip, **departure_data)
@@ -88,10 +76,6 @@ class HolidayTripWriteSerializers(serializers.ModelSerializer):
         # Update other fields similarly
         instance.save()
 
-        # Update FAQs
-        instance.faqs.all().delete()  # Clear existing FAQs
-        for faq_data in faqs_data:
-            Faqs.objects.create(holiday_trip=instance, **faq_data)
 
         # Update Departures
         instance.departures.all().delete()  # Clear existing departures
@@ -107,7 +91,6 @@ class HolidayTripWriteSerializers(serializers.ModelSerializer):
 
 class HolidayTripSerializer(serializers.ModelSerializer):
     images = HolidayTripGalleryImagesSerializer(many=True, required=False)
-    faqs = FaqsSerializer(many=True, required=False)
     departures = DepartureSerializer(many=True, required=False)
 
     class Meta:
@@ -115,13 +98,9 @@ class HolidayTripSerializer(serializers.ModelSerializer):
         fields = '__all__'
 
     def create(self, validated_data):
-        faqs_data = validated_data.pop('faqs', [])
         departures_data = validated_data.pop('departures', [])
         images_data = validated_data.pop('images', [])
         holiday_trip = Destination.objects.create(**validated_data)
-
-        for faq_data in faqs_data:
-            Faqs.objects.create(holiday_trip=holiday_trip, **faq_data)
 
         for departure_data in departures_data:
             Departure.objects.create(holiday_trip=holiday_trip, **departure_data)
@@ -132,7 +111,6 @@ class HolidayTripSerializer(serializers.ModelSerializer):
         return holiday_trip
 
     def update(self, instance, validated_data):
-        faqs_data = validated_data.pop('faqs', [])
         departures_data = validated_data.pop('departures', [])
         images_data = validated_data.pop('images', [])
 
@@ -140,11 +118,6 @@ class HolidayTripSerializer(serializers.ModelSerializer):
         instance.description = validated_data.get('description', instance.description)
         # Update other fields similarly
         instance.save()
-
-        # Update FAQs
-        instance.faqs.all().delete()  # Clear existing FAQs
-        for faq_data in faqs_data:
-            Faqs.objects.create(holiday_trip=instance, **faq_data)
 
         # Update Departures
         instance.departures.all().delete()  # Clear existing departures

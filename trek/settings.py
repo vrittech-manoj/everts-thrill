@@ -59,7 +59,7 @@ INSTALLED_APPS = [
     'django_filters',
     'accounts',
     'managements',
-    'holiday',
+    'destination',
     'services',
     'booking',
     'blog',
@@ -71,7 +71,7 @@ INSTALLED_APPS = [
     'setupemail',
     'collection',
     'activities',
-    'destination',
+    'destination_list',
     'faqs',
     'departure',
 ]
