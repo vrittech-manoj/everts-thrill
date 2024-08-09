@@ -1,14 +1,14 @@
 from rest_framework.routers import DefaultRouter
-from ..viewsets.holidaytype_viewsets import HolidayTypeViewsets
-from ..viewsets.holidaytripreview_viewsets import HolidayTripReviewViewsets
-from ..viewsets.holidaytripgalleryimages_viewsets import holidaytripgalleryimagesViewsets
-from ..viewsets.holidaytrip_viewsets import HolidayTripViewsets
+from ..viewsets.package_viewsets import PackageViewsets
+from ..viewsets.destinationreview_viewsets import DestinationReviewViewsets
+from ..viewsets.destinationgalleryimages_viewsets import destinationgalleryimagesViewsets
+from ..viewsets.destination_viewsets import DestinationViewsets
 
 router = DefaultRouter()
 auto_api_routers = router
 
 
-router.register('holidaytype', HolidayTypeViewsets, basename="holidaytypeViewsets")
-router.register('holidaytrip', HolidayTripViewsets, basename="holidaytripViewsets")
-router.register('holidaytripgalleryimages', holidaytripgalleryimagesViewsets, basename="holidaytripgalleryimagesViewsets")
-router.register('holidaytripreview', HolidayTripReviewViewsets, basename="holidaytripreviewViewsets")
+router.register('package', PackageViewsets, basename="packageViewsets")
+router.register('destination', DestinationViewsets, basename="destinationViewsets")
+router.register('destinationgalleryimages', destinationgalleryimagesViewsets, basename="destinationgalleryimagesViewsets")
+router.register('destinationreview', DestinationReviewViewsets, basename="destinationreviewViewsets")

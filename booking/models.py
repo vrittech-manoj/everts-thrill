@@ -2,19 +2,31 @@ from django.db import models
 from accounts.models  import CustomUser
 from destination.models import Destination
 from services.models import Services
+from activities.models import Activity
+from destination.models import Package
 import uuid
 
 # Create your models here.
 
-class HolidayTripBook(models.Model):
+class DestinationBook(models.Model):
+    SERVICE_TYPES = (
+        ('budget', 'Budget'),
+        ('standard', 'Standard'),
+        ('premium','Premium'),
+    )
     public_id = models.UUIDField(default=uuid.uuid4,editable=False,unique=True)
     user = models.ForeignKey(CustomUser,related_name = 'trips', on_delete  = models.CASCADE)
+    country = models.CharField(max_length=45)
+    airlines = models.CharField(max_length=45)
+    number_of_travellers = models.IntegerField(default = 1) #if group companions then specify numbers
+    activity = models.ForeignKey(Activity,related_name = 'activity_booking', on_delete = models.CASCADE)
+    package = models.ForeignKey(Package,related_name = 'package_booking', on_delete = models.CASCADE)
+    arrival_date = models.DateTimeField()
+    departure_date = models.DateTimeField()
+    service_type = models.CharField(max_length=20, choices=SERVICE_TYPES)
     destination = models.ForeignKey(Destination,related_name = 'destination_book', on_delete = models.CASCADE)
-    companions = models.CharField(max_length = 20,choices=(('solo', 'Solo'), ('group', 'Group')))
-    number_of_persons = models.IntegerField(default = 1) #if group companions then specify numbers
+    customize_trip = models.CharField(max_length=450)
 
-    is_price = models.BooleanField(default = False)
-    price  =  models.PositiveIntegerField(default = 0)
 
     created_date = models.DateTimeField(auto_now_add=True)
     updated_date = models.DateTimeField(auto_now=True)

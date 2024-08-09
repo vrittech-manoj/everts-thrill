@@ -9,9 +9,9 @@ from drf_yasg import openapi
 from drf_yasg.utils import swagger_auto_schema
 
 from blog.models import Blog
-from destination.models import  Destination,HolidayType
+from destination.models import  Destination,Package
 from queries.models import Queries 
-from booking.models import HolidayTripBook
+from booking.models import DestinationBook
 from activities.models import Activity
 from collection.models import Collection
 
@@ -45,11 +45,11 @@ class BulkDelete(APIView):
         elif delete_type == "destination":
             query = Destination.objects.filter(id__in=delete_ids)
         elif delete_type == "holiday-trip-type":
-            query = HolidayType.objects.filter(id__in=delete_ids)
+            query = Package.objects.filter(id__in=delete_ids)
         elif delete_type == "queries":
             query = Queries.objects.filter(id__in=delete_ids)
         elif delete_type == "booking":
-            query = HolidayTripBook.objects.filter(id__in=delete_ids)
+            query = DestinationBook.objects.filter(id__in=delete_ids)
         elif delete_type == "activities":
             query = Activity.objects.filter(id__in=delete_ids)
         elif delete_type == "collection":

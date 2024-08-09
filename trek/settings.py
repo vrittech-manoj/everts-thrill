@@ -74,6 +74,8 @@ INSTALLED_APPS = [
     'destination_list',
     'faqs',
     'departure',
+    'company',
+    'drfapigenerator',
 ]
 
 # ASGI_APPLICATION = 'trek.asgi.application'

@@ -1,15 +1,15 @@
-from ..models import HolidayType
-from ..serializers.holiday_type_serializers import HolidayTypeReadSerializers,HolidayTypeWriteSerializers
+from ..models import Package
+from ..serializers.destination_type_serializers import PackageReadSerializers,PackageWriteSerializers
 from ..utilities.importbase import *
 from rest_framework.permissions import IsAuthenticated
 from accounts import roles
 
-class HolidayTypeViewsets(viewsets.ModelViewSet):
-    serializer_class = HolidayTypeReadSerializers
+class PackageViewsets(viewsets.ModelViewSet):
+    serializer_class = PackageReadSerializers
     permission_classes = [AdminViewSetsPermission]
     authentication_classes = [JWTAuthentication]
     pagination_class = MyPageNumberPagination
-    queryset  = HolidayType.objects.all().order_by("-id")
+    queryset  = Package.objects.all().order_by("-id")
 
     filter_backends = [SearchFilter,DjangoFilterBackend,OrderingFilter]
     search_fields = ['name']
@@ -20,7 +20,7 @@ class HolidayTypeViewsets(viewsets.ModelViewSet):
 
     def get_serializer_class(self):
         if self.action in ['create','update','partial_update']:
-            return HolidayTypeWriteSerializers
+            return PackageWriteSerializers
         elif self.action in ['list','retrieve']:
             return super().get_serializer_class()
     

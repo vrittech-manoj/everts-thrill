@@ -1,7 +1,7 @@
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from ..models import Payment,PaymentFail
-from booking.models import HolidayTripBook
+from booking.models import DestinationBook
 import requests
 from django.db.models import Q
 from django.conf import settings
@@ -19,7 +19,7 @@ class PaymentVerify(APIView):
         serializer = PaymentVerifyReadSerializers(data=request.data)
         serializer.is_valid(raise_exception=True)
 
-        order_obj = HolidayTripBook.objects.filter(user_id = request.user.id,id = request.data.get('order_id'))
+        order_obj = DestinationBook.objects.filter(user_id = request.user.id,id = request.data.get('order_id'))
         if not order_obj.exists():
             return Response({'message': 'order not exists'}, status=400)
 

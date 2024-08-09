@@ -1,16 +1,16 @@
 from rest_framework import viewsets
 from rest_framework.filters import SearchFilter, OrderingFilter
 from django_filters.rest_framework import DjangoFilterBackend
-from ..models import HolidayTripGalleryImages
-from ..serializers.holidaytripgalleryimages_serializers import HolidayTripGalleryImagesListSerializers, HolidayTripGalleryImagesRetrieveSerializers, HolidayTripGalleryImagesWriteSerializers
+from ..models import TermAndCondition
+from ..serializers.termandcondition_serializers import TermAndConditionListSerializers, TermAndConditionRetrieveSerializers, TermAndConditionWriteSerializers
 from ..utilities.importbase import *
 
-class holidaytripgalleryimagesViewsets(viewsets.ModelViewSet):
-    serializer_class = HolidayTripGalleryImagesListSerializers
-    # permission_classes = [holidayPermission]
+class termandconditionViewsets(viewsets.ModelViewSet):
+    serializer_class = TermAndConditionListSerializers
+    # permission_classes = [companyPermission]
     # authentication_classes = [JWTAuthentication]
     #pagination_class = MyPageNumberPagination
-    queryset = HolidayTripGalleryImages.objects.all()
+    queryset = TermAndCondition.objects.all()
 
     filter_backends = [SearchFilter, DjangoFilterBackend, OrderingFilter]
     search_fields = ['id']
@@ -22,13 +22,13 @@ class holidaytripgalleryimagesViewsets(viewsets.ModelViewSet):
 
     def get_queryset(self):
         queryset = super().get_queryset()
-        #return queryset.filter(user_id=self.request.user.id)
+        return queryset
 
     def get_serializer_class(self):
         if self.action in ['create', 'update', 'partial_update']:
-            return HolidayTripGalleryImagesWriteSerializers
+            return TermAndConditionWriteSerializers
         elif self.action == 'retrieve':
-            return HolidayTripGalleryImagesRetrieveSerializers
+            return TermAndConditionRetrieveSerializers
         return super().get_serializer_class()
 
     # @action(detail=False, methods=['get'], name="action_name", url_path="url_path")

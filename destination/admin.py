@@ -1,4 +1,4 @@
 from django.contrib import admin
-from .models import HolidayType,Destination,HolidayTripGalleryImages,HolidayTripReview
+from .models import Package,Destination,DestinationGalleryImages,DestinationReview
 # Register your models here.
-admin.site.register([HolidayType,Destination,HolidayTripGalleryImages,HolidayTripReview])
+admin.site.register([Package,Destination,DestinationGalleryImages,DestinationReview])

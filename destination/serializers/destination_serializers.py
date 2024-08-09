@@ -1,9 +1,9 @@
 from rest_framework import serializers
-from ..models import Destination, HolidayTripGalleryImages, Departure
+from ..models import Destination, DestinationGalleryImages, Departure
 
-class HolidayTripGalleryImagesSerializer(serializers.ModelSerializer):
+class DestinationGalleryImagesSerializer(serializers.ModelSerializer):
     class Meta:
-        model = HolidayTripGalleryImages
+        model = DestinationGalleryImages
         fields = '__all__'
 
 class DepartureSerializer(serializers.ModelSerializer):
@@ -11,40 +11,40 @@ class DepartureSerializer(serializers.ModelSerializer):
         model = Departure
         fields = ['id', 'upcoming_departure_date', 'upcoming_departure_status', 'upcoming_departure_price']
 
-class HolidayTriplistUserSerializers(serializers.ModelSerializer):
-    images = HolidayTripGalleryImagesSerializer(many=True, read_only=True)
+class DestinationlistUserSerializers(serializers.ModelSerializer):
+    images = DestinationGalleryImagesSerializer(many=True, read_only=True)
     departures = DepartureSerializer(many=True, read_only=True)
 
     class Meta:
         model = Destination
         fields = '__all__'
 
-class HolidayTriplistAdminSerializers(serializers.ModelSerializer):
-    images = HolidayTripGalleryImagesSerializer(many=True, read_only=True)
+class DestinationlistAdminSerializers(serializers.ModelSerializer):
+    images = DestinationGalleryImagesSerializer(many=True, read_only=True)
     departures = DepartureSerializer(many=True, read_only=True)
 
     class Meta:
         model = Destination
         fields = '__all__'
 
-class HolidayTripRetrieveUserSerializers(serializers.ModelSerializer):
-    images = HolidayTripGalleryImagesSerializer(many=True, read_only=True)
+class DestinationRetrieveUserSerializers(serializers.ModelSerializer):
+    images = DestinationGalleryImagesSerializer(many=True, read_only=True)
     departures = DepartureSerializer(many=True, read_only=True)
 
     class Meta:
         model = Destination
         fields = '__all__'
 
-class HolidayTripRetrieveAdminSerializers(serializers.ModelSerializer):
-    images = HolidayTripGalleryImagesSerializer(many=True, read_only=True)
+class DestinationRetrieveAdminSerializers(serializers.ModelSerializer):
+    images = DestinationGalleryImagesSerializer(many=True, read_only=True)
     departures = DepartureSerializer(many=True, read_only=True)
 
     class Meta:
         model = Destination
         fields = '__all__'
 
-class HolidayTripWriteSerializers(serializers.ModelSerializer):
-    images = HolidayTripGalleryImagesSerializer(many=True, required=False)
+class DestinationWriteSerializers(serializers.ModelSerializer):
+    images = DestinationGalleryImagesSerializer(many=True, required=False)
     departures = DepartureSerializer(many=True, required=False)
 
     class Meta:
@@ -62,7 +62,7 @@ class HolidayTripWriteSerializers(serializers.ModelSerializer):
             Departure.objects.create(holiday_trip=holiday_trip, **departure_data)
 
         for image_data in images_data:
-            HolidayTripGalleryImages.objects.create(holiday_trip=holiday_trip, **image_data)
+            DestinationGalleryImages.objects.create(holiday_trip=holiday_trip, **image_data)
 
         return holiday_trip
 
@@ -85,12 +85,12 @@ class HolidayTripWriteSerializers(serializers.ModelSerializer):
         # Update Images
         instance.images.all().delete()  # Clear existing images
         for image_data in images_data:
-            HolidayTripGalleryImages.objects.create(holiday_trip=instance, **image_data)
+            DestinationGalleryImages.objects.create(holiday_trip=instance, **image_data)
 
         return instance
 
-class HolidayTripSerializer(serializers.ModelSerializer):
-    images = HolidayTripGalleryImagesSerializer(many=True, required=False)
+class DestinationSerializer(serializers.ModelSerializer):
+    images = DestinationGalleryImagesSerializer(many=True, required=False)
     departures = DepartureSerializer(many=True, required=False)
 
     class Meta:
@@ -106,7 +106,7 @@ class HolidayTripSerializer(serializers.ModelSerializer):
             Departure.objects.create(holiday_trip=holiday_trip, **departure_data)
 
         for image_data in images_data:
-            HolidayTripGalleryImages.objects.create(holiday_trip=holiday_trip, **image_data)
+            DestinationGalleryImages.objects.create(holiday_trip=holiday_trip, **image_data)
 
         return holiday_trip
 
@@ -127,6 +127,6 @@ class HolidayTripSerializer(serializers.ModelSerializer):
         # Update Images
         instance.images.all().delete()  # Clear existing images
         for image_data in images_data:
-            HolidayTripGalleryImages.objects.create(holiday_trip=instance, **image_data)
+            DestinationGalleryImages.objects.create(holiday_trip=instance, **image_data)
 
         return instance

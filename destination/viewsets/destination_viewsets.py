@@ -1,11 +1,11 @@
 from rest_framework import viewsets, permissions, filters
 from ..models import Destination
-from ..serializers.holiday_trip_serializers import (
-    HolidayTriplistUserSerializers,
-    HolidayTriplistAdminSerializers,
-    HolidayTripRetrieveUserSerializers,
-    HolidayTripRetrieveAdminSerializers,
-    HolidayTripWriteSerializers
+from ..serializers.destination_serializers import (
+    DestinationlistUserSerializers,
+    DestinationlistAdminSerializers,
+    DestinationRetrieveUserSerializers,
+    DestinationRetrieveAdminSerializers,
+    DestinationWriteSerializers
 )
 from ..utilities.importbase import *
 from accounts import roles
@@ -13,7 +13,7 @@ from rest_framework_simplejwt.authentication import JWTAuthentication
 from django_filters.rest_framework import DjangoFilterBackend
 from rest_framework.filters import SearchFilter, OrderingFilter
 
-class HolidayTripViewsets(viewsets.ModelViewSet):
+class DestinationViewsets(viewsets.ModelViewSet):
     authentication_classes = [JWTAuthentication]
     permission_classes = [AdminViewSetsPermission]
     pagination_class = MyPageNumberPagination
@@ -23,22 +23,21 @@ class HolidayTripViewsets(viewsets.ModelViewSet):
     search_fields = ['title']
     ordering_fields = ['title', 'id']
     filterset_fields = {
-        'title': ['exact', 'icontains'],
-        'stay_type': ['exact'],
+        'destination_title': ['exact', 'icontains'],
         'nature_of_trip': ['exact', 'icontains'],
     }
 
     def get_serializer_class(self):
         if self.action in ['create', 'update', 'partial_update']:
-            return HolidayTripWriteSerializers
+            return DestinationWriteSerializers
         elif self.action == "list":
             if self.request.user.is_authenticated and self.request.user.role in [roles.ADMIN, roles.SUPER_ADMIN]:
-                return HolidayTriplistAdminSerializers
+                return DestinationlistAdminSerializers
             else:
-                return HolidayTriplistUserSerializers
+                return DestinationlistUserSerializers
         elif self.action == "retrieve":
             if self.request.user.is_authenticated and self.request.user.role in [roles.ADMIN, roles.SUPER_ADMIN]:
-                return HolidayTripRetrieveAdminSerializers
+                return DestinationRetrieveAdminSerializers
             else:
-                return HolidayTripRetrieveUserSerializers
+                return DestinationRetrieveUserSerializers
         return super().get_serializer_class()

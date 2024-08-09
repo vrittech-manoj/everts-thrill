@@ -1,6 +1,6 @@
 from rest_framework.permissions import BasePermission
 from accounts import roles
-from booking.models import HolidayTripBook
+from booking.models import DestinationBook
 
 def IsAuthenticated(request):
     return bool(request.user and request.user.is_authenticated)
@@ -9,7 +9,7 @@ def AdminLevel(request):
     return bool(IsAuthenticated(request) and request.user.is_authenticated and request.user.role in [roles.ADMIN,roles.SUPER_ADMIN])
 
 def isOwner(request):
-    order = HolidayTripBook.objects.filter(id = request.data.get('order_id'))
+    order = DestinationBook.objects.filter(id = request.data.get('order_id'))
     print(order, " permission ")
     if not order.exists():
         return False
@@ -19,7 +19,7 @@ def isOwner(request):
 
 
 def isServiceOwner(request):
-    order = HolidayTripBook.objects.filter(id = request.data.get('order_id'))
+    order = DestinationBook.objects.filter(id = request.data.get('order_id'))
     print(order, " permission ")
     if not order.exists():
         return False
