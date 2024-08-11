@@ -52,6 +52,7 @@ class EmailCheckView(generics.GenericAPIView):
                 SendSms(contact=email,otp=otp,message=subject)
           
             cache_key = f"password_reset_otp_{user.id}"
+        
             cache.set(cache_key, otp, timeout=otp_time_expired)
 
             return response.Response(
@@ -69,7 +70,7 @@ class EmailCheckView(generics.GenericAPIView):
 class EmailChangeGetOtpView(generics.GenericAPIView):
     def generate_otp(self,user):
         # Generate a random 6-digit OTP
-        # return "123456"
+        return "123456"
         user = str(user)
         return user[0]+''.join(random.choices(string.digits, k=4)) + user[-1]
     

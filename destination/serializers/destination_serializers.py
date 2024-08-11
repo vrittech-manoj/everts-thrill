@@ -52,7 +52,6 @@ class DestinationWriteSerializers(serializers.ModelSerializer):
         fields = '__all__'
 
     def create(self, validated_data):
-        faqs_data = validated_data.pop('faqs', [])
         departures_data = validated_data.pop('departures', [])
         images_data = validated_data.pop('images', [])
         holiday_trip = Destination.objects.create(**validated_data)
@@ -76,14 +75,20 @@ class DestinationWriteSerializers(serializers.ModelSerializer):
         # Update other fields similarly
         instance.save()
 
-
-        # Update Departures
-        instance.departures.all().delete()  # Clear existing departures
+            # Process departures using update_or_create
         for departure_data in departures_data:
-            Departure.objects.create(holiday_trip=instance, **departure_data)
+            departure_id = departure_data.get('id')
+            if departure_id:
+                # Assuming 'id' is a unique identifier for Departure
+                departure, created = Departure.objects.update_or_create(
+                    id=departure_id,
+                    defaults={key: val for key, val in departure_data.items() if key != 'id'}
+                )
+            else:
+                # Create new departure if no ID is provided
+                Departure.objects.create(destination=instance, **departure_data)
+                
 
-        # Update Images
-        instance.images.all().delete()  # Clear existing images
         for image_data in images_data:
             DestinationGalleryImages.objects.create(holiday_trip=instance, **image_data)
 
