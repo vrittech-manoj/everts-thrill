@@ -7,9 +7,9 @@ from ..utilities.importbase import *
 
 class meetteamViewsets(viewsets.ModelViewSet):
     serializer_class = MeetTeamListSerializers
-    # permission_classes = [companyPermission]
-    # authentication_classes = [JWTAuthentication]
-    #pagination_class = MyPageNumberPagination
+    permission_classes = [companyPermission]
+    authentication_classes = [JWTAuthentication]
+    pagination_class = MyPageNumberPagination
     queryset = MeetTeam.objects.all()
 
     filter_backends = [SearchFilter, DjangoFilterBackend, OrderingFilter]

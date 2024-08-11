@@ -7,9 +7,9 @@ from ..utilities.importbase import *
 
 class faqsViewsets(viewsets.ModelViewSet):
     serializer_class = FaqsListSerializers
-    # permission_classes = [faqsPermission]
-    # authentication_classes = [JWTAuthentication]
-    #pagination_class = MyPageNumberPagination
+    permission_classes = [faqsPermission]
+    authentication_classes = [JWTAuthentication]
+    pagination_class = MyPageNumberPagination
     queryset = Faqs.objects.all()
 
     filter_backends = [SearchFilter, DjangoFilterBackend, OrderingFilter]

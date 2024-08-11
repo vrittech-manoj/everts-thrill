@@ -7,9 +7,9 @@ from ..utilities.importbase import *
 
 class collectionViewsets(viewsets.ModelViewSet):
     serializer_class = CollectionListSerializers
-    # permission_classes = [collectionPermission]
-    # authentication_classes = [JWTAuthentication]
-    #pagination_class = MyPageNumberPagination
+    permission_classes = [collectionPermission]
+    authentication_classes = [JWTAuthentication]
+    pagination_class = MyPageNumberPagination
     queryset = Collection.objects.all()
 
     filter_backends = [SearchFilter, DjangoFilterBackend, OrderingFilter]

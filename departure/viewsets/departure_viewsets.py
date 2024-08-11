@@ -7,9 +7,9 @@ from ..utilities.importbase import *
 
 class departureViewsets(viewsets.ModelViewSet):
     serializer_class = DepartureListSerializers
-    # permission_classes = [departurePermission]
-    # authentication_classes = [JWTAuthentication]
-    #pagination_class = MyPageNumberPagination
+    permission_classes = [departurePermission]
+    authentication_classes = [JWTAuthentication]
+    pagination_class = MyPageNumberPagination
     queryset = Departure.objects.all()
 
     filter_backends = [SearchFilter, DjangoFilterBackend, OrderingFilter]

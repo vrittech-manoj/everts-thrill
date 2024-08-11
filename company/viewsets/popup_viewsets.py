@@ -7,9 +7,9 @@ from ..utilities.importbase import *
 
 class popupViewsets(viewsets.ModelViewSet):
     serializer_class = PopupListSerializers
-    # permission_classes = [companyPermission]
-    # authentication_classes = [JWTAuthentication]
-    #pagination_class = MyPageNumberPagination
+    permission_classes = [companyPermission]
+    authentication_classes = [JWTAuthentication]
+    pagination_class = MyPageNumberPagination
     queryset = Popup.objects.all()
 
     filter_backends = [SearchFilter, DjangoFilterBackend, OrderingFilter]

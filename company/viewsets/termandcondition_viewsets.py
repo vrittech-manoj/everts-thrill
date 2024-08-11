@@ -7,9 +7,9 @@ from ..utilities.importbase import *
 
 class termandconditionViewsets(viewsets.ModelViewSet):
     serializer_class = TermAndConditionListSerializers
-    # permission_classes = [companyPermission]
-    # authentication_classes = [JWTAuthentication]
-    #pagination_class = MyPageNumberPagination
+    permission_classes = [companyPermission]
+    authentication_classes = [JWTAuthentication]
+    pagination_class = MyPageNumberPagination
     queryset = TermAndCondition.objects.all()
 
     filter_backends = [SearchFilter, DjangoFilterBackend, OrderingFilter]

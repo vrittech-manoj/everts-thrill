@@ -7,9 +7,9 @@ from ..utilities.importbase import *
 
 class visainformationViewsets(viewsets.ModelViewSet):
     serializer_class = VisaInformationListSerializers
-    # permission_classes = [companyPermission]
-    # authentication_classes = [JWTAuthentication]
-    #pagination_class = MyPageNumberPagination
+    permission_classes = [companyPermission]
+    authentication_classes = [JWTAuthentication]
+    pagination_class = MyPageNumberPagination
     queryset = VisaInformation.objects.all()
 
     filter_backends = [SearchFilter, DjangoFilterBackend, OrderingFilter]

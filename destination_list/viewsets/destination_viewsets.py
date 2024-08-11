@@ -7,13 +7,13 @@ from ..utilities.importbase import *
 
 class destinationViewsets(viewsets.ModelViewSet):
     serializer_class = DestinationListSerializers
-    # permission_classes = [destinationPermission]
-    # authentication_classes = [JWTAuthentication]
-    #pagination_class = MyPageNumberPagination
+    permission_classes = [destinationPermission]
+    authentication_classes = [JWTAuthentication]
+    pagination_class = MyPageNumberPagination
     queryset = Destination_list.objects.all()
 
     filter_backends = [SearchFilter, DjangoFilterBackend, OrderingFilter]
-    search_fields = ['id']
+    search_fields = ['id','name']
     ordering_fields = ['id']
 
     # filterset_fields = {
