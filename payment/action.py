@@ -1,12 +1,12 @@
 from django.db.models.signals import pre_save,post_save , pre_delete
 from django.dispatch import receiver
 from .models import Payment,PaymentService
-from booking.models import HolidayTripBook,ServiceBook
+from booking.models import DestinationBook,ServiceBook
 
 @receiver(post_save, sender=Payment)
 def PaymentPostSave(sender, instance, created, **kwargs):
     if created:
-        order_obj = HolidayTripBook.objects.filter(id = instance.order_id)
+        order_obj = DestinationBook.objects.filter(id = instance.order_id)
         if order_obj.exists():
             payment_status = "unpaid"
             if order_obj.first().order_items.all().count() == 1 and order_obj.first().order_items.all().first().product.product_type == "pre-order":

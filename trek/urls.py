@@ -29,20 +29,31 @@ from  rest_framework  import routers
 
 from accounts.urls import router as accounts_router
 from blog.urls import router as blog_router
-from booking.urls import router as booking_router
-from holiday.urls import router as holiday_router
+# from booking.urls import router as booking_router
+from destination.urls import router as destination_router
 from managements.urls import router as managements_router
 from payment.urls import router as payment_router
 from queries.urls import router as queries_router
 from services.urls import router as services_router
 from testonomial.urls import router as testonomial_router
+from destination.routers.routers import router as destination_router
+from activities.routers.routers import router as activities_router
+from collection.routers.routers import router as collection_router
+from destination_list.routers.routers import router as destination_list_router
+from faqs.routers.routers import router as faqs_router
+from departure.routers.routers import router as departure_router
+from booking.routers.routers import router as booking_router
+from company.routers.routers import router as company_router
+from herosection.routers.routers import router as herosection_router
+
+from trek.utilities.bulk_delete import BulkDelete
 
 router = routers.DefaultRouter()
 
 router.registry.extend(accounts_router.registry)
 router.registry.extend(blog_router.registry)
-router.registry.extend(booking_router.registry)
-router.registry.extend(holiday_router.registry)
+# router.registry.extend(booking_router.registry)
+router.registry.extend(destination_router.registry)
 router.registry.extend(managements_router.registry)
 router.registry.extend(payment_router.registry)
 router.registry.extend(queries_router.registry)
@@ -70,13 +81,24 @@ urlpatterns = [
     path('api/',include(router.urls)),
     path('api/accounts/',include('accounts.urls')),
     path('api/blogs/',include('blog.urls')),
-    path('api/booking/',include('booking.urls')),
-    path('api/holiday/',include('holiday.urls')),
+    # path('api/booking/',include('booking.urls')),
+    path('api/destination/',include('destination.urls')),
     path('api/services/',include('services.urls')),
     path('api/testonomial/',include('testonomial.urls')),
     path('api/queries/',include('queries.urls')),
     path('api/managements/',include('managements.urls')),
     path('api/',include('accountsmanagement.urls')),
+    path('api/',include(destination_list_router.urls)),
+    path('api/',include(collection_router.urls)),
+    path('api/',include(activities_router.urls)),
+    path('api/',include(destination_router.urls)),
+    path('api/',include(faqs_router.urls)),
+    path('api/bulk-delete/<str:delete_type>/',BulkDelete.as_view(),name="bulk_delete"),
+    path('api/',include(departure_router.urls)),
+    path('api/',include(company_router.urls)),
+    path('api/',include(booking_router.urls)),
+    path('api/',include(herosection_router.urls)),
+    
     
 
     #path('swagger<format>/', schema_view.without_ui(cache_timeout=0), name='schema-json'),

@@ -1,7 +1,12 @@
 from rest_framework import serializers
 from ..models import ServiceBook
 
-class ServiceBookReadSerializers(serializers.ModelSerializer):
+class ServiceBookListSerializers(serializers.ModelSerializer):
+    class Meta:
+        model = ServiceBook
+        fields = '__all__'
+
+class ServiceBookRetrieveSerializers(serializers.ModelSerializer):
     class Meta:
         model = ServiceBook
         fields = '__all__'

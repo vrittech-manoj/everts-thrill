@@ -5,4 +5,5 @@
 media/
 __pycache__/
 venv/
+drfapigenerator/
 

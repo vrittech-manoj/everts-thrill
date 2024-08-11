@@ -1,7 +1,7 @@
 from django.conf import settings
 import requests
 from ..models import PaymentFail
-from booking.models import HolidayTripBook
+from booking.models import DestinationBook
 
 def payment_verify(data):
     if data.get('payment_type') == "esewa":

@@ -1,4 +1,4 @@
 from django.contrib import admin
-from .models import HolidayTripBook,ServiceBook
+from .models import DestinationBook,ServiceBook
 # Register your models here.
-admin.site.register([HolidayTripBook,ServiceBook])
+admin.site.register([DestinationBook,ServiceBook])
