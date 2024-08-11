@@ -75,6 +75,7 @@ INSTALLED_APPS = [
     'company',
     'herosection',
     'blog',
+    'airlines',
 ]
 
 # ASGI_APPLICATION = 'trek.asgi.application'

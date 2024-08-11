@@ -4,6 +4,7 @@ from destination.models import Destination
 from services.models import Services
 from activities.models import Activity
 from destination.models import Package
+from airlines.models import Airlines
 import uuid
 
 # Create your models here.
@@ -17,7 +18,7 @@ class DestinationBook(models.Model):
     public_id = models.UUIDField(default=uuid.uuid4,editable=False,unique=True)
     user = models.ForeignKey(CustomUser,related_name = 'trips', on_delete  = models.CASCADE)
     country = models.CharField(max_length=45)
-    airlines = models.CharField(max_length=45)
+    airlines = models.ForeignKey(Airlines,related_name = 'airlines_booking', on_delete = models.CASCADE)
     number_of_travellers = models.IntegerField(default = 1) #if group companions then specify numbers
     activity = models.ForeignKey(Activity,related_name = 'activity_booking', on_delete = models.CASCADE)
     package = models.ForeignKey(Package,related_name = 'package_booking', on_delete = models.CASCADE)

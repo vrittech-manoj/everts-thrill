@@ -4,4 +4,4 @@ from ..viewsets.collection_viewsets import collectionViewsets
 router = DefaultRouter()
 
 
-router.register('collection', collectionViewsets, basename="collectionViewsets")
+router.register('collection-management', collectionViewsets, basename="collectionViewsets")

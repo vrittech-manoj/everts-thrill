@@ -5,4 +5,4 @@ router = DefaultRouter()
 auto_api_routers = router
 
 
-router.register('activity', activityViewsets, basename="activityViewsets")
+router.register('activity-management', activityViewsets, basename="activityViewsets")

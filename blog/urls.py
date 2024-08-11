@@ -4,7 +4,7 @@ from .viewsets import blog_viewsets
 
 router = DefaultRouter()
 
-router.register('blogs', blog_viewsets.BlogViewSets, basename="BlogViewSets")
+router.register('blog-management', blog_viewsets.BlogViewSets, basename="BlogViewSets")
 
 urlpatterns = [    
     # path('', include(router.urls)),
