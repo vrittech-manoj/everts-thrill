@@ -35,7 +35,7 @@ from managements.urls import router as managements_router
 from payment.urls import router as payment_router
 from queries.urls import router as queries_router
 from services.urls import router as services_router
-from testonomial.urls import router as testonomial_router
+# from testonomial.urls import router as testonomial_router
 from destination.routers.routers import router as destination_router
 from activities.routers.routers import router as activities_router
 from collection.routers.routers import router as collection_router
@@ -59,7 +59,6 @@ router.registry.extend(managements_router.registry)
 router.registry.extend(payment_router.registry)
 router.registry.extend(queries_router.registry)
 router.registry.extend(services_router.registry)
-router.registry.extend(testonomial_router.registry)
 
 schema_view = get_schema_view(
    openapi.Info(
@@ -85,7 +84,6 @@ urlpatterns = [
     # path('api/booking/',include('booking.urls')),
     path('api/destination/',include('destination.urls')),
     path('api/services/',include('services.urls')),
-    path('api/testonomial/',include('testonomial.urls')),
     path('api/queries/',include('queries.urls')),
     path('api/managements/',include('managements.urls')),
     path('api/',include('accountsmanagement.urls')),
