@@ -66,13 +66,11 @@ class DestinationWriteSerializers(serializers.ModelSerializer):
         return holiday_trip
 
     def update(self, instance, validated_data):
-        faqs_data = validated_data.pop('faqs', [])
+       
         departures_data = validated_data.pop('departures', [])
         images_data = validated_data.pop('images', [])
 
-        instance.title = validated_data.get('title', instance.title)
-        instance.description = validated_data.get('description', instance.description)
-        # Update other fields similarly
+
         instance.save()
 
             # Process departures using update_or_create
