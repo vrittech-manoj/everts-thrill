@@ -31,6 +31,7 @@ class Destination(models.Model):
     packages = models.ManyToManyField(Package)
     price = models.FloatField(null=True, blank=True)
     price_type= models.CharField(max_length=3, default='NPR')  
+    is_price = models.BooleanField(default=False)
     featured_image = models.ImageField(upload_to="destination/featured/images/", null=True, blank=True)
     overview = models.CharField(max_length=5000, null=True, blank=True)
     inclusion_and_exclusion = models.TextField(null=True, default='', blank=True)
@@ -51,8 +52,8 @@ class Destination(models.Model):
     
     # departure =models.ManyToManyField(Departure, related_name="destination_departure")
 
-    activities = models.ForeignKey(Activity, on_delete=models.SET_NULL, null=True)
-    collection = models.ForeignKey(Collection, on_delete=models.SET_NULL, null=True)
+    # activities = models.ManyToManyField(Activity)
+    # collection = models.ManyToManyField(Collection)
 
     created_date = models.DateTimeField(auto_now_add=True)
     updated_date = models.DateTimeField(auto_now=True)
