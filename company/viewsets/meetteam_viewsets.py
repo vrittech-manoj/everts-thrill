@@ -13,12 +13,14 @@ class meetteamViewsets(viewsets.ModelViewSet):
     queryset = MeetTeam.objects.all()
 
     filter_backends = [SearchFilter, DjangoFilterBackend, OrderingFilter]
-    search_fields = ['id']
+    search_fields = ['id','member_name','position']
     ordering_fields = ['id']
 
-    # filterset_fields = {
-    #     'id': ['exact'],
-    # }
+    filterset_fields = {
+        'id': ['exact'],
+        'member_name': ['exact'],
+        'position': ['exact'],
+    }
 
     def get_queryset(self):
         queryset = super().get_queryset()

@@ -48,6 +48,8 @@ class Destination(models.Model):
     nature_of_trip = models.CharField(max_length=450)
     accommodation = models.CharField(max_length=450)
     group_size = models.PositiveIntegerField()
+    
+    # departure =models.ManyToManyField(Departure, related_name="destination_departure")
 
     activities = models.ForeignKey(Activity, on_delete=models.SET_NULL, null=True)
     collection = models.ForeignKey(Collection, on_delete=models.SET_NULL, null=True)
