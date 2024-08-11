@@ -26,3 +26,11 @@ class LegalDocuments(models.Model):
     user = models.ForeignKey(CustomUser,related_name = 'user_legal_documents', on_delete  = models.CASCADE)
     image = models.ImageField(upload_to='components/popup', null=True, blank=True)
     url = models.URLField(null=True, blank=True)
+
+class HeroSection(models.Model):
+    position = models.CharField(max_length = 23,choices = (('top','Top'),('middle','Middle'),('bottom','Bottom')))
+    video = models.FileField(upload_to='company/hero_section_videos', blank=True, null=True)
+    video_link = models.URLField(blank=True, null=True)
+
+    def __str__(self):
+        return f"Hero Section Video: {self.video}"

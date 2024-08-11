@@ -10,7 +10,7 @@ class destinationgalleryimagesViewsets(viewsets.ModelViewSet):
     serializer_class = DestinationGalleryImagesListSerializers
     permission_classes = [destinationPermission]
     authentication_classes = [JWTAuthentication]
-    pagination_class = MyPageNumberPagination
+    # pagination_class = MyPageNumberPagination
     queryset = DestinationGalleryImages.objects.all()
 
     filter_backends = [SearchFilter, DjangoFilterBackend, OrderingFilter]

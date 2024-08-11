@@ -7,7 +7,7 @@ from ..utilities.importbase import *
 
 class herosectionViewsets(viewsets.ModelViewSet):
     serializer_class = HeroSectionListSerializers
-    permission_classes = [herosectionPermission]
+    permission_classes = [companyPermission]
     authentication_classes = [JWTAuthentication]
     pagination_class = MyPageNumberPagination
     queryset = HeroSection.objects.all()
@@ -22,7 +22,7 @@ class herosectionViewsets(viewsets.ModelViewSet):
 
     def get_queryset(self):
         queryset = super().get_queryset()
-        return queryset
+        #return queryset.filter(user_id=self.request.user.id)
 
     def get_serializer_class(self):
         if self.action in ['create', 'update', 'partial_update']:
