@@ -44,7 +44,7 @@ class BulkDelete(APIView):
             query = Blog.objects.filter(id__in=delete_ids)
         elif delete_type == "destination":
             query = Destination.objects.filter(id__in=delete_ids)
-        elif delete_type == "holiday-trip-type":
+        elif delete_type == "package":
             query = Package.objects.filter(id__in=delete_ids)
         elif delete_type == "queries":
             query = Queries.objects.filter(id__in=delete_ids)
