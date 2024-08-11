@@ -2,12 +2,13 @@ from rest_framework import viewsets
 from rest_framework.filters import SearchFilter, OrderingFilter
 from django_filters.rest_framework import DjangoFilterBackend
 from ..models import DestinationGalleryImages
+from utilities.permissions import destinationPermission
 from ..serializers.destinationgalleryimages_serializers import DestinationGalleryImagesListSerializers, DestinationGalleryImagesRetrieveSerializers, DestinationGalleryImagesWriteSerializers
 from ..utilities.importbase import *
 
 class destinationgalleryimagesViewsets(viewsets.ModelViewSet):
     serializer_class = DestinationGalleryImagesListSerializers
-    permission_classes = [holidayPermission]
+    permission_classes = [destinationPermission]
     authentication_classes = [JWTAuthentication]
     pagination_class = MyPageNumberPagination
     queryset = DestinationGalleryImages.objects.all()
