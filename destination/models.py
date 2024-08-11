@@ -10,10 +10,9 @@ from departure.models import Departure
 
 class Package(models.Model):
     public_id = models.UUIDField(default=uuid.uuid4, editable=False, unique=True)
-    name = models.CharField(max_length=400, unique=True)
     slug = models.SlugField(unique=True, blank=True)
-    description = models.TextField(null=True, blank=True)
-    image = models.ImageField(upload_to="destination/destination_type_image/", null=True, blank=True)
+    name = models.CharField(max_length=400, unique=True)
+    image = models.ImageField(upload_to="destination/package_image/", null=True, blank=True)
 
     def __str__(self):
         return self.name
