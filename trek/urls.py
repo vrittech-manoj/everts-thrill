@@ -62,6 +62,7 @@ router.registry.extend(booking_router.registry)
 router.registry.extend(faqs_router.registry)
 router.registry.extend(collection_router.registry)
 router.registry.extend(activities_router.registry)
+router.registry.extend(company_router.registry)
 
 
 schema_view = get_schema_view(
