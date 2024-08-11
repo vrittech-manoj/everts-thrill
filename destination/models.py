@@ -28,8 +28,9 @@ class Destination(models.Model):
     public_id = models.UUIDField(default=uuid.uuid4, editable=False, unique=True)
     slug = models.SlugField(unique=True, blank=True)
     destination_title = models.CharField(max_length=450)
-    select_packages = models.ForeignKey(Package, on_delete=models.SET_NULL, null=True)
+    packages = models.ManyToManyField(Package)
     price = models.FloatField(null=True, blank=True)
+    price_type= models.CharField(max_length=3, default='NPR')  
     featured_image = models.ImageField(upload_to="destination/featured/images/", null=True, blank=True)
     overview = models.CharField(max_length=5000, null=True, blank=True)
     inclusion_and_exclusion = models.TextField(null=True, default='', blank=True)
@@ -78,3 +79,4 @@ class DestinationReview(models.Model):
 
     def __str__(self) -> str:
         return str(self.user.username) + ':' + '*' * self.stars
+
