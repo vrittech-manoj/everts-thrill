@@ -54,3 +54,6 @@ class reviewPermission(BasePermission):
         elif view.action == 'destroy':
             return isOwner(request)
 
+class AdminViewSetsPermission(BasePermission):
+    def has_permission(self, request, view):
+        return AdminLevel(request)

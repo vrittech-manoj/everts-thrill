@@ -63,7 +63,6 @@ INSTALLED_APPS = [
     'services',
     'booking',
     'payment',
-    'testonomial',
     'queries',
     'review',
     'accountsmanagement',

@@ -7,18 +7,18 @@ from ..utilities.importbase import *
 
 class reviewViewsets(viewsets.ModelViewSet):
     serializer_class = ReviewListSerializers
-    # permission_classes = [reviewPermission]
-    # authentication_classes = [JWTAuthentication]
-    #pagination_class = MyPageNumberPagination
+    permission_classes = [reviewPermission]
+    authentication_classes = [JWTAuthentication]
+    pagination_class = MyPageNumberPagination
     queryset = Review.objects.all()
 
     filter_backends = [SearchFilter, DjangoFilterBackend, OrderingFilter]
-    search_fields = ['id']
+    search_fields = ['id','star_rating']
     ordering_fields = ['id']
 
-    # filterset_fields = {
-    #     'id': ['exact'],
-    # }
+    filterset_fields = {
+        'star_rating': ['exact'],
+    }
 
     def get_queryset(self):
         queryset = super().get_queryset()
