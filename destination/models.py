@@ -31,7 +31,6 @@ class Destination(models.Model):
     select_packages = models.ForeignKey(Package, on_delete=models.SET_NULL, null=True)
     price = models.FloatField(null=True, blank=True)
     featured_image = models.ImageField(upload_to="destination/featured/images/", null=True, blank=True)
-    gallery_images = models.ManyToManyField('DestinationGalleryImages', related_name="destination_images")
     overview = models.CharField(max_length=5000, null=True, blank=True)
     inclusion_and_exclusion = models.TextField(null=True, default='', blank=True)
     ltinerary = models.TextField()
