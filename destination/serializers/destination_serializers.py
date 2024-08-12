@@ -92,44 +92,44 @@ class DestinationWriteSerializers(serializers.ModelSerializer):
 
         return instance
 
-class DestinationSerializer(serializers.ModelSerializer):
-    images = DestinationGalleryImagesSerializer(many=True, required=False)
-    departures = DepartureSerializer(many=True, required=False)
+# class DestinationSerializer(serializers.ModelSerializer):
+#     images = DestinationGalleryImagesSerializer(many=True, required=False)
+#     departures = DepartureSerializer(many=True, required=False)
 
-    class Meta:
-        model = Destination
-        fields = '__all__'
+#     class Meta:
+#         model = Destination
+#         fields = '__all__'
 
-    def create(self, validated_data):
-        departures_data = validated_data.pop('departures', [])
-        images_data = validated_data.pop('images', [])
-        holiday_trip = Destination.objects.create(**validated_data)
+#     def create(self, validated_data):
+#         departures_data = validated_data.pop('departures', [])
+#         images_data = validated_data.pop('images', [])
+#         holiday_trip = Destination.objects.create(**validated_data)
 
-        for departure_data in departures_data:
-            Departure.objects.create(holiday_trip=holiday_trip, **departure_data)
+#         for departure_data in departures_data:
+#             Departure.objects.create(holiday_trip=holiday_trip, **departure_data)
 
-        for image_data in images_data:
-            DestinationGalleryImages.objects.create(holiday_trip=holiday_trip, **image_data)
+#         for image_data in images_data:
+#             DestinationGalleryImages.objects.create(holiday_trip=holiday_trip, **image_data)
 
-        return holiday_trip
+#         return holiday_trip
 
-    def update(self, instance, validated_data):
-        departures_data = validated_data.pop('departures', [])
-        images_data = validated_data.pop('images', [])
+#     def update(self, instance, validated_data):
+#         departures_data = validated_data.pop('departures', [])
+#         images_data = validated_data.pop('images', [])
 
-        instance.title = validated_data.get('title', instance.title)
-        instance.description = validated_data.get('description', instance.description)
-        # Update other fields similarly
-        instance.save()
+#         instance.title = validated_data.get('title', instance.title)
+#         instance.description = validated_data.get('description', instance.description)
+#         # Update other fields similarly
+#         instance.save()
 
-        # Update Departures
-        instance.departures.all().delete()  # Clear existing departures
-        for departure_data in departures_data:
-            Departure.objects.create(holiday_trip=instance, **departure_data)
+#         # Update Departures
+#         instance.departures.all().delete()  # Clear existing departures
+#         for departure_data in departures_data:
+#             Departure.objects.create(holiday_trip=instance, **departure_data)
 
-        # Update Images
-        instance.images.all().delete()  # Clear existing images
-        for image_data in images_data:
-            DestinationGalleryImages.objects.create(holiday_trip=instance, **image_data)
+#         # Update Images
+#         instance.images.all().delete()  # Clear existing images
+#         for image_data in images_data:
+#             DestinationGalleryImages.objects.create(holiday_trip=instance, **image_data)
 
-        return instance
+#         return instance
