@@ -58,7 +58,7 @@ class Destination(models.Model):
     updated_date = models.DateTimeField(auto_now=True)
 
     def __str__(self):
-        return self.title
+        return self.destination_title
 
     def save(self, *args, **kwargs):
         if not self.slug:

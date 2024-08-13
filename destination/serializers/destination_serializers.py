@@ -119,7 +119,7 @@ class DestinationRetrieveAdminSerializers(serializers.ModelSerializer):
         fields = '__all__'
 
 class DestinationWriteSerializers(serializers.ModelSerializer):
-    # images = DestinationGalleryImagesSerializer(many=True, required=False)
+    images = DestinationGalleryImagesSerializer(many=True, required=False)
     departures = DepartureSerializer(many=True, required=False)
     
     def to_internal_value(self, data):
@@ -135,88 +135,88 @@ class DestinationWriteSerializers(serializers.ModelSerializer):
 
     def create(self, validated_data):
         packages_data = validated_data.pop('packages', [])
-        departures_data = validated_data.pop('departures', [])
-        images_data = validated_data.pop('images', [])
-        # # print(images_data)
-        holiday_trip = Destination.objects.create(**validated_data)
+        # departures_data = validated_data.pop('departures', [])
+        # Manually parse departures data
+        departures_data = []
+        for key, value in self.context['request'].data.items():
+            if key.startswith('departures'):
+                index = int(key.split('[')[1].split(']')[0])
+                field_name = key.split('[')[2].split(']')[0]
+                while len(departures_data) <= index:
+                    departures_data.append({})
+                if field_name == 'upcoming_departure_status':
+                    value = value.lower() == 'true'  # Convert "true"/"false" strings to boolean
+                departures_data[index][field_name] = value
+        # images_data = self.context['request'].FILES.getlist('images', [])
+         # Collect all image files with keys like 'images[0]', 'images[1]', etc.
+        images_data = []
+        for key in self.context['request'].FILES:
+            if key.startswith('images['):
+                images_data.append(self.context['request'].FILES[key])
+
+        destination = Destination.objects.create(**validated_data)
         
         if packages_data:
-            holiday_trip.packages.set(packages_data)
-
-
+            destination.packages.set(packages_data)
+        
+        # Process departures data inside the loop
         for departure_data in departures_data:
-            Departure.objects.create(destination_trip=holiday_trip, **departure_data)
+            if departure_data:  # Ensure departure_data is not empty
+                print("Departure", departure_data)  # Debugging statement
+                Departure.objects.create(destination_trip=destination, **departure_data)                                                        
+                
+        print("Parsed Departures Data:", departures_data)
 
-        for image_data in images_data:
-            DestinationGalleryImages.objects.create(destination_trip=holiday_trip, **image_data)
 
-        return holiday_trip
+
+
+
+        # for departure_data in departures_data:
+        #     Departure.objects.create(destination_trip=destination, **departure_data)
+
+     # Handle image uploads
+        for image_file in images_data:
+            DestinationGalleryImages.objects.create(destination_trip=destination, image=image_file)
+
+
+        return destination
 
     def update(self, instance, validated_data):
        
-        departures_data = validated_data.pop('departures', [])
-        images_data = validated_data.pop('images', [])
+        # departures_data = validated_data.pop('departures', [])
+        # Manually parse departures data
+        departures_data = []
+        for key, value in self.context['request'].data.items():
+            if key.startswith('departures'):
+                index = int(key.split('[')[1].split(']')[0])
+                field_name = key.split('[')[2].split(']')[0]
+                while len(departures_data) <= index:
+                    departures_data.append({})
+                if field_name == 'upcoming_departure_status':
+                    value = value.lower() == 'true'  # Convert "true"/"false" strings to boolean
+                departures_data[index][field_name] = value
 
+        
+        # images_data = self.context['request'].FILES.getlist('images', [])
+        images_data = []
+        for key in self.context['request'].FILES:
+            if key.startswith('images['):
+                images_data.append(self.context['request'].FILES[key])
+        
 
-        instance.save()
+        instance = super().update(instance, validated_data) 
+        # instance.save()
 
-            # Process departures using update_or_create
+        # Process departures data inside the loop
         for departure_data in departures_data:
-            departure_id = departure_data.get('id')
-            if departure_id:
-                # Assuming 'id' is a unique identifier for Departure
-                departure, created = Departure.objects.update_or_create(
-                    id=departure_id,
-                    defaults={key: val for key, val in departure_data.items() if key != 'id'}
-                )
-            else:
-                # Create new departure if no ID is provided
-                Departure.objects.create(destination=instance, **departure_data)
-                
+            if departure_data:  # Ensure departure_data is not empty
+                print("Departure", departure_data)  # Debugging statement
+                Departure.objects.create(destination_trip=instance, **departure_data)
+                    
 
         for image_data in images_data:
-            DestinationGalleryImages.objects.create(holiday_trip=instance, **image_data)
+            # DestinationGalleryImages.objects.create(destination_trip=instance, **image_data)
+            DestinationGalleryImages.objects.create(destination_trip=instance, image=image_data)
 
         return instance
 
-# class DestinationSerializer(serializers.ModelSerializer):
-#     images = DestinationGalleryImagesSerializer(many=True, required=False)
-#     departures = DepartureSerializer(many=True, required=False)
-
-#     class Meta:
-#         model = Destination
-#         fields = '__all__'
-
-#     def create(self, validated_data):
-#         departures_data = validated_data.pop('departures', [])
-#         images_data = validated_data.pop('images', [])
-#         holiday_trip = Destination.objects.create(**validated_data)
-
-#         for departure_data in departures_data:
-#             Departure.objects.create(holiday_trip=holiday_trip, **departure_data)
-
-#         for image_data in images_data:
-#             DestinationGalleryImages.objects.create(holiday_trip=holiday_trip, **image_data)
-
-#         return holiday_trip
-
-#     def update(self, instance, validated_data):
-#         departures_data = validated_data.pop('departures', [])
-#         images_data = validated_data.pop('images', [])
-
-#         instance.title = validated_data.get('title', instance.title)
-#         instance.description = validated_data.get('description', instance.description)
-#         # Update other fields similarly
-#         instance.save()
-
-#         # Update Departures
-#         instance.departures.all().delete()  # Clear existing departures
-#         for departure_data in departures_data:
-#             Departure.objects.create(holiday_trip=instance, **departure_data)
-
-#         # Update Images
-#         instance.images.all().delete()  # Clear existing images
-#         for image_data in images_data:
-#             DestinationGalleryImages.objects.create(holiday_trip=instance, **image_data)
-
-#         return instance
