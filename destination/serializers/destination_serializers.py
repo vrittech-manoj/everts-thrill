@@ -167,18 +167,12 @@ class DestinationWriteSerializers(serializers.ModelSerializer):
                 
         print("Parsed Departures Data:", departures_data)
 
-
-
-
-
         # for departure_data in departures_data:
         #     Departure.objects.create(destination_trip=destination, **departure_data)
 
      # Handle image uploads
         for image_file in images_data:
             DestinationGalleryImages.objects.create(destination_trip=destination, image=image_file)
-
-
         return destination
 
     def update(self, instance, validated_data):
@@ -196,14 +190,12 @@ class DestinationWriteSerializers(serializers.ModelSerializer):
                     value = value.lower() == 'true'  # Convert "true"/"false" strings to boolean
                 departures_data[index][field_name] = value
 
-        
         # images_data = self.context['request'].FILES.getlist('images', [])
         images_data = []
         for key in self.context['request'].FILES:
             if key.startswith('images['):
                 images_data.append(self.context['request'].FILES[key])
         
-
         instance = super().update(instance, validated_data) 
         # instance.save()
 
