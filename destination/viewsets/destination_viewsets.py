@@ -20,13 +20,13 @@ class DestinationViewsets(viewsets.ModelViewSet):
     queryset = Destination.objects.all()
 
     filter_backends = [SearchFilter, DjangoFilterBackend, OrderingFilter]
-    search_fields = ['title']
+    search_fields = ['destination_title']
     ordering_fields = ['title', 'id']
     filterset_fields = {
         'destination_title': ['exact', 'icontains'],
         'nature_of_trip': ['exact', 'icontains'],
     }
-
+    lookup_field = "slug" 
     def get_serializer_class(self):
         if self.action in ['create', 'update', 'partial_update']:
             return DestinationWriteSerializers
