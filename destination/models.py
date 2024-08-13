@@ -31,7 +31,7 @@ class Destination(models.Model):
     price = models.FloatField(null=True, blank=True)
     price_type= models.CharField(max_length=3, default='NPR')  
     is_price = models.BooleanField(default=False)
-    featured_image = models.ImageField(upload_to="destination/featured/images/", null=True, blank=True)
+    featured_image = models.ImageField(upload_to="destination/featured/images/")
     overview = models.CharField(max_length=5000, null=True, blank=True)
     inclusion_and_exclusion = models.TextField(null=True, default='', blank=True)
     ltinerary = models.TextField()
