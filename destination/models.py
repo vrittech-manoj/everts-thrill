@@ -36,7 +36,7 @@ class Destination(models.Model):
     inclusion_and_exclusion = models.TextField(null=True, default='', blank=True)
     ltinerary = models.TextField()
     trip_map_url = models.URLField(null=True, blank=True)
-    trip_map_image = models.ImageField(upload_to="destination/trip-map/images/", null=True, blank=True)
+    trip_map_image = models.ImageField(upload_to="destination/trip-map/images/")
     gear_and_equipment = models.TextField(null=True, default='', blank=True)
     useful_information = models.TextField(null=True, default='', blank=True)
     
