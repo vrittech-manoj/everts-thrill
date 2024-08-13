@@ -3,7 +3,7 @@ from django.db import models
 # from destination.models import Destination
 
 class Departure(models.Model):
-    destination = models.ForeignKey('destination.Destination',related_name = 'destination_departures', on_delete  = models.CASCADE)
+    destination_trip = models.ForeignKey('destination.Destination',related_name = 'destination_departures', on_delete  = models.CASCADE)
     upcoming_departure_date = models.DateTimeField( null=True, blank=True)
     upcoming_departure_status = models.BooleanField(default=False, null=True, blank=True)
     upcoming_departure_price = models.PositiveIntegerField(default=0, null=True, blank=True)

@@ -62,7 +62,7 @@ class Destination(models.Model):
 
     def save(self, *args, **kwargs):
         if not self.slug:
-            self.slug = slugify(self.title) + '-' + str(self.public_id)[1:5] + str(self.public_id)[-1:-5]
+            self.slug = slugify(self.destination_title) + '-' + str(self.public_id)[1:5] + str(self.public_id)[-1:-5]
         super().save(*args, **kwargs)
 
 
