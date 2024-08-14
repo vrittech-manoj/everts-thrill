@@ -36,9 +36,9 @@ class DepartureSerializer(serializers.ModelSerializer):
         fields = '__all__'
 
 class DestinationlistUserSerializers(serializers.ModelSerializer):
-    galleryimages = DestinationGalleryImagesSerializer(many=True, read_only=True)
-    destination_departures = DepartureSerializer(many=True, read_only=True)
-    packages= PackageSerializers(many = True, read_only = True)
+    # galleryimages = DestinationGalleryImagesSerializer(many=True, read_only=True)
+    # destination_departures = DepartureSerializer(many=True, read_only=True)
+    # packages= PackageSerializers(many = True, read_only = True)
 
     class Meta:
         model = Destination
@@ -66,8 +66,6 @@ class DestinationlistUserSerializers(serializers.ModelSerializer):
             'nature_of_trip',
             'accommodation',
             'group_size',
-            'images',  # Including the images
-            'departures'
         ]
 
 class DestinationlistAdminSerializers(serializers.ModelSerializer):
@@ -101,8 +99,6 @@ class DestinationlistAdminSerializers(serializers.ModelSerializer):
             'nature_of_trip',
             'accommodation',
             'group_size',
-            'images',  # Including the images
-            'departures'
         ]
 
 class DestinationRetrieveUserSerializers(serializers.ModelSerializer):
@@ -115,7 +111,7 @@ class DestinationRetrieveUserSerializers(serializers.ModelSerializer):
         fields = '__all__'
 
 class DestinationRetrieveAdminSerializers(serializers.ModelSerializer):
-    images = DestinationGalleryImagesSerializer(many=True, read_only=True)
+    galleryimages = DestinationGalleryImagesSerializer(many=True, read_only=True)
     destination_departures = DepartureSerializer(many=True, read_only=True)
     packages= PackageSerializers(many = True, read_only = True)
 

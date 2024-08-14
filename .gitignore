@@ -1,9 +1,10 @@
-# champadevi/settingss.py
-# git rm --cached champadevi/.env
-# git add -f champadevi/.env   git commit -m "Re-add settings.py to be tracked by Git"
+# everts-thrill/settingss.py
+# git rm --cached everts-thrill/.env
+# git add -f everts-thrill/.env   git commit -m "Re-add settings.py to be tracked by Git"
 
 media/
 __pycache__/
 venv/
 drfapigenerator/
+.vscode/
 
