@@ -4,12 +4,10 @@ from destination.serializers.package_serializers import PackageRetrieveSerialize
 import ast
 
 def str_to_list(data,value_to_convert):
-    print("1")
     try:
         mutable_data = data.dict()
     except:
         mutable_data = data
-    print(value_to_convert)
     value_to_convert_data = mutable_data[value_to_convert]
     if isinstance(value_to_convert_data,list):# type(value_to_convert_data) == list:
         
@@ -30,7 +28,7 @@ class DestinationGalleryImagesSerializer(serializers.ModelSerializer):
 class DepartureSerializer(serializers.ModelSerializer):
     class Meta:
         model = Departure
-        fields = ['id', 'upcoming_departure_date', 'upcoming_departure_status', 'upcoming_departure_price']
+        fields = '__all__'
 
 class DestinationlistUserSerializers(serializers.ModelSerializer):
     images = DestinationGalleryImagesSerializer(many=True, read_only=True)
@@ -119,8 +117,8 @@ class DestinationRetrieveAdminSerializers(serializers.ModelSerializer):
         fields = '__all__'
 
 class DestinationWriteSerializers(serializers.ModelSerializer):
-    images = DestinationGalleryImagesSerializer(many=True, required=False)
-    departures = DepartureSerializer(many=True, required=False)
+    galleryimages = DestinationGalleryImagesSerializer(many=True,read_only = True)
+    destination_departures = DepartureSerializer(many=True, read_only = True)
     
     def to_internal_value(self, data):
         if data.get('packages'):
@@ -135,41 +133,32 @@ class DestinationWriteSerializers(serializers.ModelSerializer):
 
     def create(self, validated_data):
         packages_data = validated_data.pop('packages', [])
-        # departures_data = validated_data.pop('departures', [])
-        # Manually parse departures data
-        departures_data = []
-        for key, value in self.context['request'].data.items():
-            if key.startswith('departures'):
-                index = int(key.split('[')[1].split(']')[0])
-                field_name = key.split('[')[2].split(']')[0]
-                while len(departures_data) <= index:
-                    departures_data.append({})
-                if field_name == 'upcoming_departure_status':
-                    value = value.lower() == 'true'  # Convert "true"/"false" strings to boolean
-                departures_data[index][field_name] = value
-        # images_data = self.context['request'].FILES.getlist('images', [])
-         # Collect all image files with keys like 'images[0]', 'images[1]', etc.
+
+        departures_data = self.context.get('request').data.get('departures')
+        import json
+        departures_data =  json.loads(departures_data)
+       
+
         images_data = []
         for key in self.context['request'].FILES:
             if key.startswith('images['):
                 images_data.append(self.context['request'].FILES[key])
 
+        print("creating destinction")
         destination = Destination.objects.create(**validated_data)
+        departures_data = [ {'destination_trip':destination.id,**departure} for departure in departures_data]
+        print(departures_data)
+        departure_serializers = DepartureSerializer(data=departures_data,many=True)
+        if departure_serializers.is_valid(raise_exception=True):
+            print(departure_serializers.data)
+            departure_serializers.save()
+        else:
+            print("this  is not valid ")
         
         if packages_data:
             destination.packages.set(packages_data)
         
-        # Process departures data inside the loop
-        for departure_data in departures_data:
-            if departure_data:  # Ensure departure_data is not empty
-                print("Departure", departure_data)  # Debugging statement
-                Departure.objects.create(destination_trip=destination, **departure_data)                                                        
-                
-        print("Parsed Departures Data:", departures_data)
-
-        # for departure_data in departures_data:
-        #     Departure.objects.create(destination_trip=destination, **departure_data)
-
+      
      # Handle image uploads
         for image_file in images_data:
             DestinationGalleryImages.objects.create(destination_trip=destination, image=image_file)
@@ -178,36 +167,15 @@ class DestinationWriteSerializers(serializers.ModelSerializer):
     def update(self, instance, validated_data):
        
         # departures_data = validated_data.pop('departures', [])
-        # Manually parse departures data
-        departures_data = []
-        for key, value in self.context['request'].data.items():
-            if key.startswith('departures'):
-                index = int(key.split('[')[1].split(']')[0])
-                field_name = key.split('[')[2].split(']')[0]
-                while len(departures_data) <= index:
-                    departures_data.append({})
-                if field_name == 'upcoming_departure_status':
-                    value = value.lower() == 'true'  # Convert "true"/"false" strings to boolean
-                departures_data[index][field_name] = value
 
-        # images_data = self.context['request'].FILES.getlist('images', [])
         images_data = []
         for key in self.context['request'].FILES:
             if key.startswith('images['):
                 images_data.append(self.context['request'].FILES[key])
         
         instance = super().update(instance, validated_data) 
-        # instance.save()
-
-        # Process departures data inside the loop
-        for departure_data in departures_data:
-            if departure_data:  # Ensure departure_data is not empty
-                print("Departure", departure_data)  # Debugging statement
-                Departure.objects.create(destination_trip=instance, **departure_data)
-                    
 
         for image_data in images_data:
-            # DestinationGalleryImages.objects.create(destination_trip=instance, **image_data)
             DestinationGalleryImages.objects.create(destination_trip=instance, image=image_data)
 
         return instance

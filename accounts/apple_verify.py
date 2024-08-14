@@ -12,7 +12,6 @@ def VerifyAppleToken(token):
         user_data = jwt.decode(token, options={"verify_signature": False})
         user_data["sub"]
     except Exception as e:
-        print(e)
         raise serializers.ValidationError(
             "The token is invalid or expired. Please login again."
         )

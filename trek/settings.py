@@ -69,7 +69,6 @@ INSTALLED_APPS = [
     'setupemail',
     'collection',
     'activities',
-    'destination_list',
     'faqs',
     'departure',
     'company',
