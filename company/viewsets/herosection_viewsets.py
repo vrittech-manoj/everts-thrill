@@ -9,7 +9,7 @@ class herosectionViewsets(viewsets.ModelViewSet):
     serializer_class = HeroSectionListSerializers
     permission_classes = [companyPermission]
     authentication_classes = [JWTAuthentication]
-    # pagination_class = MyPageNumberPagination
+    pagination_class = MyPageNumberPagination
     queryset = HeroSection.objects.all()
 
     filter_backends = [SearchFilter, DjangoFilterBackend, OrderingFilter]

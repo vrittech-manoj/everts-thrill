@@ -29,7 +29,7 @@ class LegalDocuments(models.Model):
 
 class HeroSection(models.Model):
     position = models.CharField(max_length = 23,choices = (('top','Top'),('middle','Middle'),('bottom','Bottom')))
-    video = models.FileField(upload_to='company/hero_section_videos', blank=True, null=True)
+    video = models.FileField(upload_to='hero_section_videos', blank=True, null=True)
     video_link = models.URLField(blank=True, null=True)
 
     def __str__(self):
