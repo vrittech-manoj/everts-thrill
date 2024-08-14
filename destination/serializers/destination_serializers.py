@@ -69,8 +69,8 @@ class DestinationlistUserSerializers(serializers.ModelSerializer):
         ]
 
 class DestinationlistAdminSerializers(serializers.ModelSerializer):
-    galleryimages = DestinationGalleryImagesSerializer(many=True, read_only=True)
-    destination_departures = DepartureSerializer(many=True, read_only=True)
+    # galleryimages = DestinationGalleryImagesSerializer(many=True, read_only=True)
+    # destination_departures = DepartureSerializer(many=True, read_only=True)
     packages= PackageSerializers(many = True, read_only = True)
 
     class Meta:
