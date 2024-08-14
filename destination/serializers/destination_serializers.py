@@ -2,6 +2,8 @@ from rest_framework import serializers
 from ..models import Destination, DestinationGalleryImages, Departure, Package
 from destination.serializers.package_serializers import PackageRetrieveSerializers
 import ast
+from django.db import transaction
+
 
 def str_to_list(data,value_to_convert):
     try:
@@ -36,41 +38,8 @@ class DepartureSerializer(serializers.ModelSerializer):
         fields = '__all__'
 
 class DestinationlistUserSerializers(serializers.ModelSerializer):
-    # galleryimages = DestinationGalleryImagesSerializer(many=True, read_only=True)
-    # destination_departures = DepartureSerializer(many=True, read_only=True)
-    # packages= PackageSerializers(many = True, read_only = True)
-
-    class Meta:
-        model = Destination
-        fields = [
-            'public_id',
-            'slug',
-            'destination_title',
-            'packages',  # Including the package names
-            'price',
-            'price_type',
-            'is_price',
-            'featured_image',
-            'overview',
-            'inclusion_and_exclusion',
-            'ltinerary',
-            'trip_map_url',
-            'trip_map_image',
-            'gear_and_equipment',
-            'useful_information',
-            'duration',
-            'trip_grade',
-            'best_season',
-            'max_altitude',
-            'meals',
-            'nature_of_trip',
-            'accommodation',
-            'group_size',
-        ]
-
-class DestinationlistAdminSerializers(serializers.ModelSerializer):
-    # galleryimages = DestinationGalleryImagesSerializer(many=True, read_only=True)
-    # destination_departures = DepartureSerializer(many=True, read_only=True)
+    galleryimages = DestinationGalleryImagesSerializer(many=True, read_only=True)
+    destination_departures = DepartureSerializer(many=True, read_only=True)
     packages= PackageSerializers(many = True, read_only = True)
 
     class Meta:
@@ -99,6 +68,44 @@ class DestinationlistAdminSerializers(serializers.ModelSerializer):
             'nature_of_trip',
             'accommodation',
             'group_size',
+            'galleryimages',
+            'destination_departures',
+            
+        ]
+
+class DestinationlistAdminSerializers(serializers.ModelSerializer):
+    galleryimages = DestinationGalleryImagesSerializer(many=True, read_only=True)
+    destination_departures = DepartureSerializer(many=True, read_only=True)
+    packages= PackageSerializers(many = True, read_only = True)
+
+    class Meta:
+        model = Destination
+        fields = [
+            'public_id',
+            'slug',
+            'destination_title',
+            'packages',  # Including the package names
+            'price',
+            'price_type',
+            'is_price',
+            'featured_image',
+            'overview',
+            'inclusion_and_exclusion',
+            'ltinerary',
+            'trip_map_url',
+            'trip_map_image',
+            'gear_and_equipment',
+            'useful_information',
+            'duration',
+            'trip_grade',
+            'best_season',
+            'max_altitude',
+            'meals',
+            'nature_of_trip',
+            'accommodation',
+            'group_size',
+            'galleryimages',
+            'destination_departures',
         ]
 
 class DestinationRetrieveUserSerializers(serializers.ModelSerializer):
@@ -134,7 +141,7 @@ class DestinationWriteSerializers(serializers.ModelSerializer):
         model = Destination
         fields = '__all__'
         # exclude = ['packages']
-
+    @transaction.atomic
     def create(self, validated_data):
         packages_data = validated_data.pop('packages', [])
 
@@ -165,7 +172,7 @@ class DestinationWriteSerializers(serializers.ModelSerializer):
         for image_file in images_data:
             DestinationGalleryImages.objects.create(destination_trip=destination, image=image_file)
         return destination
-    
+@transaction.atomic    
 def update(self, instance, validated_data):
     # Parse departures data from request
     departures_data = self.context.get('request').data.get('departures')
@@ -210,26 +217,12 @@ def update(self, instance, validated_data):
 
     # Handling Images
     if images_data:
-        # Collect all sent image ids if they are part of the update
-        sent_image_ids = set()
-        for image_data in images_data:
-            # If updating existing images, ensure IDs are being captured
-            sent_image_ids.add(image_data.name.split('[')[1].split(']')[0])
+        with transaction.atomic():
+            # Delete all existing images related to this destination_trip
+            DestinationGalleryImages.objects.filter(destination_trip=instance).delete()
 
-        # Delete images that are not in the sent images data
-        DestinationGalleryImages.objects.filter(destination_trip=instance).exclude(id__in=sent_image_ids).delete()
-
-        # Add or update images
-        for image_data in images_data:
-            # Check if the image already exists, if yes, update it
-            existing_image_id = image_data.name.split('[')[1].split(']')[0]
-            if existing_image_id:
-                existing_image = DestinationGalleryImages.objects.get(id=existing_image_id, destination_trip=instance)
-                existing_image.image = image_data
-                existing_image.save()
-            else:
-                # Otherwise, create a new image entry
-                DestinationGalleryImages.objects.create(destination_trip=instance, image=image_data)
+            # Add the new images
+            DestinationGalleryImages.objects.bulk_create([DestinationGalleryImages(destination_trip=instance, image=image) for image in images_data])
     else:
         # If no image data is sent, delete all existing images related to this destination_trip
         DestinationGalleryImages.objects.filter(destination_trip=instance).delete()

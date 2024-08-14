@@ -1,5 +1,7 @@
 from rest_framework import serializers
 from ..models import Package
+from django.db import transaction
+
 
 class PackageListSerializers(serializers.ModelSerializer):
     class Meta:
@@ -15,21 +17,18 @@ class PackageWriteSerializers(serializers.ModelSerializer):
     class Meta:
         model = Package
         fields = '__all__'
-
-    def update(self, instance, validated_data):
-        # Get the data from the request
-        request_data = self.context['request'].data
-
-        # Update the instance fields with the validated data
-        for field in self.Meta.fields:
-            if field in validated_data:
-                setattr(instance, field, validated_data[field])
-            elif field in ['image']:
-                # If 'image' is not in the request data, delete it from the instance
-                if field not in request_data:
-                    setattr(instance, field, None)
-
-        # Save the updated instance
+    @transaction.atomic
+    def create(self, validated_data):
+        # Create a new instance with the validated data
+        instance = Package(**validated_data)
         instance.save()
-
+        return instance
+    @transaction.atomic
+    def update(self, instance, validated_data):
+        for field, value in validated_data.items():
+            setattr(instance, field, value)
+        if 'image' not in self.context['request'].data:
+            instance.image = None
+        instance.save()
+    
         return instance
