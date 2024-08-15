@@ -8,6 +8,7 @@ from ..serializers.destination_serializers import (
     DestinationWriteSerializers
 )
 from ..utilities.importbase import *
+from ..utilities.permissions import destinationPermission
 from accounts import roles
 from rest_framework_simplejwt.authentication import JWTAuthentication
 from django_filters.rest_framework import DjangoFilterBackend

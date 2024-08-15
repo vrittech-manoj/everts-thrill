@@ -1,6 +1,8 @@
 from ..models import DestinationReview
 from ..serializers.destination_review_serializers import DestinationReviewReadSerializers,DestinationReviewWriteSerializers
 from ..utilities.importbase import *
+from ..utilities.permission import destinationPermission
+
 
 class DestinationReviewViewsets(viewsets.ModelViewSet):
     serializer_class = DestinationReviewReadSerializers

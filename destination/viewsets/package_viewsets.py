@@ -3,6 +3,8 @@ from ..serializers.destination_type_serializers import PackageReadSerializers,Pa
 from ..utilities.importbase import *
 from rest_framework.permissions import IsAuthenticated
 from accounts import roles
+from ..utilities.permission import destinationPermission
+
 
 class PackageViewsets(viewsets.ModelViewSet):
     serializer_class = PackageReadSerializers
