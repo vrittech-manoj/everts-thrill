@@ -45,12 +45,12 @@ class bookingPermission(BasePermission):
         if view.action in ["list"]:
             return True
         elif view.action in ['retrieve']:
-            return isOwner(request)
+            return AdminLevel(request)
         elif view.action in ['create','update']:
-            return isOwner(request) #second level
+            return AdminLevel(request) #second level
             return ObjectBOwner(request) #third level
         elif view.action == "partial_update":
-            return view.get_object().user_id == request.user.id
+            return AdminLevel(request)
         elif view.action == 'destroy':
-            return isOwner(request)
+            return AdminLevel(request)
 
