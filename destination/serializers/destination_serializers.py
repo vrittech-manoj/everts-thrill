@@ -214,17 +214,8 @@ def update(self, instance, validated_data):
             else:
                 # Create a new departure if the departure does not exist
                 Departure.objects.create(destination_trip=instance, **departure_data)
-
-    # Handling Images
-    if images_data:
-        with transaction.atomic():
-            # Delete all existing images related to this destination_trip
-            DestinationGalleryImages.objects.filter(destination_trip=instance).delete()
-
-            # Add the new images
-            DestinationGalleryImages.objects.bulk_create([DestinationGalleryImages(destination_trip=instance, image=image) for image in images_data])
-    else:
-        # If no image data is sent, delete all existing images related to this destination_trip
-        DestinationGalleryImages.objects.filter(destination_trip=instance).delete()
+    
+    for image_file in images_data:
+        DestinationGalleryImages.objects.create(destination_trip=instance, image=image_file)
 
     return instance
