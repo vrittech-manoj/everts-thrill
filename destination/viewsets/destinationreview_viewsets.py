@@ -4,7 +4,7 @@ from ..utilities.importbase import *
 
 class DestinationReviewViewsets(viewsets.ModelViewSet):
     serializer_class = DestinationReviewReadSerializers
-    permission_classes = [AdminViewSetsPermission]
+    permission_classes = [destinationPermission]
     authentication_classes = [JWTAuthentication]
     pagination_class = MyPageNumberPagination
     queryset  = DestinationReview.objects.all()

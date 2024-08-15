@@ -6,7 +6,7 @@ from accounts import roles
 
 class PackageViewsets(viewsets.ModelViewSet):
     serializer_class = PackageReadSerializers
-    permission_classes = [AdminViewSetsPermission]
+    permission_classes = [destinationPermission]
     authentication_classes = [JWTAuthentication]
     pagination_class = MyPageNumberPagination
     queryset  = Package.objects.all().order_by("-id")

@@ -15,7 +15,7 @@ from rest_framework.filters import SearchFilter, OrderingFilter
 
 class DestinationViewsets(viewsets.ModelViewSet):
     authentication_classes = [JWTAuthentication]
-    permission_classes = [AdminViewSetsPermission]
+    permission_classes = [destinationPermission]
     pagination_class = MyPageNumberPagination
     queryset = Destination.objects.all()
 
