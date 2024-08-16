@@ -4,7 +4,6 @@ from django.db import models
 # Create your models here.
 class Collection(models.Model):
     name = models.CharField(max_length=255)
-    featured_image = models.ImageField(upload_to='activity_images/',null = True,blank = True)
     destination_collection = models.ManyToManyField('destination.Destination')
     
     def __str__(self):
