@@ -7,7 +7,7 @@ from ..utilities.importbase import *
 
 class activityViewsets(viewsets.ModelViewSet):
     serializer_class = ActivityListSerializers
-    permission_classes = [activitiesPermission]
+    # permission_classes = [activitiesPermission]
     authentication_classes = [JWTAuthentication]
     pagination_class = MyPageNumberPagination
     queryset = Activity.objects.all()
