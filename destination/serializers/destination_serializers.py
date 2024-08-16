@@ -45,7 +45,7 @@ class DestinationlistUserSerializers(serializers.ModelSerializer):
     class Meta:
         model = Destination
         fields = [
-            'public_id',
+            'id',
             'slug',
             'destination_title',
             'packages',  # Including the package names
@@ -81,7 +81,7 @@ class DestinationlistAdminSerializers(serializers.ModelSerializer):
     class Meta:
         model = Destination
         fields = [
-            'public_id',
+            'id',
             'slug',
             'destination_title',
             'packages',  # Including the package names
