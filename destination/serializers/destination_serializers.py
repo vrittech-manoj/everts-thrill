@@ -172,50 +172,50 @@ class DestinationWriteSerializers(serializers.ModelSerializer):
         for image_file in images_data:
             DestinationGalleryImages.objects.create(destination_trip=destination, image=image_file)
         return destination
-@transaction.atomic    
-def update(self, instance, validated_data):
-    # Parse departures data from request
-    departures_data = self.context.get('request').data.get('departures')
-    import json
-    if departures_data:
-        departures_data = json.loads(departures_data)
+    @transaction.atomic    
+    def update(self, instance, validated_data):
+        # Parse departures data from request
+        departures_data = self.context.get('request').data.get('departures')
+        import json
+        if departures_data:
+            departures_data = json.loads(departures_data)
 
-    # Parse images data from request
-    images_data = []
-    for key in self.context['request'].FILES:
-        if key.startswith('images['):
-            images_data.append(self.context['request'].FILES[key])
+        # Parse images data from request
+        images_data = []
+        for key in self.context['request'].FILES:
+            if key.startswith('images['):
+                images_data.append(self.context['request'].FILES[key])
 
-    # Call the parent's update method to update the instance
-    instance = super().update(instance, validated_data)
+        # Call the parent's update method to update the instance
+        instance = super().update(instance, validated_data)
 
-    # Handling Departures
-    if departures_data:
-        # Get existing departure IDs from the database
-        existing_departures = Departure.objects.filter(destination_trip=instance)
-        existing_departure_ids = set(existing_departures.values_list('id', flat=True))
+        # Handling Departures
+        if departures_data:
+            # Get existing departure IDs from the database
+            existing_departures = Departure.objects.filter(destination_trip=instance)
+            existing_departure_ids = set(existing_departures.values_list('id', flat=True))
 
-        # Extract the provided departure IDs from the request data
-        provided_departure_ids = set([departure.get('id') for departure in departures_data if departure.get('id')])
+            # Extract the provided departure IDs from the request data
+            provided_departure_ids = set([departure.get('id') for departure in departures_data if departure.get('id')])
 
-        # Delete departures that are not in the provided data
-        departures_to_delete = existing_departure_ids - provided_departure_ids
-        Departure.objects.filter(id__in=departures_to_delete).delete()
+            # Delete departures that are not in the provided data
+            departures_to_delete = existing_departure_ids - provided_departure_ids
+            Departure.objects.filter(id__in=departures_to_delete).delete()
 
-        # Update or create departures
-        for departure_data in departures_data:
-            departure_id = departure_data.pop('id', None)
-            if departure_id:
-                # Update the existing departure
-                departure_instance = Departure.objects.get(id=departure_id, destination_trip=instance)
-                for key, value in departure_data.items():
-                    setattr(departure_instance, key, value)
-                departure_instance.save()
-            else:
-                # Create a new departure if the departure does not exist
-                Departure.objects.create(destination_trip=instance, **departure_data)
-    
-    for image_file in images_data:
-        DestinationGalleryImages.objects.create(destination_trip=instance, image=image_file)
+            # Update or create departures
+            for departure_data in departures_data:
+                departure_id = departure_data.pop('id', None)
+                if departure_id:
+                    # Update the existing departure
+                    departure_instance = Departure.objects.get(id=departure_id, destination_trip=instance)
+                    for key, value in departure_data.items():
+                        setattr(departure_instance, key, value)
+                    departure_instance.save()
+                else:
+                    # Create a new departure if the departure does not exist
+                    Departure.objects.create(destination_trip=instance, **departure_data)
+        
+        for image_file in images_data:
+            DestinationGalleryImages.objects.create(destination_trip=instance, image=image_file)
 
-    return instance
+        return instance
