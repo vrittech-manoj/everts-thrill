@@ -23,6 +23,7 @@ def str_to_list(data,value_to_convert):
 class DestinationSerializers(serializers.ModelSerializer):
     class Meta:
         model = Destination
+        ref_name = "collection"
         fields = '__all__'
 class CollectionListSerializers(serializers.ModelSerializer):
     destination_collection = DestinationSerializers(many = True, read_only = True)
