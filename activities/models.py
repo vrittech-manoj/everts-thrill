@@ -6,7 +6,7 @@ from django.db import models
 # Create your models here.
 class Activity(models.Model):
     name = models.CharField(max_length=255)
-    image = models.ImageField(upload_to='activity_images/')
+    image = models.ImageField(upload_to='activity_images/',null = True)
     destinations_activities = models.ManyToManyField('destination.Destination')
 
     def __str__(self):

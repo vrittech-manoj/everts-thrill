@@ -21,7 +21,7 @@ class ActivityRetrieveSerializers(serializers.ModelSerializer):
         fields = '__all__'
 
 class ActivityWriteSerializers(serializers.ModelSerializer):
-    destinations_activities = DestinationSerializers(many = True, read_only = True)
+    destinations_activities = DestinationSerializers(many = True)
     class Meta:
         model = Activity
         fields = '__all__'

@@ -21,7 +21,7 @@ class CollectionRetrieveSerializers(serializers.ModelSerializer):
         fields = '__all__'
 
 class CollectionWriteSerializers(serializers.ModelSerializer):
-    destination_collection = DestinationSerializers(many = True, read_only = True)
+    destination_collection = DestinationSerializers(many = True)
     class Meta:
         model = Collection
         fields = '__all__'
