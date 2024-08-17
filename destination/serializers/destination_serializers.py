@@ -127,9 +127,9 @@ class DestinationRetrieveAdminSerializers(serializers.ModelSerializer):
         fields = '__all__'
         
 class DestinationWriteSerializers(serializers.ModelSerializer):
-    galleryimages = DestinationGalleryImagesSerializer(many=True,read_only = True)
-    destination_departures = DepartureSerializer(many=True, read_only = True)
-    packages= PackageSerializers(many = True, read_only = True)
+    galleryimages = DestinationGalleryImagesSerializer(many=True)
+    destination_departures = DepartureSerializer(many=True)
+    packages= PackageSerializers(many = True)
     
     def to_internal_value(self, data):
         if data.get('packages'):
