@@ -133,9 +133,11 @@ class DestinationWriteSerializers(serializers.ModelSerializer):
     
     def to_internal_value(self, data):
         if data.get('packages'):
-            data = str_to_list(data,'packages')
-            return super().to_internal_value(data)
+            data = str_to_list(data, 'packages')
+            if not isinstance(data['packages'], list):
+                raise serializers.ValidationError({'packages': 'Expected a list of dictionaries.'})
         return super().to_internal_value(data)
+
 
     class Meta:
         model = Destination
