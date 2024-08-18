@@ -31,7 +31,7 @@ class visainformationViewsets(viewsets.ModelViewSet):
             return VisaInformationRetrieveSerializers
         return super().get_serializer_class()
 
-    @action(detail=False, methods=['post'], name="create-update", url_path="url_path")
+    @action(detail=False, methods=['post'], name="create-update", url_path="create-update-visa-information")
     def action_name(self, request, *args, **kwargs):
         description = request.data.get('description', None)
         
@@ -50,3 +50,26 @@ class visainformationViewsets(viewsets.ModelViewSet):
             # Create new visa information
             new_visa_information = VisaInformation.objects.create(description=description)
             return Response({"message": "Visa information created successfully.", "id": new_visa_information.id}, status=status.HTTP_201_CREATED)
+    
+    @action(detail=True, methods=['get', 'put'], name="retrieve-update", url_path="detail-visa-information")
+    def retrieve_update_visa_information(self, request, pk=None, *args, **kwargs):
+        try:
+            visa_information = VisaInformation.objects.get(pk=pk)
+        except VisaInformation.DoesNotExist:
+            return Response({"error": "Visa information not found."}, status=status.HTTP_404_NOT_FOUND)
+
+        if request.method == 'GET':
+            # Retrieve the visa information
+            serializer = VisaInformationRetrieveSerializers(visa_information)
+            return Response(serializer.data, status=status.HTTP_200_OK)
+        
+        elif request.method == 'PUT':
+            # Update the visa information
+            description = request.data.get('description', None)
+            
+            if description is None:
+                return Response({"error": "Description is required."}, status=status.HTTP_400_BAD_REQUEST)
+            
+            visa_information.description = description
+            visa_information.save()
+            return Response({"message": "Visa information updated successfully."}, status=status.HTTP_200_OK)

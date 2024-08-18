@@ -35,7 +35,7 @@ class privacypolicyViewsets(viewsets.ModelViewSet):
             return PrivacyPolicyRetrieveSerializers
         return super().get_serializer_class()
 
-    @action(detail=False, methods=['post'], name="create-update", url_path="url_path")
+    @action(detail=False, methods=['post'], name="create-update", url_path="create-privacy-policy")
     def action_name(self, request, *args, **kwargs):
         description = request.data.get('description', None)
         
@@ -54,3 +54,26 @@ class privacypolicyViewsets(viewsets.ModelViewSet):
             # Create a new privacy policy
             new_policy = PrivacyPolicy.objects.create(description=description)
             return Response({"message": "Privacy policy created successfully.", "policy_id": new_policy.id}, status=status.HTTP_201_CREATED)
+        
+    @action(detail=True, methods=['get', 'put'], name="retrieve-update", url_path="detail-privacy-policy")
+    def retrieve_update_policy(self, request, pk=None, *args, **kwargs):
+        try:
+            privacy_policy = PrivacyPolicy.objects.get(pk=pk)
+        except PrivacyPolicy.DoesNotExist:
+            return Response({"error": "Privacy policy not found."}, status=status.HTTP_404_NOT_FOUND)
+
+        if request.method == 'GET':
+            # Retrieve the privacy policy
+            serializer = PrivacyPolicyRetrieveSerializers(privacy_policy)
+            return Response(serializer.data, status=status.HTTP_200_OK)
+        
+        elif request.method == 'PUT':
+            # Update the privacy policy
+            description = request.data.get('description', None)
+            
+            if description is None:
+                return Response({"error": "Description is required."}, status=status.HTTP_400_BAD_REQUEST)
+            
+            privacy_policy.description = description
+            privacy_policy.save()
+            return Response({"message": "Privacy policy updated successfully."}, status=status.HTTP_200_OK)
