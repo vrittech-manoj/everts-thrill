@@ -7,7 +7,16 @@ class BlogViewSets(viewsets.ModelViewSet):
     permission_classes = [AdminViewSetsPermission]
     authentication_classes = [JWTAuthentication]
     pagination_class = MyPageNumberPagination
-    queryset  = Blog.objects.all()
+    queryset  = Blog.objects.all().order_by("title")
+    
+    filter_backends = [SearchFilter, DjangoFilterBackend, OrderingFilter]
+    search_fields = ['title']
+    ordering_fields = ['id','title']
+
+    filterset_fields = {
+        'title': ['exact'],
+    }
+
 
     def get_serializer_class(self):
         if self.action in ['create','update','partial_update']:

@@ -10,7 +10,7 @@ class destinationbookViewsets(viewsets.ModelViewSet):
     permission_classes = [bookingPermission]
     authentication_classes = [JWTAuthentication]
     pagination_class = MyPageNumberPagination
-    queryset = DestinationBook.objects.all()
+    queryset = DestinationBook.objects.all().order_by("-created_date")
 
     filter_backends = [SearchFilter, DjangoFilterBackend, OrderingFilter]
     search_fields = ['user']

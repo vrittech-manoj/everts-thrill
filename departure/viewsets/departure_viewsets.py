@@ -12,14 +12,6 @@ class departureViewsets(viewsets.ModelViewSet):
     pagination_class = MyPageNumberPagination
     queryset = Departure.objects.all()
 
-    filter_backends = [SearchFilter, DjangoFilterBackend, OrderingFilter]
-    search_fields = ['id']
-    ordering_fields = ['id']
-
-    # filterset_fields = {
-    #     'id': ['exact'],
-    # }
-
     def get_queryset(self):
         queryset = super().get_queryset()
         #return queryset.filter(user_id=self.request.user.id)
