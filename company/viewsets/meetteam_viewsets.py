@@ -14,7 +14,7 @@ class meetteamViewsets(viewsets.ModelViewSet):
 
     filter_backends = [SearchFilter, DjangoFilterBackend, OrderingFilter]
     search_fields = ['id','member_name','position']
-    ordering_fields = ['id']
+    ordering_fields = ['id','member_name','position']
 
     filterset_fields = {
         'id': ['exact'],
