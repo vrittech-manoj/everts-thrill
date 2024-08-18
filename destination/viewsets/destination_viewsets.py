@@ -18,11 +18,11 @@ class DestinationViewsets(viewsets.ModelViewSet):
     authentication_classes = [JWTAuthentication]
     permission_classes = [destinationPermission]
     pagination_class = MyPageNumberPagination
-    queryset = Destination.objects.all()
+    queryset = Destination.objects.all().order_by("-destination_title")
 
     filter_backends = [SearchFilter, DjangoFilterBackend, OrderingFilter]
     search_fields = ['destination_title']
-    ordering_fields = ['title', 'id']
+    ordering_fields = ['destination_title', 'id']
     filterset_fields = {
         'destination_title': ['exact', 'icontains'],
         'nature_of_trip': ['exact', 'icontains'],

@@ -13,7 +13,7 @@ class airlinesViewsets(viewsets.ModelViewSet):
     queryset = Airlines.objects.all()
 
     filter_backends = [SearchFilter, DjangoFilterBackend, OrderingFilter]
-    search_fields = ['id','name']
+    search_fields = ['name']
     ordering_fields = ['id','name']
 
     filterset_fields = {

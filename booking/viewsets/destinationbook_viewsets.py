@@ -13,12 +13,19 @@ class destinationbookViewsets(viewsets.ModelViewSet):
     queryset = DestinationBook.objects.all()
 
     filter_backends = [SearchFilter, DjangoFilterBackend, OrderingFilter]
-    search_fields = ['id']
-    ordering_fields = ['id']
+    search_fields = ['user']
+    ordering_fields = ['id','user']
 
-    # filterset_fields = {
-    #     'id': ['exact'],
-    # }
+    filterset_fields = {
+        'id': ['exact'],
+        'user': ['exact'],
+        'country': ['exact', 'icontains'],
+        'service_type': ['exact', 'icontains'],
+        'arrival_date': ['exact'],
+        
+        
+        
+        }
 
     def get_queryset(self):
         queryset = super().get_queryset()

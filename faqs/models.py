@@ -17,7 +17,7 @@ class Faqs(models.Model):
         null=True,
         blank=True
     )
-    created_at = models.DateTimeField(default=timezone.now)  # Provide a default value
+    created_at = models.DateTimeField(default=timezone.now)
     updated_at = models.DateTimeField(auto_now=True)
 
     def __str__(self):

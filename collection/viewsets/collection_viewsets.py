@@ -10,7 +10,7 @@ class collectionViewsets(viewsets.ModelViewSet):
     permission_classes = [collectionPermission]
     authentication_classes = [JWTAuthentication]
     pagination_class = MyPageNumberPagination
-    queryset = Collection.objects.all()
+    queryset = Collection.objects.all().order_by("-name")
 
     filter_backends = [SearchFilter, DjangoFilterBackend, OrderingFilter]
     search_fields = ['id','name']
