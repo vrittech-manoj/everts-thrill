@@ -12,7 +12,7 @@ class QueriesViewsets(viewsets.ModelViewSet):
     queryset  = Queries.objects.all()
     
     filter_backends = [SearchFilter, DjangoFilterBackend, OrderingFilter]
-    search_fields = ['user__name']
+    search_fields = ['user__first_name']
     ordering_fields = ['id','user__name']
 
     filterset_fields = {
