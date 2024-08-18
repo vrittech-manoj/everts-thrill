@@ -25,7 +25,10 @@ def str_to_list(data,value_to_convert):
 class PackageSerializers(serializers.ModelSerializer):
     class Meta:
         model = Package
-        fields = '__all__'
+        fields = [
+            'id',
+            'name',
+            'image',]
     
 class DestinationGalleryImagesSerializer(serializers.ModelSerializer):
     class Meta:
@@ -127,15 +130,13 @@ class DestinationRetrieveAdminSerializers(serializers.ModelSerializer):
         fields = '__all__'
         
 class DestinationWriteSerializers(serializers.ModelSerializer):
-    galleryimages = DestinationGalleryImagesSerializer(many=True)
-    destination_departures = DepartureSerializer(many=True)
-    packages= PackageSerializers(many = True)
+    galleryimages = DestinationGalleryImagesSerializer(many=True, read_only=True)
+    destination_departures = DepartureSerializer(many=True, read_only=True)
     
     def to_internal_value(self, data):
         if data.get('packages'):
-            data = str_to_list(data, 'packages')
-            if not isinstance(data['packages'], list):
-                raise serializers.ValidationError({'packages': 'Expected a list of dictionaries.'})
+            data = str_to_list(data,'packages')
+            return super().to_internal_value(data)
         return super().to_internal_value(data)
 
 
