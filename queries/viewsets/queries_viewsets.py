@@ -13,7 +13,7 @@ class QueriesViewsets(viewsets.ModelViewSet):
     
     filter_backends = [SearchFilter, DjangoFilterBackend, OrderingFilter]
     search_fields = ['user__first_name']
-    ordering_fields = ['id','user__name']
+    ordering_fields = ['id','user__first_name']
 
     filterset_fields = {
         'id': ['exact'],
