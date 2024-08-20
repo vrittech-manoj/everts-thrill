@@ -17,6 +17,7 @@ class QueriesViewsets(viewsets.ModelViewSet):
 
     filterset_fields = {
         'id': ['exact'],
+        'user__first_name':['exact'],
     }
 
     def get_serializer_class(self):

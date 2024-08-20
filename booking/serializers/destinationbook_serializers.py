@@ -8,7 +8,7 @@ from destination.models import Package,Destination
 class BookingUserSerializers(serializers.ModelSerializer):
     class Meta:
         model = CustomUser
-        fields = '__all__'
+        fields = ['full_name','phone','email']
         
 class BookingAirlinesSerializers(serializers.ModelSerializer):
     class Meta:
@@ -18,17 +18,17 @@ class BookingAirlinesSerializers(serializers.ModelSerializer):
 class BookingActivitySerializers(serializers.ModelSerializer):
     class Meta:
         model = Activity
-        fields = '__all__'
+        fields = ['name']
         
 class BookingPackageSerializers(serializers.ModelSerializer):
     class Meta:
         model = Package
-        fields = '__all__'
+        fields = ['name']
         
 class BookingDestinationSerializers(serializers.ModelSerializer):
     class Meta:
         model = Destination
-        fields = '__all__'
+        fields = ['destination_title']
 
 class DestinationBookListSerializers(serializers.ModelSerializer):
     user = BookingUserSerializers(read_only = True)

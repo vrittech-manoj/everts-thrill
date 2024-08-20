@@ -57,6 +57,7 @@ class CustomUser(AbstractUser):
     def __str__(self):
         return self.username + " "+ str(self.getRoleName())
     
+    @property
     def full_name(self):
         try:
             return self.first_name + " " + self.last_name
