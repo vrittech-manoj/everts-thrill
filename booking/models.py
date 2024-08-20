@@ -16,7 +16,7 @@ class DestinationBook(models.Model):
         ('premium','Premium'),
     )
     public_id = models.UUIDField(default=uuid.uuid4,editable=False,unique=True)
-    user = models.ForeignKey(CustomUser,related_name = 'trips', on_delete  = models.CASCADE)
+    user = models.ForeignKey(CustomUser,related_name = 'user_booking', on_delete  = models.CASCADE)
     country = models.CharField(max_length=45)
     airlines = models.ForeignKey(Airlines,related_name = 'airlines_booking', on_delete = models.CASCADE)
     number_of_travellers = models.IntegerField(default = 1) #if group companions then specify numbers
@@ -38,8 +38,8 @@ class DestinationBook(models.Model):
 
 class ServiceBook(models.Model):
     public_id = models.UUIDField(default=uuid.uuid4,editable=False,unique=True)
-    user = models.ForeignKey(CustomUser,related_name = 'service_book', on_delete  = models.CASCADE)
-    services = models.ForeignKey(Services,related_name = 'service_book', on_delete = models.CASCADE)
+    user = models.ForeignKey(CustomUser,related_name = 'service_book_user', on_delete  = models.CASCADE)
+    services = models.ForeignKey(Services,related_name = 'service_book_services', on_delete = models.CASCADE)
 
     is_price = models.BooleanField(default = False)
     price  =  models.PositiveIntegerField(default = 0)
