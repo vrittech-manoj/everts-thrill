@@ -19,7 +19,7 @@ class DestinationBook(models.Model):
     user = models.ForeignKey(CustomUser,related_name = 'user_booking', on_delete  = models.CASCADE)
     country = models.CharField(max_length=45)
     airlines = models.ForeignKey(Airlines,related_name = 'airlines_booking', on_delete = models.CASCADE)
-    number_of_travellers = models.IntegerField(default = 1) #if group companions then specify numbers
+    number_of_travelers = models.IntegerField(default = 1) #if group companions then specify numbers
     activity = models.ForeignKey(Activity,related_name = 'activity_booking', on_delete = models.CASCADE)
     package = models.ForeignKey(Package,related_name = 'package_booking', on_delete = models.CASCADE)
     arrival_date = models.DateTimeField()
