@@ -19,7 +19,6 @@ class QueriesViewsets(viewsets.ModelViewSet):
         'id': ['exact'],
         'user__first_name':['exact'],
     }
-
     def get_serializer_class(self):
         if self.action in ['create','update','partial_update']:
             return QueriesWriteSerializers

@@ -43,6 +43,7 @@ from booking.routers.routers import router as booking_router
 from company.routers.routers import router as company_router
 from review.routers.routers import router as review_router
 from airlines.routers.routers import router as airlines_router
+from trek.utilities.bulk_upload_destination import ImportExcel
 
 from trek.utilities.bulk_delete import BulkDelete
 
@@ -101,6 +102,8 @@ urlpatterns = [
     path('api/',include(booking_router.urls)),
     path('api/',include(review_router.urls)),
     path('api/',include(airlines_router.urls)),
+    
+    path('api/bulk-upload/', ImportExcel.as_view(), name='bulk-upload'),
     
     
 

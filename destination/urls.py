@@ -8,6 +8,6 @@ router.register('destination', destination_viewsets.DestinationViewsets, basenam
 router.register('package', package_viewsets.PackageViewsets, basename="PackageViewsets")
 router.register('package-review', destinationreview_viewsets.DestinationReviewViewsets, basename="DestinationReviewViewsets")
 
-urlpatterns = [    
-    # path('', include(router.urls)),
+urlpatterns = [
+    # path('', include(router.urls)), 
 ]
