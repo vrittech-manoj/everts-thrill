@@ -42,16 +42,16 @@ def isOwner(request):
 
 class companyPermission(BasePermission):
     def has_permission(self, request, view):
-        return True
-        # if view.action in ["list"]:
-        #     return True
-        # elif view.action in ['retrieve']:
-        #     return AdminLevel(request)
-        # elif view.action in ['create','update']:
-        #     return AdminLevel(request) #second level
-        #     return ObjectBOwner(request) #third level
-        # elif view.action == "partial_update":
-        #     return AdminLevel(request)
-        # elif view.action == 'destroy':
-        #     return AdminLevel(request)
+        if view.action in ["list"]:
+            return True
+        elif view.action in ['retrieve']:
+            return True
+        elif view.action in ['create','update']:
+            return AdminLevel(request) #second level
+        elif view.action == "partial_update":
+            return AdminLevel(request)
+        elif view.action == 'destroy':
+            return AdminLevel(request)
+        else:
+            return False
 
