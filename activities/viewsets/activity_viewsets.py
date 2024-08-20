@@ -14,7 +14,8 @@ class activityViewsets(viewsets.ModelViewSet):
 
     filter_backends = [SearchFilter, DjangoFilterBackend, OrderingFilter]
     search_fields = ['id','name']
-    ordering_fields = ['id','name']
+    ordering_fields = ['name']
+    ordering = ['name']  # Default ordering
 
     filterset_fields = {
         'id': ['exact'],
