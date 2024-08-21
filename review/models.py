@@ -16,6 +16,9 @@ class Review(models.Model):
     star_rating = models.PositiveIntegerField(validators=[MaxValueValidator(5)])
     review_description = models.TextField(blank=True,default = '')
     add_image =  models.ImageField(upload_to="review/images",null=True,blank=True)
+    
+    created_date = models.DateTimeField(auto_now_add=True)
+    updated_date = models.DateTimeField(auto_now=True)
 
     def __str__(self):
         return self.site_name

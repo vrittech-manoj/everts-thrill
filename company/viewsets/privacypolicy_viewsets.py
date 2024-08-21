@@ -55,10 +55,15 @@ class privacypolicyViewsets(viewsets.ModelViewSet):
             new_policy = PrivacyPolicy.objects.create(description=description)
             return Response({"message": "Privacy policy created successfully.", "policy_id": new_policy.id}, status=status.HTTP_201_CREATED)
         
-    @action(detail=True, methods=['get', 'put'], name="retrieve-update", url_path="detail-privacy-policy")
-    def retrieve_update_policy(self, request, pk=None, *args, **kwargs):
+    @action(detail=False, methods=['get', 'put'], name="retrieve-update", url_path="detail-privacy-policy")
+    def retrieve_update_policy(self, request, *args, **kwargs):
         try:
-            privacy_policy = PrivacyPolicy.objects.get(pk=pk)
+            # Assuming there's only one privacy policy, get the first one.
+            privacy_policy = PrivacyPolicy.objects.first()
+            
+            if not privacy_policy:
+                return Response({"error": "Privacy policy not found."}, status=status.HTTP_404_NOT_FOUND)
+        
         except PrivacyPolicy.DoesNotExist:
             return Response({"error": "Privacy policy not found."}, status=status.HTTP_404_NOT_FOUND)
 

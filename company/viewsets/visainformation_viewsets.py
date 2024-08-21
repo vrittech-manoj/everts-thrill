@@ -51,10 +51,15 @@ class visainformationViewsets(viewsets.ModelViewSet):
             new_visa_information = VisaInformation.objects.create(description=description)
             return Response({"message": "Visa information created successfully.", "id": new_visa_information.id}, status=status.HTTP_201_CREATED)
     
-    @action(detail=True, methods=['get', 'put'], name="retrieve-update", url_path="detail-visa-information")
-    def retrieve_update_visa_information(self, request, pk=None, *args, **kwargs):
+    @action(detail=False, methods=['get', 'put'], name="retrieve-update", url_path="detail-visa-information")
+    def retrieve_update_visa_information(self, request, *args, **kwargs):
         try:
-            visa_information = VisaInformation.objects.get(pk=pk)
+            # Assuming there's only one visa information, get the first one.
+            visa_information = VisaInformation.objects.first()
+            
+            if not visa_information:
+                return Response({"error": "Visa information not found."}, status=status.HTTP_404_NOT_FOUND)
+        
         except VisaInformation.DoesNotExist:
             return Response({"error": "Visa information not found."}, status=status.HTTP_404_NOT_FOUND)
 

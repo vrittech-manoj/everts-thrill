@@ -10,13 +10,13 @@ class CustomUserReadSerializer(serializers.ModelSerializer):
         exclude = ['password']
         
 class LegalDocumentsListSerializers(serializers.ModelSerializer):
-    user_legal_documents = CustomUserReadSerializer(read_only = True)
+    # user_legal_documents = CustomUserReadSerializer(read_only = True)
     class Meta:
         model = LegalDocuments
         fields = '__all__'
 
 class LegalDocumentsRetrieveSerializers(serializers.ModelSerializer):
-    user_legal_documents = CustomUserReadSerializer(read_only = True)
+    # user_legal_documents = CustomUserReadSerializer(read_only = True)
     class Meta:
         model = LegalDocuments
         fields = '__all__'

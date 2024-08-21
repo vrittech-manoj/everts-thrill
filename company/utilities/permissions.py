@@ -53,5 +53,5 @@ class companyPermission(BasePermission):
         elif view.action == 'destroy':
             return AdminLevel(request)
         else:
-            return False
+            return True
 

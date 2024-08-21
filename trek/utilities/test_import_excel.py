@@ -1,80 +1,63 @@
-# import pandas as pd
+import pandas as pd
+import json
 
-# # Create sample data for the destination Excel file
-# destination_data = {
-#     "Destination Title": ["Everest Base Camp", "Annapurna Circuit", "Langtang Valley", "Manaslu Circuit"],
-#     "Price": [1500, 1200, 1000, 1300],
-#     "Price Type": ["USD", "USD", "USD", "USD"],
-#     "Is Price": [True, True, True, True],
-#     "Overview": [
-#         "A trek to the base camp of the world's highest mountain, Mount Everest.",
-#         "A trek around the Annapurna massif, crossing the Thorong La pass.",
-#         "A beautiful trek in the Langtang region, offering stunning views of the valley and surrounding peaks.",
-#         "A challenging trek around Manaslu, the eighth highest mountain in the world."
-#     ],
-#     "Inclusion and Exclusion": [
-#         "Includes guide, porter, permits; excludes personal expenses, travel insurance.",
-#         "Includes meals, accommodation, guide; excludes international flights.",
-#         "Includes transportation, meals, permits; excludes tips, personal gear.",
-#         "Includes full-board accommodation, guide; excludes visa fees, insurance."
-#     ],
-#     "Itinerary": [
-#         "Day 1: Arrival in Kathmandu\nDay 2: Flight to Lukla and trek to Phakding\nDay 3: Trek to Namche Bazaar",
-#         "Day 1: Arrival in Kathmandu\nDay 2: Drive to Besishahar and trek to Chame\nDay 3: Trek to Pisang",
-#         "Day 1: Arrival in Kathmandu\nDay 2: Drive to Syabrubesi\nDay 3: Trek to Lama Hotel",
-#         "Day 1: Arrival in Kathmandu\nDay 2: Drive to Soti Khola\nDay 3: Trek to Machha Khola"
-#     ],
-#     "Trip Map URL": [
-#         "https://example.com/everest-map",
-#         "https://example.com/annapurna-map",
-#         "https://example.com/langtang-map",
-#         "https://example.com/manaslu-map"
-#     ],
-#     "Duration": [14, 18, 10, 16],
-#     "Trip Grade": ["Strenuous", "Moderate", "Moderate", "Challenging"],
-#     "Best Season": ["Spring, Autumn", "Spring, Autumn", "Spring, Autumn", "Spring, Autumn"],
-#     "Max Altitude": ["5,364m", "5,416m", "3,870m", "5,135m"],
-#     "Meals": [
-#         "Breakfast, Lunch, Dinner",
-#         "Breakfast, Lunch, Dinner",
-#         "Breakfast, Lunch, Dinner",
-#         "Breakfast, Lunch, Dinner"
-#     ],
-#     "Nature of Trip": ["Trekking", "Trekking", "Trekking", "Trekking"],
-#     "Accommodation": ["Lodge/Teahouse", "Lodge/Teahouse", "Lodge/Teahouse", "Lodge/Teahouse"],
-#     "Group Size": [12, 15, 10, 8],
-#     "Gallery Images Links": [
-#         "https://drive.google.com/file/d/1fZgLhtjYJSsvnLB46rA1gXdByOoH0cyj/view?usp=sharing, https://drive.google.com/file/d/1fZgLhtjYJSsvnLB46rA1gXdByOoH0cyj/view?usp=sharing",
-#         "https://drive.google.com/file/d/1fZgLhtjYJSsvnLB46rA1gXdByOoH0cyj/view?usp=sharing, https://drive.google.com/file/d/1fZgLhtjYJSsvnLB46rA1gXdByOoH0cyj/view?usp=sharing",
-#         "https://drive.google.com/file/d/1fZgLhtjYJSsvnLB46rA1gXdByOoH0cyj/view?usp=sharing, https://drive.google.com/file/d/1fZgLhtjYJSsvnLB46rA1gXdByOoH0cyj/view?usp=sharing",
-#         "https://drive.google.com/file/d/1fZgLhtjYJSsvnLB46rA1gXdByOoH0cyj/view?usp=sharing, https://drive.google.com/file/d/1fZgLhtjYJSsvnLB46rA1gXdByOoH0cyj/view?usp=sharing"
-#     ]
-# }
+# Sample data for destinations with explicit image links
+data = [
+    {
+        "destination_title": "Everest Base Camp Trek",
+        "price": 1200.0,
+        "price_type": "USD",
+        "is_price": True,
+        "overview": "A challenging trek to the base of the world's highest mountain.",
+        "ltinerary": "Day 1: Arrival in Kathmandu, Day 2: Fly to Lukla and trek to Phakding...",
+        "duration": 14,
+        "trip_grade": "Strenuous",
+        "max_altitude": "5545m",
+        "meals": "Breakfast, Lunch, Dinner",
+        "nature_of_trip": "Trekking",
+        "accommodation": "Tea houses",
+        "group_size": 12,
+        "gear_and_equipment": "Trekking boots, Down jacket, Sleeping bag...",
+        "useful_information": "Best time to visit is March to May and September to November.",
+        "trip_map_url": "https://maps.example.com/everest_base_camp_trek",
+        "featured_image_link": "https://drive.google.com/uc?id=1fZgLhtjYJSsvnLB46rA1gXdByOoH0cyj",  # Direct download link for featured image
+        "gallery_image_links": json.dumps([
+            "https://drive.google.com/uc?id=1fZgLhtjYJSsvnLB46rA1gXdByOoH0cyj",  # Direct download link for gallery image 1
+            "https://drive.google.com/uc?id=1fZgLhtjYJSsvnLB46rA1gXdByOoH0cyj",  # Direct download link for gallery image 2
+        ]),
+        "packages": json.dumps(["supreme", "phone"])  # Replace with actual package names
+    },
+    {
+        "destination_title": "Annapurna Circuit Trek",
+        "price": 1500.0,
+        "price_type": "USD",
+        "is_price": True,
+        "overview": "A scenic trek through the Annapurna range.",
+        "ltinerary": "Day 1: Arrival in Kathmandu, Day 2: Drive to Besishahar...",
+        "duration": 18,
+        "trip_grade": "Moderate",
+        "max_altitude": "5416m",
+        "meals": "Breakfast, Lunch, Dinner",
+        "nature_of_trip": "Trekking",
+        "accommodation": "Tea houses",
+        "group_size": 10,
+        "gear_and_equipment": "Trekking poles, Down jacket, Rain gear...",
+        "useful_information": "Best time to visit is October to November.",
+        "trip_map_url": "https://maps.example.com/annapurna_circuit_trek",
+        "featured_image_link": "https://drive.google.com/uc?id=1kZgLhtjYJSsvnLB46rA1gXdByOoH0cyj",  # Direct download link for featured image
+        "gallery_image_links": json.dumps([
+            "https://drive.google.com/uc?id=2jLgLhtjYJSsvnLB46rA1gXdByOoH0cyj",  # Direct download link for gallery image 1
+            "https://drive.google.com/uc?id=3mHgLhtjYJSsvnLB46rA1gXdByOoH0cyj",  # Direct download link for gallery image 2
+        ]),
+        "packages": json.dumps(["supreme", "phone"])  # Replace with actual package names
+    },
+]
 
-# # Create a DataFrame for the destination data
-# destination_df = pd.DataFrame(destination_data)
+# Create a DataFrame
+df = pd.DataFrame(data)
 
-# # Save the destination data to an Excel file
-# destination_file_path = 'trek/utilities/sample_destination_data.xlsx'
-# destination_df.to_excel(destination_file_path, index=False)
+# Save the DataFrame to an Excel file
+excel_file_path = 'trek/utilities/test.xlsx'
+df.to_excel(excel_file_path, index=False)
 
-# # Create sample data for the packages Excel file
-# package_data = {
-#     "Package Name": ["Everest Base Camp Package", "Annapurna Circuit Package", "Langtang Valley Package", "Manaslu Circuit Package"],
-#     "Description": [
-#         "Everest Base Camp trek package",
-#         "Annapurna Circuit trek package",
-#         "Langtang Valley trek package",
-#         "Manaslu Circuit trek package"
-#     ],
-#     "Price": [1500, 1200, 1000, 1300]
-# }
-
-# # Create a DataFrame for the package data
-# package_df = pd.DataFrame(package_data)
-
-# # Save the package data to an Excel file
-# package_file_path = 'trek/utilities/sample_package_data.xlsx'
-# package_df.to_excel(package_file_path, index=False)
-
-# (destination_file_path, package_file_path)
+print(f"Test Excel file created at: {excel_file_path}")
