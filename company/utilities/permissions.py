@@ -53,5 +53,5 @@ class companyPermission(BasePermission):
         # elif view.action == "partial_update":
         #     return AdminLevel(request)
         # elif view.action == 'destroy':
-        #     return AdminLevel(request)
+        #     reurn AdminLevel(request)
 
