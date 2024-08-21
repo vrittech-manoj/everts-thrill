@@ -6,12 +6,15 @@ import requests
 from django.core.files.base import ContentFile
 from django.db import transaction
 import json
+import logging
 
 from drf_yasg.utils import swagger_auto_schema
 from drf_yasg import openapi
 
 from destination.models import Destination, DestinationGalleryImages, Package
 from destination.serializers.destination_serializers import DestinationWriteSerializers
+
+logger = logging.getLogger(__name__)
 
 class BulkUploadAPIView(APIView):
     """
@@ -39,6 +42,7 @@ class BulkUploadAPIView(APIView):
             # Read the Excel file into a DataFrame
             df = pd.read_excel(excel_file)
         except Exception as e:
+            logger.error(f"Failed to read Excel file: {str(e)}")
             return Response({"error": f"Failed to read Excel file: {str(e)}"}, status=status.HTTP_400_BAD_REQUEST)
 
         # Convert the DataFrame to a list of dictionaries
@@ -47,14 +51,25 @@ class BulkUploadAPIView(APIView):
         with transaction.atomic():
             for record in records:
                 try:
+                    # Ensure required fields are present
+                    required_fields = [
+                        'destination_title', 'ltinerary', 'duration', 
+                        'trip_grade', 'max_altitude', 'meals', 
+                        'nature_of_trip', 'accommodation', 'group_size'
+                    ]
+                    for field in required_fields:
+                        if field not in record or not record[field]:
+                            logger.error(f"'{field}' is a required field in record: {record}")
+                            return Response({"error": f"'{field}' is a required field."}, status=status.HTTP_400_BAD_REQUEST)
+
                     # Handle featured image from public Google Drive link
                     image_link = record.get('Featured Image Link')
                     if image_link:
                         response = requests.get(image_link)
                         if response.status_code == 200:
-                            record['featured_image'] = ContentFile(response.content, name=f"{record.get('Destination Title')}_featured.jpg")
+                            record['featured_image'] = ContentFile(response.content, name=f"{record.get('destination_title')}_featured.jpg")
                         else:
-                            print(f"Failed to download featured image: {image_link}")
+                            logger.warning(f"Failed to download featured image: {image_link}")
 
                     # Handle packages: Expecting a list of package names
                     package_names = record.get('Packages')
@@ -64,6 +79,7 @@ class BulkUploadAPIView(APIView):
                         if packages.exists():
                             record['packages'] = [package.id for package in packages]
                         else:
+                            logger.error(f"One or more packages not found: {package_names_list}")
                             return Response({"error": f"One or more packages not found: {package_names_list}"}, status=status.HTTP_400_BAD_REQUEST)
 
                     # Directly pass the record to the serializer
@@ -81,12 +97,13 @@ class BulkUploadAPIView(APIView):
                                     image_content = ContentFile(response.content, name=f"{destination_instance.destination_title}_gallery.jpg")
                                     DestinationGalleryImages.objects.create(destination_trip=destination_instance, image=image_content)
                                 else:
-                                    print(f"Failed to download gallery image: {image_url}")
+                                    logger.warning(f"Failed to download gallery image: {image_url}")
                     else:
-                        print(serializer.errors)
+                        logger.error(f"Validation failed for record: {serializer.errors}")
                         continue
 
                 except Exception as e:
+                    logger.error(f"Error processing record: {str(e)} with data: {record}")
                     return Response({"error": f"Error processing record: {str(e)}"}, status=status.HTTP_400_BAD_REQUEST)
 
         return Response({"message": "Bulk upload successful"}, status=status.HTTP_201_CREATED)

@@ -1,59 +1,38 @@
 import pandas as pd
 import json
 
-# Sample data for destinations with explicit image links
-data = [
-    {
-        "destination_title": "Everest Base Camp Trek",
-        "price": 1200.0,
-        "price_type": "USD",
-        "is_price": True,
-        "overview": "A challenging trek to the base of the world's highest mountain.",
-        "ltinerary": "Day 1: Arrival in Kathmandu, Day 2: Fly to Lukla and trek to Phakding...",
-        "duration": 14,
-        "trip_grade": "Strenuous",
-        "max_altitude": "5545m",
-        "meals": "Breakfast, Lunch, Dinner",
-        "nature_of_trip": "Trekking",
-        "accommodation": "Tea houses",
-        "group_size": 12,
-        "gear_and_equipment": "Trekking boots, Down jacket, Sleeping bag...",
-        "useful_information": "Best time to visit is March to May and September to November.",
-        "trip_map_url": "https://maps.example.com/everest_base_camp_trek",
-        "featured_image_link": "https://drive.google.com/uc?id=1fZgLhtjYJSsvnLB46rA1gXdByOoH0cyj",  # Direct download link for featured image
-        "gallery_image_links": json.dumps([
-            "https://drive.google.com/uc?id=1fZgLhtjYJSsvnLB46rA1gXdByOoH0cyj",  # Direct download link for gallery image 1
-            "https://drive.google.com/uc?id=1fZgLhtjYJSsvnLB46rA1gXdByOoH0cyj",  # Direct download link for gallery image 2
+# Create a sample DataFrame with the required fields according to the API
+data = {
+    'destination_title': ['Everest Base Camp', 'Annapurna Circuit'],
+    'itinerary': ['Day 1: Arrival, Day 2: Trekking', 'Day 1: Start Trek, Day 2: Continue Trek'],
+    'duration': [14, 21],
+    'trip_grade': ['Challenging', 'Moderate'],
+    'max_altitude': [5364, 5416],
+    'meals': ['Breakfast, Lunch, Dinner', 'Breakfast, Lunch, Dinner'],
+    'nature_of_trip': ['Adventure', 'Cultural'],
+    'accommodation': ['Teahouse, Hotel', 'Teahouse, Lodge'],
+    'group_size': [10, 15],
+    'Featured Image Link': [
+        'https://drive.google.com/uc?export=view&id=1RH59AxD_xFGaDx1ViFvxrQK1zq1KVd9c',
+        'https://drive.google.com/uc?export=view&id=1RH59AxD_xFGaDx1ViFvxrQK1zq1KVd9c'
+    ],
+    'Packages': [
+        json.dumps(['phone', 'supreme']),
+        json.dumps(['phone', 'supreme'])
+    ],
+    'Gallery Image Links': [
+        json.dumps([
+           'https://drive.google.com/uc?export=view&id=1RH59AxD_xFGaDx1ViFvxrQK1zq1KVd9c',
+            'https://drive.google.com/uc?export=view&id=1RH59AxD_xFGaDx1ViFvxrQK1zq1KVd9c'
         ]),
-        "packages": json.dumps(["supreme", "phone"])  # Replace with actual package names
-    },
-    {
-        "destination_title": "Annapurna Circuit Trek",
-        "price": 1500.0,
-        "price_type": "USD",
-        "is_price": True,
-        "overview": "A scenic trek through the Annapurna range.",
-        "ltinerary": "Day 1: Arrival in Kathmandu, Day 2: Drive to Besishahar...",
-        "duration": 18,
-        "trip_grade": "Moderate",
-        "max_altitude": "5416m",
-        "meals": "Breakfast, Lunch, Dinner",
-        "nature_of_trip": "Trekking",
-        "accommodation": "Tea houses",
-        "group_size": 10,
-        "gear_and_equipment": "Trekking poles, Down jacket, Rain gear...",
-        "useful_information": "Best time to visit is October to November.",
-        "trip_map_url": "https://maps.example.com/annapurna_circuit_trek",
-        "featured_image_link": "https://drive.google.com/uc?id=1kZgLhtjYJSsvnLB46rA1gXdByOoH0cyj",  # Direct download link for featured image
-        "gallery_image_links": json.dumps([
-            "https://drive.google.com/uc?id=2jLgLhtjYJSsvnLB46rA1gXdByOoH0cyj",  # Direct download link for gallery image 1
-            "https://drive.google.com/uc?id=3mHgLhtjYJSsvnLB46rA1gXdByOoH0cyj",  # Direct download link for gallery image 2
-        ]),
-        "packages": json.dumps(["supreme", "phone"])  # Replace with actual package names
-    },
-]
+        json.dumps([
+            'https://drive.google.com/uc?export=view&id=1RH59AxD_xFGaDx1ViFvxrQK1zq1KVd9c',
+            'https://drive.google.com/uc?export=view&id=1RH59AxD_xFGaDx1ViFvxrQK1zq1KVd9c'
+        ])
+    ]
+}
 
-# Create a DataFrame
+# Convert to DataFrame
 df = pd.DataFrame(data)
 
 # Save the DataFrame to an Excel file

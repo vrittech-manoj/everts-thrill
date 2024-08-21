@@ -13,7 +13,7 @@ class MeetTeam(models.Model):
     member_name = models.CharField(max_length = 200,null = True)
     position = models.CharField(max_length = 200,null = True)
     description = models.TextField()
-    image = models.ImageField(upload_to='components/popup', null=True, blank=True)
+    image = models.ImageField(upload_to='components/meetteam', null=True, blank=True)
     url = models.URLField(null=True, blank=True)
 
 class PrivacyPolicy(models.Model):
@@ -33,7 +33,7 @@ class TermAndCondition(models.Model):
 
 class LegalDocuments(models.Model):
     # user = models.ForeignKey(CustomUser,related_name = 'user_legal_documents', on_delete  = models.CASCADE)
-    image = models.ImageField(upload_to='components/popup', null=True, blank=True)
+    image = models.ImageField(upload_to='components/legal-documents', null=True, blank=True)
     url = models.URLField(null=True, blank=True)
     
     created_date = models.DateTimeField(auto_now_add=True)
