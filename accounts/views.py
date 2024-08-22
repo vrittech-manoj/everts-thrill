@@ -61,7 +61,6 @@ class CustomUserSerializerViewSet(viewsets.ModelViewSet):
         'is_active':['exact'],
     }
 
-    authentication_classes = [JWTAuthentication]
     permission_classes = [AccountPermission]
     
     def get_serializer_class(self):
@@ -71,17 +70,20 @@ class CustomUserSerializerViewSet(viewsets.ModelViewSet):
     
     def get_queryset(self):
         user = self.request.user
-        queryset =  CustomUser.objects.all()
+        queryset = CustomUser.objects.all().order_by('-id')
         
         if not user.is_authenticated:
             query = CustomUser.objects.none()
-        elif user.role == roles.SUPER_ADMIN: 
-            query = queryset       
-        elif user.role == roles.ADMIN: 
-            query = queryset.filter(is_active = True)
+        elif user.role == roles.SUPER_ADMIN:
+            query = queryset
+        elif user.role == roles.ADMIN:
+            query = queryset.filter(id=user.id, role=roles.ADMIN)
         else:
-            query = queryset.filter(id=user.id,is_active = True)
+            query = queryset.filter(id=user.id, is_active=True)
+        
         return query.order_by("-created_date")
+    
+    
     
     # @method_decorator(cache_page(cache_time,key_prefix="CustomUser"))
     def list(self, request, *args, **kwargs):
@@ -268,6 +270,7 @@ class LoginView(APIView):
                 return Response({'error': 'Your Account is inactive'}, status=status.HTTP_401_UNAUTHORIZED)
             login(request, user)
             refresh = RefreshToken.for_user(user)
+            refresh['remember_me'] = request.data.get('remember_me',False)
             user_obj = CustomUserReadSerializer(request.user,context={'request': request}) 
             return Response({
                 'access': str(refresh.access_token),

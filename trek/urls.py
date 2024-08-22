@@ -85,6 +85,7 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     # path('', lambda request: HttpResponse("cdn storage fixing"), name='index'),
     path('api/',include(router.urls)),
+    path('api-auth/', include('rest_framework.urls')),
     path('api/accounts/',include('accounts.urls')),
     path('api/blogs/',include('blog.urls')),
     path('api/destination/',include('destination.urls')),
@@ -102,6 +103,7 @@ urlpatterns = [
     path('api/',include(booking_router.urls)),
     path('api/',include(review_router.urls)),
     path('api/',include(airlines_router.urls)),
+    path('api/dashboard/',include('dashboard.urls')),
     
     path('api/bulk-upload/', BulkUploadAPIView.as_view(), name='bulk-upload'),
     
