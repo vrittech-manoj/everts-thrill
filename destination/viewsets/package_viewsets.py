@@ -9,7 +9,6 @@ from ..utilities.permissions import destinationPermission
 class PackageViewsets(viewsets.ModelViewSet):
     serializer_class = PackageReadSerializers
     permission_classes = [destinationPermission]
-    authentication_classes = [JWTAuthentication]
     pagination_class = MyPageNumberPagination
     queryset  = Package.objects.all().order_by("-id")
 

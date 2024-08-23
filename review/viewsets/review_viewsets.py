@@ -8,7 +8,6 @@ from ..utilities.importbase import *
 class reviewViewsets(viewsets.ModelViewSet):
     serializer_class = ReviewListSerializers
     permission_classes = [reviewPermission]
-    authentication_classes = [JWTAuthentication]
     pagination_class = MyPageNumberPagination
     queryset = Review.objects.all()
 

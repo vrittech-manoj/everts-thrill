@@ -70,9 +70,9 @@ router.registry.extend(gallery_router.registry)
 
 schema_view = get_schema_view(
    openapi.Info(
-      title="Evrest Thrill API",
+      title="Everest Thrill API",
       default_version='v1',
-      description="Trek Ecommerce System",
+      description="Everest Thrill Trekking System",
       terms_of_service="https://www.google.com/policies/terms/",
       contact=openapi.Contact(email="manojdas.py@gmail.com"),
       license=openapi.License(name="No License"),

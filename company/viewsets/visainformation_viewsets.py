@@ -12,7 +12,6 @@ from rest_framework import status
 class visainformationViewsets(viewsets.ModelViewSet):
     serializer_class = VisaInformationListSerializers
     permission_classes = [companyPermission]
-    authentication_classes = [JWTAuthentication]
     pagination_class = MyPageNumberPagination
     queryset = VisaInformation.objects.all()
 

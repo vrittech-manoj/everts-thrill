@@ -8,7 +8,6 @@ from ..utilities.importbase import *
 class legaldocumentsViewsets(viewsets.ModelViewSet):
     serializer_class = LegalDocumentsListSerializers
     permission_classes = [companyPermission]
-    authentication_classes = [JWTAuthentication]
     pagination_class = MyPageNumberPagination
     queryset = LegalDocuments.objects.all()
 

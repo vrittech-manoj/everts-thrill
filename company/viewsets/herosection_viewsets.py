@@ -13,7 +13,6 @@ from ..utilities.importbase import companyPermission, JWTAuthentication, MyPageN
 class herosectionViewsets(viewsets.ModelViewSet):
     serializer_class = HeroSectionListSerializers
     permission_classes = [companyPermission]
-    authentication_classes = [JWTAuthentication]
     pagination_class = MyPageNumberPagination
     queryset = HeroSection.objects.all()
 

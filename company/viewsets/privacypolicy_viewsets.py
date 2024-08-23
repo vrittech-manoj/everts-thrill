@@ -12,7 +12,6 @@ from rest_framework import status
 class privacypolicyViewsets(viewsets.ModelViewSet):
     serializer_class = PrivacyPolicyListSerializers
     permission_classes = [companyPermission]
-    authentication_classes = [JWTAuthentication]
     pagination_class = MyPageNumberPagination
     queryset = PrivacyPolicy.objects.all()
 

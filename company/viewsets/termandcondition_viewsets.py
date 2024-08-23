@@ -12,7 +12,6 @@ from rest_framework import status
 class termandconditionViewsets(viewsets.ModelViewSet):
     serializer_class = TermAndConditionListSerializers
     permission_classes = [companyPermission]
-    authentication_classes = [JWTAuthentication]
     pagination_class = MyPageNumberPagination
     queryset = TermAndCondition.objects.all()
 

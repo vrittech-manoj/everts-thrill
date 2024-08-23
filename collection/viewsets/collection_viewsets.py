@@ -8,7 +8,6 @@ from ..utilities.importbase import *
 class collectionViewsets(viewsets.ModelViewSet):
     serializer_class = CollectionListSerializers
     permission_classes = [collectionPermission]
-    authentication_classes = [JWTAuthentication]
     pagination_class = MyPageNumberPagination
     queryset = Collection.objects.all().order_by("-name")
 
