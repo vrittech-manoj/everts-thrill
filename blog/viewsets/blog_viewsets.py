@@ -5,7 +5,6 @@ from ..utilities.importbase import *
 class BlogViewSets(viewsets.ModelViewSet):
     serializer_class = BlogReadSerializers
     permission_classes = [AdminViewSetsPermission]
-    authentication_classes = [JWTAuthentication]
     pagination_class = MyPageNumberPagination
     queryset  = Blog.objects.all().order_by("title")
     
