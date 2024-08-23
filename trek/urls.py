@@ -66,6 +66,7 @@ router.registry.extend(collection_router.registry)
 router.registry.extend(activities_router.registry)
 router.registry.extend(company_router.registry)
 router.registry.extend(gallery_router.registry)
+router.registry.extend(gallery_router.registry)
 
 
 schema_view = get_schema_view(
@@ -105,7 +106,7 @@ urlpatterns = [
     path('api/',include(booking_router.urls)),
     path('api/',include(review_router.urls)),
     path('api/',include(airlines_router.urls)),
-    path('api/dashboard/',include('dashboard.urls')),
+    path('api/',include('dashboard.urls')),
     path('api/report/',include('report.urls')),
     
     path('api/bulk-upload/', BulkUploadAPIView.as_view(), name='bulk-upload'),
