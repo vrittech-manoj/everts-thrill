@@ -32,7 +32,7 @@ class BookingDestinationSerializers(serializers.ModelSerializer):
 
 class DestinationBookListSerializers(serializers.ModelSerializer):
     user = BookingUserSerializers(read_only = True)
-    airlines = BookingAirlinesSerializers(read_only = True)
+    # airlines = BookingAirlinesSerializers(read_only = True)
     activity = BookingActivitySerializers(read_only = True)
     package = BookingPackageSerializers(read_only = True)
     destination = BookingDestinationSerializers(read_only = True)
@@ -42,7 +42,7 @@ class DestinationBookListSerializers(serializers.ModelSerializer):
         
 class DestinationBookRetrieveSerializers(serializers.ModelSerializer):
     user = BookingUserSerializers(read_only = True)
-    airlines = BookingAirlinesSerializers(read_only = True)
+    # airlines = BookingAirlinesSerializers(read_only = True)
     activity = BookingActivitySerializers(read_only = True)
     package = BookingPackageSerializers(read_only = True)
     destination = BookingDestinationSerializers(read_only = True)
