@@ -43,7 +43,7 @@ from booking.routers.routers import router as booking_router
 from company.routers.routers import router as company_router
 from review.routers.routers import router as review_router
 from airlines.routers.routers import router as airlines_router
-from trek.utilities.bulk_upload_destination import BulkUploadAPIView
+from trek.utilities.bulk_upload import BulkUploadAPIView
 from gallery.routers.routers import router as gallery_router
 
 from trek.utilities.bulk_delete import BulkDelete
@@ -106,6 +106,7 @@ urlpatterns = [
     path('api/',include(review_router.urls)),
     path('api/',include(airlines_router.urls)),
     path('api/dashboard/',include('dashboard.urls')),
+    path('api/report/',include('report.urls')),
     
     path('api/bulk-upload/', BulkUploadAPIView.as_view(), name='bulk-upload'),
 

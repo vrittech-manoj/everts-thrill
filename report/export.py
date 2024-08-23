@@ -2,66 +2,104 @@ from django.shortcuts import render
 from rest_framework.response import Response
 from rest_framework.views import APIView
 from rest_framework import status
-import pandas as pd
 from django.http import HttpResponse
 import csv
-from jobutils.models import JobTiming,JobLocation,JobLevel
-from job.models import JobCategory,Skills
-from professions.models import  Profession
-from company.models import CompanyType
-from management.models import Branding
+from destination.models import Package, Destination, DestinationGalleryImages
+from review.models import Review
+from collection.models import Collection
+from departure.models import Departure
+from booking.models import DestinationBook
+from activities.models import Activity
+from drf_yasg.utils import swagger_auto_schema
+from drf_yasg import openapi
 
-class getSample(APIView):
-    def get(self, request, type, format=None):
-            
-            if type == "job-timing":
-                queryset = JobTiming.objects.all()
-                column_list = ['id','name','created_date']
-            elif type == "job-level":
-                queryset = JobLevel.objects.all()
-                column_list = ['id','name','created_date']
-            elif type == "job-location":
-                queryset = JobLocation.objects.all()
-                column_list = ['id','name','created_date']
-
-            elif type == "job-category":
-                queryset = JobCategory.objects.all()
-                column_list = ['id','name','is_popular','slug','created_date']
+class GetSampleAPIView(APIView):
+    """
+    API view to generate and download sample data in CSV format for different models.
+    """
     
-            elif type == "profession":
-                queryset = Profession.objects.all()
-                column_list = ['id','name','slug','created_date']
-            elif type == "skills":
-                queryset = Skills.objects.all()
-                column_list = ['id','name','category','created_date']
-            elif type == "company-type":
-                queryset = CompanyType.objects.all()
-                column_list = ['id','type','slug','created_date']
-            else:
-                return Response({"message": 'Unknown type'}, status=status.HTTP_400_BAD_REQUEST)
-            
-            response = HttpResponse(content_type='text/csv')
-            response['Content-Disposition'] = f'attachment; filename="{type}.csv"'
-
-            writer = csv.writer(response)
-
-            # Write the header row
-            writer.writerow(column_list)
-
-            # Write data rows
-            for data in queryset:
-                data_lists = []
-                for column in column_list:
-                    data_lists.append(getattr(data,column))
-                writer.writerow(data_lists)
-
-            return response
     
-class getBranding(APIView):
+
+    model_mapping = {
+        "package": {
+            "queryset": Package.objects.all(),
+            "columns": ['name', 'image']
+        },
+        "destination": {
+            "queryset": Destination.objects.all(),
+            "columns": [
+                'destination_title', 'price', 'price_type', 'is_price',
+                'featured_image', 'overview', 'inclusion_and_exclusion', 'ltinerary', 'trip_map_url',
+                'trip_map_image', 'gear_and_equipment', 'useful_information', 'duration', 'trip_grade',
+                'best_season', 'max_altitude', 'meals', 'nature_of_trip', 'accommodation',
+                'group_size'
+            ]
+        },
+        "gallery-images": {
+            "queryset": DestinationGalleryImages.objects.all(),
+            "columns": [
+                'id', 'destination_trip', 'image'
+            ]
+        },
+        "review": {
+            "queryset": Review.objects.all(),
+            "columns": [ 'name', 'rating', 'review_description', 'add_image']
+        },
+        "collection": {
+            "queryset": Collection.objects.all(),
+            "columns": ['name', 'index', 'destination_collection']
+        },
+        "departure": {
+            "queryset": Departure.objects.all(),
+            "columns": ['destination_trip', 'upcoming_departure_date', 'upcoming_departure_status','upcoming_departure_price']
+        },
+        "destination-book": {
+            "queryset": DestinationBook.objects.all(),
+            "columns": [
+                'user', 'country', 'airlines', 'number_of_travelers',
+                'activity', 'package', 'arrival_date', 'departure_date', 'service_type',
+                'destination', 'customize_trip'
+            ]
+        },
+        "activity": {
+            "queryset": Activity.objects.all(),
+            "columns": ['name', 'image', 'destinations_activities']
+        },
+    }
+    @swagger_auto_schema(
+        operation_description="Get a sample CSV for the specified model type.",
+        manual_parameters=[
+            openapi.Parameter(
+                'type',
+                openapi.IN_PATH,
+                description="Specify the type of data to fetch as CSV (e.g., 'package', 'destination').",
+                type=openapi.TYPE_STRING,
+                enum=list(model_mapping.keys())
+            )
+        ],
+        responses={200: 'CSV file', 400: 'Unknown type'}
+    )
+
     def get(self, request, type, format=None):
-        obj  = Branding.objects.all()
-        if obj.exists():
-            is_branding = obj.last().is_true
-        else:
-            is_branding = False
-        return Response({"message": is_branding}, status=status.HTTP_200_OK)
+        model_info = self.model_mapping.get(type)
+
+        if not model_info:
+            return Response({"message": 'Unknown type'}, status=status.HTTP_400_BAD_REQUEST)
+
+        queryset = model_info["queryset"]
+        column_list = model_info["columns"]
+
+        response = HttpResponse(content_type='text/csv')
+        response['Content-Disposition'] = f'attachment; filename="{type}.csv"'
+
+        writer = csv.writer(response)
+
+        # Write the header row
+        writer.writerow(column_list)
+
+        # Write data rows
+        for data in queryset:
+            data_lists = [getattr(data, column) for column in column_list]
+            writer.writerow(data_lists)
+
+        return response
