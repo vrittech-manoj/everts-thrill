@@ -14,6 +14,7 @@ pillow==10.3.0
 google-auth==2.26.1
 requests
 pandas
+phonenumbers==8.13.43
 
 django-admin-interface==0.28.5
 
