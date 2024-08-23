@@ -52,7 +52,6 @@ class GetDashboardAPIView(APIView):
         "destination-review": DestinationReview,
         "collection": Collection,
         "departure": Departure,
-        "custom-user": CustomUser,
         "destination-book": DestinationBook,
         "activity": Activity,
     }
@@ -72,7 +71,6 @@ class GetDashboardAPIView(APIView):
                     "- **destination-review**: Count of all reviews for destinations.\n"
                     "- **collection**: Count of all collections (groups of packages or destinations).\n"
                     "- **departure**: Count of all departures scheduled.\n"
-                    "- **custom-user**: Count of all registered users.\n"
                     "- **destination-book**: Count of all bookings made for destinations.\n"
                     "- **activity**: Count of all activities available."
                 ),
