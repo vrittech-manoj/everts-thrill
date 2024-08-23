@@ -17,7 +17,7 @@ import django_filters
 
 # Custom filter set for Destination model
 class DestinationFilter(django_filters.FilterSet):
-    package_name = django_filters.CharFilter(field_name='packages__name', lookup_expr='exact')
+    package_id = django_filters.CharFilter(field_name='packages__id', lookup_expr='exact')
 
     class Meta:
         model = Destination
