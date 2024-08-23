@@ -1,4 +1,6 @@
 import os
+import requests
+from django.core.files.base import ContentFile
 from django.shortcuts import render
 from rest_framework.response import Response
 from rest_framework.views import APIView
@@ -141,6 +143,13 @@ class BulkUploadAPIView(APIView):
 
 def create_update(my_model, my_serializer, data_list, unique_field_name):
     for record in data_list:
+        # Only trigger the download if the field contains "image" and is a valid URL
+        for field_name, value in record.items():
+            if 'image' in field_name.lower() and isinstance(value, str) and value.startswith('http'):
+                image_content = download_image(value)
+                if image_content:
+                    record[field_name] = image_content
+
         existing_data = my_model.objects.filter(**{unique_field_name: record.get(unique_field_name)})
         if existing_data.exists():
             existing_instance = existing_data.first()
@@ -157,3 +166,16 @@ def create_update(my_model, my_serializer, data_list, unique_field_name):
             else:
                 print(serializer.errors)
                 raise ValueError("Validation error on create")
+
+def download_image(url):
+    """
+    Download an image from a URL and return it as a ContentFile.
+    """
+    try:
+        response = requests.get(url)
+        response.raise_for_status()
+        image_name = url.split("/")[-1]
+        return ContentFile(response.content, name=image_name)
+    except requests.exceptions.RequestException as e:
+        print(f"Error downloading image from {url}: {e}")
+        return None

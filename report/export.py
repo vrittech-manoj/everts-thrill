@@ -43,7 +43,7 @@ class GetSampleAPIView(APIView):
         },
         "review": {
             "queryset": Review.objects.all(),
-            "columns": [ 'name', 'rating', 'review_description', 'add_image']
+            "columns": ['name', 'star_rating', 'review_description', 'add_image','is_show']
         },
         "collection": {
             "queryset": Collection.objects.all(),
