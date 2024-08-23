@@ -44,6 +44,7 @@ from company.routers.routers import router as company_router
 from review.routers.routers import router as review_router
 from airlines.routers.routers import router as airlines_router
 from trek.utilities.bulk_upload_destination import BulkUploadAPIView
+from gallery.routers.routers import router as gallery_router
 
 from trek.utilities.bulk_delete import BulkDelete
 
@@ -64,11 +65,12 @@ router.registry.extend(faqs_router.registry)
 router.registry.extend(collection_router.registry)
 router.registry.extend(activities_router.registry)
 router.registry.extend(company_router.registry)
+router.registry.extend(gallery_router.registry)
 
 
 schema_view = get_schema_view(
    openapi.Info(
-      title="Trek Ecommerce API",
+      title="Evrest Thrill API",
       default_version='v1',
       description="Trek Ecommerce System",
       terms_of_service="https://www.google.com/policies/terms/",
@@ -106,8 +108,6 @@ urlpatterns = [
     path('api/dashboard/',include('dashboard.urls')),
     
     path('api/bulk-upload/', BulkUploadAPIView.as_view(), name='bulk-upload'),
-    
-    
 
     #path('swagger<format>/', schema_view.without_ui(cache_timeout=0), name='schema-json'),
     path('', schema_view.with_ui('swagger', cache_timeout=0), name='schema-swagger-ui'),
