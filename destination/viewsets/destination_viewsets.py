@@ -24,6 +24,7 @@ class DestinationFilter(django_filters.FilterSet):
         fields = {
             'destination_title': ['exact', 'icontains'],
             'nature_of_trip': ['exact', 'icontains'],
+            'activities': ['exact'],
             # 'package_name' is already defined as a custom filter above
         }
 
