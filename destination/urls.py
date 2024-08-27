@@ -4,7 +4,7 @@ from .viewsets import destination_viewsets, destinationreview_viewsets, package_
 
 router = DefaultRouter()
 
-router.register('destination', destination_viewsets.DestinationViewsets, basename="DestinationViewsets")
+router.register(r'destination/(?P<slug>[\w-]+)', destination_viewsets.DestinationViewsets, basename="DestinationViewsets")
 router.register('package', package_viewsets.PackageViewsets, basename="PackageViewsets")
 router.register('package-review', destinationreview_viewsets.DestinationReviewViewsets, basename="DestinationReviewViewsets")
 

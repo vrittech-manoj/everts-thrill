@@ -1,11 +1,15 @@
 from rest_framework import viewsets, permissions, filters
 from ..models import Destination
+
+from django.shortcuts import get_object_or_404
 from ..serializers.destination_serializers import (
     DestinationlistUserSerializers,
     DestinationlistAdminSerializers,
     DestinationRetrieveUserSerializers,
     DestinationRetrieveAdminSerializers,
     DestinationWriteSerializers
+    
+
 )
 from ..utilities.importbase import *
 from ..utilities.permissions import destinationPermission
@@ -53,3 +57,7 @@ class DestinationViewsets(viewsets.ModelViewSet):
             else:
                 return DestinationRetrieveUserSerializers
         return super().get_serializer_class()
+    
+    def get_object(self):
+        slug = self.kwargs.get('slug')
+        return get_object_or_404(Destination, slug=slug)
