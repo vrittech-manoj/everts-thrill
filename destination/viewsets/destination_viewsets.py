@@ -29,7 +29,7 @@ class DestinationFilter(django_filters.FilterSet):
             'destination_title': ['exact', 'icontains'],
             'nature_of_trip': ['exact', 'icontains'],
             'activities': ['exact'],
-            # 'package_name' is already defined as a custom filter above
+            'collections': ['exact'],
         }
 
 class DestinationViewsets(viewsets.ModelViewSet):
@@ -39,7 +39,7 @@ class DestinationViewsets(viewsets.ModelViewSet):
 
     filter_backends = [SearchFilter, DjangoFilterBackend, OrderingFilter]
     search_fields = ['destination_title']
-    ordering_fields = ['destination_title', 'id']
+    ordering_fields = ['destination_title', 'id','duration']
     filterset_class = DestinationFilter  # Use the custom filter set here
     lookup_field = "slug"
 
