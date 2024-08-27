@@ -12,12 +12,12 @@ class QueriesViewsets(viewsets.ModelViewSet):
     queryset  = Queries.objects.all()
     
     filter_backends = [SearchFilter, DjangoFilterBackend, OrderingFilter]
-    search_fields = ['user__first_name']
-    ordering_fields = ['id','user__first_name']
+    search_fields = ['name']
+    ordering_fields = ['id','name']
 
     filterset_fields = {
         'id': ['exact'],
-        'user__first_name':['exact'],
+        'name':['exact'],
     }
     def get_serializer_class(self):
         if self.action in ['create','update','partial_update']:

@@ -8,7 +8,6 @@ class QueryUserSerializers(serializers.ModelSerializer):
         fields = ['full_name','phone']
         
 class QueriesReadSerializers(serializers.ModelSerializer):
-    user = QueryUserSerializers(read_only = True)
     class Meta:
         model = Queries
         fields = '__all__'
