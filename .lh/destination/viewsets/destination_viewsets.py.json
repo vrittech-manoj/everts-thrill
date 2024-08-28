@@ -3,7 +3,7 @@
     "activeCommit": 0,
     "commits": [
         {
-            "activePatchIndex": 1,
+            "activePatchIndex": 4,
             "patches": [
                 {
                     "date": 1724818676603,
@@ -12,6 +12,18 @@
                 {
                     "date": 1724818727853,
                     "content": "Index: \n===================================================================\n--- \n+++ \n@@ -27,8 +27,9 @@\n         fields = {\n             'destination_title': ['exact', 'icontains'],\n             'nature_of_trip': ['exact', 'icontains'],\n             'activities': ['exact'],\n+            'activities': ['exact'],\n             'collections': ['exact'],\n         }\n \n class DestinationViewsets(viewsets.ModelViewSet):\n"
+                },
+                {
+                    "date": 1724820027827,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -1,13 +1,16 @@\n from rest_framework import viewsets, permissions, filters\n from ..models import Destination\n+\n from django.shortcuts import get_object_or_404\n from ..serializers.destination_serializers import (\n     DestinationlistUserSerializers,\n     DestinationlistAdminSerializers,\n     DestinationRetrieveUserSerializers,\n     DestinationRetrieveAdminSerializers,\n     DestinationWriteSerializers\n+    \n+\n )\n from ..utilities.importbase import *\n from ..utilities.permissions import destinationPermission\n from accounts import roles\n@@ -18,18 +21,15 @@\n \n # Custom filter set for Destination model\n class DestinationFilter(django_filters.FilterSet):\n     package_id = django_filters.CharFilter(field_name='packages__id', lookup_expr='exact')\n-    min_duration = django_filters.NumberFilter(field_name='duration', lookup_expr='gte')\n-    max_duration = django_filters.NumberFilter(field_name='duration', lookup_expr='lte')\n \n     class Meta:\n         model = Destination\n         fields = {\n             'destination_title': ['exact', 'icontains'],\n             'nature_of_trip': ['exact', 'icontains'],\n             'activities': ['exact'],\n-            'activities': ['exact'],\n             'collections': ['exact'],\n         }\n \n class DestinationViewsets(viewsets.ModelViewSet):\n@@ -38,22 +38,22 @@\n     queryset = Destination.objects.all().order_by(\"-destination_title\")\n \n     filter_backends = [SearchFilter, DjangoFilterBackend, OrderingFilter]\n     search_fields = ['destination_title']\n-    ordering_fields = ['destination_title', 'id', 'duration']\n+    ordering_fields = ['destination_title', 'id','duration']\n     filterset_class = DestinationFilter  # Use the custom filter set here\n     lookup_field = \"slug\"\n \n     def get_serializer_class(self):\n         if self.action in ['create', 'update', 'partial_update']:\n             return DestinationWriteSerializers\n         elif self.action == \"list\":\n-            if self.request.user.is_authenticated and her.request.user.role in [roles.ADMIN, roles.SUPER_ADMIN]:\n+            if self.request.user.is_authenticated and self.request.user.role in [roles.ADMIN, roles.SUPER_ADMIN]:\n                 return DestinationlistAdminSerializers\n             else:\n                 return DestinationlistUserSerializers\n         elif self.action == \"retrieve\":\n-            if self.request.user.is_authenticated and her.request.user.role in [roles.ADMIN, roles.SUPER_ADMIN]:\n+            if self.request.user.is_authenticated and self.request.user.role in [roles.ADMIN, roles.SUPER_ADMIN]:\n                 return DestinationRetrieveAdminSerializers\n             else:\n                 return DestinationRetrieveUserSerializers\n         return super().get_serializer_class()\n"
+                },
+                {
+                    "date": 1724820056024,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -21,8 +21,10 @@\n \n # Custom filter set for Destination model\n class DestinationFilter(django_filters.FilterSet):\n     package_id = django_filters.CharFilter(field_name='packages__id', lookup_expr='exact')\n+    min_duration = django_filters.NumberFilter(field_name='duration', lookup_expr='gte')\n+    max_duration = django_filters.NumberFilter(field_name='duration', lookup_expr='lte')\n \n     class Meta:\n         model = Destination\n         fields = {\n"
+                },
+                {
+                    "date": 1724820103819,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -30,8 +30,9 @@\n         fields = {\n             'destination_title': ['exact', 'icontains'],\n             'nature_of_trip': ['exact', 'icontains'],\n             'activities': ['exact'],\n+            'activities': ['exact'],\n             'collections': ['exact'],\n         }\n \n class DestinationViewsets(viewsets.ModelViewSet):\n"
                 }
             ],
             "date": 1724818676603,
