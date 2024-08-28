@@ -3,7 +3,7 @@
     "activeCommit": 0,
     "commits": [
         {
-            "activePatchIndex": 10,
+            "activePatchIndex": 12,
             "patches": [
                 {
                     "date": 1724817730658,
@@ -48,6 +48,14 @@
                 {
                     "date": 1724822658849,
                     "content": "Index: \n===================================================================\n--- \n+++ \n@@ -50,8 +50,8 @@\n         elif view.action in ['create','update']:\n             return IsAuthenticated(request)\n             return ObjectBOwner(request) #third level\n         elif view.action == \"partial_update\":\n-            return AdminLevel(request)\n+            return IsAuthenticated(request)\n         elif view.action == 'destroy':\n             return AdminLevel(request)\n \n"
+                },
+                {
+                    "date": 1724844149238,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -45,9 +45,9 @@\n         True\n         if view.action in [\"list\"]:\n             return True\n         elif view.action in ['retrieve']:\n-            return AdminLevel(request)\n+            return True\n         elif view.action in ['create','update']:\n             return IsAuthenticated(request)\n             return ObjectBOwner(request) #third level\n         elif view.action == \"partial_update\":\n"
+                },
+                {
+                    "date": 1724844156423,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -47,9 +47,9 @@\n             return True\n         elif view.action in ['retrieve']:\n             return True\n         elif view.action in ['create','update']:\n-            return IsAuthenticated(request)\n+            return True\n             return ObjectBOwner(request) #third level\n         elif view.action == \"partial_update\":\n             return IsAuthenticated(request)\n         elif view.action == 'destroy':\n"
                 }
             ],
             "date": 1724817730658,
