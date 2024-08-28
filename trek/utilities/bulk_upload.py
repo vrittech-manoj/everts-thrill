@@ -1,7 +1,5 @@
-import os
-import requests
-from django.core.files.base import ContentFile
 from django.shortcuts import render
+from django.http import HttpResponse
 from rest_framework.response import Response
 from rest_framework.views import APIView
 from rest_framework import status
@@ -27,51 +25,7 @@ from activities.serializers.activity_serializers import ActivityWriteSerializers
 from collection.serializers.collection_serializers import CollectionWriteSerializers
 from departure.serializers.departure_serializers import DepartureWriteSerializers
 
-# Mapping type to model, serializer, and unique field
-MODEL_MAPPING = {
-    "package": {
-        "model": Package,
-        "serializer": PackageWriteSerializers,
-        "unique_field": "name",
-    },
-    "destination": {
-        "model": Destination,
-        "serializer": DestinationWriteSerializers,
-        "unique_field": "destination_title",
-    },
-    "gallery-images": {
-        "model": DestinationGalleryImages,
-        "serializer": DestinationGalleryImagesWriteSerializers,
-        "unique_field": "id",
-    },
-    "review": {
-        "model": Review,
-        "serializer": ReviewWriteSerializers,
-        "unique_field": "name",
-    },
-    "destination-book": {
-        "model": DestinationBook,
-        "serializer": DestinationBookWriteSerializers,
-        "unique_field": "id",
-    },
-    "activity": {
-        "model": Activity,
-        "serializer": ActivityWriteSerializers,
-        "unique_field": "name",
-    },
-    "collection": {
-        "model": Collection,
-        "serializer": CollectionWriteSerializers,
-        "unique_field": "name",
-    },
-    "departure": {
-        "model": Departure,
-        "serializer": DepartureWriteSerializers,
-        "unique_field": "id",
-    },
-}
-
-VALID_TYPES = list(MODEL_MAPPING.keys())
+# Create your views here.
 
 class BulkUploadAPIView(APIView):
     @swagger_auto_schema(
@@ -81,101 +35,112 @@ class BulkUploadAPIView(APIView):
                 'excel_file': openapi.Schema(type=openapi.TYPE_FILE),
                 'type': openapi.Schema(
                     type=openapi.TYPE_STRING,
-                    description=f"The type of model this file belongs to. Valid types are: {', '.join(VALID_TYPES)}."
+                    description="Specify the type of data to import. Options are: 'package', 'destination', 'destination-gallery-images', 'destination-review', 'destination-book', 'activity', 'collection', 'departure', 'review'.",
+                    enum=[
+                        'package',
+                        'destination',
+                        'destination-gallery-images',
+                        'destination-review',
+                        'destination-book',
+                        'activity',
+                        'collection',
+                        'departure',
+                        'review'
+                    ]
                 ),
             },
             required=['excel_file', 'type']
         ),
-        operation_summary="Upload Excel or CSV file with type",
-        operation_description=(
-            "Upload an Excel (.xlsx) or CSV (.csv) file to import data into the specified model.\n\n"
-            "### Valid types:\n"
-            "- `package`: For uploading packages data.\n"
-            "- `destination`: For uploading destinations data.\n"
-            "- `gallery-images`: For uploading destination gallery images.\n"
-            "- `review`: For uploading reviews.\n"
-            "- `destination-book`: For uploading destination bookings.\n"
-            "- `activity`: For uploading activities data.\n"
-            "- `collection`: For uploading collections.\n"
-            "- `departure`: For uploading departures."
-        ),
+        operation_summary="Upload Excel file",
+        operation_description="Upload an Excel file and import data into the specified model based on the provided type.",
     )
     def post(self, request, format=None):
         file = request.FILES.get('excel_file')
-        type = request.data.get('type', None)
+        type = request.data.get('type')
 
-        if not file or not type:
-            return Response({"error": "Both 'excel_file' and 'type' are required."}, status=status.HTTP_400_BAD_REQUEST)
+        if not file:
+            return Response({"error": "No file provided"}, status=status.HTTP_400_BAD_REQUEST)
 
-        file_extension = os.path.splitext(file.name)[1].lower()
+        if not type:
+            return Response({"error": "No type provided"}, status=status.HTTP_400_BAD_REQUEST)
 
-        # Determine how to read the file based on its extension
-        try:
-            if file_extension == '.xlsx':
-                df = pd.read_excel(file, engine='openpyxl')
-            elif file_extension == '.csv':
-                df = pd.read_csv(file)
-            else:
-                return Response({"error": "Unsupported file format. Only .xlsx and .csv files are allowed."}, status=status.HTTP_400_BAD_REQUEST)
-        except Exception as e:
-            return Response({"error": f"Failed to read file: {str(e)}"}, status=status.HTTP_400_BAD_REQUEST)
+        df = pd.read_csv(file)
+        datas = df.to_dict(orient='records')
 
-        # Check if the type is valid
-        model_info = MODEL_MAPPING.get(type)
-        if not model_info:
-            return Response({"error": f"Unknown type '{type}' provided. Valid types are: {', '.join(VALID_TYPES)}."}, status=status.HTTP_400_BAD_REQUEST)
-
-        # Convert the DataFrame to a list of dictionaries
-        data_list = df.to_dict(orient='records')
-
-        # Process the data
-        try:
-            create_update(
-                model_info["model"],
-                model_info["serializer"],
-                data_list,
-                model_info["unique_field"]
-            )
-        except Exception as e:
-            return Response({"error": f"Failed to process data: {str(e)}"}, status=status.HTTP_400_BAD_REQUEST)
+        if type == "package":
+            create_update_records(Package, PackageWriteSerializers, datas, 'name', type)
+        elif type == "destination":
+            create_update_records(Destination, DestinationWriteSerializers, datas, 'destination_title', type)
+        elif type == "destination-gallery-images":
+            create_update_records(DestinationGalleryImages, DestinationGalleryImagesWriteSerializers, datas, 'id', type)
+        elif type == "destination-book":
+            create_update_records(DestinationBook, DestinationBookWriteSerializers, datas, 'user__email', type)
+        elif type == "activity":
+            create_update_records(Activity, ActivityWriteSerializers, datas, 'name', type)
+        elif type == "collection":
+            create_update_records(Collection, CollectionWriteSerializers, datas, 'name', type)
+        elif type == "departure":
+            create_update_records(Departure, DepartureWriteSerializers, datas, 'id', type)
+        elif type == "review":
+            create_update(Review, ReviewWriteSerializers, datas, 'name', type)
+        else:
+            return Response({"message": "Unknown file type"}, status=status.HTTP_400_BAD_REQUEST)
 
         return Response({"message": "File processed successfully"}, status=status.HTTP_201_CREATED)
 
-def create_update(my_model, my_serializer, data_list, unique_field_name):
-    for record in data_list:
-        # Only trigger the download if the field contains "image" and is a valid URL
-        for field_name, value in record.items():
-            if 'image' in field_name.lower() and isinstance(value, str) and value.startswith('http'):
-                image_content = download_image(value)
-                if image_content:
-                    record[field_name] = image_content
 
-        existing_data = my_model.objects.filter(**{unique_field_name: record.get(unique_field_name)})
+def create_update(my_model,my_serializer,datas,unique_field_name):
+    
+    for record in datas:
+        existing_data = my_model.objects.filter(**{unique_field_name: record[unique_field_name]})
         if existing_data.exists():
-            existing_instance = existing_data.first()
-            serializer = my_serializer(existing_instance, data=record)
+            existing_data = existing_data.first()  # Use a unique field here
+            serializer = my_serializer(existing_data, data=record)
             if serializer.is_valid():
                 serializer.save()
             else:
                 print(serializer.errors)
-                raise ValueError("Validation error on update")
+                # Handle validation errors
+                pass
         else:
+            # Create a new record
             serializer = my_serializer(data=record)
             if serializer.is_valid():
                 serializer.save()
             else:
                 print(serializer.errors)
-                raise ValueError("Validation error on create")
+                # Handle validation errors
+                pass
 
-def download_image(url):
-    """
-    Download an image from a URL and return it as a ContentFile.
-    """
-    try:
-        response = requests.get(url)
-        response.raise_for_status()
-        image_name = url.split("/")[-1]
-        return ContentFile(response.content, name=image_name)
-    except requests.exceptions.RequestException as e:
-        print(f"Error downloading image from {url}: {e}")
-        return None
+
+def create_update_records(my_model, my_serializer, datas, unique_field_name, related_fields=None):
+    if related_fields is None:
+        related_fields = {}
+
+    for record in datas:
+        # Process related fields if any
+        for field, relation in related_fields.items():
+            if field in record:
+                related_model = relation['model']
+                lookup_field = relation['lookup_field']
+                related_obj = related_model.objects.filter(**{lookup_field: record[field]}).first()
+                if related_obj:
+                    record[field] = related_obj.id
+                else:
+                    print(f"Related instance for {field} with value '{record[field]}' not found.")
+                    continue
+
+        # Find existing data
+        existing_data = my_model.objects.filter(**{unique_field_name: record[unique_field_name]}).first()
+
+        if existing_data:
+            # Update existing record
+            serializer = my_serializer(existing_data, data=record)
+        else:
+            # Create a new record
+            serializer = my_serializer(data=record)
+
+        if serializer.is_valid():
+            serializer.save()
+        else:
+            print(serializer.errors)  # Handle validation errors
