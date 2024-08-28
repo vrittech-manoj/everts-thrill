@@ -3,7 +3,7 @@
     "activeCommit": 0,
     "commits": [
         {
-            "activePatchIndex": 4,
+            "activePatchIndex": 5,
             "patches": [
                 {
                     "date": 1724760257835,
@@ -24,6 +24,10 @@
                 {
                     "date": 1724822793906,
                     "content": "Index: \n===================================================================\n--- \n+++ \n@@ -42,16 +42,16 @@\n \n class destinationPermission(BasePermission):\n     def has_permission(self, request, view):\n         # return True\n-        # if view.action in [\"list\"]:\n-        #     return True\n-        # elif view.action in ['retrieve']:\n-        #     return AdminLevel(request)\n-        # elif view.action in ['create','update']:\n-        #     return AdminLevel(request) #second level\n-        #     return ObjectBOwner(request) #third level\n-        # elif view.action == \"partial_update\":\n-        #     return AdminLevel(request)\n-        # elif view.action == 'destroy':\n-        #     return AdminLevel(request)\n+        if view.action in [\"list\"]:\n+            return True\n+        elif view.action in ['retrieve']:\n+            return IsAuthenticated(request)\n+        elif view.action in ['create','update']:\n+            return AdminLevel(request) #second level\n+            return ObjectBOwner(request) #third level\n+        elif view.action == \"partial_update\":\n+            return AdminLevel(request)\n+        elif view.action == 'destroy':\n+            return AdminLevel(request)\n \n"
+                },
+                {
+                    "date": 1724831053044,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -45,9 +45,9 @@\n         # return True\n         if view.action in [\"list\"]:\n             return True\n         elif view.action in ['retrieve']:\n-            return IsAuthenticated(request)\n+           return True\n         elif view.action in ['create','update']:\n             return AdminLevel(request) #second level\n             return ObjectBOwner(request) #third level\n         elif view.action == \"partial_update\":\n"
                 }
             ],
             "date": 1724760257835,

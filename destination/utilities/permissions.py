@@ -46,7 +46,7 @@ class destinationPermission(BasePermission):
         if view.action in ["list"]:
             return True
         elif view.action in ['retrieve']:
-            return IsAuthenticated(request)
+           return True
         elif view.action in ['create','update']:
             return AdminLevel(request) #second level
             return ObjectBOwner(request) #third level
