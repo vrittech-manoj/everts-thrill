@@ -1,0 +1,22 @@
+{
+    "sourceFile": "booking/serializers/destinationbook_serializers.py",
+    "activeCommit": 0,
+    "commits": [
+        {
+            "activePatchIndex": 1,
+            "patches": [
+                {
+                    "date": 1724847371590,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n"
+                },
+                {
+                    "date": 1724847380382,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -4,12 +4,12 @@\n from airlines.models import Airlines\n from activities.models import Activity\n from destination.models import Package,Destination\n \n-class BookingUserSerializers(serializers.ModelSerializer):\n-    class Meta:\n-        model = CustomUser\n-        fields = ['full_name','phone','email']\n+# class BookingUserSerializers(serializers.ModelSerializer):\n+#     class Meta:\n+#         model = CustomUser\n+#         fields = ['full_name','phone','email']\n         \n class BookingAirlinesSerializers(serializers.ModelSerializer):\n     class Meta:\n         model = Airlines\n@@ -40,9 +40,9 @@\n         model = DestinationBook\n         fields = '__all__'\n         \n class DestinationBookRetrieveSerializers(serializers.ModelSerializer):\n-    user = BookingUserSerializers(read_only = True)\n+    # user = BookingUserSerializers(read_only = True)\n     # airlines = BookingAirlinesSerializers(read_only = True)\n     activity = BookingActivitySerializers(read_only = True)\n     package = BookingPackageSerializers(read_only = True)\n     destination = BookingDestinationSerializers(read_only = True)\n"
+                }
+            ],
+            "date": 1724847371590,
+            "name": "Commit-0",
+            "content": "from rest_framework import serializers\nfrom ..models import DestinationBook\nfrom accounts.models import CustomUser\nfrom airlines.models import Airlines\nfrom activities.models import Activity\nfrom destination.models import Package,Destination\n\nclass BookingUserSerializers(serializers.ModelSerializer):\n    class Meta:\n        model = CustomUser\n        fields = ['full_name','phone','email']\n        \nclass BookingAirlinesSerializers(serializers.ModelSerializer):\n    class Meta:\n        model = Airlines\n        fields = '__all__'\n        \nclass BookingActivitySerializers(serializers.ModelSerializer):\n    class Meta:\n        model = Activity\n        fields = ['name']\n        \nclass BookingPackageSerializers(serializers.ModelSerializer):\n    class Meta:\n        model = Package\n        fields = ['name']\n        \nclass BookingDestinationSerializers(serializers.ModelSerializer):\n    class Meta:\n        model = Destination\n        fields = ['destination_title']\n\nclass DestinationBookListSerializers(serializers.ModelSerializer):\n    # user = BookingUserSerializers(read_only = True)\n    # airlines = BookingAirlinesSerializers(read_only = True)\n    activity = BookingActivitySerializers(read_only = True)\n    package = BookingPackageSerializers(read_only = True)\n    destination = BookingDestinationSerializers(read_only = True)\n    class Meta:\n        model = DestinationBook\n        fields = '__all__'\n        \nclass DestinationBookRetrieveSerializers(serializers.ModelSerializer):\n    user = BookingUserSerializers(read_only = True)\n    # airlines = BookingAirlinesSerializers(read_only = True)\n    activity = BookingActivitySerializers(read_only = True)\n    package = BookingPackageSerializers(read_only = True)\n    destination = BookingDestinationSerializers(read_only = True)\n    class Meta:\n        model = DestinationBook\n        fields = '__all__'\n\nclass DestinationBookWriteSerializers(serializers.ModelSerializer):\n    class Meta:\n        model = DestinationBook\n        fields = '__all__'\n        \n        \n    # user_booking = BookingUserSerializers(read_only = True)\n    # airlines_booking = BookingAirlinesSerializers(read_only = True)\n    # activity_booking = BookingActivitySerializers(read_only = True)\n    # package_booking = BookingPackageSerializers(read_only = True)\n    # destination_book = BookingDestinationSerializers(read_only = True)"
+        }
+    ]
+}

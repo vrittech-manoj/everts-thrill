@@ -16,7 +16,9 @@ class DestinationBook(models.Model):
         ('premium','Premium'),
     )
     public_id = models.UUIDField(default=uuid.uuid4,editable=False,unique=True)
-    user = models.ForeignKey(CustomUser,related_name = 'user_booking', on_delete  = models.CASCADE)
+    full_name = models.CharField(max_length=45,null=True,blank=True)
+    email = models.EmailField(null=True,blank=True)
+    phone_number = models.CharField(max_length=15,null=True,blank=True)
     country = models.CharField(max_length=45)
     airlines = models.CharField(max_length=450)
     number_of_travelers = models.IntegerField(default = 1) #if group companions then specify numbers
