@@ -1,6 +1,5 @@
 from rest_framework import viewsets, permissions, filters
 from ..models import Destination
-
 from django.shortcuts import get_object_or_404
 from ..serializers.destination_serializers import (
     DestinationlistUserSerializers,
@@ -8,8 +7,6 @@ from ..serializers.destination_serializers import (
     DestinationRetrieveUserSerializers,
     DestinationRetrieveAdminSerializers,
     DestinationWriteSerializers
-    
-
 )
 from ..utilities.importbase import *
 from ..utilities.permissions import destinationPermission
@@ -22,6 +19,8 @@ import django_filters
 # Custom filter set for Destination model
 class DestinationFilter(django_filters.FilterSet):
     package_id = django_filters.CharFilter(field_name='packages__id', lookup_expr='exact')
+    min_duration = django_filters.NumberFilter(field_name='duration', lookup_expr='gte')
+    max_duration = django_filters.NumberFilter(field_name='duration', lookup_expr='lte')
 
     class Meta:
         model = Destination
@@ -29,6 +28,7 @@ class DestinationFilter(django_filters.FilterSet):
             'destination_title': ['exact', 'icontains'],
             'nature_of_trip': ['exact', 'icontains'],
             'activities': ['exact'],
+            'duration': ['exact'],
             'collections': ['exact'],
         }
 
@@ -39,7 +39,7 @@ class DestinationViewsets(viewsets.ModelViewSet):
 
     filter_backends = [SearchFilter, DjangoFilterBackend, OrderingFilter]
     search_fields = ['destination_title']
-    ordering_fields = ['destination_title', 'id','duration']
+    ordering_fields = ['destination_title', 'id', 'duration']
     filterset_class = DestinationFilter  # Use the custom filter set here
     lookup_field = "slug"
 
@@ -47,12 +47,12 @@ class DestinationViewsets(viewsets.ModelViewSet):
         if self.action in ['create', 'update', 'partial_update']:
             return DestinationWriteSerializers
         elif self.action == "list":
-            if self.request.user.is_authenticated and self.request.user.role in [roles.ADMIN, roles.SUPER_ADMIN]:
+            if self.request.user.is_authenticated and her.request.user.role in [roles.ADMIN, roles.SUPER_ADMIN]:
                 return DestinationlistAdminSerializers
             else:
                 return DestinationlistUserSerializers
         elif self.action == "retrieve":
-            if self.request.user.is_authenticated and self.request.user.role in [roles.ADMIN, roles.SUPER_ADMIN]:
+            if self.request.user.is_authenticated and her.request.user.role in [roles.ADMIN, roles.SUPER_ADMIN]:
                 return DestinationRetrieveAdminSerializers
             else:
                 return DestinationRetrieveUserSerializers
