@@ -3,7 +3,7 @@
     "activeCommit": 0,
     "commits": [
         {
-            "activePatchIndex": 1,
+            "activePatchIndex": 10,
             "patches": [
                 {
                     "date": 1724817730658,
@@ -12,6 +12,42 @@
                 {
                     "date": 1724817735947,
                     "content": "Index: \n===================================================================\n--- \n+++ \n@@ -42,16 +42,16 @@\n \n class bookingPermission(BasePermission):\n     def has_permission(self, request, view):\n         True\n-        if view.action in [\"list\"]:\n-            return True\n-        elif view.action in ['retrieve']:\n-            return AdminLevel(request)\n-        elif view.action in ['create','update']:\n-            return AdminLevel(request) #second level\n-            return ObjectBOwner(request) #third level\n-        elif view.action == \"partial_update\":\n-            return AdminLevel(request)\n-        elif view.action == 'destroy':\n-            return AdminLevel(request)\n+        # if view.action in [\"list\"]:\n+        #     return True\n+        # elif view.action in ['retrieve']:\n+        #     return AdminLevel(request)\n+        # elif view.action in ['create','update']:\n+        #     return AdminLevel(request) #second level\n+        #     return ObjectBOwner(request) #third level\n+        # elif view.action == \"partial_update\":\n+        #     return AdminLevel(request)\n+        # elif view.action == 'destroy':\n+        #     return AdminLevel(request)\n \n"
+                },
+                {
+                    "date": 1724822500295,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -42,16 +42,16 @@\n \n class bookingPermission(BasePermission):\n     def has_permission(self, request, view):\n         True\n-        # if view.action in [\"list\"]:\n-        #     return True\n-        # elif view.action in ['retrieve']:\n-        #     return AdminLevel(request)\n-        # elif view.action in ['create','update']:\n-        #     return AdminLevel(request) #second level\n-        #     return ObjectBOwner(request) #third level\n-        # elif view.action == \"partial_update\":\n-        #     return AdminLevel(request)\n-        # elif view.action == 'destroy':\n-        #     return AdminLevel(request)\n+        if view.action in [\"list\"]:\n+            return True\n+        elif view.action in ['retrieve']:\n+            return AdminLevel(request)\n+        elif view.action in ['create','update']:\n+            return AdminLevel(request) #second level\n+            return ObjectBOwner(request) #third level\n+        elif view.action == \"partial_update\":\n+            return AdminLevel(request)\n+        elif view.action == 'destroy':\n+            return AdminLevel(request)\n \n"
+                },
+                {
+                    "date": 1724822521703,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -47,9 +47,9 @@\n             return True\n         elif view.action in ['retrieve']:\n             return AdminLevel(request)\n         elif view.action in ['create','update']:\n-            return AdminLevel(request) #second level\n+            return \n             return ObjectBOwner(request) #third level\n         elif view.action == \"partial_update\":\n             return AdminLevel(request)\n         elif view.action == 'destroy':\n"
+                },
+                {
+                    "date": 1724822527423,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -47,9 +47,9 @@\n             return True\n         elif view.action in ['retrieve']:\n             return AdminLevel(request)\n         elif view.action in ['create','update']:\n-            return \n+            return request.is\n             return ObjectBOwner(request) #third level\n         elif view.action == \"partial_update\":\n             return AdminLevel(request)\n         elif view.action == 'destroy':\n"
+                },
+                {
+                    "date": 1724822590662,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -47,9 +47,9 @@\n             return True\n         elif view.action in ['retrieve']:\n             return AdminLevel(request)\n         elif view.action in ['create','update']:\n-            return request.is\n+            return request.\n             return ObjectBOwner(request) #third level\n         elif view.action == \"partial_update\":\n             return AdminLevel(request)\n         elif view.action == 'destroy':\n"
+                },
+                {
+                    "date": 1724822611401,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -47,9 +47,9 @@\n             return True\n         elif view.action in ['retrieve']:\n             return AdminLevel(request)\n         elif view.action in ['create','update']:\n-            return request.\n+            return request.user.\n             return ObjectBOwner(request) #third level\n         elif view.action == \"partial_update\":\n             return AdminLevel(request)\n         elif view.action == 'destroy':\n"
+                },
+                {
+                    "date": 1724822619364,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -47,9 +47,9 @@\n             return True\n         elif view.action in ['retrieve']:\n             return AdminLevel(request)\n         elif view.action in ['create','update']:\n-            return request.user.\n+            return request.User\n             return ObjectBOwner(request) #third level\n         elif view.action == \"partial_update\":\n             return AdminLevel(request)\n         elif view.action == 'destroy':\n"
+                },
+                {
+                    "date": 1724822626257,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -47,9 +47,9 @@\n             return True\n         elif view.action in ['retrieve']:\n             return AdminLevel(request)\n         elif view.action in ['create','update']:\n-            return request.User\n+            return request\n             return ObjectBOwner(request) #third level\n         elif view.action == \"partial_update\":\n             return AdminLevel(request)\n         elif view.action == 'destroy':\n"
+                },
+                {
+                    "date": 1724822648043,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -47,9 +47,9 @@\n             return True\n         elif view.action in ['retrieve']:\n             return AdminLevel(request)\n         elif view.action in ['create','update']:\n-            return request\n+            return IsAuthenticated(request)\n             return ObjectBOwner(request) #third level\n         elif view.action == \"partial_update\":\n             return AdminLevel(request)\n         elif view.action == 'destroy':\n"
+                },
+                {
+                    "date": 1724822658849,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -50,8 +50,8 @@\n         elif view.action in ['create','update']:\n             return IsAuthenticated(request)\n             return ObjectBOwner(request) #third level\n         elif view.action == \"partial_update\":\n-            return AdminLevel(request)\n+            return IsAuthenticated(request)\n         elif view.action == 'destroy':\n             return AdminLevel(request)\n \n"
                 }
             ],
             "date": 1724817730658,

@@ -15,9 +15,9 @@ class AdminViewSetsPermission(BasePermission):
         elif view.action in ['retrieve']:
             return True
         elif view.action in ['create','update']:
-            return AdminLevel(request) #second level
+            return True
             return ObjectBOwner(request) #third level
         elif view.action == "partial_update":
-            return AdminLevel(request)
+            return True
         elif view.action == 'destroy':
             return AdminLevel(request)
