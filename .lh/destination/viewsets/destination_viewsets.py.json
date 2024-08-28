@@ -3,7 +3,7 @@
     "activeCommit": 0,
     "commits": [
         {
-            "activePatchIndex": 4,
+            "activePatchIndex": 11,
             "patches": [
                 {
                     "date": 1724818676603,
@@ -24,6 +24,34 @@
                 {
                     "date": 1724820103819,
                     "content": "Index: \n===================================================================\n--- \n+++ \n@@ -30,8 +30,9 @@\n         fields = {\n             'destination_title': ['exact', 'icontains'],\n             'nature_of_trip': ['exact', 'icontains'],\n             'activities': ['exact'],\n+            'activities': ['exact'],\n             'collections': ['exact'],\n         }\n \n class DestinationViewsets(viewsets.ModelViewSet):\n"
+                },
+                {
+                    "date": 1724820993023,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -30,11 +30,13 @@\n         fields = {\n             'destination_title': ['exact', 'icontains'],\n             'nature_of_trip': ['exact', 'icontains'],\n             'activities': ['exact'],\n-            'activities': ['exact'],\n+            'duration': ['exact'],\n             'collections': ['exact'],\n         }\n+        \n+        \n \n class DestinationViewsets(viewsets.ModelViewSet):\n     permission_classes = [destinationPermission]\n     pagination_class = MyPageNumberPagination\n"
+                },
+                {
+                    "date": 1724821462294,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -19,25 +19,9 @@\n from rest_framework.filters import SearchFilter, OrderingFilter\n import django_filters\n \n # Custom filter set for Destination model\n-class DestinationFilter(django_filters.FilterSet):\n-    package_id = django_filters.CharFilter(field_name='packages__id', lookup_expr='exact')\n-    min_duration = django_filters.NumberFilter(field_name='duration', lookup_expr='gte')\n-    max_duration = django_filters.NumberFilter(field_name='duration', lookup_expr='lte')\n \n-    class Meta:\n-        model = Destination\n-        fields = {\n-            'destination_title': ['exact', 'icontains'],\n-            'nature_of_trip': ['exact', 'icontains'],\n-            'activities': ['exact'],\n-            'duration': ['exact'],\n-            'collections': ['exact'],\n-        }\n-        \n-        \n-\n class DestinationViewsets(viewsets.ModelViewSet):\n     permission_classes = [destinationPermission]\n     pagination_class = MyPageNumberPagination\n     queryset = Destination.objects.all().order_by(\"-destination_title\")\n"
+                },
+                {
+                    "date": 1724821469622,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -17,11 +17,10 @@\n from rest_framework_simplejwt.authentication import JWTAuthentication\n from django_filters.rest_framework import DjangoFilterBackend\n from rest_framework.filters import SearchFilter, OrderingFilter\n import django_filters\n+from ut\n \n-# Custom filter set for Destination model\n-\n class DestinationViewsets(viewsets.ModelViewSet):\n     permission_classes = [destinationPermission]\n     pagination_class = MyPageNumberPagination\n     queryset = Destination.objects.all().order_by(\"-destination_title\")\n"
+                },
+                {
+                    "date": 1724821499591,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -17,9 +17,9 @@\n from rest_framework_simplejwt.authentication import JWTAuthentication\n from django_filters.rest_framework import DjangoFilterBackend\n from rest_framework.filters import SearchFilter, OrderingFilter\n import django_filters\n-from ut\n+from utilities.\n \n class DestinationViewsets(viewsets.ModelViewSet):\n     permission_classes = [destinationPermission]\n     pagination_class = MyPageNumberPagination\n@@ -27,9 +27,9 @@\n \n     filter_backends = [SearchFilter, DjangoFilterBackend, OrderingFilter]\n     search_fields = ['destination_title']\n     ordering_fields = ['destination_title', 'id','duration']\n-    filterset_class = DestinationFilter  # Use the custom filter set here\n+    filterset_class = \n     lookup_field = \"slug\"\n \n     def get_serializer_class(self):\n         if self.action in ['create', 'update', 'partial_update']:\n"
+                },
+                {
+                    "date": 1724821508484,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -17,9 +17,9 @@\n from rest_framework_simplejwt.authentication import JWTAuthentication\n from django_filters.rest_framework import DjangoFilterBackend\n from rest_framework.filters import SearchFilter, OrderingFilter\n import django_filters\n-from utilities.\n+from utilities.destination_filter import Des\n \n class DestinationViewsets(viewsets.ModelViewSet):\n     permission_classes = [destinationPermission]\n     pagination_class = MyPageNumberPagination\n@@ -27,9 +27,9 @@\n \n     filter_backends = [SearchFilter, DjangoFilterBackend, OrderingFilter]\n     search_fields = ['destination_title']\n     ordering_fields = ['destination_title', 'id','duration']\n-    filterset_class = \n+    filterset_class = De\n     lookup_field = \"slug\"\n \n     def get_serializer_class(self):\n         if self.action in ['create', 'update', 'partial_update']:\n"
+                },
+                {
+                    "date": 1724821513639,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -17,9 +17,9 @@\n from rest_framework_simplejwt.authentication import JWTAuthentication\n from django_filters.rest_framework import DjangoFilterBackend\n from rest_framework.filters import SearchFilter, OrderingFilter\n import django_filters\n-from utilities.destination_filter import Des\n+from utilities.destination_filter import DestinationFilter\n \n class DestinationViewsets(viewsets.ModelViewSet):\n     permission_classes = [destinationPermission]\n     pagination_class = MyPageNumberPagination\n@@ -27,9 +27,9 @@\n \n     filter_backends = [SearchFilter, DjangoFilterBackend, OrderingFilter]\n     search_fields = ['destination_title']\n     ordering_fields = ['destination_title', 'id','duration']\n-    filterset_class = De\n+    filterset_class = DestinationFilter\n     lookup_field = \"slug\"\n \n     def get_serializer_class(self):\n         if self.action in ['create', 'update', 'partial_update']:\n"
+                },
+                {
+                    "date": 1724821544260,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -17,9 +17,9 @@\n from rest_framework_simplejwt.authentication import JWTAuthentication\n from django_filters.rest_framework import DjangoFilterBackend\n from rest_framework.filters import SearchFilter, OrderingFilter\n import django_filters\n-from utilities.destination_filter import DestinationFilter\n+from ..utilities.destination_filter import DestinationFilter\n \n class DestinationViewsets(viewsets.ModelViewSet):\n     permission_classes = [destinationPermission]\n     pagination_class = MyPageNumberPagination\n"
                 }
             ],
             "date": 1724818676603,

@@ -1,0 +1,130 @@
+{
+    "sourceFile": "destination/utilities/job_filter.py",
+    "activeCommit": 0,
+    "commits": [
+        {
+            "activePatchIndex": 28,
+            "patches": [
+                {
+                    "date": 1724821031423,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n"
+                },
+                {
+                    "date": 1724821037891,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -2,9 +2,9 @@\n from ..models import Jobs\n import ast\n \n class JobFilter(django_filters.FilterSet):\n-    category = django_filters.CharFilter(method='filter_by_activities')\n+    activities = django_filters.CharFilter(method='filter_by_activities')\n     timing = django_filters.CharFilter(method='filter_by_timing')\n     location = django_filters.CharFilter(method='filter_by_location')\n     class Meta:\n         model = Jobs\n"
+                },
+                {
+                    "date": 1724821056210,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -4,9 +4,9 @@\n \n class JobFilter(django_filters.FilterSet):\n     activities = django_filters.CharFilter(method='filter_by_activities')\n     timing = django_filters.CharFilter(method='filter_by_timing')\n-    location = django_filters.CharFilter(method='filter_by_location')\n+    # location = django_filters.CharFilter(method='filter_by_location')\n     class Meta:\n         model = Jobs\n         fields = {\n             'title' : ['icontains'],\n"
+                },
+                {
+                    "date": 1724821065634,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -1,11 +1,11 @@\n import django_filters\n-from ..models import Jobs\n+from ..models import Destination\n import ast\n \n class JobFilter(django_filters.FilterSet):\n     activities = django_filters.CharFilter(method='filter_by_activities')\n-    timing = django_filters.CharFilter(method='filter_by_timing')\n+    # timing = django_filters.CharFilter(method='filter_by_timing')\n     # location = django_filters.CharFilter(method='filter_by_location')\n     class Meta:\n         model = Jobs\n         fields = {\n"
+                },
+                {
+                    "date": 1724821072794,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -6,9 +6,9 @@\n     activities = django_filters.CharFilter(method='filter_by_activities')\n     # timing = django_filters.CharFilter(method='filter_by_timing')\n     # location = django_filters.CharFilter(method='filter_by_location')\n     class Meta:\n-        model = Jobs\n+        model = Destination\n         fields = {\n             'title' : ['icontains'],\n             'min_salary': ['exact', 'gte', 'lte'],\n             'max_salary': ['exact', 'gte', 'lte'],\n"
+                },
+                {
+                    "date": 1724821080621,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -8,9 +8,9 @@\n     # location = django_filters.CharFilter(method='filter_by_location')\n     class Meta:\n         model = Destination\n         fields = {\n-            'title' : ['icontains'],\n+            'destination_title' : ['icontains'],\n             'min_salary': ['exact', 'gte', 'lte'],\n             'max_salary': ['exact', 'gte', 'lte'],\n             'level': ['exact'],\n             'status':['exact'],\n"
+                },
+                {
+                    "date": 1724821105760,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -9,9 +9,9 @@\n     class Meta:\n         model = Destination\n         fields = {\n             'destination_title' : ['icontains'],\n-            'min_salary': ['exact', 'gte', 'lte'],\n+            'min_duration': ['exact', 'gte', 'lte'],\n             'max_salary': ['exact', 'gte', 'lte'],\n             'level': ['exact'],\n             'status':['exact'],\n             'salary_mode': ['exact'],\n"
+                },
+                {
+                    "date": 1724821165891,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -9,18 +9,13 @@\n     class Meta:\n         model = Destination\n         fields = {\n             'destination_title' : ['icontains'],\n-            'min_duration': ['exact', 'gte', 'lte'],\n-            'max_salary': ['exact', 'gte', 'lte'],\n-            'level': ['exact'],\n-            'status':['exact'],\n-            'salary_mode': ['exact'],\n-            'company__location': ['icontains'],\n-            'position': ['exact'],\n-            'company':['exact'],\n-            'id':['exact'],\n-            'is_active':['exact']\n+            'destination_title': ['exact', 'icontains'],\n+            'nature_of_trip': ['exact', 'icontains'],\n+            'activities': ['exact'],\n+            'duration': ['exact'],\n+            'collections': ['exact'],\n         }\n \n     def filter_by_category(self, queryset, name, value):\n         try:\n"
+                },
+                {
+                    "date": 1724821171393,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -8,9 +8,8 @@\n     # location = django_filters.CharFilter(method='filter_by_location')\n     class Meta:\n         model = Destination\n         fields = {\n-            'destination_title' : ['icontains'],\n             'destination_title': ['exact', 'icontains'],\n             'nature_of_trip': ['exact', 'icontains'],\n             'activities': ['exact'],\n             'duration': ['exact'],\n"
+                },
+                {
+                    "date": 1724821178511,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -10,9 +10,8 @@\n         model = Destination\n         fields = {\n             'destination_title': ['exact', 'icontains'],\n             'nature_of_trip': ['exact', 'icontains'],\n-            'activities': ['exact'],\n             'duration': ['exact'],\n             'collections': ['exact'],\n         }\n \n"
+                },
+                {
+                    "date": 1724821187904,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -3,8 +3,9 @@\n import ast\n \n class JobFilter(django_filters.FilterSet):\n     activities = django_filters.CharFilter(method='filter_by_activities')\n+    collections = django_filters.CharFilter(method='filter_by_activities')\n     # timing = django_filters.CharFilter(method='filter_by_timing')\n     # location = django_filters.CharFilter(method='filter_by_location')\n     class Meta:\n         model = Destination\n"
+                },
+                {
+                    "date": 1724821195858,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -3,9 +3,9 @@\n import ast\n \n class JobFilter(django_filters.FilterSet):\n     activities = django_filters.CharFilter(method='filter_by_activities')\n-    collections = django_filters.CharFilter(method='filter_by_activities')\n+    collections = django_filters.CharFilter(method='filter_by_collections')\n     # timing = django_filters.CharFilter(method='filter_by_timing')\n     # location = django_filters.CharFilter(method='filter_by_location')\n     class Meta:\n         model = Destination\n"
+                },
+                {
+                    "date": 1724821202568,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -12,9 +12,8 @@\n         fields = {\n             'destination_title': ['exact', 'icontains'],\n             'nature_of_trip': ['exact', 'icontains'],\n             'duration': ['exact'],\n-            'collections': ['exact'],\n         }\n \n     def filter_by_category(self, queryset, name, value):\n         try:\n"
+                },
+                {
+                    "date": 1724821227708,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -14,9 +14,9 @@\n             'nature_of_trip': ['exact', 'icontains'],\n             'duration': ['exact'],\n         }\n \n-    def filter_by_category(self, queryset, name, value):\n+    def filter_by_activities(self, queryset, name, value):\n         try:\n             categories = self.request.GET.get('category')\n             categories = categories.split(',')\n             queryset = queryset.filter(category_id__in=categories)\n"
+                },
+                {
+                    "date": 1724821240526,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -16,9 +16,9 @@\n         }\n \n     def filter_by_activities(self, queryset, name, value):\n         try:\n-            categories = self.request.GET.get('category')\n+            categories = self.request.GET.get('activities')\n             categories = categories.split(',')\n             queryset = queryset.filter(category_id__in=categories)\n         except:\n             pass\n"
+                },
+                {
+                    "date": 1724821253670,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -16,9 +16,9 @@\n         }\n \n     def filter_by_activities(self, queryset, name, value):\n         try:\n-            categories = self.request.GET.get('activities')\n+            activities = self.request.GET.get('activities')\n             categories = categories.split(',')\n             queryset = queryset.filter(category_id__in=categories)\n         except:\n             pass\n"
+                },
+                {
+                    "date": 1724821260524,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -17,9 +17,9 @@\n \n     def filter_by_activities(self, queryset, name, value):\n         try:\n             activities = self.request.GET.get('activities')\n-            categories = categories.split(',')\n+            activities = activities.split(',')\n             queryset = queryset.filter(category_id__in=categories)\n         except:\n             pass\n         return queryset\n"
+                },
+                {
+                    "date": 1724821266415,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -18,9 +18,9 @@\n     def filter_by_activities(self, queryset, name, value):\n         try:\n             activities = self.request.GET.get('activities')\n             activities = activities.split(',')\n-            queryset = queryset.filter(category_id__in=categories)\n+            queryset = queryset.filter(activities_id__in=activities)\n         except:\n             pass\n         return queryset\n \n"
+                },
+                {
+                    "date": 1724821291560,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -4,8 +4,11 @@\n \n class JobFilter(django_filters.FilterSet):\n     activities = django_filters.CharFilter(method='filter_by_activities')\n     collections = django_filters.CharFilter(method='filter_by_collections')\n+    package_id = django_filters.CharFilter(field_name='packages__id', lookup_expr='exact')\n+    min_duration = django_filters.NumberFilter(field_name='duration', lookup_expr='gte')\n+    max_duration = django_filters.NumberFilter(field_name='duration', lookup_expr='lte')\n     # timing = django_filters.CharFilter(method='filter_by_timing')\n     # location = django_filters.CharFilter(method='filter_by_location')\n     class Meta:\n         model = Destination\n"
+                },
+                {
+                    "date": 1724821300310,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -4,13 +4,12 @@\n \n class JobFilter(django_filters.FilterSet):\n     activities = django_filters.CharFilter(method='filter_by_activities')\n     collections = django_filters.CharFilter(method='filter_by_collections')\n+    \n     package_id = django_filters.CharFilter(field_name='packages__id', lookup_expr='exact')\n     min_duration = django_filters.NumberFilter(field_name='duration', lookup_expr='gte')\n     max_duration = django_filters.NumberFilter(field_name='duration', lookup_expr='lte')\n-    # timing = django_filters.CharFilter(method='filter_by_timing')\n-    # location = django_filters.CharFilter(method='filter_by_location')\n     class Meta:\n         model = Destination\n         fields = {\n             'destination_title': ['exact', 'icontains'],\n"
+                },
+                {
+                    "date": 1724821322117,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -24,8 +24,16 @@\n             queryset = queryset.filter(activities_id__in=activities)\n         except:\n             pass\n         return queryset\n+    def filter_by_activities(self, queryset, name, value):\n+        try:\n+            activities = self.request.GET.get('activities')\n+            activities = activities.split(',')\n+            queryset = queryset.filter(activities_id__in=activities)\n+        except:\n+            pass\n+        return queryset\n \n     \n \n     def filter_by_location(self, queryset, name, value):\n"
+                },
+                {
+                    "date": 1724821331245,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -24,9 +24,11 @@\n             queryset = queryset.filter(activities_id__in=activities)\n         except:\n             pass\n         return queryset\n-    def filter_by_activities(self, queryset, name, value):\n+    \n+    \n+    def filter_by_collections(self, queryset, name, value):\n         try:\n             activities = self.request.GET.get('activities')\n             activities = activities.split(',')\n             queryset = queryset.filter(activities_id__in=activities)\n"
+                },
+                {
+                    "date": 1724821345191,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -18,9 +18,9 @@\n         }\n \n     def filter_by_activities(self, queryset, name, value):\n         try:\n-            activities = self.request.GET.get('activities')\n+            collections = self.request.GET.get('activities')\n             activities = activities.split(',')\n             queryset = queryset.filter(activities_id__in=activities)\n         except:\n             pass\n"
+                },
+                {
+                    "date": 1724821351149,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -18,10 +18,10 @@\n         }\n \n     def filter_by_activities(self, queryset, name, value):\n         try:\n-            collections = self.request.GET.get('activities')\n-            activities = activities.split(',')\n+            collections = self.request.GET.get('collections')\n+            collections = collections.split(',')\n             queryset = queryset.filter(activities_id__in=activities)\n         except:\n             pass\n         return queryset\n"
+                },
+                {
+                    "date": 1724821356702,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -20,9 +20,9 @@\n     def filter_by_activities(self, queryset, name, value):\n         try:\n             collections = self.request.GET.get('collections')\n             collections = collections.split(',')\n-            queryset = queryset.filter(activities_id__in=activities)\n+            queryset = queryset.filter(collections_id__in=collections)\n         except:\n             pass\n         return queryset\n     \n"
+                },
+                {
+                    "date": 1724821368583,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -16,9 +16,9 @@\n             'nature_of_trip': ['exact', 'icontains'],\n             'duration': ['exact'],\n         }\n \n-    def filter_by_activities(self, queryset, name, value):\n+    def filter_by_collections(self, queryset, name, value):\n         try:\n             collections = self.request.GET.get('collections')\n             collections = collections.split(',')\n             queryset = queryset.filter(collections_id__in=collections)\n"
+                },
+                {
+                    "date": 1724821380615,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -26,9 +26,9 @@\n             pass\n         return queryset\n     \n     \n-    def filter_by_collections(self, queryset, name, value):\n+    def filter_by_activities(self, queryset, name, value):\n         try:\n             activities = self.request.GET.get('activities')\n             activities = activities.split(',')\n             queryset = queryset.filter(activities_id__in=activities)\n"
+                },
+                {
+                    "date": 1724821415752,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -35,25 +35,4 @@\n         except:\n             pass\n         return queryset\n \n-    \n-\n-    def filter_by_location(self, queryset, name, value):\n-        try:\n-            locations = self.request.GET.get('location')\n-            locations = locations.split(',')\n-            if locations:\n-                queryset = queryset.filter(location__in=locations)\n-        except:\n-            pass\n-        return queryset\n-    \n-    \n-    def filter_by_timing(self, queryset, name, value):\n-        try:\n-            timing_list = self.request.GET.getlist('timing')\n-            timing_list = timing_list.split(',')\n-            queryset = queryset.filter(timing__in=timing_list)\n-        except:\n-            pass\n-        return queryset\n"
+                },
+                {
+                    "date": 1724821424743,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -1,9 +1,9 @@\n import django_filters\n from ..models import Destination\n import ast\n \n-class JobFilter(django_filters.FilterSet):\n+class DestinationFilter(django_filters.FilterSet):\n     activities = django_filters.CharFilter(method='filter_by_activities')\n     collections = django_filters.CharFilter(method='filter_by_collections')\n     \n     package_id = django_filters.CharFilter(field_name='packages__id', lookup_expr='exact')\n"
+                }
+            ],
+            "date": 1724821031423,
+            "name": "Commit-0",
+            "content": "import django_filters\nfrom ..models import Jobs\nimport ast\n\nclass JobFilter(django_filters.FilterSet):\n    category = django_filters.CharFilter(method='filter_by_activities')\n    timing = django_filters.CharFilter(method='filter_by_timing')\n    location = django_filters.CharFilter(method='filter_by_location')\n    class Meta:\n        model = Jobs\n        fields = {\n            'title' : ['icontains'],\n            'min_salary': ['exact', 'gte', 'lte'],\n            'max_salary': ['exact', 'gte', 'lte'],\n            'level': ['exact'],\n            'status':['exact'],\n            'salary_mode': ['exact'],\n            'company__location': ['icontains'],\n            'position': ['exact'],\n            'company':['exact'],\n            'id':['exact'],\n            'is_active':['exact']\n        }\n\n    def filter_by_category(self, queryset, name, value):\n        try:\n            categories = self.request.GET.get('category')\n            categories = categories.split(',')\n            queryset = queryset.filter(category_id__in=categories)\n        except:\n            pass\n        return queryset\n\n    \n\n    def filter_by_location(self, queryset, name, value):\n        try:\n            locations = self.request.GET.get('location')\n            locations = locations.split(',')\n            if locations:\n                queryset = queryset.filter(location__in=locations)\n        except:\n            pass\n        return queryset\n    \n    \n    def filter_by_timing(self, queryset, name, value):\n        try:\n            timing_list = self.request.GET.getlist('timing')\n            timing_list = timing_list.split(',')\n            queryset = queryset.filter(timing__in=timing_list)\n        except:\n            pass\n        return queryset\n"
+        }
+    ]
+}

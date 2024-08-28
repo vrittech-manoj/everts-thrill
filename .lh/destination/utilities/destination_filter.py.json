@@ -1,0 +1,62 @@
+{
+    "sourceFile": "destination/utilities/destination_filter.py",
+    "activeCommit": 0,
+    "commits": [
+        {
+            "activePatchIndex": 11,
+            "patches": [
+                {
+                    "date": 1724821555571,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n"
+                },
+                {
+                    "date": 1724821611886,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -4,8 +4,9 @@\n \n class DestinationFilter(django_filters.FilterSet):\n     activities = django_filters.CharFilter(method='filter_by_activities')\n     collections = django_filters.CharFilter(method='filter_by_collections')\n+    collections = django_filters.CharFilter(method='filter_by_collections')\n     \n     package_id = django_filters.CharFilter(field_name='packages__id', lookup_expr='exact')\n     min_duration = django_filters.NumberFilter(field_name='duration', lookup_expr='gte')\n     max_duration = django_filters.NumberFilter(field_name='duration', lookup_expr='lte')\n"
+                },
+                {
+                    "date": 1724821620995,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -4,9 +4,9 @@\n \n class DestinationFilter(django_filters.FilterSet):\n     activities = django_filters.CharFilter(method='filter_by_activities')\n     collections = django_filters.CharFilter(method='filter_by_collections')\n-    collections = django_filters.CharFilter(method='filter_by_collections')\n+    packages = django_filters.CharFilter(method='filter_by_collections')\n     \n     package_id = django_filters.CharFilter(field_name='packages__id', lookup_expr='exact')\n     min_duration = django_filters.NumberFilter(field_name='duration', lookup_expr='gte')\n     max_duration = django_filters.NumberFilter(field_name='duration', lookup_expr='lte')\n"
+                },
+                {
+                    "date": 1724821649866,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -4,9 +4,9 @@\n \n class DestinationFilter(django_filters.FilterSet):\n     activities = django_filters.CharFilter(method='filter_by_activities')\n     collections = django_filters.CharFilter(method='filter_by_collections')\n-    packages = django_filters.CharFilter(method='filter_by_collections')\n+    packages = django_filters.CharFilter(method='filter_by_packages')\n     \n     package_id = django_filters.CharFilter(field_name='packages__id', lookup_expr='exact')\n     min_duration = django_filters.NumberFilter(field_name='duration', lookup_expr='gte')\n     max_duration = django_filters.NumberFilter(field_name='duration', lookup_expr='lte')\n"
+                },
+                {
+                    "date": 1724821656120,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -6,9 +6,9 @@\n     activities = django_filters.CharFilter(method='filter_by_activities')\n     collections = django_filters.CharFilter(method='filter_by_collections')\n     packages = django_filters.CharFilter(method='filter_by_packages')\n     \n-    package_id = django_filters.CharFilter(field_name='packages__id', lookup_expr='exact')\n+    # package_id = django_filters.CharFilter(field_name='packages__id', lookup_expr='exact')\n     min_duration = django_filters.NumberFilter(field_name='duration', lookup_expr='gte')\n     max_duration = django_filters.NumberFilter(field_name='duration', lookup_expr='lte')\n     class Meta:\n         model = Destination\n"
+                },
+                {
+                    "date": 1724821664321,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -35,5 +35,13 @@\n             queryset = queryset.filter(activities_id__in=activities)\n         except:\n             pass\n         return queryset\n+    def filter_by_activities(self, queryset, name, value):\n+        try:\n+            activities = self.request.GET.get('activities')\n+            activities = activities.split(',')\n+            queryset = queryset.filter(activities_id__in=activities)\n+        except:\n+            pass\n+        return queryset\n \n"
+                },
+                {
+                    "date": 1724821674200,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -35,11 +35,13 @@\n             queryset = queryset.filter(activities_id__in=activities)\n         except:\n             pass\n         return queryset\n+    \n+    \n     def filter_by_activities(self, queryset, name, value):\n         try:\n-            activities = self.request.GET.get('activities')\n+            packages = self.request.GET.get('activities')\n             activities = activities.split(',')\n             queryset = queryset.filter(activities_id__in=activities)\n         except:\n             pass\n"
+                },
+                {
+                    "date": 1724821680948,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -37,11 +37,11 @@\n             pass\n         return queryset\n     \n     \n-    def filter_by_activities(self, queryset, name, value):\n+    def filter_by_packages(self, queryset, name, value):\n         try:\n-            packages = self.request.GET.get('activities')\n+            packages = self.request.GET.get('packages')\n             activities = activities.split(',')\n             queryset = queryset.filter(activities_id__in=activities)\n         except:\n             pass\n"
+                },
+                {
+                    "date": 1724821686183,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -40,10 +40,10 @@\n     \n     def filter_by_packages(self, queryset, name, value):\n         try:\n             packages = self.request.GET.get('packages')\n-            activities = activities.split(',')\n-            queryset = queryset.filter(activities_id__in=activities)\n+            packages = packages.split(',')\n+            queryset = queryset.filter(activities_id__in=packages)\n         except:\n             pass\n         return queryset\n \n"
+                },
+                {
+                    "date": 1724821784206,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -6,11 +6,9 @@\n     activities = django_filters.CharFilter(method='filter_by_activities')\n     collections = django_filters.CharFilter(method='filter_by_collections')\n     packages = django_filters.CharFilter(method='filter_by_packages')\n     \n-    # package_id = django_filters.CharFilter(field_name='packages__id', lookup_expr='exact')\n-    min_duration = django_filters.NumberFilter(field_name='duration', lookup_expr='gte')\n-    max_duration = django_filters.NumberFilter(field_name='duration', lookup_expr='lte')\n+\n     class Meta:\n         model = Destination\n         fields = {\n             'destination_title': ['exact', 'icontains'],\n@@ -41,9 +39,9 @@\n     def filter_by_packages(self, queryset, name, value):\n         try:\n             packages = self.request.GET.get('packages')\n             packages = packages.split(',')\n-            queryset = queryset.filter(activities_id__in=packages)\n+            queryset = queryset.filter(packages_id__in=packages)\n         except:\n             pass\n         return queryset\n \n"
+                },
+                {
+                    "date": 1724821790822,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -12,9 +12,10 @@\n         model = Destination\n         fields = {\n             'destination_title': ['exact', 'icontains'],\n             'nature_of_trip': ['exact', 'icontains'],\n-            'duration': ['exact'],\n+            'duration': ['exact',],\n+            \n         }\n \n     def filter_by_collections(self, queryset, name, value):\n         try:\n"
+                },
+                {
+                    "date": 1724821796157,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -12,9 +12,9 @@\n         model = Destination\n         fields = {\n             'destination_title': ['exact', 'icontains'],\n             'nature_of_trip': ['exact', 'icontains'],\n-            'duration': ['exact',],\n+            'duration': ['exact','gte'],\n             \n         }\n \n     def filter_by_collections(self, queryset, name, value):\n"
+                }
+            ],
+            "date": 1724821555571,
+            "name": "Commit-0",
+            "content": "import django_filters\nfrom ..models import Destination\nimport ast\n\nclass DestinationFilter(django_filters.FilterSet):\n    activities = django_filters.CharFilter(method='filter_by_activities')\n    collections = django_filters.CharFilter(method='filter_by_collections')\n    \n    package_id = django_filters.CharFilter(field_name='packages__id', lookup_expr='exact')\n    min_duration = django_filters.NumberFilter(field_name='duration', lookup_expr='gte')\n    max_duration = django_filters.NumberFilter(field_name='duration', lookup_expr='lte')\n    class Meta:\n        model = Destination\n        fields = {\n            'destination_title': ['exact', 'icontains'],\n            'nature_of_trip': ['exact', 'icontains'],\n            'duration': ['exact'],\n        }\n\n    def filter_by_collections(self, queryset, name, value):\n        try:\n            collections = self.request.GET.get('collections')\n            collections = collections.split(',')\n            queryset = queryset.filter(collections_id__in=collections)\n        except:\n            pass\n        return queryset\n    \n    \n    def filter_by_activities(self, queryset, name, value):\n        try:\n            activities = self.request.GET.get('activities')\n            activities = activities.split(',')\n            queryset = queryset.filter(activities_id__in=activities)\n        except:\n            pass\n        return queryset\n\n"
+        }
+    ]
+}

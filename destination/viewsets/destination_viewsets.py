@@ -18,22 +18,7 @@ from rest_framework_simplejwt.authentication import JWTAuthentication
 from django_filters.rest_framework import DjangoFilterBackend
 from rest_framework.filters import SearchFilter, OrderingFilter
 import django_filters
-
-# Custom filter set for Destination model
-class DestinationFilter(django_filters.FilterSet):
-    package_id = django_filters.CharFilter(field_name='packages__id', lookup_expr='exact')
-    min_duration = django_filters.NumberFilter(field_name='duration', lookup_expr='gte')
-    max_duration = django_filters.NumberFilter(field_name='duration', lookup_expr='lte')
-
-    class Meta:
-        model = Destination
-        fields = {
-            'destination_title': ['exact', 'icontains'],
-            'nature_of_trip': ['exact', 'icontains'],
-            'activities': ['exact'],
-            'duration': ['exact'],
-            'collections': ['exact'],
-        }
+from ..utilities.destination_filter import DestinationFilter
 
 class DestinationViewsets(viewsets.ModelViewSet):
     permission_classes = [destinationPermission]
@@ -43,7 +28,7 @@ class DestinationViewsets(viewsets.ModelViewSet):
     filter_backends = [SearchFilter, DjangoFilterBackend, OrderingFilter]
     search_fields = ['destination_title']
     ordering_fields = ['destination_title', 'id','duration']
-    filterset_class = DestinationFilter  # Use the custom filter set here
+    filterset_class = DestinationFilter
     lookup_field = "slug"
 
     def get_serializer_class(self):
