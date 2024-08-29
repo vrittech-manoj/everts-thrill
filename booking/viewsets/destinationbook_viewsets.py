@@ -13,12 +13,12 @@ class destinationbookViewsets(viewsets.ModelViewSet):
     queryset = DestinationBook.objects.all().order_by("-created_date")
 
     filter_backends = [SearchFilter, DjangoFilterBackend, OrderingFilter]
-    search_fields = ['user__first_name']
-    ordering_fields = ['id','user__first_name']
+    search_fields = ['full_name']
+    ordering_fields = ['id','full_name']
 
     filterset_fields = {
         'id': ['exact'],
-        'user': ['exact'],
+        'full_name': ['exact'],
         'country': ['exact', 'icontains'],
         'service_type': ['exact', 'icontains'],
         'arrival_date': ['exact'],

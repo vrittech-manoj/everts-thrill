@@ -1,0 +1,30 @@
+{
+    "sourceFile": "booking/viewsets/destinationbook_viewsets.py",
+    "activeCommit": 0,
+    "commits": [
+        {
+            "activePatchIndex": 3,
+            "patches": [
+                {
+                    "date": 1724904877577,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n"
+                },
+                {
+                    "date": 1724904885786,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -12,10 +12,10 @@\n     pagination_class = MyPageNumberPagination\n     queryset = DestinationBook.objects.all().order_by(\"-created_date\")\n \n     filter_backends = [SearchFilter, DjangoFilterBackend, OrderingFilter]\n-    search_fields = ['user__first_name']\n-    ordering_fields = ['id','user__first_name']\n+    search_fields = ['']\n+    ordering_fields = ['id',]\n \n     filterset_fields = {\n         'id': ['exact'],\n         'country': ['exact', 'icontains'],\n"
+                },
+                {
+                    "date": 1724904894377,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -12,9 +12,9 @@\n     pagination_class = MyPageNumberPagination\n     queryset = DestinationBook.objects.all().order_by(\"-created_date\")\n \n     filter_backends = [SearchFilter, DjangoFilterBackend, OrderingFilter]\n-    search_fields = ['']\n+    search_fields = ['full_name']\n     ordering_fields = ['id',]\n \n     filterset_fields = {\n         'id': ['exact'],\n"
+                },
+                {
+                    "date": 1724904899943,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -13,12 +13,13 @@\n     queryset = DestinationBook.objects.all().order_by(\"-created_date\")\n \n     filter_backends = [SearchFilter, DjangoFilterBackend, OrderingFilter]\n     search_fields = ['full_name']\n-    ordering_fields = ['id',]\n+    ordering_fields = ['id','full_name']\n \n     filterset_fields = {\n         'id': ['exact'],\n+        'id': ['exact'],\n         'country': ['exact', 'icontains'],\n         'service_type': ['exact', 'icontains'],\n         'arrival_date': ['exact'],\n         \n"
+                }
+            ],
+            "date": 1724904877577,
+            "name": "Commit-0",
+            "content": "from rest_framework import viewsets\nfrom rest_framework.filters import SearchFilter, OrderingFilter\nfrom django_filters.rest_framework import DjangoFilterBackend\nfrom ..models import DestinationBook\nfrom ..serializers.destinationbook_serializers import DestinationBookListSerializers, DestinationBookRetrieveSerializers, DestinationBookWriteSerializers\nfrom ..utilities.importbase import *\n\nclass destinationbookViewsets(viewsets.ModelViewSet):\n    serializer_class = DestinationBookListSerializers\n    permission_classes = [bookingPermission]\n    authentication_classes = [JWTAuthentication]\n    pagination_class = MyPageNumberPagination\n    queryset = DestinationBook.objects.all().order_by(\"-created_date\")\n\n    filter_backends = [SearchFilter, DjangoFilterBackend, OrderingFilter]\n    search_fields = ['user__first_name']\n    ordering_fields = ['id','user__first_name']\n\n    filterset_fields = {\n        'id': ['exact'],\n        'country': ['exact', 'icontains'],\n        'service_type': ['exact', 'icontains'],\n        'arrival_date': ['exact'],\n        \n        \n        \n        }\n\n    def get_queryset(self):\n        queryset = super().get_queryset()\n        return queryset\n\n    def get_serializer_class(self):\n        if self.action in ['create', 'update', 'partial_update']:\n            return DestinationBookWriteSerializers\n        elif self.action == 'retrieve':\n            return DestinationBookRetrieveSerializers\n        return super().get_serializer_class()\n\n    # @action(detail=False, methods=['get'], name=\"action_name\", url_path=\"url_path\")\n    # def action_name(self, request, *args, **kwargs):\n    #     return super().list(request, *args, **kwargs)\n\n"
+        }
+    ]
+}
