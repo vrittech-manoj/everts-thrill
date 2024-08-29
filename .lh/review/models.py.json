@@ -1,0 +1,34 @@
+{
+    "sourceFile": "review/models.py",
+    "activeCommit": 0,
+    "commits": [
+        {
+            "activePatchIndex": 4,
+            "patches": [
+                {
+                    "date": 1724911229174,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n"
+                },
+                {
+                    "date": 1724911237037,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -8,10 +8,14 @@\n from accounts.models import CustomUser\n \n # Create your models here.\n class Review(models.Model):\n+    SERVICE_TYPES = (\n+        ('budget', 'Budget'),\n+        ('standard', 'Standard'),\n+        ('premium','Premium'),\n+    )\n     public_id = models.UUIDField(default=uuid.uuid4,editable=False,unique=True)\n-    # user = models.ForeignKey(CustomUser, on_delete=models.SET_NULL, null=True)\n     name = models.CharField(max_length = 150,blank=True,default = '')\n     star_rating = models.PositiveIntegerField(validators=[MaxValueValidator(5)])\n     review_description = models.TextField(blank=True,default = '')\n     add_image =  models.ImageField(upload_to=\"review/images\",null=True,blank=True)\n"
+                },
+                {
+                    "date": 1724911243635,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -8,9 +8,9 @@\n from accounts.models import CustomUser\n \n # Create your models here.\n class Review(models.Model):\n-    SERVICE_TYPES = (\n+    REVIEW_TYPES = (\n         ('budget', 'Budget'),\n         ('standard', 'Standard'),\n         ('premium','Premium'),\n     )\n"
+                },
+                {
+                    "date": 1724911250127,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -9,9 +9,9 @@\n \n # Create your models here.\n class Review(models.Model):\n     REVIEW_TYPES = (\n-        ('budget', 'Budget'),\n+        ('', 'Budget'),\n         ('standard', 'Standard'),\n         ('premium','Premium'),\n     )\n     public_id = models.UUIDField(default=uuid.uuid4,editable=False,unique=True)\n"
+                },
+                {
+                    "date": 1724911259571,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -9,9 +9,9 @@\n \n # Create your models here.\n class Review(models.Model):\n     REVIEW_TYPES = (\n-        ('destination', 'Budget'),\n+        ('destination', 'Destination'),\n         ('standard', 'Standard'),\n         ('premium','Premium'),\n     )\n     public_id = models.UUIDField(default=uuid.uuid4,editable=False,unique=True)\n"
+                }
+            ],
+            "date": 1724911229174,
+            "name": "Commit-0",
+            "content": "from django.db import models\n\n# Create your models here.\nfrom django.db import models\nimport uuid\nfrom django.utils.text import slugify\nfrom django.core.validators import MaxValueValidator\nfrom accounts.models import CustomUser\n\n# Create your models here.\nclass Review(models.Model):\n    public_id = models.UUIDField(default=uuid.uuid4,editable=False,unique=True)\n    # user = models.ForeignKey(CustomUser, on_delete=models.SET_NULL, null=True)\n    name = models.CharField(max_length = 150,blank=True,default = '')\n    star_rating = models.PositiveIntegerField(validators=[MaxValueValidator(5)])\n    review_description = models.TextField(blank=True,default = '')\n    add_image =  models.ImageField(upload_to=\"review/images\",null=True,blank=True)\n    is_show = models.BooleanField(default=False)\n    \n    created_date = models.DateTimeField(auto_now_add=True)\n    updated_date = models.DateTimeField(auto_now=True)\n\n    def __str__(self):\n        return self.name\n    "
+        }
+    ]
+}

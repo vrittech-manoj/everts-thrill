@@ -3,7 +3,7 @@
     "activeCommit": 0,
     "commits": [
         {
-            "activePatchIndex": 5,
+            "activePatchIndex": 6,
             "patches": [
                 {
                     "date": 1724909550360,
@@ -28,6 +28,10 @@
                 {
                     "date": 1724909625998,
                     "content": "Index: \n===================================================================\n--- \n+++ \n@@ -43,10 +43,10 @@\n     duration = models.PositiveIntegerField()\n     trip_grade = models.CharField(max_length=150)\n     best_season = models.CharField(max_length=150, null=True, blank=True)\n     max_altitude = models.CharField(max_length=150)\n-    meals = models.CharField(max_length=5000)\n-    nature_of_trip = models.CharField(max_length=450)\n+    meals = models.CharField(max_length=150)\n+    nature_of_trip = models.CharField(max_length=150)\n     accommodation = models.CharField(max_length=450)\n     group_size = models.PositiveIntegerField()\n     \n     # departure =models.ManyToManyField(Departure, related_name=\"destination_departure\")\n"
+                },
+                {
+                    "date": 1724910473051,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -45,10 +45,10 @@\n     best_season = models.CharField(max_length=150, null=True, blank=True)\n     max_altitude = models.CharField(max_length=150)\n     meals = models.CharField(max_length=150)\n     nature_of_trip = models.CharField(max_length=150)\n-    accommodation = models.CharField(max_length=450)\n-    group_size = models.PositiveIntegerField()\n+    accommodation = models.CharField(max_length=150)\n+    group_size = models.CharField(max_length=70)\n     \n     # departure =models.ManyToManyField(Departure, related_name=\"destination_departure\")\n \n     # activities = models.ManyToManyField(Activity)\n"
                 }
             ],
             "date": 1724909550360,

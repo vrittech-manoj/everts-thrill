@@ -47,7 +47,7 @@ class Destination(models.Model):
     meals = models.CharField(max_length=150)
     nature_of_trip = models.CharField(max_length=150)
     accommodation = models.CharField(max_length=150)
-    group_size = models.PositiveIntegerField()
+    group_size = models.CharField(max_length=70)
     
     # departure =models.ManyToManyField(Departure, related_name="destination_departure")
 

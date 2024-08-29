@@ -1,0 +1,18 @@
+{
+    "sourceFile": "queries/viewsets/queries_viewsets.py",
+    "activeCommit": 0,
+    "commits": [
+        {
+            "activePatchIndex": 0,
+            "patches": [
+                {
+                    "date": 1724909786747,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n"
+                }
+            ],
+            "date": 1724909786747,
+            "name": "Commit-0",
+            "content": "from rest_framework.response import Response\nfrom rest_framework import status\nfrom ..models import Queries\nfrom rest_framework.filters import SearchFilter, OrderingFilter\nfrom django_filters.rest_framework import DjangoFilterBackend\nfrom ..serializers.queries_serializers import QueriesReadSerializers, QueriesWriteSerializers\nfrom ..utilities.importbase import *\n\nclass QueriesViewsets(viewsets.ModelViewSet):\n    serializer_class = QueriesReadSerializers\n    permission_classes = [AdminViewSetsPermission]\n    authentication_classes = [JWTAuthentication]\n    pagination_class = MyPageNumberPagination\n    queryset = Queries.objects.all()\n    \n    filter_backends = [SearchFilter, DjangoFilterBackend, OrderingFilter]\n    search_fields = ['name']\n    ordering_fields = ['id', 'name']\n    \n    filterset_fields = {\n        'id': ['exact'],\n        'name': ['exact'],\n    }\n\n    def get_serializer_class(self):\n        if self.action in ['create', 'update', 'partial_update']:\n            return QueriesWriteSerializers\n        return super().get_serializer_class()\n\n    def create(self, request, *args, **kwargs):\n        serializer = self.get_serializer(data=request.data)\n        serializer.is_valid(raise_exception=True)\n        self.perform_create(serializer)\n        \n        headers = self.get_success_headers(serializer.data)\n        return Response(\n            {\n                \"message\": \"Query created successfully!\",\n                \"data\": serializer.data\n            }, \n            status=status.HTTP_201_CREATED, \n            headers=headers\n        )\n"
+        }
+    ]
+}

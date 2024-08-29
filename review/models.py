@@ -9,12 +9,15 @@ from accounts.models import CustomUser
 
 # Create your models here.
 class Review(models.Model):
-    #by_user_
+    REVIEW_TYPES = (
+        ('destination', 'Destination'),
+        ('company', 'Company'),
+    )
     public_id = models.UUIDField(default=uuid.uuid4,editable=False,unique=True)
-    # user = models.ForeignKey(CustomUser, on_delete=models.SET_NULL, null=True)
     name = models.CharField(max_length = 150,blank=True,default = '')
     star_rating = models.PositiveIntegerField(validators=[MaxValueValidator(5)])
     review_description = models.TextField(blank=True,default = '')
+    review_type = models.CharField(max_length=20, choices=REVIEW_TYPES, default='company')
     add_image =  models.ImageField(upload_to="review/images",null=True,blank=True)
     is_show = models.BooleanField(default=False)
     
