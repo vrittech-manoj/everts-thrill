@@ -68,19 +68,19 @@ class BulkUploadAPIView(APIView):
         datas = df.to_dict(orient='records')
 
         if type == "package":
-            create_update_records(Package, PackageWriteSerializers, datas, 'name', type)
+            create_update_packages(Package, PackageWriteSerializers, datas, 'name', type)
         elif type == "destination":
-            create_update_records(Destination, DestinationWriteSerializers, datas, 'destination_title', type)
+            create_update_destinations(Destination, DestinationWriteSerializers, datas, 'destination_title', type)
         elif type == "destination-gallery-images":
-            create_update_records(DestinationGalleryImages, DestinationGalleryImagesWriteSerializers, datas, 'id', type)
+            create_update_gallery_images(DestinationGalleryImages, DestinationGalleryImagesWriteSerializers, datas, 'id', type)
         elif type == "destination-book":
-            create_update_records(DestinationBook, DestinationBookWriteSerializers, datas, 'user__email', type)
+            create_update_destination_book(DestinationBook, DestinationBookWriteSerializers, datas, 'user__email', type)
         elif type == "activity":
-            create_update_records(Activity, ActivityWriteSerializers, datas, 'name', type)
+            create_update_activities(Activity, ActivityWriteSerializers, datas, 'name', type)
         elif type == "collection":
-            create_update_records(Collection, CollectionWriteSerializers, datas, 'name', type)
+            create_update_collections(Collection, CollectionWriteSerializers, datas, 'name', type)
         elif type == "departure":
-            create_update_records(Departure, DepartureWriteSerializers, datas, 'id', type)
+            create_update_departures(Departure, DepartureWriteSerializers, datas, 'id', type)
         elif type == "review":
             create_update(Review, ReviewWriteSerializers, datas, 'name', type)
         else:
@@ -112,35 +112,298 @@ def create_update(my_model,my_serializer,datas,unique_field_name):
                 # Handle validation errors
                 pass
 
-
-def create_update_records(my_model, my_serializer, datas, unique_field_name, related_fields=None):
-    if related_fields is None:
-        related_fields = {}
-
+def create_update_packages(my_model, my_serializer, datas, unique_field_name):
+    
     for record in datas:
-        # Process related fields if any
-        for field, relation in related_fields.items():
-            if field in record:
-                related_model = relation['model']
-                lookup_field = relation['lookup_field']
-                related_obj = related_model.objects.filter(**{lookup_field: record[field]}).first()
-                if related_obj:
-                    record[field] = related_obj.id
-                else:
-                    print(f"Related instance for {field} with value '{record[field]}' not found.")
-                    continue
-
-        # Find existing data
-        existing_data = my_model.objects.filter(**{unique_field_name: record[unique_field_name]}).first()
-
-        if existing_data:
-            # Update existing record
+        existing_data = my_model.objects.filter(name=record[unique_field_name])
+        
+        if existing_data.exists():
+            existing_data = existing_data.first()  # Get the existing record based on the unique field
+            
             serializer = my_serializer(existing_data, data=record)
+            if serializer.is_valid():
+                serializer.save()
+            else:
+                # Handle validation errors
+                pass
         else:
             # Create a new record
             serializer = my_serializer(data=record)
-
-        if serializer.is_valid():
-            serializer.save()
+            if serializer.is_valid():
+                serializer.save()
+            else:
+                # Handle validation errors
+                pass
+def create_update_gallery_images(my_model, my_serializer, datas, unique_field_name):
+    
+    for record in datas:
+        # Resolve the foreign key if it's provided as a name or identifier
+        if isinstance(record[unique_field_name], str):
+            destination_obj = Destination.objects.filter(name=record[unique_field_name]).first()
+        elif isinstance(record[unique_field_name], int):
+            destination_obj = Destination.objects.filter(id=record[unique_field_name]).first()
         else:
-            print(serializer.errors)  # Handle validation errors
+            destination_obj = record[unique_field_name]  # Assume it's already a Destination instance
+
+        if not destination_obj:
+            # Handle the case where the foreign key is not found
+            continue
+        
+        record['destination_trip'] = destination_obj.id  # Ensure you're using the foreign key ID
+
+        existing_data = my_model.objects.filter(destination_trip=destination_obj)
+
+        if existing_data.exists():
+            existing_data = existing_data.first()  # Get the existing record
+            
+            serializer = my_serializer(existing_data, data=record)
+            if serializer.is_valid():
+                serializer.save()
+            else:
+                # Handle validation errors
+                pass
+        else:
+            # Create a new record
+            serializer = my_serializer(data=record)
+            if serializer.is_valid():
+                serializer.save()
+            else:
+                # Handle validation errors
+                pass
+
+def create_update_destination_book(my_model, my_serializer, datas, unique_field_name):
+    
+    for record in datas:
+        # Resolve or create the foreign keys if provided as names or identifiers
+        if 'activity' in record:
+            if isinstance(record['activity'], str):
+                activity_obj, created = Activity.objects.get_or_create(name=record['activity'])
+            elif isinstance(record['activity'], int):
+                activity_obj = Activity.objects.filter(id=record['activity']).first()
+            else:
+                activity_obj = record['activity']  # Assume it's already an Activity instance
+
+            if not activity_obj:
+                # If still not found, skip the record
+                continue
+            
+            record['activity'] = activity_obj.id  # Ensure you're using the foreign key ID
+
+        if 'package' in record:
+            if isinstance(record['package'], str):
+                package_obj, created = Package.objects.get_or_create(name=record['package'])
+            elif isinstance(record['package'], int):
+                package_obj = Package.objects.filter(id=record['package']).first()
+            else:
+                package_obj = record['package']  # Assume it's already a Package instance
+
+            if not package_obj:
+                # If still not found, skip the record
+                continue
+            
+            record['package'] = package_obj.id  # Ensure you're using the foreign key ID
+
+        if 'destination' in record:
+            if isinstance(record['destination'], str):
+                destination_obj, created = Destination.objects.get_or_create(title=record['destination'])
+            elif isinstance(record['destination'], int):
+                destination_obj = Destination.objects.filter(id=record['destination']).first()
+            else:
+                destination_obj = record['destination']  # Assume it's already a Destination instance
+
+            if not destination_obj:
+                # If still not found, skip the record
+                continue
+            
+            record['destination'] = destination_obj.id  # Ensure you're using the foreign key ID
+
+        existing_data = my_model.objects.filter(**{unique_field_name: record[unique_field_name]})
+        
+        if existing_data.exists():
+            existing_data = existing_data.first()  # Get the existing record based on the unique field
+            
+            serializer = my_serializer(existing_data, data=record)
+            if serializer.is_valid():
+                serializer.save()
+            else:
+                # Handle validation errors
+                pass
+        else:
+            # Create a new record
+            serializer = my_serializer(data=record)
+            if serializer.is_valid():
+                serializer.save()
+            else:
+                # Handle validation errors
+                pass
+
+def create_update_activities(my_model, my_serializer, datas, unique_field_name):
+    
+    for record in datas:
+        # Resolve or create the ManyToMany field (destinations_activities)
+        if 'destinations_activities' in record:
+            destination_ids = []
+            for destination_name in record['destinations_activities']:
+                if isinstance(destination_name, str):
+                    destination_obj, created = Destination.objects.get_or_create(title=destination_name)
+                elif isinstance(destination_name, int):
+                    destination_obj = Destination.objects.filter(id=destination_name).first()
+                else:
+                    destination_obj = destination_name  # Assume it's already a Destination instance
+
+                if destination_obj:
+                    destination_ids.append(destination_obj.id)
+
+            # Replace the destination names/instances with their IDs in the record
+            record['destinations_activities'] = destination_ids
+
+        existing_data = my_model.objects.filter(name=record[unique_field_name])
+        
+        if existing_data.exists():
+            existing_data = existing_data.first()  # Get the existing record based on the unique field
+            
+            serializer = my_serializer(existing_data, data=record)
+            if serializer.is_valid():
+                activity = serializer.save()
+                if 'destinations_activities' in record:
+                    activity.destinations_activities.set(record['destinations_activities'])  # Update the ManyToMany field
+            else:
+                # Handle validation errors
+                pass
+        else:
+            # Create a new record
+            serializer = my_serializer(data=record)
+            if serializer.is_valid():
+                activity = serializer.save()
+                if 'destinations_activities' in record:
+                    activity.destinations_activities.set(record['destinations_activities'])  # Set the ManyToMany field
+            else:
+                # Handle validation errors
+                pass
+
+def create_update_collections(my_model, my_serializer, datas, unique_field_name):
+    
+    for record in datas:
+        # Resolve or create the ManyToMany field (destination_collection)
+        if 'destination_collection' in record:
+            destination_ids = []
+            for destination_name in record['destination_collection']:
+                if isinstance(destination_name, str):
+                    destination_obj, created = Destination.objects.get_or_create(title=destination_name)
+                elif isinstance(destination_name, int):
+                    destination_obj = Destination.objects.filter(id=destination_name).first()
+                else:
+                    destination_obj = destination_name  # Assume it's already a Destination instance
+
+                if destination_obj:
+                    destination_ids.append(destination_obj.id)
+
+            # Replace the destination names/instances with their IDs in the record
+            record['destination_collection'] = destination_ids
+
+        existing_data = my_model.objects.filter(name=record[unique_field_name])
+        
+        if existing_data.exists():
+            existing_data = existing_data.first()  # Get the existing record based on the unique field
+            
+            serializer = my_serializer(existing_data, data=record)
+            if serializer.is_valid():
+                collection = serializer.save()
+                if 'destination_collection' in record:
+                    collection.destination_collection.set(record['destination_collection'])  # Update the ManyToMany field
+            else:
+                # Handle validation errors
+                pass
+        else:
+            # Create a new record
+            serializer = my_serializer(data=record)
+            if serializer.is_valid():
+                collection = serializer.save()
+                if 'destination_collection' in record:
+                    collection.destination_collection.set(record['destination_collection'])  # Set the ManyToMany field
+            else:
+                # Handle validation errors
+                pass
+
+def create_update_departures(my_model, my_serializer, datas, unique_field_name):
+    
+    for record in datas:
+        # Resolve or create the ForeignKey field (destination_trip)
+        if 'destination_trip' in record:
+            if isinstance(record['destination_trip'], str):
+                destination_obj, created = Destination.objects.get_or_create(title=record['destination_trip'])
+            elif isinstance(record['destination_trip'], int):
+                destination_obj = Destination.objects.filter(id=record['destination_trip']).first()
+            else:
+                destination_obj = record['destination_trip']  # Assume it's already a Destination instance
+
+            if not destination_obj:
+                # If the destination is not found, skip the record
+                continue
+            
+            record['destination_trip'] = destination_obj.id  # Ensure you're using the foreign key ID
+
+        existing_data = my_model.objects.filter(**{unique_field_name: record[unique_field_name]})
+        
+        if existing_data.exists():
+            existing_data = existing_data.first()  # Get the existing record based on the unique field
+            
+            serializer = my_serializer(existing_data, data=record)
+            if serializer.is_valid():
+                serializer.save()
+            else:
+                # Handle validation errors
+                pass
+        else:
+            # Create a new record
+            serializer = my_serializer(data=record)
+            if serializer.is_valid():
+                serializer.save()
+            else:
+                # Handle validation errors
+                pass
+
+def create_update_destinations(my_model, my_serializer, datas, unique_field_name):
+    
+    for record in datas:
+        # Resolve or create the ManyToMany field (packages)
+        if 'packages' in record:
+            package_ids = []
+            for package_name in record['packages']:
+                if isinstance(package_name, str):
+                    package_obj, created = Package.objects.get_or_create(name=package_name)
+                elif isinstance(package_name, int):
+                    package_obj = Package.objects.filter(id=package_name).first()
+                else:
+                    package_obj = package_name  # Assume it's already a Package instance
+
+                if package_obj:
+                    package_ids.append(package_obj.id)
+
+            # Replace the package names/instances with their IDs in the record
+            record['packages'] = package_ids
+
+        # Handling other fields and creating or updating the Destination record
+        existing_data = my_model.objects.filter(destination_title=record[unique_field_name])
+        
+        if existing_data.exists():
+            existing_data = existing_data.first()  # Get the existing record based on the unique field
+            
+            serializer = my_serializer(existing_data, data=record)
+            if serializer.is_valid():
+                destination = serializer.save()
+                if 'packages' in record:
+                    destination.packages.set(record['packages'])  # Update the ManyToMany field
+            else:
+                # Handle validation errors
+                pass
+        else:
+            # Create a new record
+            serializer = my_serializer(data=record)
+            if serializer.is_valid():
+                destination = serializer.save()
+                if 'packages' in record:
+                    destination.packages.set(record['packages'])  # Set the ManyToMany field
+            else:
+                # Handle validation errors
+                pass

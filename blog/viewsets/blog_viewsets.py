@@ -9,14 +9,15 @@ class BlogViewSets(viewsets.ModelViewSet):
     serializer_class = BlogListSerializers
     permission_classes = [AdminViewSetsPermission]
     pagination_class = MyPageNumberPagination
-    queryset = Blog.objects.all()#.order_by("title")
+    queryset = Blog.objects.all().order_by("created_date")
     
     filter_backends = [SearchFilter, DjangoFilterBackend, OrderingFilter]
     search_fields = ['title']
-    ordering_fields = ['id', 'title']
+    ordering_fields = ['id', 'title','created_date']
 
     filterset_fields = {
         'title': ['exact'],
+        'is_popular': ['exact'],
     }
     
     def get_queryset(self):

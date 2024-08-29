@@ -12,6 +12,8 @@ class Blog(models.Model):
     featured_image = models.ImageField(upload_to="blog/images",null=True,blank=True)
     created_date = models.DateTimeField(auto_now_add=True)
     updated_date = models.DateTimeField(auto_now=True)
+    read_time = models.CharField(max_length = 150,blank=True)
+    is_popular = models.BooleanField(default=False)
   
     def __str__(self):
         return self.title
