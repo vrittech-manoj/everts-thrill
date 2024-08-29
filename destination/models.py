@@ -26,7 +26,7 @@ class Package(models.Model):
 class Destination(models.Model):
     public_id = models.UUIDField(default=uuid.uuid4, editable=False, unique=True)
     slug = models.SlugField(unique=True, blank=True)
-    destination_title = models.CharField(max_length=450)
+    destination_title = models.CharField(max_length=70)
     packages = models.ManyToManyField(Package)
     price = models.FloatField(null=True, blank=True)
     price_type= models.CharField(max_length=3, default='NPR')  
@@ -41,12 +41,12 @@ class Destination(models.Model):
     useful_information = models.TextField(null=True, default='', blank=True)
     
     duration = models.PositiveIntegerField()
-    trip_grade = models.CharField(max_length=450)
-    best_season = models.CharField(max_length=3000, null=True, blank=True)
-    max_altitude = models.CharField(max_length=450)
-    meals = models.CharField(max_length=5000)
-    nature_of_trip = models.CharField(max_length=450)
-    accommodation = models.CharField(max_length=450)
+    trip_grade = models.CharField(max_length=150)
+    best_season = models.CharField(max_length=150, null=True, blank=True)
+    max_altitude = models.CharField(max_length=150)
+    meals = models.CharField(max_length=150)
+    nature_of_trip = models.CharField(max_length=150)
+    accommodation = models.CharField(max_length=150)
     group_size = models.PositiveIntegerField()
     
     # departure =models.ManyToManyField(Departure, related_name="destination_departure")
