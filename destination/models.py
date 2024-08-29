@@ -29,14 +29,14 @@ class Destination(models.Model):
     destination_title = models.CharField(max_length=70)
     packages = models.ManyToManyField(Package)
     price = models.FloatField(null=True, blank=True)
-    price_type= models.CharField(max_length=3, default='NPR')  
+    price_type = models.CharField(max_length=3, default='NPR')  
     is_price = models.BooleanField(default=False)
-    featured_image = models.ImageField(upload_to="destination/featured/images/",null = True,blank = True)
+    featured_image = models.ImageField(upload_to="destination/featured/images/", null=True, blank=True)
     overview = models.CharField(max_length=5000, null=True, blank=True)
     inclusion_and_exclusion = models.TextField(null=True, default='', blank=True)
     ltinerary = models.TextField()
     trip_map_url = models.URLField(null=True, blank=True)
-    trip_map_image = models.ImageField(upload_to="destination/trip-map/images/",null = True,blank = True)
+    trip_map_image = models.ImageField(upload_to="destination/trip-map/images/", null=True, blank=True)
     gear_and_equipment = models.TextField(null=True, default='', blank=True)
     useful_information = models.TextField(null=True, default='', blank=True)
     
@@ -49,10 +49,10 @@ class Destination(models.Model):
     accommodation = models.CharField(max_length=150)
     group_size = models.CharField(max_length=70)
     
-    # departure =models.ManyToManyField(Departure, related_name="destination_departure")
-
-    # activities = models.ManyToManyField(Activity)
-    # collection = models.ManyToManyField(Collection)
+    # SEO fields (can be user-defined or auto-generated)
+    meta_title = models.CharField(max_length=150, null=True, blank=True)
+    meta_description = models.CharField(max_length=255, null=True, blank=True)
+    meta_keywords = models.CharField(max_length=255, null=True, blank=True)
 
     created_date = models.DateTimeField(auto_now_add=True)
     updated_date = models.DateTimeField(auto_now=True)
@@ -63,8 +63,19 @@ class Destination(models.Model):
     def save(self, *args, **kwargs):
         if not self.slug:
             self.slug = slugify(self.destination_title) + '-' + str(self.public_id)[1:5] + str(self.public_id)[-1:-5]
-        super().save(*args, **kwargs)
 
+        # Auto-generate meta fields if not provided by user
+        if not self.meta_title:
+            self.meta_title = f"{self.destination_title} - Explore the Best Packages"
+
+        if not self.meta_description:
+            self.meta_description = self.overview[:255] if self.overview else f"Explore the best travel packages for {self.destination_title}. Plan your trip with us."
+
+        if not self.meta_keywords:
+            keywords = [self.destination_title, "travel", "tour", "packages", "holidays", "trip"]
+            self.meta_keywords = ", ".join(keywords)
+
+        super().save(*args, **kwargs)
 
 class DestinationGalleryImages(models.Model):
     destination_trip = models.ForeignKey(Destination, related_name="galleryimages", on_delete=models.CASCADE)
