@@ -3,7 +3,7 @@
     "activeCommit": 0,
     "commits": [
         {
-            "activePatchIndex": 10,
+            "activePatchIndex": 11,
             "patches": [
                 {
                     "date": 1724825655330,
@@ -48,6 +48,10 @@
                 {
                     "date": 1724827861827,
                     "content": "Index: \n===================================================================\n--- \n+++ \n@@ -84,5 +84,12 @@\n                     data_row.append(getattr(related_object, 'id', None) if related_object else None)\n                 elif column.endswith(\"_names\"):\n                     # ManyToManyField relation, get related objects' names\n                     related_field_name = column.replace(\"_names\", \"\")\n-                    related_o\n+                    related_objects = getattr(data, related_field_name).all()\n+                    related_names = \", \".join(str(obj) for obj in related_objects)\n+                    data_row.append(related_names)\n+                else:\n+                    data_row.append(getattr(data, column))\n+            writer.writerow(data_row)\n+\n+        return response\n"
+                },
+                {
+                    "date": 1724923500708,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -55,9 +55,9 @@\n             if field.name not in self.excluded_fields:\n                 if field.is_relation:\n                     if field.many_to_one or field.one_to_one:\n                         # For ForeignKey or OneToOneField, include the related model's primary key or string representation\n-                        column_list.append(f\"{field.name}_id\")\n+                        column_list.append(f\"{field.name}_names\")\n                     elif field.many_to_many:\n                         # For ManyToManyField, append related objects' names\n                         column_list.append(f\"{field.name}_names\")\n                 else:\n"
                 }
             ],
             "date": 1724825655330,

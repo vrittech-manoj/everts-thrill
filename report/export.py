@@ -56,7 +56,7 @@ class GetSampleAPIView(APIView):
                 if field.is_relation:
                     if field.many_to_one or field.one_to_one:
                         # For ForeignKey or OneToOneField, include the related model's primary key or string representation
-                        column_list.append(f"{field.name}_id")
+                        column_list.append(f"{field.name}_names")
                     elif field.many_to_many:
                         # For ManyToManyField, append related objects' names
                         column_list.append(f"{field.name}_names")

@@ -218,6 +218,10 @@ class DestinationWriteSerializers(serializers.ModelSerializer):
                     # Create a new departure if the departure does not exist
                     Departure.objects.create(destination_trip=instance, **departure_data)
         
+        else:
+            # Set departures to None if no departure data is provided
+            Departure.objects.filter(destination_trip=instance).delete()
+        
         for image_file in images_data:
             DestinationGalleryImages.objects.create(destination_trip=instance, image=image_file)
 
