@@ -3,7 +3,7 @@
     "activeCommit": 0,
     "commits": [
         {
-            "activePatchIndex": 13,
+            "activePatchIndex": 14,
             "patches": [
                 {
                     "date": 1724821555571,
@@ -60,6 +60,10 @@
                 {
                     "date": 1724940427759,
                     "content": "Index: \n===================================================================\n--- \n+++ \n@@ -19,15 +19,19 @@\n             collections = value.split(',') if ',' in value else [value]\n             queryset = queryset.filter(collections__id__in=collections)\n         return queryset\n \n-    def filter_by_activities(self, queryset, name, value):\n-        if value:\n-            activities = value.split(',') if ',' in value else [value]\n-            queryset = queryset.filter(activities__id__in=activities)\n-        return queryset\n-\n     def filter_by_packages(self, queryset, name, value):\n         if value:\n             packages = value.split(',') if ',' in value else [value]\n             queryset = queryset.filter(packages__id__in=packages)\n         return queryset\n+\n+    def filter_by_activities(self, queryset, name, value):\n+        if value:\n+            activities = value.split(',') if ',' in value else [value]\n+            # Filter by activities directly related to the destination or through packages\n+            queryset = queryset.filter(\n+                django_filters.Q(activities__id__in=activities) | \n+                django_filters.Q(packages__activities__id__in=activities)\n+            ).distinct()\n+        return queryset\n"
+                },
+                {
+                    "date": 1724942385594,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -19,19 +19,15 @@\n             collections = value.split(',') if ',' in value else [value]\n             queryset = queryset.filter(collections__id__in=collections)\n         return queryset\n \n+    def filter_by_activities(self, queryset, name, value):\n+        if value:\n+            activities = value.split(',') if ',' in value else [value]\n+            queryset = queryset.filter(activities__id__in=activities)\n+        return queryset\n+\n     def filter_by_packages(self, queryset, name, value):\n         if value:\n             packages = value.split(',') if ',' in value else [value]\n             queryset = queryset.filter(packages__id__in=packages)\n         return queryset\n-\n-    def filter_by_activities(self, queryset, name, value):\n-        if value:\n-            activities = value.split(',') if ',' in value else [value]\n-            # Filter by activities directly related to the destination or through packages\n-            queryset = queryset.filter(\n-                django_filters.Q(activities__id__in=activities) | \n-                django_filters.Q(packages__activities__id__in=activities)\n-            ).distinct()\n-        return queryset\n"
                 }
             ],
             "date": 1724821555571,
