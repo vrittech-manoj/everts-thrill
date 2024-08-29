@@ -1,0 +1,38 @@
+{
+    "sourceFile": "blog/models.py",
+    "activeCommit": 0,
+    "commits": [
+        {
+            "activePatchIndex": 5,
+            "patches": [
+                {
+                    "date": 1724906622951,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n"
+                },
+                {
+                    "date": 1724906629350,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -4,9 +4,9 @@\n \n # Create your models here.\n class Blog(models.Model):\n     public_id = models.UUIDField(default=uuid.uuid4,editable=False,unique=True)\n-    user\n+    users = mod\n     title = models.CharField(max_length = 150,blank=True)\n     description = models.TextField(blank = True,null = True)\n     featured_image = models.ImageField(upload_to=\"blog/images\",null=True,blank=True)\n     created_date = models.DateTimeField(auto_now_add=True)\n"
+                },
+                {
+                    "date": 1724906656840,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -4,9 +4,9 @@\n \n # Create your models here.\n class Blog(models.Model):\n     public_id = models.UUIDField(default=uuid.uuid4,editable=False,unique=True)\n-    users = mod\n+     user = models.ForeignKey(CustomUser, related_name=\"review\", on_delete=models.CASCADE)\n     title = models.CharField(max_length = 150,blank=True)\n     description = models.TextField(blank = True,null = True)\n     featured_image = models.ImageField(upload_to=\"blog/images\",null=True,blank=True)\n     created_date = models.DateTimeField(auto_now_add=True)\n"
+                },
+                {
+                    "date": 1724906673665,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -1,12 +1,13 @@\n from django.db import models\n import uuid\n from django.utils.text import slugify\n+from accounts.models import CustomUser\n \n # Create your models here.\n class Blog(models.Model):\n     public_id = models.UUIDField(default=uuid.uuid4,editable=False,unique=True)\n-     user = models.ForeignKey(CustomUser, related_name=\"review\", on_delete=models.CASCADE)\n+    user = models.ForeignKey(CustomUser, related_name=\"review\", on_delete=models.CASCADE)\n     title = models.CharField(max_length = 150,blank=True)\n     description = models.TextField(blank = True,null = True)\n     featured_image = models.ImageField(upload_to=\"blog/images\",null=True,blank=True)\n     created_date = models.DateTimeField(auto_now_add=True)\n"
+                },
+                {
+                    "date": 1724906689326,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -5,9 +5,9 @@\n \n # Create your models here.\n class Blog(models.Model):\n     public_id = models.UUIDField(default=uuid.uuid4,editable=False,unique=True)\n-    user = models.ForeignKey(CustomUser, related_name=\"review\", on_delete=models.CASCADE)\n+    user = models.ForeignKey(CustomUser, related_name=\"user_blog\", on_delete=models.CASCADE)\n     title = models.CharField(max_length = 150,blank=True)\n     description = models.TextField(blank = True,null = True)\n     featured_image = models.ImageField(upload_to=\"blog/images\",null=True,blank=True)\n     created_date = models.DateTimeField(auto_now_add=True)\n"
+                },
+                {
+                    "date": 1724907890293,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -5,9 +5,9 @@\n \n # Create your models here.\n class Blog(models.Model):\n     public_id = models.UUIDField(default=uuid.uuid4,editable=False,unique=True)\n-    user = models.ForeignKey(CustomUser, related_name=\"user_blog\", on_delete=models.CASCADE)\n+    user = models.ForeignKey(CustomUser, related_name=\"user_blog\", on_delete=models.CASCADE,null)\n     title = models.CharField(max_length = 150,blank=True)\n     description = models.TextField(blank = True,null = True)\n     featured_image = models.ImageField(upload_to=\"blog/images\",null=True,blank=True)\n     created_date = models.DateTimeField(auto_now_add=True)\n"
+                }
+            ],
+            "date": 1724906622951,
+            "name": "Commit-0",
+            "content": "from django.db import models\nimport uuid\nfrom django.utils.text import slugify\n\n# Create your models here.\nclass Blog(models.Model):\n    public_id = models.UUIDField(default=uuid.uuid4,editable=False,unique=True)\n    user\n    title = models.CharField(max_length = 150,blank=True)\n    description = models.TextField(blank = True,null = True)\n    featured_image = models.ImageField(upload_to=\"blog/images\",null=True,blank=True)\n    created_date = models.DateTimeField(auto_now_add=True)\n    updated_date = models.DateTimeField(auto_now=True)\n  \n    def __str__(self):\n        return self.title\n    "
+        }
+    ]
+}

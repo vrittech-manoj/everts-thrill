@@ -90,7 +90,7 @@ urlpatterns = [
     path('api/',include(router.urls)),
     path('api-auth/', include('rest_framework.urls')),
     path('api/accounts/',include('accounts.urls')),
-    path('api/blogs/',include('blog.urls')),
+    path('api/',include('blog.urls')),
     path('api/',include('destination.urls')),
     path('api/services/',include('services.urls')),
     path('api/queries/',include('queries.urls')),

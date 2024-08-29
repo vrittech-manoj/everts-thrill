@@ -1,0 +1,46 @@
+{
+    "sourceFile": "blog/viewsets/blog_viewsets.py",
+    "activeCommit": 0,
+    "commits": [
+        {
+            "activePatchIndex": 7,
+            "patches": [
+                {
+                    "date": 1724906885229,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n"
+                },
+                {
+                    "date": 1724906893146,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -1,6 +1,6 @@\n from ..models import Blog\n-from ..serializers.blog_serializers import BlogReadSerializers,BlogWriteSerializers\n+from ..serializers.blog_serializers import BlogListSerializers,BlogWriteSerializers\n from ..utilities.importbase import *\n \n class BlogViewSets(viewsets.ModelViewSet):\n     serializer_class = BlogListSerializers\n"
+                },
+                {
+                    "date": 1724906903216,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -1,6 +1,6 @@\n from ..models import Blog\n-from ..serializers.blog_serializers import BlogListSerializers,BlogWriteSerializers\n+from ..serializers.blog_serializers import BlogListSerializers,BlogWriteSerializers,BlogRetrieveSerializers\n from ..utilities.importbase import *\n \n class BlogViewSets(viewsets.ModelViewSet):\n     serializer_class = BlogListSerializers\n"
+                },
+                {
+                    "date": 1724906967120,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -1,24 +1,27 @@\n from ..models import Blog\n-from ..serializers.blog_serializers import BlogListSerializers,BlogWriteSerializers,BlogRetrieveSerializers\n+from ..serializers.blog_serializers import BlogListSerializer, BlogWriteSerializer, BlogRetrieveSerializer\n from ..utilities.importbase import *\n+from rest_framework import viewsets\n+from django_filters.rest_framework import DjangoFilterBackend\n+from rest_framework.filters import SearchFilter, OrderingFilter\n \n class BlogViewSets(viewsets.ModelViewSet):\n-    serializer_class = BlogListSerializers\n+    serializer_class = BlogListSerializer\n     permission_classes = [AdminViewSetsPermission]\n     pagination_class = MyPageNumberPagination\n-    queryset  = Blog.objects.all().order_by(\"title\")\n+    queryset = Blog.objects.all().order_by(\"title\")\n     \n     filter_backends = [SearchFilter, DjangoFilterBackend, OrderingFilter]\n     search_fields = ['title']\n-    ordering_fields = ['id','title']\n+    ordering_fields = ['id', 'title']\n \n     filterset_fields = {\n         'title': ['exact'],\n     }\n\\ No newline at end of file\n \n-\n     def get_serializer_class(self):\n-        if self.action in ['create','update','partial_update']:\n-            return BlogWriteSerializers\n+        if self.action in ['create', 'update', 'partial_update']:\n+            return BlogWriteSerializer\n+        elif self.action == 'retrieve':\n+            return BlogRetrieveSerializer\n         return super().get_serializer_class()\n-    \n"
+                },
+                {
+                    "date": 1724906974161,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -5,9 +5,9 @@\n from django_filters.rest_framework import DjangoFilterBackend\n from rest_framework.filters import SearchFilter, OrderingFilter\n \n class BlogViewSets(viewsets.ModelViewSet):\n-    serializer_class = BlogListSerializer\n+    serializer_class = BlogListSerializers\n     permission_classes = [AdminViewSetsPermission]\n     pagination_class = MyPageNumberPagination\n     queryset = Blog.objects.all().order_by(\"title\")\n     \n@@ -23,5 +23,5 @@\n         if self.action in ['create', 'update', 'partial_update']:\n             return BlogWriteSerializer\n         elif self.action == 'retrieve':\n             return BlogRetrieveSerializer\n-        return super().get_serializer_class()\n\\ No newline at end of file\n+        return super().get_serializer_class()\n"
+                },
+                {
+                    "date": 1724906980784,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -1,6 +1,6 @@\n from ..models import Blog\n-from ..serializers.blog_serializers import BlogListSerializer, BlogWriteSerializer, BlogRetrieveSerializer\n+from ..serializers.blog_serializers import BlogListSerializers, BlogWriteSerializers, BlogRetrieveSerializers\n from ..utilities.importbase import *\n from rest_framework import viewsets\n from django_filters.rest_framework import DjangoFilterBackend\n from rest_framework.filters import SearchFilter, OrderingFilter\n@@ -20,8 +20,8 @@\n     }\n \n     def get_serializer_class(self):\n         if self.action in ['create', 'update', 'partial_update']:\n-            return BlogWriteSerializer\n+            return BlogWriteSerializers\n         elif self.action == 'retrieve':\n             return BlogRetrieveSerializer\n         return super().get_serializer_class()\n"
+                },
+                {
+                    "date": 1724907806610,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -17,11 +17,15 @@\n \n     filterset_fields = {\n         'title': ['exact'],\n     }\n+    \n+    def get_queryset(self):\n+        queryset = super().get_queryset()\n+        return queryset\n \n     def get_serializer_class(self):\n         if self.action in ['create', 'update', 'partial_update']:\n             return BlogWriteSerializers\n         elif self.action == 'retrieve':\n-            return BlogRetrieveSerializer\n+            return BlogRetrieveSerializers\n         return super().get_serializer_class()\n"
+                },
+                {
+                    "date": 1724907849696,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -8,9 +8,9 @@\n class BlogViewSets(viewsets.ModelViewSet):\n     serializer_class = BlogListSerializers\n     permission_classes = [AdminViewSetsPermission]\n     pagination_class = MyPageNumberPagination\n-    queryset = Blog.objects.all().order_by(\"title\")\n+    queryset = Blog.objects.all()#.order_by(\"title\")\n     \n     filter_backends = [SearchFilter, DjangoFilterBackend, OrderingFilter]\n     search_fields = ['title']\n     ordering_fields = ['id', 'title']\n"
+                }
+            ],
+            "date": 1724906885229,
+            "name": "Commit-0",
+            "content": "from ..models import Blog\nfrom ..serializers.blog_serializers import BlogReadSerializers,BlogWriteSerializers\nfrom ..utilities.importbase import *\n\nclass BlogViewSets(viewsets.ModelViewSet):\n    serializer_class = BlogListSerializers\n    permission_classes = [AdminViewSetsPermission]\n    pagination_class = MyPageNumberPagination\n    queryset  = Blog.objects.all().order_by(\"title\")\n    \n    filter_backends = [SearchFilter, DjangoFilterBackend, OrderingFilter]\n    search_fields = ['title']\n    ordering_fields = ['id','title']\n\n    filterset_fields = {\n        'title': ['exact'],\n    }\n\n\n    def get_serializer_class(self):\n        if self.action in ['create','update','partial_update']:\n            return BlogWriteSerializers\n        return super().get_serializer_class()\n    "
+        }
+    ]
+}

@@ -1,0 +1,62 @@
+{
+    "sourceFile": "blog/serializers/blog_serializers.py",
+    "activeCommit": 0,
+    "commits": [
+        {
+            "activePatchIndex": 11,
+            "patches": [
+                {
+                    "date": 1724906557875,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n"
+                },
+                {
+                    "date": 1724906574684,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -1,9 +1,14 @@\n from rest_framework import serializers\n from ..models import Blog\n+from accounts.models\n \n+class BookingAirlinesSerializers(serializers.ModelSerializer):\n+    class Meta:\n+        model = Airlines\n+        fields = '__all__'\n+        \n \n-\n class BlogReadSerializers(serializers.ModelSerializer):\n     class Meta:\n         model = Blog\n         fields = '__all__'\n"
+                },
+                {
+                    "date": 1724906579788,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -1,7 +1,7 @@\n from rest_framework import serializers\n from ..models import Blog\n-from accounts.models\n+from accounts.models import CustomUser\n \n class BookingAirlinesSerializers(serializers.ModelSerializer):\n     class Meta:\n         model = Airlines\n"
+                },
+                {
+                    "date": 1724906584959,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -0,0 +1,19 @@\n+from rest_framework import serializers\n+from ..models import Blog\n+from accounts.models import CustomUser\n+\n+class BookingAirlinesSerializers(serializers.ModelSerializer):\n+    class Meta:\n+        model = Airlines\n+        fields = '__all__'\n+        \n+\n+class BlogReadSerializers(serializers.ModelSerializer):\n+    class Meta:\n+        model = Blog\n+        fields = '__all__'\n+\n+class BlogWriteSerializers(serializers.ModelSerializer):\n+    class Meta:\n+        model = Blog\n+        fields = '__all__'\n\\ No newline at end of file\n"
+                },
+                {
+                    "date": 1724906595866,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -1,11 +1,11 @@\n from rest_framework import serializers\n from ..models import Blog\n from accounts.models import CustomUser\n \n-class BookingAirlinesSerializers(serializers.ModelSerializer):\n+class Serializers(serializers.ModelSerializer):\n     class Meta:\n-        model = Airlines\n+        model = CustomUser\n         fields = '__all__'\n         \n \n class BlogReadSerializers(serializers.ModelSerializer):\n@@ -15,24 +15,5 @@\n \n class BlogWriteSerializers(serializers.ModelSerializer):\n     class Meta:\n         model = Blog\n-        fields = '__all__'\n-from rest_framework import serializers\n-from ..models import Blog\n-from accounts.models import CustomUser\n-\n-class BookingAirlinesSerializers(serializers.ModelSerializer):\n-    class Meta:\n-        model = Airlines\n-        fields = '__all__'\n-        \n-\n-class BlogReadSerializers(serializers.ModelSerializer):\n-    class Meta:\n-        model = Blog\n-        fields = '__all__'\n-\n-class BlogWriteSerializers(serializers.ModelSerializer):\n-    class Meta:\n-        model = Blog\n         fields = '__all__'\n\\ No newline at end of file\n"
+                },
+                {
+                    "date": 1724906604970,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -1,9 +1,9 @@\n from rest_framework import serializers\n from ..models import Blog\n from accounts.models import CustomUser\n \n-class Serializers(serializers.ModelSerializer):\n+class BlogUserSerializers(serializers.ModelSerializer):\n     class Meta:\n         model = CustomUser\n         fields = '__all__'\n         \n"
+                },
+                {
+                    "date": 1724906757952,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -1,19 +1,27 @@\n from rest_framework import serializers\n-from ..models import Blog\n+from .models import Blog\n from accounts.models import CustomUser\n \n-class BlogUserSerializers(serializers.ModelSerializer):\n+class BlogUserSerializer(serializers.ModelSerializer):\n     class Meta:\n         model = CustomUser\n-        fields = '__all__'\n-        \n+        fields = ['id', 'username', 'email']\n \n-class BlogReadSerializers(serializers.ModelSerializer):\n+class BlogListSerializer(serializers.ModelSerializer):\n+    user = BlogUserSerializer(read_only=True)\n+    \n     class Meta:\n         model = Blog\n\\ No newline at end of file\n-        fields = '__all__'\n+        exclude = ['public_id', 'created_date', 'updated_date']\n \n-class BlogWriteSerializers(serializers.ModelSerializer):\n+class BlogRetrieveSerializer(serializers.ModelSerializer):\n+    user = BlogUserSerializer(read_only=True)\n+\n     class Meta:\n         model = Blog\n-        fields = '__all__'\n+        exclude = ['public_id', 'created_date', 'updated_date']\n+\n+class BlogWriteSerializer(serializers.ModelSerializer):\n+    class Meta:\n+        model = Blog\n+        exclude = ['public_id', 'created_date', 'updated_date']\n"
+                },
+                {
+                    "date": 1724906765053,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -1,6 +1,6 @@\n from rest_framework import serializers\n-from .models import Blog\n+from ..models import Blog\n from accounts.models import CustomUser\n \n class BlogUserSerializer(serializers.ModelSerializer):\n     class Meta:\n@@ -23,5 +23,5 @@\n \n class BlogWriteSerializer(serializers.ModelSerializer):\n     class Meta:\n         model = Blog\n-        exclude = ['public_id', 'created_date', 'updated_date']\n\\ No newline at end of file\n+        exclude = ['public_id', 'created_date', 'updated_date']\n"
+                },
+                {
+                    "date": 1724906813258,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -4,9 +4,9 @@\n \n class BlogUserSerializer(serializers.ModelSerializer):\n     class Meta:\n         model = CustomUser\n-        fields = ['id', 'username', 'email']\n+        fields = ['full_name', 'username', 'email']\n \n class BlogListSerializer(serializers.ModelSerializer):\n     user = BlogUserSerializer(read_only=True)\n     \n"
+                },
+                {
+                    "date": 1724906819061,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -4,9 +4,9 @@\n \n class BlogUserSerializer(serializers.ModelSerializer):\n     class Meta:\n         model = CustomUser\n-        fields = ['full_name', 'username', 'email']\n+        fields = ['full_name', 'username', 'image']\n \n class BlogListSerializer(serializers.ModelSerializer):\n     user = BlogUserSerializer(read_only=True)\n     \n"
+                },
+                {
+                    "date": 1724906824572,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -4,9 +4,9 @@\n \n class BlogUserSerializer(serializers.ModelSerializer):\n     class Meta:\n         model = CustomUser\n-        fields = ['full_name', 'username', 'image']\n+        fields = ['full_name', '', 'image']\n \n class BlogListSerializer(serializers.ModelSerializer):\n     user = BlogUserSerializer(read_only=True)\n     \n"
+                },
+                {
+                    "date": 1724906836227,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -4,18 +4,18 @@\n \n class BlogUserSerializer(serializers.ModelSerializer):\n     class Meta:\n         model = CustomUser\n-        fields = ['full_name', '', 'image']\n+        fields = ['full_name', 'image']\n \n class BlogListSerializer(serializers.ModelSerializer):\n     user = BlogUserSerializer(read_only=True)\n     \n     class Meta:\n         model = Blog\n         exclude = ['public_id', 'created_date', 'updated_date']\n \n-class BlogRetrieveSerializer(serializers.ModelSerializer):\n+class BlogRetrieveSerializers(serializers.ModelSerializer):\n     user = BlogUserSerializer(read_only=True)\n \n     class Meta:\n         model = Blog\n"
+                }
+            ],
+            "date": 1724906557875,
+            "name": "Commit-0",
+            "content": "from rest_framework import serializers\nfrom ..models import Blog\n\n\n\nclass BlogReadSerializers(serializers.ModelSerializer):\n    class Meta:\n        model = Blog\n        fields = '__all__'\n\nclass BlogWriteSerializers(serializers.ModelSerializer):\n    class Meta:\n        model = Blog\n        fields = '__all__'"
+        }
+    ]
+}
