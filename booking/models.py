@@ -20,7 +20,7 @@ class DestinationBook(models.Model):
     email = models.EmailField(null=True,blank=True)
     phone_number = models.CharField(max_length=15,null=True,blank=True)
     country = models.CharField(max_length=45)
-    airlines = models.CharField(max_length=450)
+    airlines = models.CharField(max_length=450,null=True,blank=True)
     number_of_travelers = models.IntegerField(default = 1) #if group companions then specify numbers
     activity = models.ForeignKey(Activity,related_name = 'activity_booking', on_delete = models.CASCADE)
     package = models.ForeignKey(Package,related_name = 'package_booking', on_delete = models.CASCADE)
