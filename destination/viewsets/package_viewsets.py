@@ -1,8 +1,8 @@
+# trunk-ignore-all(isort)
 from ..models import Package
 from ..serializers.destination_type_serializers import PackageReadSerializers,PackageWriteSerializers
 from ..utilities.importbase import *
 from rest_framework.permissions import IsAuthenticated
-from accounts import roles
 from ..utilities.permissions import destinationPermission
 
 

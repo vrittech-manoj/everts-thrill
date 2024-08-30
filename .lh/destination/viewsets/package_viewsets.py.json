@@ -1,0 +1,22 @@
+{
+    "sourceFile": "destination/viewsets/package_viewsets.py",
+    "activeCommit": 0,
+    "commits": [
+        {
+            "activePatchIndex": 1,
+            "patches": [
+                {
+                    "date": 1724996889627,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n"
+                },
+                {
+                    "date": 1724996900203,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -2,9 +2,8 @@\n from ..models import Package\n from ..serializers.destination_type_serializers import PackageReadSerializers,PackageWriteSerializers\n from ..utilities.importbase import *\n from rest_framework.permissions import IsAuthenticated\n-from accounts import roles\n from ..utilities.permissions import destinationPermission\n \n \n class PackageViewsets(viewsets.ModelViewSet):\n"
+                }
+            ],
+            "date": 1724996889627,
+            "name": "Commit-0",
+            "content": "# trunk-ignore-all(isort)\nfrom ..models import Package\nfrom ..serializers.destination_type_serializers import PackageReadSerializers,PackageWriteSerializers\nfrom ..utilities.importbase import *\nfrom rest_framework.permissions import IsAuthenticated\nfrom accounts import roles\nfrom ..utilities.permissions import destinationPermission\n\n\nclass PackageViewsets(viewsets.ModelViewSet):\n    serializer_class = PackageReadSerializers\n    permission_classes = [destinationPermission]\n    pagination_class = MyPageNumberPagination\n    queryset  = Package.objects.all().order_by(\"-id\")\n\n    filter_backends = [SearchFilter,DjangoFilterBackend,OrderingFilter]\n    search_fields = ['name']\n    ordering_fields = ['id','name']\n    filterset_fields = {\n        'name': ['exact', 'icontains'],\n    }\n\n    def get_serializer_class(self):\n        if self.action in ['create','update','partial_update']:\n            return PackageWriteSerializers\n        elif self.action in ['list','retrieve']:\n            return super().get_serializer_class()\n    "
+        }
+    ]
+}

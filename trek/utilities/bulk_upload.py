@@ -5,7 +5,12 @@ from rest_framework.views import APIView
 from rest_framework import status
 import pandas as pd
 import json
+import json
+import traceback
+from datetime import datetime
 
+import json
+from datetime import datetime
 import os
 import requests
 from django.core.files.temp import NamedTemporaryFile
@@ -83,7 +88,7 @@ class BulkUploadAPIView(APIView):
         if data_type == "package":
             create_update_packages(Package, PackageWriteSerializers, data, 'name')
         elif data_type == "destination":
-            create_update_destinations(Destination, DestinationWriteSerializers, data, 'destination_title', request)
+            create_update_destinations(Destination, data,'destination_title')
         elif data_type == "destination-gallery-images":
             create_update_gallery_images(DestinationGalleryImages, DestinationGalleryImagesWriteSerializers, data, 'id')
         elif data_type == "destination-book":
@@ -434,102 +439,64 @@ def create_update_departures(my_model, my_serializer, data, unique_field_name):
         raise ValueError("Errors occurred during processing:\n" + "\n".join(errors))
 
 
-import json
-import traceback
-from datetime import datetime
 
-import json
-from datetime import datetime
 
-def create_update_destinations(my_model, my_serializer, data, unique_field_name, request):
+
+def create_update_destinations(my_model, data, unique_field_name):
     errors = []
     missing_packages = []
     saved_records = 0
 
     for record in data:
         try:
-            # Ignore all image fields if present
-            image_fields = ['featured_image', 'trip_map_image', 'image']
-            for image_field in image_fields:
-                if image_field in record:
-                    del record[image_field]
+            # Exclude specific fields that are not required in the model creation/update
+            exclude_fields = ['featured_image', 'trip_map_image', 'image', 'departures_data', 'departures']
+            for field in exclude_fields:
+                if field in record:
+                    del record[field]
 
             # Resolve the ManyToMany field (packages)
+            packages = None
             if 'packages_names' in record:
                 package_names = record['packages_names']
 
                 # Ensure package_names is treated as a list
                 if isinstance(package_names, str):
                     package_names = [package_names]  # Convert to list if it's a single string
-                
-                package_ids = []
-                for package_name in package_names:
-                    package_obj = Package.objects.filter(name=package_name).first()
-                    
-                    if not package_obj:
-                        missing_packages.append(package_name)
-                    else:
-                        package_ids.append(package_obj.id)
+
+                packages = Package.objects.filter(name__in=package_names)
+                missing_packages = set(package_names) - set(packages.values_list('name', flat=True))
 
                 if missing_packages:
                     errors.append(f"Packages with the following names do not exist and won't be created: {', '.join(missing_packages)}")
                     continue  # Skip this record and move to the next one
 
-                record['packages'] = package_ids
-            else:
-                errors.append(f"The 'packages_names' field is required in record with {unique_field_name}='{record[unique_field_name]}'.")
-                continue
+                # Packages are temporarily removed from the record
+                del record['packages_names']
 
-            # Provide default departure data if none is provided
-            if 'departures' not in record or not record['departures']:
-                record['departures'] = json.dumps([{
-                    "upcoming_departure_date": datetime.now().strftime('%Y-%m-%d %H:%M:%S'),
-                    "upcoming_departure_status": False,
-                    "upcoming_departure_price": 0
-                }])
-            else:
-                try:
-                    # Convert departures to JSON string if it's provided
-                    record['departures'] = json.dumps(record['departures']) if isinstance(record['departures'], list) else record['departures']
-                except Exception as e:
-                    errors.append(f"Error processing departures data for record with {unique_field_name}='{record[unique_field_name]}': {str(e)}")
-                    record['departures'] = json.dumps([])  # Set to empty list if there's an error
-
-            # Debugging: Print out the record before sending it to the serializer
+            # Debugging: Print out the record before creating/updating
             print(f"Debug: Processing record - {record}")
 
             # Handling other fields and creating or updating the Destination record
             existing_data = my_model.objects.filter(**{unique_field_name: record[unique_field_name]})
-            
+
             if existing_data.exists():
                 existing_data = existing_data.first()  # Get the existing record based on the unique field
-                
-                serializer = my_serializer(existing_data, data=record, context={'request': request})
-                if serializer.is_valid():
-                    try:
-                        destination = serializer.save()
-                        if 'packages' in record:
-                            destination.packages.set(record['packages'])  # Update the ManyToMany field
-                        saved_records += 1  # Count successful saves
-                        print(f"Successfully updated record: {record[unique_field_name]}")
-                    except Exception as e:
-                        errors.append(f"Error saving record with {unique_field_name}='{record[unique_field_name]}': {str(e)}\nTraceback:\n{traceback.format_exc()}")
-                else:
-                    errors.append(f"Validation error in record with {unique_field_name}='{record[unique_field_name]}': {serializer.errors}")
+                for key, value in record.items():
+                    setattr(existing_data, key, value)
+                existing_data.save()
+                if packages:
+                    existing_data.packages.set(packages)  # Update the ManyToMany field
+                saved_records += 1  # Count successful saves
+                print(f"Successfully updated record: {record[unique_field_name]}")
             else:
                 # Create a new record
-                serializer = my_serializer(data=record, context={'request': request})
-                if serializer.is_valid():
-                    try:
-                        destination = serializer.save()
-                        if 'packages' in record:
-                            destination.packages.set(record['packages'])  # Set the ManyToMany field
-                        saved_records += 1  # Count successful saves
-                        print(f"Successfully created new record: {record[unique_field_name]}")
-                    except Exception as e:
-                        errors.append(f"Error saving new record with {unique_field_name}='{record[unique_field_name]}': {str(e)}\nTraceback:\n{traceback.format_exc()}")
-                else:
-                    errors.append(f"Validation error in new record with {unique_field_name}='{record[unique_field_name]}': {serializer.errors}")
+                new_record = my_model.objects.create(**record)
+                if packages:
+                    new_record.packages.set(packages)  # Set the ManyToMany field
+                saved_records += 1  # Count successful saves
+                print(f"Successfully created new record: {record[unique_field_name]}")
+
         except Exception as e:
             errors.append(f"General error processing record with {unique_field_name}='{record.get(unique_field_name, 'unknown')}': {str(e)}\nTraceback:\n{traceback.format_exc()}")
 
