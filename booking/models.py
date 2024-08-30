@@ -35,7 +35,7 @@ class DestinationBook(models.Model):
     updated_date = models.DateTimeField(auto_now=True)
 
     def __str__(self) -> str:
-        return str(self.full_name) + ":" + str(self.destination.title)
+        return str(self.full_name) + ":" + str(self.destination.destination_title)
 
 
 class ServiceBook(models.Model):

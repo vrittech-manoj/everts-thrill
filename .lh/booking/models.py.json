@@ -3,7 +3,7 @@
     "activeCommit": 0,
     "commits": [
         {
-            "activePatchIndex": 15,
+            "activePatchIndex": 16,
             "patches": [
                 {
                     "date": 1724847125107,
@@ -68,6 +68,10 @@
                 {
                     "date": 1724996069863,
                     "content": "Index: \n===================================================================\n--- \n+++ \n@@ -19,9 +19,9 @@\n     full_name = models.CharField(max_length=45,null=True,blank=True)\n     email = models.EmailField(null=True,blank=True)\n     phone_number = models.CharField(max_length=15,null=True,blank=True)\n     country = models.CharField(max_length=45)\n-    airlines = models.CharField(max_length=450,null=True,blank)\n+    airlines = models.CharField(max_length=450,null=True,blank=True)\n     number_of_travelers = models.IntegerField(default = 1) #if group companions then specify numbers\n     activity = models.ForeignKey(Activity,related_name = 'activity_booking', on_delete = models.CASCADE)\n     package = models.ForeignKey(Package,related_name = 'package_booking', on_delete = models.CASCADE)\n     arrival_date = models.DateTimeField()\n@@ -34,9 +34,9 @@\n     created_date = models.DateTimeField(auto_now_add=True)\n     updated_date = models.DateTimeField(auto_now=True)\n \n     def __str__(self) -> str:\n-        return str(self.user.username) + \":\" + str(self.destination.title)\n+        return str(selffull_name) + \":\" + str(self.destination.title)\n \n \n class ServiceBook(models.Model):\n     public_id = models.UUIDField(default=uuid.uuid4,editable=False,unique=True)\n"
+                },
+                {
+                    "date": 1724996153850,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -34,9 +34,9 @@\n     created_date = models.DateTimeField(auto_now_add=True)\n     updated_date = models.DateTimeField(auto_now=True)\n \n     def __str__(self) -> str:\n-        return str(selffull_name) + \":\" + str(self.destination.title)\n+        return str(self.full_name) + \":\" + str(self.destination.destination_title)\n \n \n class ServiceBook(models.Model):\n     public_id = models.UUIDField(default=uuid.uuid4,editable=False,unique=True)\n"
                 }
             ],
             "date": 1724847125106,
