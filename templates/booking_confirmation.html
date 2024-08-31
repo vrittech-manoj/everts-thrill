@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>New Trip Booking Notification</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f5f5f5;
+            margin: 0;
+            padding: 0;
+            color: #333;
+        }
+        .email-container {
+            background-color: #ffffff;
+            max-width: 600px;
+            margin: 20px auto;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        .header {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        .header img {
+            max-width: 150px;
+        }
+        .content {
+            margin-bottom: 20px;
+        }
+        h1 {
+            font-size: 22px;
+            color: #333;
+        }
+        p {
+            font-size: 16px;
+            line-height: 1.5;
+            color: #555;
+        }
+        .trip-details {
+            background-color: #f0f8ff;
+            padding: 20px;
+            border-radius: 10px;
+            margin-top: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+        .trip-details-text {
+            font-size: 16px;
+            line-height: 1.8;
+            color: #333;
+        }
+        .trip-details-text p {
+            margin: 5px 0;
+        }
+        .trip-details img {
+            max-width: 100px;
+        }
+        .footer {
+            text-align: center;
+            margin-top: 20px;
+            background-color: #A56631;
+            padding: 20px;
+            border-radius: 0 0 10px 10px;
+            color: #fff;
+        }
+        .footer a {
+            text-decoration: none;
+            color: #fff;
+        }
+        .footer .social-icons img {
+            width: 25px;
+            margin: 0 10px;
+        }
+    </style>
+</head>
+<body>
+    <div class="email-container">
+        <div class="header">
+            <img src="{% static 'path_to_logo/everest_thrill_logo.png' %}" alt="Everest Thrill Logo">
+        </div>
+        <div class="content">
+            <h1>New Trip Booking Notification – {{ recipient_name }}</h1>
+            <p>Dear {{ recipient_name }},</p>
+            <p>A new trip booking has been made by a customer. Please find the details below:</p>
+            <div class="trip-details">
+                <div class="trip-details-text">
+                    <p><strong>Contact:</strong> {{ contact }}</p>
+                    <p><strong>Activity:</strong> {{ activity }}</p>
+                    <p><strong>Package:</strong> {{ package }}</p>
+                    <p><strong>Destination:</strong> {{ destination }}</p>
+                    <p><strong>Arrival Date:</strong> {{ arrival_date }}</p>
+                    <p><strong>Departure Date:</strong> {{ departure_date }}</p>
+                    <p><strong>Preferred Service Type:</strong> {{ preferred_service_type }}</p>
+                </div>
+                <img src="{% static 'staticfiles/calendar.gif' %}" alt="Calendar Icon">
+            </div>
+            <p>Please review this booking and make the necessary arrangements.</p>
+        </div>
+        <div class="footer">
+            <div class="social-icons">
+                <a href="#"><img src="https://img.icons8.com/color/48/000000/facebook.png" alt="Facebook"></a>
+                <a href="#"><img src="https://img.icons8.com/color/48/000000/twitter.png" alt="Twitter"></a>
+                <a href="#"><img src="https://img.icons8.com/color/48/000000/youtube-play.png" alt="YouTube"></a>
+                <a href="#"><img src="https://img.icons8.com/color/48/000000/linkedin.png" alt="LinkedIn"></a>
+            </div>
+            <p>&copy; 2024 Everest Thrill. All rights reserved.<br>Made with <span style="color: #FF7A00;">&hearts;</span> by <a href="https://vrittech.com" style="color: #fff;">Vrit Tech</a></p>
+        </div>
+    </div>
+</body>
+</html>

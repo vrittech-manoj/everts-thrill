@@ -1,6 +1,6 @@
 from django.shortcuts import render
 from rest_framework import generics, status, viewsets, response
-from .serializers import EmailNumberSerializer, CustomPasswordResetSerializer, TokenValidationSerializer,ContactMeSerializer,EmailResetSerializer,EmailChangeGetOtpSerializer
+from .serializers import EmailNumberSerializer,PasswordNumberSerializer, CustomPasswordResetSerializer, TokenValidationSerializer,ContactMeSerializer,EmailResetSerializer,EmailChangeGetOtpSerializer
 from accounts.models import CustomUser
 from django.utils.http import urlsafe_base64_encode
 from django.utils.encoding import force_bytes
@@ -9,6 +9,8 @@ from django.urls import reverse
 from django.conf import settings
 from django.core.mail import send_mail
 from django.contrib.auth.hashers import check_password
+from django.template.loader import render_to_string
+from booking.models import DestinationBook
 
 
 from rest_framework.views import APIView
@@ -199,7 +201,7 @@ class SendEmailVerificationLink(APIView):
         sendMail(email,verify_url,subject,reset_verification)
 
         return Response({
-            'detail': 'Email verificatio'})
+            'detail': 'Email verification'})
 
 def sendMail(email, reset_url,subject,reset_verification):
     if reset_verification == "verification":
@@ -276,4 +278,105 @@ class ContactmeView(generics.GenericAPIView):
             status=status.HTTP_200_OK,
         )
      
-    
+    class SendEmailForBookingVerification(APIView):
+        serializer_class = EmailNumberSerializer
+
+        def post(self, request, *args, **kwargs):
+            serializer = self.serializer_class(data=request.data)
+            if serializer.is_valid():
+                email = serializer.validated_data["email"]
+                try:
+                    book = DestinationBook.objects.get(email=email)
+                    print("services", book.services.service_name)  # Assuming `services` is a ForeignKey
+
+                except DestinationBook.DoesNotExist:
+                    return Response({'detail': 'Booking details with this email do not exist.'}, status=status.HTTP_400_BAD_REQUEST)
+
+                # Construct the verification URL
+                site_url = 'https://example.com'  # Replace with your actual site URL
+                verify_url = f"{site_url}/user-verification-success?pk={urlsafe_base64_encode(force_bytes(book.pk))}"
+
+                # Send the confirmation email
+                subject = 'Booking Verification Email'
+                sendBookingConfirmationEMail(email, verify_url, subject, book)
+
+                return Response({'detail': 'Email for Booking confirmation sent successfully'})
+            
+            return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+def sendBookingConfirmationEMail(email, verify_url, subject, book):
+    context = {
+        'verification_url': verify_url,
+        'recipient_name': book.full_name,  
+        'contact': book.phone_number, 
+        'activity': book.activity.name,  
+        'package': book.package.name,  
+        'destination': book.destination.destination_title,  
+        'arrival_date': book.arrival_date.strftime('%d/%m/%Y'),  
+        'departure_date': book.departure_date.strftime('%d/%m/%Y'),  
+        'preferred_service_type': book.service_type, 
+    }
+    html_content = render_to_string('booking_notification_email.html', context)  # Template path
+    email_from = settings.EMAIL_HOST_USER
+    recipient_list = [email]
+    plain_message = ""
+    send_mail(subject, plain_message, email_from, recipient_list, html_message=html_content)
+
+    class PasswordResetView(generics.GenericAPIView):
+
+            def generate_otp(self,user):
+                # Generate a random 5-digit OTP
+                # return "12345"
+                user = str(user)
+                return user[0]+''.join(random.choices(string.digits, k=3)) + user[-1]
+            
+            serializer_class = PasswordNumberSerializer
+            def post(self, request):
+                serializer = self.serializer_class(data=request.data)
+                serializer.is_valid(raise_exception=True)
+                email = serializer.data["email"]
+                user = CustomUser.objects.filter(Q(email=email) | Q(phone = email)).first()
+                if user:
+                
+                    otp = self.generate_otp(user.id)
+
+                    email_type = "reset_password"
+                    
+                    subject = 'Everest Thrill Password Reset OTP'
+                    if '@' in email:
+                        email = user.email
+                        sendPasswordResetMail(email, otp,subject,email_type,user)
+                    else:
+                        SendSms(contact=email,otp=otp,message=subject)
+                
+                    cache_key = f"password_reset_otp_{user.id}"
+                    cache.set(cache_key, otp, timeout=otp_time_expired)
+
+                    return response.Response(
+                        {
+                        "message":"OTP has been sent to your email address"
+                        },
+                        status=status.HTTP_200_OK,
+                    )
+                else:
+                    return response.Response(
+                        {"message": "User doesn't exists"},
+                        status=status.HTTP_400_BAD_REQUEST,
+                    )
+
+def sendPasswordResetMail(email, otp, subject, email_type, user):
+    password_html_contents = ""  # Initialize to avoid UnboundLocalError
+            
+    if email_type == "reset_password":  # Ensure this matches what is passed
+                context = {
+                    'otp': otp,
+                    'user': user,
+                    'verification_url': 'https://example.com/verify'
+                }
+                
+                password_html_contents = render_to_string('reset_password_otp.html', context)
+            
+    email_from = settings.EMAIL_HOST_USER
+    recipient_list = [email]
+    plain_message = ""
+    send_mail(subject, plain_message, email_from, recipient_list, html_message=password_html_contents)
