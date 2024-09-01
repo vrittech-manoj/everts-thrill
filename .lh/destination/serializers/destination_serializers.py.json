@@ -3,7 +3,7 @@
     "activeCommit": 0,
     "commits": [
         {
-            "activePatchIndex": 10,
+            "activePatchIndex": 11,
             "patches": [
                 {
                     "date": 1724929074297,
@@ -48,6 +48,10 @@
                 {
                     "date": 1725170934576,
                     "content": "Index: \n===================================================================\n--- \n+++ \n@@ -74,8 +74,15 @@\n             'galleryimages',\n             'destination_departures',\n             \n         ]\n+        def to_representation(self, instance):\n+        representation = super().to_representation(instance)\n+        # Conditionally remove price fields if is_price is False\n+        if not instance.is_price:\n+            representation.pop('price', None)\n+            representation.pop('price_type', None)\n+        return representation\n \n class DestinationlistAdminSerializers(serializers.ModelSerializer):\n     galleryimages = DestinationGalleryImagesSerializer(many=True, read_only=True)\n     destination_departures = DepartureSerializer(many=True, read_only=True)\n"
+                },
+                {
+                    "date": 1725172969709,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -74,9 +74,9 @@\n             'galleryimages',\n             'destination_departures',\n             \n         ]\n-        def to_representation(self, instance):\n+    def to_representation(self, instance):\n         representation = super().to_representation(instance)\n         # Conditionally remove price fields if is_price is False\n         if not instance.is_price:\n             representation.pop('price', None)\n"
                 }
             ],
             "date": 1724929074297,
