@@ -7,7 +7,7 @@ from rest_framework.filters import SearchFilter, OrderingFilter
 from rest_framework.permissions import IsAuthenticated
 
 class BlogViewSets(viewsets.ModelViewSet):
-    permission_classes = [IsAuthenticated] 
+    permission_classes = [AdminViewSetsPermission] 
     pagination_class = MyPageNumberPagination
     filter_backends = [SearchFilter, DjangoFilterBackend, OrderingFilter]
     search_fields = ['title']
