@@ -19,8 +19,11 @@ class reviewViewsets(viewsets.ModelViewSet):
     }
 
     def get_queryset(self):
-        queryset = Review.visible.all()
-        return queryset
+        user = self.request.user
+        if user.is_staff: 
+            return Review.objects.all()  
+        return Review.visible.all()  
+
 
     def get_serializer_class(self):
         if self.action in ['create', 'update', 'partial_update']:

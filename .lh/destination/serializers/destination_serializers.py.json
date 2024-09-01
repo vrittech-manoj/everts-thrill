@@ -3,7 +3,7 @@
     "activeCommit": 0,
     "commits": [
         {
-            "activePatchIndex": 3,
+            "activePatchIndex": 10,
             "patches": [
                 {
                     "date": 1724929074297,
@@ -20,6 +20,34 @@
                 {
                     "date": 1724929102034,
                     "content": "Index: \n===================================================================\n--- \n+++ \n@@ -218,10 +218,10 @@\n                     # Create a new departure if the departure does not exist\n                     Departure.objects.create(destination_trip=instance, **departure_data)\n         \n         else:\n-        # Set departures to None if no departure data is provided\n-         Departure.objects.filter(destination_trip=instance).delete()\n+            # Set departures to None if no departure data is provided\n+            Departure.objects.filter(destination_trip=instance).delete()\n         \n         for image_file in images_data:\n             DestinationGalleryImages.objects.create(destination_trip=instance, image=image_file)\n \n"
+                },
+                {
+                    "date": 1725170864351,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -109,8 +109,15 @@\n             'group_size',\n             'galleryimages',\n             'destination_departures',\n         ]\n+    def to_representation(self, instance):\n+        representation = super().to_representation(instance)\n+        # Conditionally remove price fields if is_price is False\n+        if not instance.is_price:\n+            representation.pop('price', None)\n+            representation.pop('price_type', None)\n+        return representation\n \n class DestinationRetrieveUserSerializers(serializers.ModelSerializer):\n     galleryimages = DestinationGalleryImagesSerializer(many=True, read_only=True)\n     destination_departures = DepartureSerializer(many=True, read_only=True)\n"
+                },
+                {
+                    "date": 1725170873477,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -125,8 +125,9 @@\n \n     class Meta:\n         model = Destination\n         fields = '__all__'\n+    \n \n class DestinationRetrieveAdminSerializers(serializers.ModelSerializer):\n     galleryimages = DestinationGalleryImagesSerializer(many=True, read_only=True)\n     destination_departures = DepartureSerializer(many=True, read_only=True)\n"
+                },
+                {
+                    "date": 1725170879518,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -125,9 +125,16 @@\n \n     class Meta:\n         model = Destination\n         fields = '__all__'\n-    \n+        \n+    def to_representation(self, instance):\n+        representation = super().to_representation(instance)\n+        # Conditionally remove price fields if is_price is False\n+        if not instance.is_price:\n+            representation.pop('price', None)\n+            representation.pop('price_type', None)\n+        return representation\n \n class DestinationRetrieveAdminSerializers(serializers.ModelSerializer):\n     galleryimages = DestinationGalleryImagesSerializer(many=True, read_only=True)\n     destination_departures = DepartureSerializer(many=True, read_only=True)\n"
+                },
+                {
+                    "date": 1725170890474,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -142,8 +142,9 @@\n \n     class Meta:\n         model = Destination\n         fields = '__all__'\n+    \n         \n class DestinationWriteSerializers(serializers.ModelSerializer):\n     galleryimages = DestinationGalleryImagesSerializer(many=True, read_only=True)\n     destination_departures = DepartureSerializer(many=True, read_only=True)\n"
+                },
+                {
+                    "date": 1725170902240,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -142,10 +142,10 @@\n \n     class Meta:\n         model = Destination\n         fields = '__all__'\n-    \n         \n+        \n class DestinationWriteSerializers(serializers.ModelSerializer):\n     galleryimages = DestinationGalleryImagesSerializer(many=True, read_only=True)\n     destination_departures = DepartureSerializer(many=True, read_only=True)\n     \n"
+                },
+                {
+                    "date": 1725170920290,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -109,15 +109,8 @@\n             'group_size',\n             'galleryimages',\n             'destination_departures',\n         ]\n-    def to_representation(self, instance):\n-        representation = super().to_representation(instance)\n-        # Conditionally remove price fields if is_price is False\n-        if not instance.is_price:\n-            representation.pop('price', None)\n-            representation.pop('price_type', None)\n-        return representation\n \n class DestinationRetrieveUserSerializers(serializers.ModelSerializer):\n     galleryimages = DestinationGalleryImagesSerializer(many=True, read_only=True)\n     destination_departures = DepartureSerializer(many=True, read_only=True)\n"
+                },
+                {
+                    "date": 1725170934576,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -74,8 +74,15 @@\n             'galleryimages',\n             'destination_departures',\n             \n         ]\n+        def to_representation(self, instance):\n+        representation = super().to_representation(instance)\n+        # Conditionally remove price fields if is_price is False\n+        if not instance.is_price:\n+            representation.pop('price', None)\n+            representation.pop('price_type', None)\n+        return representation\n \n class DestinationlistAdminSerializers(serializers.ModelSerializer):\n     galleryimages = DestinationGalleryImagesSerializer(many=True, read_only=True)\n     destination_departures = DepartureSerializer(many=True, read_only=True)\n"
                 }
             ],
             "date": 1724929074297,

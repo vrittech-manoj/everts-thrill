@@ -3,7 +3,7 @@
     "activeCommit": 0,
     "commits": [
         {
-            "activePatchIndex": 9,
+            "activePatchIndex": 13,
             "patches": [
                 {
                     "date": 1725165751205,
@@ -44,6 +44,22 @@
                 {
                     "date": 1725170439194,
                     "content": "Index: \n===================================================================\n--- \n+++ \n@@ -5,33 +5,30 @@\n from ..serializers.review_serializers import ReviewListSerializers, ReviewRetrieveSerializers, ReviewWriteSerializers\n from ..utilities.importbase import *\n \n class reviewViewsets(viewsets.ModelViewSet):\n-    serializer_class = ReviewListSerializers\n     permission_classes = [reviewPermission]\n     pagination_class = MyPageNumberPagination\n-    queryset = Review.objects.all()\n \n     filter_backends = [SearchFilter, DjangoFilterBackend, OrderingFilter]\n-    search_fields = ['id','star_rating']\n-    ordering_fields = ['id','star_rating']\n+    search_fields = ['id', 'star_rating']\n+    ordering_fields = ['id', 'star_rating']\n \n     filterset_fields = {\n         'star_rating': ['exact'],\n-        'destination__': ['exact'],\n+        'destination': ['exact'],\n     }\n \n     def get_queryset(self):\n-        queryset = super().get_queryset()\n+        queryset = Review.visible.all()\n         return queryset\n \n     def get_serializer_class(self):\n         if self.action in ['create', 'update', 'partial_update']:\n             return ReviewWriteSerializers\n         elif self.action == 'retrieve':\n             return ReviewRetrieveSerializers\n-        return super().get_serializer_class()\n+        return ReviewListSerializers\n \n     # @action(detail=False, methods=['get'], name=\"action_name\", url_path=\"url_path\")\n     # def action_name(self, request, *args, **kwargs):\n     #     return super().list(request, *args, **kwargs)\n-\n"
+                },
+                {
+                    "date": 1725171246352,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -18,11 +18,14 @@\n         'destination': ['exact'],\n     }\n \n     def get_queryset(self):\n-        queryset = Review.visible.all()\n-        return queryset\n+    user = self.request.user\n+    if user.is_staff:  # Check if the user is an admin\n+        return Review.objects.all()  # Show all reviews for admin users\n+    return Review.visible.all()  # Show only visible reviews for regular users\n \n+\n     def get_serializer_class(self):\n         if self.action in ['create', 'update', 'partial_update']:\n             return ReviewWriteSerializers\n         elif self.action == 'retrieve':\n"
+                },
+                {
+                    "date": 1725171253069,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -18,12 +18,12 @@\n         'destination': ['exact'],\n     }\n \n     def get_queryset(self):\n-    user = self.request.user\n-    if user.is_staff:  # Check if the user is an admin\n-        return Review.objects.all()  # Show all reviews for admin users\n-    return Review.visible.all()  # Show only visible reviews for regular users\n+        user = self.request.user\n+        if user.is_staff: \n+            return Review.objects.all()  # Show all reviews for admin users\n+        return Review.visible.all()  # Show only visible reviews for regular users\n \n \n     def get_serializer_class(self):\n         if self.action in ['create', 'update', 'partial_update']:\n"
+                },
+                {
+                    "date": 1725171287931,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -20,9 +20,9 @@\n \n     def get_queryset(self):\n         user = self.request.user\n         if user.is_staff: \n-            return Review.objects.all()  # Show all reviews for admin users\n+            return Review.objects.all()  \n         return Review.visible.all()  # Show only visible reviews for regular users\n \n \n     def get_serializer_class(self):\n"
+                },
+                {
+                    "date": 1725171294125,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -21,9 +21,9 @@\n     def get_queryset(self):\n         user = self.request.user\n         if user.is_staff: \n             return Review.objects.all()  \n-        return Review.visible.all()  # Show only visible reviews for regular users\n+        return Review.visible.all()  \n \n \n     def get_serializer_class(self):\n         if self.action in ['create', 'update', 'partial_update']:\n"
                 }
             ],
             "date": 1725165751205,
