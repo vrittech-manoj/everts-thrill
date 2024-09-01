@@ -17,7 +17,7 @@ class reviewViewsets(viewsets.ModelViewSet):
 
     filterset_fields = {
         'star_rating': ['exact'],
-        'destination__id': ['exact'],
+        'destination': ['exact'],
     }
 
     def get_queryset(self):
