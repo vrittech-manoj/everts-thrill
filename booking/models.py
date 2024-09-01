@@ -6,7 +6,7 @@ from activities.models import Activity
 from destination.models import Package
 from airlines.models import Airlines
 import uuid
-import slugify
+from django.utils.text import slugify
 
 # Create your models here.
 
@@ -42,6 +42,7 @@ class DestinationBook(models.Model):
     def save(self, *args, **kwargs):
         if not self.slug:
             self.slug = slugify(self.full_name) + '-' + str(self.public_id)[1:5] + str(self.public_id)[-1:-5]
+        super().save(*args, **kwargs)
 
 
 class ServiceBook(models.Model):

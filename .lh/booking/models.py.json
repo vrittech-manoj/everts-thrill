@@ -3,7 +3,7 @@
     "activeCommit": 0,
     "commits": [
         {
-            "activePatchIndex": 20,
+            "activePatchIndex": 24,
             "patches": [
                 {
                     "date": 1724847125107,
@@ -88,6 +88,22 @@
                 {
                     "date": 1725166690892,
                     "content": "Index: \n===================================================================\n--- \n+++ \n@@ -5,8 +5,9 @@\n from activities.models import Activity\n from destination.models import Package\n from airlines.models import Airlines\n import uuid\n+import slugify\n \n # Create your models here.\n \n class DestinationBook(models.Model):\n"
+                },
+                {
+                    "date": 1725168426410,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -38,11 +38,12 @@\n \n     def __str__(self) -> str:\n         return str(self.full_name) + \":\" + str(self.destination.destination_title)\n \n-    def save(self, *args, **kwargs):\n+     def save(self, *args, **kwargs):\n         if not self.slug:\n-            self.slug = slugify(self.full_name) + '-' + str(self.public_id)[1:5] + str(self.public_id)[-1:-5]\n+            self.slug = slugify(self.full_name) + '-' + str(self.public_id)[1:5] + str(self.public_id)[-5:]\n+        super().save(*args, **kwargs)\n \n \n class ServiceBook(models.Model):\n     public_id = models.UUIDField(default=uuid.uuid4,editable=False,unique=True)\n"
+                },
+                {
+                    "date": 1725168499132,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -38,11 +38,11 @@\n \n     def __str__(self) -> str:\n         return str(self.full_name) + \":\" + str(self.destination.destination_title)\n \n-     def save(self, *args, **kwargs):\n+    def save(self, *args, **kwargs):\n         if not self.slug:\n-            self.slug = slugify(self.full_name) + '-' + str(self.public_id)[1:5] + str(self.public_id)[-5:]\n+            self.slug = slugify(self.destination_title) + '-' + str(self.public_id)[1:5] + str(self.public_id)[-1:-5]\n         super().save(*args, **kwargs)\n \n \n class ServiceBook(models.Model):\n"
+                },
+                {
+                    "date": 1725168507028,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -40,9 +40,9 @@\n         return str(self.full_name) + \":\" + str(self.destination.destination_title)\n \n     def save(self, *args, **kwargs):\n         if not self.slug:\n-            self.slug = slugify(self.destination_title) + '-' + str(self.public_id)[1:5] + str(self.public_id)[-1:-5]\n+            self.slug = slugify(self.full_name) + '-' + str(self.public_id)[1:5] + str(self.public_id)[-1:-5]\n         super().save(*args, **kwargs)\n \n \n class ServiceBook(models.Model):\n"
+                },
+                {
+                    "date": 1725168543799,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -5,9 +5,9 @@\n from activities.models import Activity\n from destination.models import Package\n from airlines.models import Airlines\n import uuid\n-import slugify\n+from django.utils.text import slugify\n \n # Create your models here.\n \n class DestinationBook(models.Model):\n"
                 }
             ],
             "date": 1724847125106,
