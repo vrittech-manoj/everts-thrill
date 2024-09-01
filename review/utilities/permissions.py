@@ -45,7 +45,7 @@ class reviewPermission(BasePermission):
         if view.action in ["list"]:
             return True
         elif view.action in ['retrieve']:
-            return AdminLevel(request)
+            return True
         elif view.action in ['create','update']:
             return AdminLevel(request) #second level
             return ObjectBOwner(request) #third level
