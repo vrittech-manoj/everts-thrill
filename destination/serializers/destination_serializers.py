@@ -75,13 +75,6 @@ class DestinationlistUserSerializers(serializers.ModelSerializer):
             'destination_departures',
             
         ]
-    def to_representation(self, instance):
-        representation = super().to_representation(instance)
-        # Conditionally remove price fields if is_price is False
-        if not instance.is_price:
-            representation.pop('price', None)
-            representation.pop('price_type', None)
-        return representation
 
 class DestinationlistAdminSerializers(serializers.ModelSerializer):
     galleryimages = DestinationGalleryImagesSerializer(many=True, read_only=True)
@@ -126,14 +119,7 @@ class DestinationRetrieveUserSerializers(serializers.ModelSerializer):
     class Meta:
         model = Destination
         fields = '__all__'
-        
-    def to_representation(self, instance):
-        representation = super().to_representation(instance)
-        # Conditionally remove price fields if is_price is False
-        if not instance.is_price:
-            representation.pop('price', None)
-            representation.pop('price_type', None)
-        return representation
+    
 
 class DestinationRetrieveAdminSerializers(serializers.ModelSerializer):
     galleryimages = DestinationGalleryImagesSerializer(many=True, read_only=True)
