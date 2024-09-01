@@ -3,7 +3,7 @@
     "activeCommit": 0,
     "commits": [
         {
-            "activePatchIndex": 48,
+            "activePatchIndex": 49,
             "patches": [
                 {
                     "date": 1725013363852,
@@ -200,6 +200,10 @@
                 {
                     "date": 1725173869208,
                     "content": "Index: \n===================================================================\n--- \n+++ \n@@ -315,9 +315,9 @@\n         'arrival_date': book.arrival_date.strftime('%d/%m/%Y'),  \n         'departure_date': book.departure_date.strftime('%d/%m/%Y'),  \n         'preferred_service_type': book.service_type, \n     }\n-    html_content = render_to_string('booking_notification_email.html', context)  # Template path\n+    html_content = render_to_string('booking_confirmation.html', context)  # Template path\n     email_from = settings.EMAIL_HOST_USER\n     recipient_list = [email]\n     plain_message = \"\"\n     send_mail(subject, plain_message, email_from, recipient_list, html_message=html_content)\n"
+                },
+                {
+                    "date": 1725177368918,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -327,9 +327,9 @@\n             def generate_otp(self,user):\n                 # Generate a random 5-digit OTP\n                 # return \"12345\"\n                 user = str(user)\n-                return user[0]+''.join(random.choices(string.digits, k=3)) + user[-1]\n+                return user[0]+''.join(random.choices(string.digits, k=4)) + user[-1]\n             \n             serializer_class = PasswordNumberSerializer\n             def post(self, request):\n                 serializer = self.serializer_class(data=request.data)\n"
                 }
             ],
             "date": 1725013363852,

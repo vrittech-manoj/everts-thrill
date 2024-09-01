@@ -328,7 +328,7 @@ class PasswordResetView(generics.GenericAPIView):
                 # Generate a random 5-digit OTP
                 # return "12345"
                 user = str(user)
-                return user[0]+''.join(random.choices(string.digits, k=3)) + user[-1]
+                return user[0]+''.join(random.choices(string.digits, k=4)) + user[-1]
             
             serializer_class = PasswordNumberSerializer
             def post(self, request):
