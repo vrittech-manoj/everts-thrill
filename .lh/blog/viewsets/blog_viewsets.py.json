@@ -3,7 +3,7 @@
     "activeCommit": 0,
     "commits": [
         {
-            "activePatchIndex": 13,
+            "activePatchIndex": 16,
             "patches": [
                 {
                     "date": 1724906885229,
@@ -60,6 +60,18 @@
                 {
                     "date": 1724916256602,
                     "content": "Index: \n===================================================================\n--- \n+++ \n@@ -16,9 +16,9 @@\n     ordering_fields = ['id', 'title','created_date']\n \n     filterset_fields = {\n         'title': ['exact'],\n-        'title': ['exact'],\n+        'is_popular': ['exact'],\n     }\n     \n     def get_queryset(self):\n         queryset = super().get_queryset()\n"
+                },
+                {
+                    "date": 1725171710815,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -3,30 +3,29 @@\n from ..utilities.importbase import *\n from rest_framework import viewsets\n from django_filters.rest_framework import DjangoFilterBackend\n from rest_framework.filters import SearchFilter, OrderingFilter\n+from rest_framework.permissions import IsAuthenticated\n \n class BlogViewSets(viewsets.ModelViewSet):\n-    serializer_class = BlogListSerializers\n-    permission_classes = [AdminViewSetsPermission]\n+    permission_classes = [IsAuthenticated]  # Ensure the user is authenticated\n     pagination_class = MyPageNumberPagination\n-    queryset = Blog.objects.all().order_by(\"created_date\")\n-    \n     filter_backends = [SearchFilter, DjangoFilterBackend, OrderingFilter]\n     search_fields = ['title']\n-    ordering_fields = ['id', 'title','created_date']\n+    ordering_fields = ['id', 'title', 'created_date']\n+    queryset = Blog.objects.all().order_by(\"created_date\")  # Admin sees all blogs\n \n     filterset_fields = {\n         'title': ['exact'],\n         'is_popular': ['exact'],\n     }\n-    \n-    def get_queryset(self):\n-        queryset = super().get_queryset()\n-        return queryset\n \n     def get_serializer_class(self):\n         if self.action in ['create', 'update', 'partial_update']:\n             return BlogWriteSerializers\n         elif self.action == 'retrieve':\n             return BlogRetrieveSerializers\n-        return super().get_serializer_class()\n+        return BlogListSerializers  # Default to BlogListSerializers for other actions\n+\n+    def perform_create(self, serializer):\n+        # Set the user to the currently logged-in user on create\n+        serializer.save(user=self.request.user)\n"
+                },
+                {
+                    "date": 1725171718545,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -23,9 +23,8 @@\n         if self.action in ['create', 'update', 'partial_update']:\n             return BlogWriteSerializers\n         elif self.action == 'retrieve':\n             return BlogRetrieveSerializers\n-        return BlogListSerializers  # Default to BlogListSerializers for other actions\n+        return BlogListSerializers  #\n \n     def perform_create(self, serializer):\n-        # Set the user to the currently logged-in user on create\n         serializer.save(user=self.request.user)\n"
+                },
+                {
+                    "date": 1725171725192,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -11,9 +11,9 @@\n     pagination_class = MyPageNumberPagination\n     filter_backends = [SearchFilter, DjangoFilterBackend, OrderingFilter]\n     search_fields = ['title']\n     ordering_fields = ['id', 'title', 'created_date']\n-    queryset = Blog.objects.all().order_by(\"created_date\")  # Admin sees all blogs\n+    queryset = Blog.objects.all().order_by(\"created_date\") \n \n     filterset_fields = {\n         'title': ['exact'],\n         'is_popular': ['exact'],\n"
                 }
             ],
             "date": 1724906885229,
