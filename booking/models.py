@@ -17,7 +17,7 @@ class DestinationBook(models.Model):
         ('premium','Premium'),
     )
     public_id = models.UUIDField(default=uuid.uuid4,editable=False,unique=True)
-    slug = models.SlugField(null =True,blank=True)
+    slug = models.SlugField(unique=True)
     full_name = models.CharField(max_length=45,null=True,blank=True)
     email = models.EmailField(null=True,blank=True)
     phone_number = models.CharField(max_length=15,null=True,blank=True)
