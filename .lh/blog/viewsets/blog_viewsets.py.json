@@ -3,7 +3,7 @@
     "activeCommit": 0,
     "commits": [
         {
-            "activePatchIndex": 17,
+            "activePatchIndex": 18,
             "patches": [
                 {
                     "date": 1724906885229,
@@ -76,6 +76,10 @@
                 {
                     "date": 1725171916557,
                     "content": "Index: \n===================================================================\n--- \n+++ \n@@ -6,9 +6,9 @@\n from rest_framework.filters import SearchFilter, OrderingFilter\n from rest_framework.permissions import IsAuthenticated\n \n class BlogViewSets(viewsets.ModelViewSet):\n-    permission_classes = [IsAuthenticated]  # Ensure the user is authenticated\n+    permission_classes = [AdminViewSetsPermission] \n     pagination_class = MyPageNumberPagination\n     filter_backends = [SearchFilter, DjangoFilterBackend, OrderingFilter]\n     search_fields = ['title']\n     ordering_fields = ['id', 'title', 'created_date']\n"
+                },
+                {
+                    "date": 1725172246300,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -11,20 +11,31 @@\n     pagination_class = MyPageNumberPagination\n     filter_backends = [SearchFilter, DjangoFilterBackend, OrderingFilter]\n     search_fields = ['title']\n     ordering_fields = ['id', 'title', 'created_date']\n-    queryset = Blog.objects.all().order_by(\"created_date\") \n-\n+    \n     filterset_fields = {\n         'title': ['exact'],\n         'is_popular': ['exact'],\n     }\n \n+    def get_queryset(self):\n+        queryset = Blog.objects.all().order_by(\"created_date\")\n+        \n+        # Check if 'is_popular' filter is present in the query parameters\n+        is_popular_filter = self.request.query_params.get('is_popular')\n+        \n+        if is_popular_filter is not None:\n+            # Filter the queryset to only include popular blogs\n+            queryset = queryset.filter(is_popular=True)\n+        \n+        return queryset\n+\n     def get_serializer_class(self):\n         if self.action in ['create', 'update', 'partial_update']:\n             return BlogWriteSerializers\n         elif self.action == 'retrieve':\n             return BlogRetrieveSerializers\n-        return BlogListSerializers  #\n+        return BlogListSerializers  # Default serializer\n \n     def perform_create(self, serializer):\n         serializer.save(user=self.request.user)\n"
                 }
             ],
             "date": 1724906885229,
