@@ -6,6 +6,7 @@ class DestinationSerializers(serializers.ModelSerializer):
     class Meta:
         model = Destination
         fields = '__all__'
+        ref_name = 'FaqsDestination'
 
 class FaqsListSerializers(serializers.ModelSerializer):
     faqs_for_destination = DestinationSerializers(read_only=True)

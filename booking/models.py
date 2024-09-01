@@ -6,6 +6,7 @@ from activities.models import Activity
 from destination.models import Package
 from airlines.models import Airlines
 import uuid
+import slugify
 
 # Create your models here.
 
@@ -16,6 +17,7 @@ class DestinationBook(models.Model):
         ('premium','Premium'),
     )
     public_id = models.UUIDField(default=uuid.uuid4,editable=False,unique=True)
+    slug = models.SlugField(unique=True, blank=True)
     full_name = models.CharField(max_length=45,null=True,blank=True)
     email = models.EmailField(null=True,blank=True)
     phone_number = models.CharField(max_length=15,null=True,blank=True)
@@ -36,6 +38,10 @@ class DestinationBook(models.Model):
 
     def __str__(self) -> str:
         return str(self.full_name) + ":" + str(self.destination.destination_title)
+
+    def save(self, *args, **kwargs):
+        if not self.slug:
+            self.slug = slugify(self.full_name) + '-' + str(self.public_id)[1:5] + str(self.public_id)[-1:-5]
 
 
 class ServiceBook(models.Model):

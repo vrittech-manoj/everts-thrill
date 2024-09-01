@@ -13,10 +13,11 @@ class reviewViewsets(viewsets.ModelViewSet):
 
     filter_backends = [SearchFilter, DjangoFilterBackend, OrderingFilter]
     search_fields = ['id','star_rating']
-    ordering_fields = ['id']
+    ordering_fields = ['id','star_rating']
 
     filterset_fields = {
         'star_rating': ['exact'],
+        'destination__id': ['exact'],
     }
 
     def get_queryset(self):

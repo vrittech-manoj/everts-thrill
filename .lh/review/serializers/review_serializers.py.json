@@ -1,0 +1,46 @@
+{
+    "sourceFile": "review/serializers/review_serializers.py",
+    "activeCommit": 0,
+    "commits": [
+        {
+            "activePatchIndex": 7,
+            "patches": [
+                {
+                    "date": 1725166368501,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n"
+                },
+                {
+                    "date": 1725166377677,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -1,6 +1,7 @@\n from rest_framework import serializers\n from ..models import Review\n+from destination.models import Destination\n \n class DestinationSerializers(serializers.ModelSerializer):\n     class Meta:\n         model = Destination\n"
+                },
+                {
+                    "date": 1725166399667,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -6,8 +6,9 @@\n     class Meta:\n         model = Destination\n         fields = '__all__'\n class ReviewListSerializers(serializers.ModelSerializer):\n+    destination_review\n     class Meta:\n         model = Review\n         fields = '__all__'\n \n"
+                },
+                {
+                    "date": 1725166405647,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -6,9 +6,9 @@\n     class Meta:\n         model = Destination\n         fields = '__all__'\n class ReviewListSerializers(serializers.ModelSerializer):\n-    destination_review\n+    destination_review = DestinationSerializers\n     class Meta:\n         model = Review\n         fields = '__all__'\n \n"
+                },
+                {
+                    "date": 1725166416487,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -6,9 +6,9 @@\n     class Meta:\n         model = Destination\n         fields = '__all__'\n class ReviewListSerializers(serializers.ModelSerializer):\n-    destination_review = DestinationSerializers\n+    destination_review = DestinationSerializers(read_only = True)\n     class Meta:\n         model = Review\n         fields = '__all__'\n \n"
+                },
+                {
+                    "date": 1725166424132,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -12,8 +12,9 @@\n         model = Review\n         fields = '__all__'\n \n class ReviewRetrieveSerializers(serializers.ModelSerializer):\n+    destination_review = DestinationSerializers(read_only = True)\n     class Meta:\n         model = Review\n         fields = '__all__'\n \n"
+                },
+                {
+                    "date": 1725167133162,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -5,8 +5,9 @@\n class DestinationSerializers(serializers.ModelSerializer):\n     class Meta:\n         model = Destination\n         fields = '__all__'\n+         ref_name = 'ReviewDestination'\n class ReviewListSerializers(serializers.ModelSerializer):\n     destination_review = DestinationSerializers(read_only = True)\n     class Meta:\n         model = Review\n"
+                },
+                {
+                    "date": 1725167140521,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -5,9 +5,9 @@\n class DestinationSerializers(serializers.ModelSerializer):\n     class Meta:\n         model = Destination\n         fields = '__all__'\n-         ref_name = 'ReviewDestination'\n+        ref_name = 'ReviewDestination'\n class ReviewListSerializers(serializers.ModelSerializer):\n     destination_review = DestinationSerializers(read_only = True)\n     class Meta:\n         model = Review\n"
+                }
+            ],
+            "date": 1725166368501,
+            "name": "Commit-0",
+            "content": "from rest_framework import serializers\nfrom ..models import Review\n\nclass DestinationSerializers(serializers.ModelSerializer):\n    class Meta:\n        model = Destination\n        fields = '__all__'\nclass ReviewListSerializers(serializers.ModelSerializer):\n    class Meta:\n        model = Review\n        fields = '__all__'\n\nclass ReviewRetrieveSerializers(serializers.ModelSerializer):\n    class Meta:\n        model = Review\n        fields = '__all__'\n\nclass ReviewWriteSerializers(serializers.ModelSerializer):\n    class Meta:\n        model = Review\n        fields = '__all__'"
+        }
+    ]
+}

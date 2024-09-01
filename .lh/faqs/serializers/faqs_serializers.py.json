@@ -1,0 +1,18 @@
+{
+    "sourceFile": "faqs/serializers/faqs_serializers.py",
+    "activeCommit": 0,
+    "commits": [
+        {
+            "activePatchIndex": 0,
+            "patches": [
+                {
+                    "date": 1725167117986,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n"
+                }
+            ],
+            "date": 1725167117986,
+            "name": "Commit-0",
+            "content": "from rest_framework import serializers\nfrom ..models import Faqs\nfrom destination.models import Destination\n\nclass DestinationSerializers(serializers.ModelSerializer):\n    class Meta:\n        model = Destination\n        fields = '__all__'\n        ref_name = 'FaqsDestination'\n\nclass FaqsListSerializers(serializers.ModelSerializer):\n    faqs_for_destination = DestinationSerializers(read_only=True)\n    class Meta:\n        model = Faqs\n        fields = '__all__'\n\nclass FaqsRetrieveSerializers(serializers.ModelSerializer):\n    faqs_for_destination = DestinationSerializers(read_only=True)\n    class Meta:\n        model = Faqs\n        fields = '__all__'\n\nclass FaqsWriteSerializers(serializers.ModelSerializer):\n    destinations_faq_detail = serializers.SerializerMethodField()\n\n    class Meta:\n        model = Faqs\n        fields = '__all__'\n\n    def get_destinations_faq_detail(self, obj):\n        return DestinationSerializers(obj.destination).data\n"
+        }
+    ]
+}

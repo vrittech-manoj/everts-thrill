@@ -12,16 +12,18 @@ class BlogListSerializers(serializers.ModelSerializer):
     
     class Meta:
         model = Blog
-        exclude = ['public_id', 'created_date', 'updated_date']
-
+        fields = '__all__'
+        
 class BlogRetrieveSerializers(serializers.ModelSerializer):
     user = BlogUserSerializer(read_only=True)
 
     class Meta:
         model = Blog
-        exclude = ['public_id', 'created_date', 'updated_date']
+        fields = '__all__'
+       
 
 class BlogWriteSerializers(serializers.ModelSerializer):
     class Meta:
         model = Blog
-        exclude = ['public_id', 'created_date', 'updated_date']
+        fields = '__all__'
+

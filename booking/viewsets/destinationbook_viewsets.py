@@ -11,6 +11,7 @@ class destinationbookViewsets(viewsets.ModelViewSet):
     authentication_classes = [JWTAuthentication]
     pagination_class = MyPageNumberPagination
     queryset = DestinationBook.objects.all().order_by("-created_date")
+    lookup_field = "slug"
 
     filter_backends = [SearchFilter, DjangoFilterBackend, OrderingFilter]
     search_fields = ['full_name']

@@ -1,0 +1,38 @@
+{
+    "sourceFile": "faqs/viewsets/faqs_viewsets.py",
+    "activeCommit": 0,
+    "commits": [
+        {
+            "activePatchIndex": 5,
+            "patches": [
+                {
+                    "date": 1725166549730,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n"
+                },
+                {
+                    "date": 1725166556518,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -16,9 +16,9 @@\n     ordering_fields = ['id']\n \n     filterset_fields = {\n         'title': ['exact'],\n-        \n+        'faqs_for_destination__'\n     }\n \n     def get_queryset(self):\n         queryset = super().get_queryset()\n"
+                },
+                {
+                    "date": 1725166567813,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -16,9 +16,9 @@\n     ordering_fields = ['id']\n \n     filterset_fields = {\n         'title': ['exact'],\n-        'faqs_for_destination__'\n+        'faqs_for_destination__destination_title'\n     }\n \n     def get_queryset(self):\n         queryset = super().get_queryset()\n"
+                },
+                {
+                    "date": 1725166574351,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -16,9 +16,9 @@\n     ordering_fields = ['id']\n \n     filterset_fields = {\n         'title': ['exact'],\n-        'faqs_for_destination__destination_title'\n+        'faqs_for_destination__destination_title': ['exact'],\n     }\n \n     def get_queryset(self):\n         queryset = super().get_queryset()\n"
+                },
+                {
+                    "date": 1725166741912,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -16,9 +16,9 @@\n     ordering_fields = ['id']\n \n     filterset_fields = {\n         'title': ['exact'],\n-        'faqs_for_destination__destination_title': ['exact'],\n+        'faqs_for_destination__id': ['exact'],\n     }\n \n     def get_queryset(self):\n         queryset = super().get_queryset()\n"
+                },
+                {
+                    "date": 1725167076915,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -16,9 +16,9 @@\n     ordering_fields = ['id']\n \n     filterset_fields = {\n         'title': ['exact'],\n-        'faqs_for_destination__id': ['exact'],\n+        'destination__id': ['exact'],\n     }\n \n     def get_queryset(self):\n         queryset = super().get_queryset()\n"
+                }
+            ],
+            "date": 1725166549730,
+            "name": "Commit-0",
+            "content": "from rest_framework import viewsets\nfrom rest_framework.filters import SearchFilter, OrderingFilter\nfrom django_filters.rest_framework import DjangoFilterBackend\nfrom ..models import Faqs\nfrom ..serializers.faqs_serializers import FaqsListSerializers, FaqsRetrieveSerializers, FaqsWriteSerializers\nfrom ..utilities.importbase import *\n\nclass faqsViewsets(viewsets.ModelViewSet):\n    serializer_class = FaqsListSerializers\n    permission_classes = [faqsPermission]\n    pagination_class = MyPageNumberPagination\n    queryset = Faqs.objects.all().order_by(\"title\")\n\n    filter_backends = [SearchFilter, DjangoFilterBackend, OrderingFilter]\n    search_fields = ['title']\n    ordering_fields = ['id']\n\n    filterset_fields = {\n        'title': ['exact'],\n        \n    }\n\n    def get_queryset(self):\n        queryset = super().get_queryset()\n        return queryset\n\n    def get_serializer_class(self):\n        if self.action in ['create', 'update', 'partial_update']:\n            return FaqsWriteSerializers\n        elif self.action == 'retrieve':\n            return FaqsRetrieveSerializers\n        return super().get_serializer_class()\n\n    # @action(detail=False, methods=['get'], name=\"action_name\", url_path=\"url_path\")\n    # def action_name(self, request, *args, **kwargs):\n    #     return super().list(request, *args, **kwargs)\n\n"
+        }
+    ]
+}

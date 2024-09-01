@@ -3,7 +3,7 @@
     "activeCommit": 0,
     "commits": [
         {
-            "activePatchIndex": 11,
+            "activePatchIndex": 19,
             "patches": [
                 {
                     "date": 1724906557875,
@@ -52,6 +52,38 @@
                 {
                     "date": 1724906836227,
                     "content": "Index: \n===================================================================\n--- \n+++ \n@@ -4,18 +4,18 @@\n \n class BlogUserSerializer(serializers.ModelSerializer):\n     class Meta:\n         model = CustomUser\n-        fields = ['full_name', '', 'image']\n+        fields = ['full_name', 'image']\n \n class BlogListSerializer(serializers.ModelSerializer):\n     user = BlogUserSerializer(read_only=True)\n     \n     class Meta:\n         model = Blog\n         exclude = ['public_id', 'created_date', 'updated_date']\n \n-class BlogRetrieveSerializer(serializers.ModelSerializer):\n+class BlogRetrieveSerializers(serializers.ModelSerializer):\n     user = BlogUserSerializer(read_only=True)\n \n     class Meta:\n         model = Blog\n"
+                },
+                {
+                    "date": 1725165690208,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -6,22 +6,21 @@\n     class Meta:\n         model = CustomUser\n         fields = ['full_name', 'image']\n \n-class BlogListSerializer(serializers.ModelSerializer):\n+class BlogListSerializers(serializers.ModelSerializer):\n     user = BlogUserSerializer(read_only=True)\n     \n     class Meta:\n         model = Blog\n-        exclude = ['public_id', 'created_date', 'updated_date']\n-\n+        \n class BlogRetrieveSerializers(serializers.ModelSerializer):\n     user = BlogUserSerializer(read_only=True)\n \n     class Meta:\n         model = Blog\n         exclude = ['public_id', 'created_date', 'updated_date']\n \n-class BlogWriteSerializer(serializers.ModelSerializer):\n+class BlogWriteSerializers(serializers.ModelSerializer):\n     class Meta:\n         model = Blog\n         exclude = ['public_id', 'created_date', 'updated_date']\n"
+                },
+                {
+                    "date": 1725165697437,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -17,10 +17,10 @@\n     user = BlogUserSerializer(read_only=True)\n \n     class Meta:\n         model = Blog\n-        exclude = ['public_id', 'created_date', 'updated_date']\n+       \n \n class BlogWriteSerializers(serializers.ModelSerializer):\n     class Meta:\n         model = Blog\n-        exclude = ['public_id', 'created_date', 'updated_date']\n+\n"
+                },
+                {
+                    "date": 1725166099167,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -11,8 +11,9 @@\n     user = BlogUserSerializer(read_only=True)\n     \n     class Meta:\n         model = Blog\n+        fields = ['full_name', 'image']\n         \n class BlogRetrieveSerializers(serializers.ModelSerializer):\n     user = BlogUserSerializer(read_only=True)\n \n"
+                },
+                {
+                    "date": 1725166126506,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -11,9 +11,9 @@\n     user = BlogUserSerializer(read_only=True)\n     \n     class Meta:\n         model = Blog\n-        fields = ['full_name', 'image']\n+        fields = '['full_name', 'image']'\n         \n class BlogRetrieveSerializers(serializers.ModelSerializer):\n     user = BlogUserSerializer(read_only=True)\n \n"
+                },
+                {
+                    "date": 1725166166469,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -11,9 +11,9 @@\n     user = BlogUserSerializer(read_only=True)\n     \n     class Meta:\n         model = Blog\n-        fields = '['full_name', 'image']'\n+        fields = \n         \n class BlogRetrieveSerializers(serializers.ModelSerializer):\n     user = BlogUserSerializer(read_only=True)\n \n"
+                },
+                {
+                    "date": 1725166173199,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -11,9 +11,9 @@\n     user = BlogUserSerializer(read_only=True)\n     \n     class Meta:\n         model = Blog\n-        fields = \n+        fields = __all__\n         \n class BlogRetrieveSerializers(serializers.ModelSerializer):\n     user = BlogUserSerializer(read_only=True)\n \n"
+                },
+                {
+                    "date": 1725166182242,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -11,15 +11,16 @@\n     user = BlogUserSerializer(read_only=True)\n     \n     class Meta:\n         model = Blog\n-        fields = __all__\n+        fields = '__all__'\n         \n class BlogRetrieveSerializers(serializers.ModelSerializer):\n     user = BlogUserSerializer(read_only=True)\n \n     class Meta:\n         model = Blog\n+        fields = '__all__'\n        \n \n class BlogWriteSerializers(serializers.ModelSerializer):\n     class Meta:\n"
+                },
+                {
+                    "date": 1725166200623,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -24,5 +24,6 @@\n \n class BlogWriteSerializers(serializers.ModelSerializer):\n     class Meta:\n         model = Blog\n+        fields = '__all__'\n \n"
                 }
             ],
             "date": 1724906557875,
