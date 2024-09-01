@@ -128,7 +128,7 @@ class ContactMeSerializer(serializers.Serializer):
     full_name =  serializers.CharField()
 
 # class EmailNumberSerializer(serializers.Serializer):
-#     email = serializers.EmailField()
+    # email = serializers.EmailField()
 #     type = serializers.ChoiceField(choices=[
 #         ('verification', 'Verification'),
 #         ('reset_password', 'Reset Password')

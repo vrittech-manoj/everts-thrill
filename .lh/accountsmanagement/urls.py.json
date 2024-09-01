@@ -1,0 +1,74 @@
+{
+    "sourceFile": "accountsmanagement/urls.py",
+    "activeCommit": 0,
+    "commits": [
+        {
+            "activePatchIndex": 14,
+            "patches": [
+                {
+                    "date": 1725167756126,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n"
+                },
+                {
+                    "date": 1725167764761,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -1,6 +1,6 @@\n from django.urls import path\n-from .views import EmailCheckView, CustomPasswordResetView , VerifyUserPasswordToken,ContactmeView,EmailChangeGetOtpView,EmailResetView,\n+from .views import EmailCheckView, CustomPasswordResetView , VerifyUserPasswordToken,ContactmeView,EmailChangeGetOtpView,EmailResetView, sendBookingConfirmationEMail, Pass\n \n \n \n urlpatterns = [\n"
+                },
+                {
+                    "date": 1725167785769,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -1,6 +1,6 @@\n from django.urls import path\n-from .views import EmailCheckView, CustomPasswordResetView , VerifyUserPasswordToken,ContactmeView,EmailChangeGetOtpView,EmailResetView, sendBookingConfirmationEMail, Pass\n+from .views import EmailCheckView, CustomPasswordResetView , VerifyUserPasswordToken,ContactmeView,EmailChangeGetOtpView,EmailResetView, sendBookingConfirmationEMail, PasswordResetView\n \n \n \n urlpatterns = [\n"
+                },
+                {
+                    "date": 1725167814982,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -4,8 +4,10 @@\n \n \n urlpatterns = [\n     path('get-otp/', EmailCheckView.as_view()),\n+    path('get-otp/', EmailCheckView.as_view()),\n+    path('get-otp/', EmailCheckView.as_view()),\n     path('get-otp-email-change/', EmailChangeGetOtpView.as_view()),\n     path('email-reset/', EmailResetView.as_view(), name=\"EmailResetView\"),\n     path('password-reset/', CustomPasswordResetView.as_view(), name=\"reset-password\"),\n     path('verify-token/', VerifyUserPasswordToken.as_view(), name=\"VerifyUserPasswordToken\"),\n"
+                },
+                {
+                    "date": 1725167821078,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -3,14 +3,14 @@\n \n \n \n urlpatterns = [\n+    # path('get-otp/', EmailCheckView.as_view()),\n     path('get-otp/', EmailCheckView.as_view()),\n     path('get-otp/', EmailCheckView.as_view()),\n-    path('get-otp/', EmailCheckView.as_view()),\n-    path('get-otp-email-change/', EmailChangeGetOtpView.as_view()),\n-    path('email-reset/', EmailResetView.as_view(), name=\"EmailResetView\"),\n-    path('password-reset/', CustomPasswordResetView.as_view(), name=\"reset-password\"),\n-    path('verify-token/', VerifyUserPasswordToken.as_view(), name=\"VerifyUserPasswordToken\"),\n+    # path('get-otp-email-change/', EmailChangeGetOtpView.as_view()),\n+    # path('email-reset/', EmailResetView.as_view(), name=\"EmailResetView\"),\n+    # path('password-reset/', CustomPasswordResetView.as_view(), name=\"reset-password\"),\n+    # path('verify-token/', VerifyUserPasswordToken.as_view(), name=\"VerifyUserPasswordToken\"),\n \n-    path('contact-me/',ContactmeView.as_view(),name=\"ContactmeView\"),\n+    # path('contact-me/',ContactmeView.as_view(),name=\"ContactmeView\"),\n ]\n"
+                },
+                {
+                    "date": 1725167829993,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -0,0 +1,16 @@\n+from django.urls import path\n+from .views import EmailCheckView, CustomPasswordResetView , VerifyUserPasswordToken,ContactmeView,EmailChangeGetOtpView,EmailResetView, sendBookingConfirmationEMail, PasswordResetView\n+\n+\n+\n+urlpatterns = [\n+    # path('get-otp/', EmailCheckView.as_view()),\n+    path('password-reset-get-otp/', EmailCheckView.as_view()),\n+    path('get-otp/', EmailCheckView.as_view()),\n+    # path('get-otp-email-change/', EmailChangeGetOtpView.as_view()),\n+    # path('email-reset/', EmailResetView.as_view(), name=\"EmailResetView\"),\n+    # path('password-reset/', CustomPasswordResetView.as_view(), name=\"reset-password\"),\n+    # path('verify-token/', VerifyUserPasswordToken.as_view(), name=\"VerifyUserPasswordToken\"),\n+\n+    # path('contact-me/',ContactmeView.as_view(),name=\"ContactmeView\"),\n+]\n"
+                },
+                {
+                    "date": 1725167839427,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -4,29 +4,13 @@\n \n \n urlpatterns = [\n     # path('get-otp/', EmailCheckView.as_view()),\n-    path('password-reset-get-otp/', EmailCheckView.as_view()),\n+    path('password-reset-get-otp/', PasswordResetView.as_view()),\n     path('get-otp/', EmailCheckView.as_view()),\n     # path('get-otp-email-change/', EmailChangeGetOtpView.as_view()),\n     # path('email-reset/', EmailResetView.as_view(), name=\"EmailResetView\"),\n     # path('password-reset/', CustomPasswordResetView.as_view(), name=\"reset-password\"),\n     # path('verify-token/', VerifyUserPasswordToken.as_view(), name=\"VerifyUserPasswordToken\"),\n \n     # path('contact-me/',ContactmeView.as_view(),name=\"ContactmeView\"),\n ]\n-from django.urls import path\n-from .views import EmailCheckView, CustomPasswordResetView , VerifyUserPasswordToken,ContactmeView,EmailChangeGetOtpView,EmailResetView, sendBookingConfirmationEMail, PasswordResetView\n-\n-\n-\n-urlpatterns = [\n-    # path('get-otp/', EmailCheckView.as_view()),\n-    path('get-otp/', EmailCheckView.as_view()),\n-    path('get-otp/', EmailCheckView.as_view()),\n-    # path('get-otp-email-change/', EmailChangeGetOtpView.as_view()),\n-    # path('email-reset/', EmailResetView.as_view(), name=\"EmailResetView\"),\n-    # path('password-reset/', CustomPasswordResetView.as_view(), name=\"reset-password\"),\n-    # path('verify-token/', VerifyUserPasswordToken.as_view(), name=\"VerifyUserPasswordToken\"),\n-\n-    # path('contact-me/',ContactmeView.as_view(),name=\"ContactmeView\"),\n-]\n"
+                },
+                {
+                    "date": 1725167845520,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -5,9 +5,9 @@\n \n urlpatterns = [\n     # path('get-otp/', EmailCheckView.as_view()),\n     path('password-reset-get-otp/', PasswordResetView.as_view()),\n-    path('get-otp/', EmailCheckView.as_view()),\n+    path('get-otp/', sendBookingConfirmationEMail.as_view()),\n     # path('get-otp-email-change/', EmailChangeGetOtpView.as_view()),\n     # path('email-reset/', EmailResetView.as_view(), name=\"EmailResetView\"),\n     # path('password-reset/', CustomPasswordResetView.as_view(), name=\"reset-password\"),\n     # path('verify-token/', VerifyUserPasswordToken.as_view(), name=\"VerifyUserPasswordToken\"),\n"
+                },
+                {
+                    "date": 1725167851950,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -5,9 +5,9 @@\n \n urlpatterns = [\n     # path('get-otp/', EmailCheckView.as_view()),\n     path('password-reset-get-otp/', PasswordResetView.as_view()),\n-    path('get-otp/', sendBookingConfirmationEMail.as_view()),\n+    path('send-booking/', sendBookingConfirmationEMail.as_view()),\n     # path('get-otp-email-change/', EmailChangeGetOtpView.as_view()),\n     # path('email-reset/', EmailResetView.as_view(), name=\"EmailResetView\"),\n     # path('password-reset/', CustomPasswordResetView.as_view(), name=\"reset-password\"),\n     # path('verify-token/', VerifyUserPasswordToken.as_view(), name=\"VerifyUserPasswordToken\"),\n"
+                },
+                {
+                    "date": 1725167857652,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -5,9 +5,9 @@\n \n urlpatterns = [\n     # path('get-otp/', EmailCheckView.as_view()),\n     path('password-reset-get-otp/', PasswordResetView.as_view()),\n-    path('send-booking/', sendBookingConfirmationEMail.as_view()),\n+    path('send-booking-confirmatio/', sendBookingConfirmationEMail.as_view()),\n     # path('get-otp-email-change/', EmailChangeGetOtpView.as_view()),\n     # path('email-reset/', EmailResetView.as_view(), name=\"EmailResetView\"),\n     # path('password-reset/', CustomPasswordResetView.as_view(), name=\"reset-password\"),\n     # path('verify-token/', VerifyUserPasswordToken.as_view(), name=\"VerifyUserPasswordToken\"),\n"
+                },
+                {
+                    "date": 1725167928336,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -1,13 +1,14 @@\n from django.urls import path\n from .views import EmailCheckView, CustomPasswordResetView , VerifyUserPasswordToken,ContactmeView,EmailChangeGetOtpView,EmailResetView, sendBookingConfirmationEMail, PasswordResetView\n+from .views import EmailCheckView, CustomPasswordResetView , VerifyUserPasswordToken,ContactmeView,EmailChangeGetOtpView,EmailResetView, sendBookingConfirmationEMail, PasswordResetView\n \n \n \n urlpatterns = [\n     # path('get-otp/', EmailCheckView.as_view()),\n     path('password-reset-get-otp/', PasswordResetView.as_view()),\n-    path('send-booking-confirmatio/', sendBookingConfirmationEMail.as_view()),\n+    path('send-booking-confirmation/', sendBookingConfirmationEMail.as_view()),\n     # path('get-otp-email-change/', EmailChangeGetOtpView.as_view()),\n     # path('email-reset/', EmailResetView.as_view(), name=\"EmailResetView\"),\n     # path('password-reset/', CustomPasswordResetView.as_view(), name=\"reset-password\"),\n     # path('verify-token/', VerifyUserPasswordToken.as_view(), name=\"VerifyUserPasswordToken\"),\n"
+                },
+                {
+                    "date": 1725167938214,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -1,7 +1,7 @@\n from django.urls import path\n-from .views import EmailCheckView, CustomPasswordResetView , VerifyUserPasswordToken,ContactmeView,EmailChangeGetOtpView,EmailResetView, sendBookingConfirmationEMail, PasswordResetView\n-from .views import EmailCheckView, CustomPasswordResetView , VerifyUserPasswordToken,ContactmeView,EmailChangeGetOtpView,EmailResetView, sendBookingConfirmationEMail, PasswordResetView\n+# from .views import EmailCheckView, CustomPasswordResetView , VerifyUserPasswordToken,ContactmeView,EmailChangeGetOtpView,EmailResetView, sendBookingConfirmationEMail, PasswordResetView\n+from .views import  sendBookingConfirmationEMail, PasswordResetView\n \n \n \n urlpatterns = [\n"
+                },
+                {
+                    "date": 1725167944824,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -1,7 +1,7 @@\n from django.urls import path\n # from .views import EmailCheckView, CustomPasswordResetView , VerifyUserPasswordToken,ContactmeView,EmailChangeGetOtpView,EmailResetView, sendBookingConfirmationEMail, PasswordResetView\n-from .views import  sendBookingConfirmationEMail, PasswordResetView\n+from .views import  sendBookingConfirmationEMail, \n \n \n \n urlpatterns = [\n"
+                },
+                {
+                    "date": 1725167967722,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -1,7 +1,7 @@\n from django.urls import path\n # from .views import EmailCheckView, CustomPasswordResetView , VerifyUserPasswordToken,ContactmeView,EmailChangeGetOtpView,EmailResetView, sendBookingConfirmationEMail, PasswordResetView\n-from .views import  sendBookingConfirmationEMail, \n+from .views import  sendBookingConfirmationEMail, PasswordResetView\n \n \n \n urlpatterns = [\n"
+                },
+                {
+                    "date": 1725168081125,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -1,7 +1,7 @@\n from django.urls import path\n # from .views import EmailCheckView, CustomPasswordResetView , VerifyUserPasswordToken,ContactmeView,EmailChangeGetOtpView,EmailResetView, sendBookingConfirmationEMail, PasswordResetView\n-from .views import  sendBookingConfirmationEMail, PasswordResetView\n+from .views import  SendEmailForBookingVerification, PasswordResetView\n \n \n \n urlpatterns = [\n"
+                }
+            ],
+            "date": 1725167756126,
+            "name": "Commit-0",
+            "content": "from django.urls import path\nfrom .views import EmailCheckView, CustomPasswordResetView , VerifyUserPasswordToken,ContactmeView,EmailChangeGetOtpView,EmailResetView,\n\n\n\nurlpatterns = [\n    path('get-otp/', EmailCheckView.as_view()),\n    path('get-otp-email-change/', EmailChangeGetOtpView.as_view()),\n    path('email-reset/', EmailResetView.as_view(), name=\"EmailResetView\"),\n    path('password-reset/', CustomPasswordResetView.as_view(), name=\"reset-password\"),\n    path('verify-token/', VerifyUserPasswordToken.as_view(), name=\"VerifyUserPasswordToken\"),\n\n    path('contact-me/',ContactmeView.as_view(),name=\"ContactmeView\"),\n]\n"
+        }
+    ]
+}

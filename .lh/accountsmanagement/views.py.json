@@ -3,7 +3,7 @@
     "activeCommit": 0,
     "commits": [
         {
-            "activePatchIndex": 41,
+            "activePatchIndex": 45,
             "patches": [
                 {
                     "date": 1725013363852,
@@ -172,6 +172,22 @@
                 {
                     "date": 1725014684896,
                     "content": "Index: \n===================================================================\n--- \n+++ \n@@ -306,9 +306,9 @@\n \n def sendBookingConfirmationEMail(email, verify_url, subject, book):\n     context = {\n         'verification_url': verify_url,\n-        'recipient_name': 'full_name',  \n+        'recipient_name': 'book.full_name',  \n         'contact': book.phone_number, \n         'activity': book.activity.name,  \n         'package': book.package.name,  \n         'destination': book.destination.destination_title,  \n"
+                },
+                {
+                    "date": 1725167712753,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -286,9 +286,9 @@\n             if serializer.is_valid():\n                 email = serializer.validated_data[\"email\"]\n                 try:\n                     book = DestinationBook.objects.get(email=email)\n-                    print(\"services\", book.services.service_name)  # Assuming `services` is a ForeignKey\n+                    print(\"services\", book.services.service_name) \n \n                 except DestinationBook.DoesNotExist:\n                     return Response({'detail': 'Booking details with this email do not exist.'}, status=status.HTTP_400_BAD_REQUEST)\n \n@@ -306,9 +306,9 @@\n \n def sendBookingConfirmationEMail(email, verify_url, subject, book):\n     context = {\n         'verification_url': verify_url,\n-        'recipient_name': 'book.full_name',  \n+        'recipient_name': book.full_name,  \n         'contact': book.phone_number, \n         'activity': book.activity.name,  \n         'package': book.package.name,  \n         'destination': book.destination.destination_title,  \n"
+                },
+                {
+                    "date": 1725167873626,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -305,9 +305,9 @@\n             return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)\n \n def sendBookingConfirmationEMail(email, verify_url, subject, book):\n     context = {\n-        'verification_url': verify_url,\n+        # 'verification_url': verify_url,\n         'recipient_name': book.full_name,  \n         'contact': book.phone_number, \n         'activity': book.activity.name,  \n         'package': book.package.name,  \n"
+                },
+                {
+                    "date": 1725167959924,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -321,9 +321,9 @@\n     recipient_list = [email]\n     plain_message = \"\"\n     send_mail(subject, plain_message, email_from, recipient_list, html_message=html_content)\n \n-    class PasswordResetView(generics.GenericAPIView):\n+class PasswordResetView(generics.GenericAPIView):\n \n             def generate_otp(self,user):\n                 # Generate a random 5-digit OTP\n                 # return \"12345\"\n"
+                },
+                {
+                    "date": 1725168074610,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -277,9 +277,9 @@\n             },\n             status=status.HTTP_200_OK,\n         )\n      \n-    class SendEmailForBookingVerification(APIView):\n+class SendEmailForBookingVerification(APIView):\n         serializer_class = EmailNumberSerializer\n \n         def post(self, request, *args, **kwargs):\n             serializer = self.serializer_class(data=request.data)\n"
                 }
             ],
             "date": 1725013363852,

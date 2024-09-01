@@ -278,7 +278,7 @@ class ContactmeView(generics.GenericAPIView):
             status=status.HTTP_200_OK,
         )
      
-    class SendEmailForBookingVerification(APIView):
+class SendEmailForBookingVerification(APIView):
         serializer_class = EmailNumberSerializer
 
         def post(self, request, *args, **kwargs):
@@ -287,7 +287,7 @@ class ContactmeView(generics.GenericAPIView):
                 email = serializer.validated_data["email"]
                 try:
                     book = DestinationBook.objects.get(email=email)
-                    print("services", book.services.service_name)  # Assuming `services` is a ForeignKey
+                    print("services", book.services.service_name) 
 
                 except DestinationBook.DoesNotExist:
                     return Response({'detail': 'Booking details with this email do not exist.'}, status=status.HTTP_400_BAD_REQUEST)
@@ -306,7 +306,7 @@ class ContactmeView(generics.GenericAPIView):
 
 def sendBookingConfirmationEMail(email, verify_url, subject, book):
     context = {
-        'verification_url': verify_url,
+        # 'verification_url': verify_url,
         'recipient_name': book.full_name,  
         'contact': book.phone_number, 
         'activity': book.activity.name,  
@@ -322,7 +322,7 @@ def sendBookingConfirmationEMail(email, verify_url, subject, book):
     plain_message = ""
     send_mail(subject, plain_message, email_from, recipient_list, html_message=html_content)
 
-    class PasswordResetView(generics.GenericAPIView):
+class PasswordResetView(generics.GenericAPIView):
 
             def generate_otp(self,user):
                 # Generate a random 5-digit OTP
