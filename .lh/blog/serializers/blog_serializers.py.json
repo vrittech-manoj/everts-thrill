@@ -3,7 +3,7 @@
     "activeCommit": 0,
     "commits": [
         {
-            "activePatchIndex": 19,
+            "activePatchIndex": 23,
             "patches": [
                 {
                     "date": 1724906557875,
@@ -84,6 +84,22 @@
                 {
                     "date": 1725166200623,
                     "content": "Index: \n===================================================================\n--- \n+++ \n@@ -24,5 +24,6 @@\n \n class BlogWriteSerializers(serializers.ModelSerializer):\n     class Meta:\n         model = Blog\n+        fields = '__all__'\n \n"
+                },
+                {
+                    "date": 1725171567103,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -12,18 +12,25 @@\n     \n     class Meta:\n         model = Blog\n         fields = '__all__'\n-        \n+\n class BlogRetrieveSerializers(serializers.ModelSerializer):\n     user = BlogUserSerializer(read_only=True)\n \n     class Meta:\n         model = Blog\n         fields = '__all__'\n-       \n \n class BlogWriteSerializers(serializers.ModelSerializer):\n     class Meta:\n         model = Blog\n         fields = '__all__'\n+        read_only_fields = ['user']  # Make user field read-only\n \n+    def create(self, validated_data):\n+        validated_data['user'] = self.context['request'].user  # Set the user to the logged-in user\n+        return super().create(validated_data)\n+\n+    def update(self, instance, validated_data):\n+        validated_data['user'] = self.context['request'].user  # Ensure the user is the logged-in user during update\n+        return super().update(instance, validated_data)\n"
+                },
+                {
+                    "date": 1725171572996,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -31,6 +31,6 @@\n         validated_data['user'] = self.context['request'].user  # Set the user to the logged-in user\n         return super().create(validated_data)\n \n     def update(self, instance, validated_data):\n-        validated_data['user'] = self.context['request'].user  # Ensure the user is the logged-in user during update\n+        validated_data['user'] = self.context['request'].user  \n         return super().update(instance, validated_data)\n"
+                },
+                {
+                    "date": 1725171578048,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -27,9 +27,9 @@\n         fields = '__all__'\n         read_only_fields = ['user']  # Make user field read-only\n \n     def create(self, validated_data):\n-        validated_data['user'] = self.context['request'].user  # Set the user to the logged-in user\n+        validated_data['user'] = self.context['request'].user  \n         return super().create(validated_data)\n \n     def update(self, instance, validated_data):\n         validated_data['user'] = self.context['request'].user  \n"
+                },
+                {
+                    "date": 1725171584138,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -24,9 +24,9 @@\n class BlogWriteSerializers(serializers.ModelSerializer):\n     class Meta:\n         model = Blog\n         fields = '__all__'\n-        read_only_fields = ['user']  # Make user field read-only\n+        read_only_fields = ['user']  \n \n     def create(self, validated_data):\n         validated_data['user'] = self.context['request'].user  \n         return super().create(validated_data)\n"
                 }
             ],
             "date": 1724906557875,

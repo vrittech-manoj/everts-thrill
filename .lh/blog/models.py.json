@@ -3,7 +3,7 @@
     "activeCommit": 0,
     "commits": [
         {
-            "activePatchIndex": 12,
+            "activePatchIndex": 13,
             "patches": [
                 {
                     "date": 1724906622951,
@@ -56,6 +56,10 @@
                 {
                     "date": 1724916652080,
                     "content": "Index: \n===================================================================\n--- \n+++ \n@@ -11,9 +11,9 @@\n     description = models.TextField(blank = True,null = True)\n     featured_image = models.ImageField(upload_to=\"blog/images\",null=True,blank=True)\n     created_date = models.DateTimeField(auto_now_add=True)\n     updated_date = models.DateTimeField(auto_now=True)\n-    read_time = models.CharField(max_length = 150,)\n+    read_time = models.CharField(max_length = 150,default=\"\")\n     is_popular = models.BooleanField(default=False)\n   \n     def __str__(self):\n         return self.title\n"
+                },
+                {
+                    "date": 1725171413689,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -5,16 +5,15 @@\n \n # Create your models here.\n class Blog(models.Model):\n     public_id = models.UUIDField(default=uuid.uuid4,editable=False,unique=True)\n-    user = models.ForeignKey(CustomUser, related_name=\"user_blog\", on_delete=models.CASCADE,null=True)\n+        user = models.ForeignKey(CustomUser, related_name=\"user_blog\", on_delete=models.CASCADE,null=True)\n     title = models.CharField(max_length = 150,blank=True)\n     description = models.TextField(blank = True,null = True)\n     featured_image = models.ImageField(upload_to=\"blog/images\",null=True,blank=True)\n     created_date = models.DateTimeField(auto_now_add=True)\n     updated_date = models.DateTimeField(auto_now=True)\n-    read_time = models.CharField(max_length = 150,default=\"\")\n+    read_time = models.CharField(max_length = 150,default=\"10 mins\")\n     is_popular = models.BooleanField(default=False)\n   \n     def __str__(self):\n\\ No newline at end of file\n         return self.title\n-    \n"
                 }
             ],
             "date": 1724906622951,
