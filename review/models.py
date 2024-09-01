@@ -8,6 +8,10 @@ from django.core.validators import MaxValueValidator
 from accounts.models import CustomUser
 from destination.models import Destination
 
+class VisibleReviewManager(models.Manager):
+    def get_queryset(self):
+        return super().get_queryset().filter(is_show=True)
+
 # Create your models here.
 class Review(models.Model):
     REVIEW_TYPES = (
@@ -30,9 +34,15 @@ class Review(models.Model):
     add_image =  models.ImageField(upload_to="review/images",null=True,blank=True)
     is_show = models.BooleanField(default=False)
     
+    # Managers
+    objects = models.Manager()  
+    visible = VisibleReviewManager()  
+    
     created_date = models.DateTimeField(auto_now_add=True)
     updated_date = models.DateTimeField(auto_now=True)
 
     def __str__(self):
         return self.name
+    
+
     

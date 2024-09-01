@@ -6,14 +6,12 @@ from ..serializers.review_serializers import ReviewListSerializers, ReviewRetrie
 from ..utilities.importbase import *
 
 class reviewViewsets(viewsets.ModelViewSet):
-    serializer_class = ReviewListSerializers
     permission_classes = [reviewPermission]
     pagination_class = MyPageNumberPagination
-    queryset = Review.objects.all()
 
     filter_backends = [SearchFilter, DjangoFilterBackend, OrderingFilter]
-    search_fields = ['id','star_rating']
-    ordering_fields = ['id','star_rating']
+    search_fields = ['id', 'star_rating']
+    ordering_fields = ['id', 'star_rating']
 
     filterset_fields = {
         'star_rating': ['exact'],
@@ -21,7 +19,7 @@ class reviewViewsets(viewsets.ModelViewSet):
     }
 
     def get_queryset(self):
-        queryset = super().get_queryset()
+        queryset = Review.visible.all()
         return queryset
 
     def get_serializer_class(self):
@@ -29,9 +27,8 @@ class reviewViewsets(viewsets.ModelViewSet):
             return ReviewWriteSerializers
         elif self.action == 'retrieve':
             return ReviewRetrieveSerializers
-        return super().get_serializer_class()
+        return ReviewListSerializers
 
     # @action(detail=False, methods=['get'], name="action_name", url_path="url_path")
     # def action_name(self, request, *args, **kwargs):
     #     return super().list(request, *args, **kwargs)
-

@@ -3,7 +3,7 @@
     "activeCommit": 0,
     "commits": [
         {
-            "activePatchIndex": 8,
+            "activePatchIndex": 9,
             "patches": [
                 {
                     "date": 1725165751205,
@@ -40,6 +40,10 @@
                 {
                     "date": 1725170007218,
                     "content": "Index: \n===================================================================\n--- \n+++ \n@@ -16,9 +16,9 @@\n     ordering_fields = ['id','star_rating']\n \n     filterset_fields = {\n         'star_rating': ['exact'],\n-        'destination__id': ['exact'],\n+        'destination__': ['exact'],\n     }\n \n     def get_queryset(self):\n         queryset = super().get_queryset()\n"
+                },
+                {
+                    "date": 1725170439194,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -5,33 +5,30 @@\n from ..serializers.review_serializers import ReviewListSerializers, ReviewRetrieveSerializers, ReviewWriteSerializers\n from ..utilities.importbase import *\n \n class reviewViewsets(viewsets.ModelViewSet):\n-    serializer_class = ReviewListSerializers\n     permission_classes = [reviewPermission]\n     pagination_class = MyPageNumberPagination\n-    queryset = Review.objects.all()\n \n     filter_backends = [SearchFilter, DjangoFilterBackend, OrderingFilter]\n-    search_fields = ['id','star_rating']\n-    ordering_fields = ['id','star_rating']\n+    search_fields = ['id', 'star_rating']\n+    ordering_fields = ['id', 'star_rating']\n \n     filterset_fields = {\n         'star_rating': ['exact'],\n-        'destination__': ['exact'],\n+        'destination': ['exact'],\n     }\n \n     def get_queryset(self):\n-        queryset = super().get_queryset()\n+        queryset = Review.visible.all()\n         return queryset\n \n     def get_serializer_class(self):\n         if self.action in ['create', 'update', 'partial_update']:\n             return ReviewWriteSerializers\n         elif self.action == 'retrieve':\n             return ReviewRetrieveSerializers\n-        return super().get_serializer_class()\n+        return ReviewListSerializers\n \n     # @action(detail=False, methods=['get'], name=\"action_name\", url_path=\"url_path\")\n     # def action_name(self, request, *args, **kwargs):\n     #     return super().list(request, *args, **kwargs)\n-\n"
                 }
             ],
             "date": 1725165751205,
