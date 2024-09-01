@@ -3,7 +3,7 @@
     "activeCommit": 0,
     "commits": [
         {
-            "activePatchIndex": 45,
+            "activePatchIndex": 48,
             "patches": [
                 {
                     "date": 1725013363852,
@@ -188,6 +188,18 @@
                 {
                     "date": 1725168074610,
                     "content": "Index: \n===================================================================\n--- \n+++ \n@@ -277,9 +277,9 @@\n             },\n             status=status.HTTP_200_OK,\n         )\n      \n-    class SendEmailForBookingVerification(APIView):\n+class SendEmailForBookingVerification(APIView):\n         serializer_class = EmailNumberSerializer\n \n         def post(self, request, *args, **kwargs):\n             serializer = self.serializer_class(data=request.data)\n"
+                },
+                {
+                    "date": 1725173751843,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -313,9 +313,9 @@\n         'package': book.package.name,  \n         'destination': book.destination.destination_title,  \n         'arrival_date': book.arrival_date.strftime('%d/%m/%Y'),  \n         'departure_date': book.departure_date.strftime('%d/%m/%Y'),  \n-        'preferred_service_type': book.service_type, \n+        'preferred_service_type': book.serservice_type, \n     }\n     html_content = render_to_string('booking_notification_email.html', context)  # Template path\n     email_from = settings.EMAIL_HOST_USER\n     recipient_list = [email]\n"
+                },
+                {
+                    "date": 1725173809138,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -286,9 +286,9 @@\n             if serializer.is_valid():\n                 email = serializer.validated_data[\"email\"]\n                 try:\n                     book = DestinationBook.objects.get(email=email)\n-                    print(\"services\", book.services.service_name) \n+                    \n \n                 except DestinationBook.DoesNotExist:\n                     return Response({'detail': 'Booking details with this email do not exist.'}, status=status.HTTP_400_BAD_REQUEST)\n \n@@ -313,9 +313,9 @@\n         'package': book.package.name,  \n         'destination': book.destination.destination_title,  \n         'arrival_date': book.arrival_date.strftime('%d/%m/%Y'),  \n         'departure_date': book.departure_date.strftime('%d/%m/%Y'),  \n-        'preferred_service_type': book.serservice_type, \n+        'preferred_service_type': book.service_type, \n     }\n     html_content = render_to_string('booking_notification_email.html', context)  # Template path\n     email_from = settings.EMAIL_HOST_USER\n     recipient_list = [email]\n"
+                },
+                {
+                    "date": 1725173869208,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -315,9 +315,9 @@\n         'arrival_date': book.arrival_date.strftime('%d/%m/%Y'),  \n         'departure_date': book.departure_date.strftime('%d/%m/%Y'),  \n         'preferred_service_type': book.service_type, \n     }\n-    html_content = render_to_string('booking_notification_email.html', context)  # Template path\n+    html_content = render_to_string('booking_confirmation.html', context)  # Template path\n     email_from = settings.EMAIL_HOST_USER\n     recipient_list = [email]\n     plain_message = \"\"\n     send_mail(subject, plain_message, email_from, recipient_list, html_message=html_content)\n"
                 }
             ],
             "date": 1725013363852,

@@ -287,7 +287,7 @@ class SendEmailForBookingVerification(APIView):
                 email = serializer.validated_data["email"]
                 try:
                     book = DestinationBook.objects.get(email=email)
-                    print("services", book.services.service_name) 
+                    
 
                 except DestinationBook.DoesNotExist:
                     return Response({'detail': 'Booking details with this email do not exist.'}, status=status.HTTP_400_BAD_REQUEST)
@@ -316,7 +316,7 @@ def sendBookingConfirmationEMail(email, verify_url, subject, book):
         'departure_date': book.departure_date.strftime('%d/%m/%Y'),  
         'preferred_service_type': book.service_type, 
     }
-    html_content = render_to_string('booking_notification_email.html', context)  # Template path
+    html_content = render_to_string('booking_confirmation.html', context)  # Template path
     email_from = settings.EMAIL_HOST_USER
     recipient_list = [email]
     plain_message = ""

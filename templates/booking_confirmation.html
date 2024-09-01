@@ -1,3 +1,4 @@
+{% load static %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -80,7 +81,7 @@
 <body>
     <div class="email-container">
         <div class="header">
-            <img src="{% static 'path_to_logo/everest_thrill_logo.png' %}" alt="Everest Thrill Logo">
+            <img src="{% static 'static/logo.png' %}" alt="Everest Thrill Logo">
         </div>
         <div class="content">
             <h1>New Trip Booking Notification – {{ recipient_name }}</h1>
@@ -96,7 +97,7 @@
                     <p><strong>Departure Date:</strong> {{ departure_date }}</p>
                     <p><strong>Preferred Service Type:</strong> {{ preferred_service_type }}</p>
                 </div>
-                <img src="{% static 'staticfiles/calendar.gif' %}" alt="Calendar Icon">
+                <img src="{% static 'static/calendar.gif' %}" alt="Calendar Icon">
             </div>
             <p>Please review this booking and make the necessary arrangements.</p>
         </div>
