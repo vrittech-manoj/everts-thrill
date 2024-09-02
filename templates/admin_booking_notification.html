@@ -76,6 +76,28 @@
             width: 25px;
             margin: 0 10px;
         }
+        .trip-details-box {
+            background-color: #f0f8ff;
+            padding: 15px;
+            border-radius: 10px;
+            margin: 20px 0;
+            display: flex;
+            align-items: center;
+        }
+        .trip-details-box .details {
+            flex: 1;
+        }
+        .trip-details-box .details p {
+            margin: 5px 0;
+        }
+        .trip-details-box img {
+            width: 100px;
+            margin-left: 20px;
+        }
+        .footer .social-icons img {
+            width: 24px;
+            margin: 0 10px;
+        }
     </style>
 </head>
 <body>
@@ -84,11 +106,12 @@
             <img src="{% static 'static/logo.png' %}" alt="Everest Thrill Logo">
         </div>
         <div class="content">
-            <h1>New Trip Booking Notification – {{ destination }}</h1>
-            <p>Dear {{ recipient_name }},</p>
-            <p>Thank you for booking your adventure with us! Here are the details of your upcoming trip:</p>
-            <div class="trip-details">
-                <div class="trip-details-text">
+            <h1>New Trip Booking Notification – {{ recipient_name }}</h1>
+            <p>Dear {{ admin_name }},</p>
+            <p>A new trip booking has been made by a customer. Please find the details below:</p>
+            <div class="trip-details-box">
+                
+                <div class="details">
                     <p><strong style="color: #00008B;">Trip Details:</strong></p>
                     <p><strong>Contact:</strong> {{ contact }}</p>
                     <p><strong>Activity:</strong> {{ activity }}</p>
@@ -100,7 +123,7 @@
                 </div>
                 <img src="{% static 'static/calendar.gif' %}" alt="Calendar Icon">
             </div>
-            <p>We look forward to providing you with a memorable experience! Should you have any questions or need further assistance, please feel free to reach out.</p>
+            <p>Please review this booking and make the necessary arrangements.</p>
         </div>
         <div class="footer">
             <div class="social-icons">
