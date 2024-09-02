@@ -3,9 +3,9 @@ from django.db import models
 # Create your models here.
 
 class EmailSetup(models.Model):
-    smtp_server_address = models.CharField()  #EMAIL_HOST
-    email_address = models.EmailField()
-    password = models.CharField() #app password
+    smtp_server_address = models.CharField(max_length=250)  #EMAIL_HOST
+    email_address = models.EmailField(max_length=250)
+    password = models.CharField(max_length=250) #app password
     port = models.PositiveIntegerField()
     required_authentication = models.BooleanField(default = True)
     security = models.CharField(max_length = 200,choices = (('None','None'),('SSL','SSL'),('TSL','TSL')),default = 'None')
