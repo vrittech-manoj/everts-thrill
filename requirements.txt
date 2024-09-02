@@ -18,7 +18,6 @@ phonenumbers==8.13.43
 
 django-admin-interface==0.28.5
 openpyxl
-mysqlclient
 
 
 # https://whimsical.com/trekking-site-EKtejmjwcztrsy7KnNKe2F
