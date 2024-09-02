@@ -96,7 +96,8 @@
                     <p><strong>Destination:</strong> {{ destination }}</p>
                     <p><strong>Arrival Date:</strong> {{ arrival_date }}</p>
                     <p><strong>Departure Date:</strong> {{ departure_date }}</p>
-                    <p><strong>Preferred Service Type:</strong> {{ preferred_service_type }}</p>
+                    <p><strong>Preferred Service Type:</strong> {{ preferred_service_type|capfirst }}
+                    </p>
                 </div>
                 <img src="{% static 'static/calendar.gif' %}" alt="Calendar Icon">
             </div>

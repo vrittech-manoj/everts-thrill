@@ -6,4 +6,4 @@ class AccountsmanagementConfig(AppConfig):
     name = 'accountsmanagement'
 
     def ready(self) -> None:
-        import action
+        import accountsmanagement.action

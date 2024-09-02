@@ -3,7 +3,7 @@
     "activeCommit": 0,
     "commits": [
         {
-            "activePatchIndex": 10,
+            "activePatchIndex": 11,
             "patches": [
                 {
                     "date": 1725252227249,
@@ -48,6 +48,10 @@
                 {
                     "date": 1725254775658,
                     "content": "Index: \n===================================================================\n--- \n+++ \n@@ -131,9 +131,9 @@\n                 <a href=\"#\"><img src=\"https://img.icons8.com/color/48/000000/twitter.png\" alt=\"Twitter\"></a>\n                 <a href=\"#\"><img src=\"https://img.icons8.com/color/48/000000/youtube-play.png\" alt=\"YouTube\"></a>\n                 <a href=\"#\"><img src=\"https://img.icons8.com/color/48/000000/linkedin.png\" alt=\"LinkedIn\"></a>\n             </div>\n-            <p>&copy; 2024 Everest Thrill. All rights reserved.<br>Made with <span style=\"color: #FF7A00;\">&hearts;</span> by <a href=\"https://vrittech.com\" style=\"color: #fff;\">Vrit Tech</a></p>\n+            <p>&copy; 2024 Everest Thrill. All rights reserved.<br>Made with <span style=\"color: #FF7A00;\">&hearts;</span> by <a href=\"https://vrittechnologies.com/\" style=\"color: #fff;\">Vrit Tech</a></p>\n         </div>\n     </div>\n </body>\n </html>\n"
+                },
+                {
+                    "date": 1725274184810,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -118,9 +118,10 @@\n                     <p><strong>Package:</strong> {{ package }}</p>\n                     <p><strong>Destination:</strong> {{ destination }}</p>\n                     <p><strong>Arrival Date:</strong> {{ arrival_date }}</p>\n                     <p><strong>Departure Date:</strong> {{ departure_date }}</p>\n-                    <p><strong>Preferred Service Type:</strong> {{ preferred_service_type }}</p>\n+                    <p><strong>Preferred Service Type:</strong>{{ preferred_service_type|capfirst }}\n+                    </p>\n                 </div>\n                 <img src=\"{% static 'static/calendar.gif' %}\" alt=\"Calendar Icon\">\n             </div>\n             <p>Please review this booking and make the necessary arrangements.</p>\n"
                 }
             ],
             "date": 1725252227249,

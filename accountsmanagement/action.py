@@ -1,9 +1,12 @@
 from booking.models import DestinationBook
-
+from django.utils.http import urlsafe_base64_encode
+from django.utils.encoding import force_bytes
 from django.db.models.signals import post_save
 from django.dispatch import receiver
 from django.core.mail import send_mail
 from accounts.models import CustomUser
+from accountsmanagement.views import send_booking_confirmation_email
+
 
 @receiver(post_save, sender=DestinationBook)
 def booking_created_handler(sender, instance, created, **kwargs):

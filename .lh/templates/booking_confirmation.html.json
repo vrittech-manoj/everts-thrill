@@ -3,7 +3,7 @@
     "activeCommit": 0,
     "commits": [
         {
-            "activePatchIndex": 22,
+            "activePatchIndex": 23,
             "patches": [
                 {
                     "date": 1725014377388,
@@ -96,6 +96,10 @@
                 {
                     "date": 1725254797239,
                     "content": "Index: \n===================================================================\n--- \n+++ \n@@ -88,8 +88,9 @@\n             <p>Dear {{ recipient_name }},</p>\n             <p>Thank you for booking your adventure with us! Here are the details of your upcoming trip:</p>\n             <div class=\"trip-details\">\n                 <div class=\"trip-details-text\">\n+                    <p><strong style=\"color: #00008B;\">Trip Details:</strong></p>\n                     <p><strong>Contact:</strong> {{ contact }}</p>\n                     <p><strong>Activity:</strong> {{ activity }}</p>\n                     <p><strong>Package:</strong> {{ package }}</p>\n                     <p><strong>Destination:</strong> {{ destination }}</p>\n"
+                },
+                {
+                    "date": 1725274201736,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -95,9 +95,10 @@\n                     <p><strong>Package:</strong> {{ package }}</p>\n                     <p><strong>Destination:</strong> {{ destination }}</p>\n                     <p><strong>Arrival Date:</strong> {{ arrival_date }}</p>\n                     <p><strong>Departure Date:</strong> {{ departure_date }}</p>\n-                    <p><strong>Preferred Service Type:</strong> {{ preferred_service_type }}</p>\n+                    <p><strong>Preferred Service Type:</strong> {{ preferred_service_type|capfirst }}\n+                    </p>\n                 </div>\n                 <img src=\"{% static 'static/calendar.gif' %}\" alt=\"Calendar Icon\">\n             </div>\n             <p>We look forward to providing you with a memorable experience! Should you have any questions or need further assistance, please feel free to reach out.</p>\n"
                 }
             ],
             "date": 1725014377388,
