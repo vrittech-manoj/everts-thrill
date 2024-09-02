@@ -27,7 +27,7 @@ SECRET_KEY = "django-insecure-z^#)006uptp234kjj8092hpxe23#i^r(iz9ak8gc-4q_8-(z^2
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['api.everestthrills.com']
 
 # Application definition
 
