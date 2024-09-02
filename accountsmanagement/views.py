@@ -341,27 +341,6 @@ def send_booking_confirmation_email(email, verify_url, subject, book, admin_emai
     admin_recipient_list = [admin_email]
     send_mail(admin_subject, '', from_email, admin_recipient_list, html_message=admin_html_content)
 
-@receiver(post_save, sender=DestinationBook)
-def booking_created_handler(sender, instance, created, **kwargs):
-    if created:
-        # Construct the verification URL
-        site_url = 'https://example.com'  
-        verify_url = f"{site_url}/user-verification-success?pk={urlsafe_base64_encode(force_bytes(instance.pk))}"
-
-        # Fetch the admin email from the User model
-        admin_user = CustomUser.objects.filter(is_superuser=True).first()
-        if admin_user:
-            admin_name = admin_user.first_name
-            admin_email = admin_user.email
-        else:
-            raise ValueError("Admin email not found.")
-
-        # Send the confirmation email
-        subject = 'Booking Verification Email'
-        send_booking_confirmation_email(instance.email, verify_url, subject, instance, admin_email, admin_name)
-
-
-
 
 class PasswordResetView(generics.GenericAPIView):
 
