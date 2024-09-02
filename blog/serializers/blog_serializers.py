@@ -28,9 +28,13 @@ class BlogWriteSerializers(serializers.ModelSerializer):
         read_only_fields = ['user']  
 
     def create(self, validated_data):
-        validated_data['user'] = self.context['request'].user  
+        user = self.context['request'].user
+        # validated_data['user'] = user 
+        validated_data['username'] = user.get_full_name() or user.username 
         return super().create(validated_data)
 
     def update(self, instance, validated_data):
-        validated_data['user'] = self.context['request'].user  
+        user = self.context['request'].user
+        # validated_data['user'] = user 
+        validated_data['username'] = user.get_full_name() or user.username  
         return super().update(instance, validated_data)

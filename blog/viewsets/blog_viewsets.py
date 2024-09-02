@@ -38,4 +38,5 @@ class BlogViewSets(viewsets.ModelViewSet):
         return BlogListSerializers  # Default serializer
 
     def perform_create(self, serializer):
-        serializer.save(user=self.request.user)
+        user = self.request.user
+        serializer.save(user=user.username)
