@@ -9,67 +9,6 @@ https://docs.djangoproject.com/en/4.2/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/4.2/ref/settings/
 """
-# settings.py
-
-import os
-import os
-from pathlib import Path
-
-# BASE_DIR points to the root directory of your Django project
-BASE_DIR = Path(__file__).resolve().parent.parent
-
-LOGGING = {
-    'version': 1,
-    'disable_existing_loggers': False,
-    'formatters': {
-        'verbose': {
-            'format': '{levelname} {asctime} {module} {message}',
-            'style': '{',
-        },
-        'simple': {
-            'format': '{levelname} {message}',
-            'style': '{',
-        },
-    },
-    'handlers': {
-        'console': {
-            'level': 'DEBUG',
-            'class': 'logging.StreamHandler',
-            'formatter': 'simple',
-        },
-        'file': {
-            'level': 'DEBUG',
-            'class': 'logging.FileHandler',
-            'filename': os.path.join(BASE_DIR, 'django_debug.log'),
-            'formatter': 'verbose',
-        },
-    },
-    'loggers': {
-        'django': {
-            'handlers': ['console', 'file'],
-            'level': 'DEBUG',
-            'propagate': True,
-        },
-        'trek': {  # Replace 'myapp' with your actual app name
-            'handlers': ['console', 'file'],
-            'level': 'DEBUG',
-            'propagate': False,
-        },
-    },
-}
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 from pathlib import Path
 import os
@@ -80,15 +19,26 @@ server_type = "AWS"#"LOCAL"
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
+current_os = platform.system()
+print(current_os, " operatitng system")
+
+if current_os == "Linux" and server_type == "AWS":
+    dotenv_path = os.path.join(os.path.dirname(__file__), '.env') #server env
+    print(current_os ,f":{server_type} server env connected")
+else:
+    dotenv_path = os.path.join(os.path.dirname(__file__), 'env_local') #this is local env
+    print(current_os , ":local env connected")
+load_dotenv(dotenv_path)
+
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/4.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = "django-insecure-z^#)006uptp234kjj8092hpxe23#i^r(iz9ak8gc-4q_8-(z^2kj8e(dnz$2@md"
+SECRET_KEY = os.getenv('SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
-ALLOWED_HOSTS = ['api.everestthrills.com']
+ALLOWED_HOSTS = [host for host in os.getenv('ALLOWED_HOSTS').split(',') if host != '']
 
 # Application definition
 
@@ -133,8 +83,8 @@ INSTALLED_APPS = [
 AUTH_USER_MODEL = 'accounts.CustomUser'
 
 CORS_ORIGIN_ALLOW_ALL = True
-CORS_ORIGIN_WHITELIST = []
-CSRF_TRUSTED_ORIGINS = []
+CORS_ORIGIN_WHITELIST = [white for white in os.getenv('CORS_ORIGIN_WHITELIST').split(',') if white != '']
+CSRF_TRUSTED_ORIGINS = [trusted for trusted in os.getenv('CSRF_TRUSTED_ORIGINS').split(',') if trusted != '']
 
 
 MIDDLEWARE = [
@@ -175,12 +125,12 @@ WSGI_APPLICATION = 'trek.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': "django.db.backends.mysql",
-        'NAME': "everestt_everest",
-        'USER': "everestt_everest",
-        'PASSWORD': "uO;#-e(pG[G*",
-        'HOST': "localhost",
-        'PORT': 3306,
+        'ENGINE': os.getenv('DATABASE_ENGINE'),
+        'NAME': os.getenv('DATABASES_NAME'),
+        'USER': os.getenv('DATABASE_USER'),
+        'PASSWORD': os.getenv('DATABASE_PASSWORD'),
+        'HOST': os.getenv('DATABASE_HOST'),
+        'PORT': os.getenv('DATABASE_PORT'),
     }
 }
 
@@ -236,8 +186,8 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 
 CORS_ORIGIN_ALLOW_ALL = True #if True then allow only for whitelist ip.(frontend request)
-CORS_ORIGIN_WHITELIST = []
-CSRF_TRUSTED_ORIGINS = []
+CORS_ORIGIN_WHITELIST = [white for white in os.getenv('CORS_ORIGIN_WHITELIST').split(',') if white != '']
+CSRF_TRUSTED_ORIGINS = [trusted for trusted in os.getenv('CSRF_TRUSTED_ORIGINS').split(',') if trusted != '']
 
 
 from datetime import timedelta
