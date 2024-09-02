@@ -41,6 +41,14 @@ DEBUG = True
 ALLOWED_HOSTS = [host for host in os.getenv('ALLOWED_HOSTS').split(',') if host != '']
 
 # Application definition
+# settings.py
+
+# settings.py
+
+FILE_UPLOAD_MAX_MEMORY_SIZE = 850 * 1024 * 1024  # 850 MB
+DATA_UPLOAD_MAX_MEMORY_SIZE = 850 * 1024 * 1024  # 850 MB
+
+
 
 INSTALLED_APPS = [
     # 'daphne',
