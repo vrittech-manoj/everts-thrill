@@ -3,7 +3,7 @@
     "activeCommit": 0,
     "commits": [
         {
-            "activePatchIndex": 17,
+            "activePatchIndex": 22,
             "patches": [
                 {
                     "date": 1725014377388,
@@ -76,6 +76,26 @@
                 {
                     "date": 1725175223549,
                     "content": "Index: \n===================================================================\n--- \n+++ \n@@ -80,9 +80,9 @@\n </head>\n <body>\n     <div class=\"email-container\">\n         <div class=\"header\">\n-            <img src=\"{% static '/Users/vrit-prashant/Documents/everts-thrill/media/logo.png' %}\" alt=\"Everest Thrill Logo\">\n+            <img src=\"{% static 'static/logo.png' %}\" alt=\"Everest Thrill Logo\">\n         </div>\n         <div class=\"content\">\n             <h1>New Trip Booking Notification – {{ recipient_name }}</h1>\n             <p>Dear {{ recipient_name }},</p>\n"
+                },
+                {
+                    "date": 1725254431453,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -83,9 +83,9 @@\n         <div class=\"header\">\n             <img src=\"{% static 'static/logo.png' %}\" alt=\"Everest Thrill Logo\">\n         </div>\n         <div class=\"content\">\n-            <h1>New Trip Booking Notification – {{ recipient_name }}</h1>\n+            <h1>New Trip Booking Notification – {{ destination }}</h1>\n             <p>Dear {{ recipient_name }},</p>\n             <p>A new trip booking has been made by a customer. Please find the details below:</p>\n             <div class=\"trip-details\">\n                 <div class=\"trip-details-text\">\n"
+                },
+                {
+                    "date": 1725254457470,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -85,9 +85,9 @@\n         </div>\n         <div class=\"content\">\n             <h1>New Trip Booking Notification – {{ destination }}</h1>\n             <p>Dear {{ recipient_name }},</p>\n-            <p>A new trip booking has been made by a customer. Please find the details below:</p>\n+            <p>Thank you for booking your adventure with us! Here are the details of your upcoming trip:</p>\n             <div class=\"trip-details\">\n                 <div class=\"trip-details-text\">\n                     <p><strong>Contact:</strong> {{ contact }}</p>\n                     <p><strong>Activity:</strong> {{ activity }}</p>\n"
+                },
+                {
+                    "date": 1725254491463,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -98,9 +98,9 @@\n                     <p><strong>Preferred Service Type:</strong> {{ preferred_service_type }}</p>\n                 </div>\n                 <img src=\"{% static 'static/calendar.gif' %}\" alt=\"Calendar Icon\">\n             </div>\n-            <p>Please review this booking and make the necessary arrangements.</p>\n+            <p>We look forward to providing you with a memorable experience! Should you have any questions or need further assistance, please feel free to reach out.</p>\n         </div>\n         <div class=\"footer\">\n             <div class=\"social-icons\">\n                 <a href=\"#\"><img src=\"https://img.icons8.com/color/48/000000/facebook.png\" alt=\"Facebook\"></a>\n"
+                },
+                {
+                    "date": 1725254784003,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -107,9 +107,9 @@\n                 <a href=\"#\"><img src=\"https://img.icons8.com/color/48/000000/twitter.png\" alt=\"Twitter\"></a>\n                 <a href=\"#\"><img src=\"https://img.icons8.com/color/48/000000/youtube-play.png\" alt=\"YouTube\"></a>\n                 <a href=\"#\"><img src=\"https://img.icons8.com/color/48/000000/linkedin.png\" alt=\"LinkedIn\"></a>\n             </div>\n-            <p>&copy; 2024 Everest Thrill. All rights reserved.<br>Made with <span style=\"color: #FF7A00;\">&hearts;</span> by <a href=\"https://vrittech.com\" style=\"color: #fff;\">Vrit Tech</a></p>\n+            <p>&copy; 2024 Everest Thrill. All rights reserved.<br>Made with <span style=\"color: #FF7A00;\">&hearts;</span> by <a href=\"https://vrittechnologies.com/\" style=\"color: #fff;\">Vrit Tech</a></p>\n         </div>\n     </div>\n </body>\n </html>\n"
+                },
+                {
+                    "date": 1725254797239,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -88,8 +88,9 @@\n             <p>Dear {{ recipient_name }},</p>\n             <p>Thank you for booking your adventure with us! Here are the details of your upcoming trip:</p>\n             <div class=\"trip-details\">\n                 <div class=\"trip-details-text\">\n+                    <p><strong style=\"color: #00008B;\">Trip Details:</strong></p>\n                     <p><strong>Contact:</strong> {{ contact }}</p>\n                     <p><strong>Activity:</strong> {{ activity }}</p>\n                     <p><strong>Package:</strong> {{ package }}</p>\n                     <p><strong>Destination:</strong> {{ destination }}</p>\n"
                 }
             ],
             "date": 1725014377388,

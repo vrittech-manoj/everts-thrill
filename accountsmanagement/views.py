@@ -12,7 +12,9 @@ from django.contrib.auth.hashers import check_password
 from django.template.loader import render_to_string
 from booking.models import DestinationBook
 
-
+from django.db.models.signals import post_save
+from django.dispatch import receiver
+from django.core.mail import send_mail
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status
@@ -279,34 +281,40 @@ class ContactmeView(generics.GenericAPIView):
         )
      
 class SendEmailForBookingVerification(APIView):
-        serializer_class = EmailNumberSerializer
+    serializer_class = EmailNumberSerializer
 
-        def post(self, request, *args, **kwargs):
-            serializer = self.serializer_class(data=request.data)
-            if serializer.is_valid():
-                email = serializer.validated_data["email"]
-                try:
-                    book = DestinationBook.objects.get(email=email)
-                    
+    def post(self, request, *args, **kwargs):
+        serializer = self.serializer_class(data=request.data)
+        if serializer.is_valid():
+            email = serializer.validated_data["email"]
+            try:
+                book = DestinationBook.objects.get(email=email)
+            except DestinationBook.DoesNotExist:
+                return Response({'detail': 'Booking details with this email do not exist.'}, status=status.HTTP_400_BAD_REQUEST)
 
-                except DestinationBook.DoesNotExist:
-                    return Response({'detail': 'Booking details with this email do not exist.'}, status=status.HTTP_400_BAD_REQUEST)
+            # Construct the verification URL
+            site_url = 'https://example.com'  
+            verify_url = f"{site_url}/user-verification-success?pk={urlsafe_base64_encode(force_bytes(book.pk))}"
 
-                # Construct the verification URL
-                site_url = 'https://example.com'  # Replace with your actual site URL
-                verify_url = f"{site_url}/user-verification-success?pk={urlsafe_base64_encode(force_bytes(book.pk))}"
+            # Fetch the admin email from the User model
+            admin_user = CustomUser.objects.filter(is_superuser=True).first()
+            if admin_user:
+                admin_name = admin_user.first_name
+                admin_email = admin_user.email
+            else:
+                return Response({'detail': 'Admin email not found.'}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
-                # Send the confirmation email
-                subject = 'Booking Verification Email'
-                sendBookingConfirmationEMail(email, verify_url, subject, book)
+            # Send the confirmation email
+            subject = 'Booking Verification Email'
+            send_booking_confirmation_email(email, verify_url, subject, book, admin_email, admin_name)
 
-                return Response({'detail': 'Email for Booking confirmation sent successfully'})
-            
-            return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+            return Response({'detail': 'Email for Booking confirmation sent successfully'}, status=status.HTTP_200_OK)
+        
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
-def sendBookingConfirmationEMail(email, verify_url, subject, book):
+def send_booking_confirmation_email(email, verify_url, subject, book, admin_email, admin_name):
     context = {
-        # 'verification_url': verify_url,
+        'admin_name': admin_name,
         'recipient_name': book.full_name,  
         'contact': book.phone_number, 
         'activity': book.activity.name,  
@@ -316,11 +324,44 @@ def sendBookingConfirmationEMail(email, verify_url, subject, book):
         'departure_date': book.departure_date.strftime('%d/%m/%Y'),  
         'preferred_service_type': book.service_type, 
     }
-    html_content = render_to_string('booking_confirmation.html', context)  # Template path
-    email_from = settings.EMAIL_HOST_USER
+
+    html_content = render_to_string('booking_confirmation.html', context)
+    from_email = f'Everest Thrills <{admin_email}>'
+
+    # Send email to the customer
     recipient_list = [email]
-    plain_message = ""
-    send_mail(subject, plain_message, email_from, recipient_list, html_message=html_content)
+    send_mail(subject, '', from_email, recipient_list, html_message=html_content)
+
+    # Send email to the admin
+    admin_subject = f"New Trip Booking Notification - {book.full_name}"
+    admin_context = context.copy()
+    admin_context['verification_url'] = verify_url
+    admin_html_content = render_to_string('admin_booking_notification.html', admin_context)
+
+    admin_recipient_list = [admin_email]
+    send_mail(admin_subject, '', from_email, admin_recipient_list, html_message=admin_html_content)
+
+@receiver(post_save, sender=DestinationBook)
+def booking_created_handler(sender, instance, created, **kwargs):
+    if created:
+        # Construct the verification URL
+        site_url = 'https://example.com'  
+        verify_url = f"{site_url}/user-verification-success?pk={urlsafe_base64_encode(force_bytes(instance.pk))}"
+
+        # Fetch the admin email from the User model
+        admin_user = CustomUser.objects.filter(is_superuser=True).first()
+        if admin_user:
+            admin_name = admin_user.first_name
+            admin_email = admin_user.email
+        else:
+            raise ValueError("Admin email not found.")
+
+        # Send the confirmation email
+        subject = 'Booking Verification Email'
+        send_booking_confirmation_email(instance.email, verify_url, subject, instance, admin_email, admin_name)
+
+
+
 
 class PasswordResetView(generics.GenericAPIView):
 
