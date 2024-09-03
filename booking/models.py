@@ -6,6 +6,7 @@ from activities.models import Activity
 from destination.models import Package
 from airlines.models import Airlines
 import uuid
+import re
 from django.utils.text import slugify
 
 # Create your models here.
@@ -37,11 +38,17 @@ class DestinationBook(models.Model):
     updated_date = models.DateTimeField(auto_now=True)
 
     def __str__(self) -> str:
-        return str(self.full_name) + ":" + str(self.destination.destination_title)
+        return f"{str(self.full_name)}:{str(self.destination.destination_title)}"
 
     def save(self, *args, **kwargs):
+        # Remove special characters from full_name
+        if self.full_name:
+            self.full_name = re.sub(r'[^a-zA-Z0-9\s]', '', self.full_name)
+
+            # Generate slug if not already provided
         if not self.slug:
-            self.slug = slugify(self.full_name) + '-' + str(self.public_id)[1:5] + str(self.public_id)[-1:-5]
+            self.slug = f'{slugify(self.full_name)}-{str(self.public_id)[1:5]}{str(self.public_id)[-1:-5]}'
+
         super().save(*args, **kwargs)
 
 
@@ -58,7 +65,7 @@ class ServiceBook(models.Model):
     updated_date = models.DateTimeField(auto_now=True)
 
     def __str__(self) -> str:
-        return str(self.user.username) + ":" + str(self.services.name)
+        return f"{str(self.user.username)}:{str(self.services.name)}"
     
     
     
