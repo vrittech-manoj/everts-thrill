@@ -8,6 +8,7 @@ from departure.models import Departure
 from accounts.models import CustomUser
 from booking.models import DestinationBook
 from activities.models import Activity
+from queries.models import Queries
 
 from rest_framework import serializers
 from drf_yasg.utils import swagger_auto_schema
@@ -23,6 +24,7 @@ class GetAllCountsResponseSerializer(serializers.Serializer):
     custom_user = serializers.IntegerField(help_text="Total count of registered users", required=False)
     destination_book = serializers.IntegerField(help_text="Total count of bookings made for destinations", required=False)
     activity = serializers.IntegerField(help_text="Total count of activities available", required=False)
+    queries = serializers.IntegerField(help_text="Total count of activities available", required=False)
 
 class GetDashboardAPIView(APIView):
     """
@@ -38,6 +40,7 @@ class GetDashboardAPIView(APIView):
     - custom_user
     - destination_book
     - activity
+    - queries
     """
 
     model_mapping = {
@@ -50,6 +53,7 @@ class GetDashboardAPIView(APIView):
         "custom_user": CustomUser,
         "destination_book": DestinationBook,
         "activity": Activity,
+        "queries": Queries
     }
 
     @swagger_auto_schema(

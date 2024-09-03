@@ -1,0 +1,38 @@
+{
+    "sourceFile": "dashboard/views.py",
+    "activeCommit": 0,
+    "commits": [
+        {
+            "activePatchIndex": 5,
+            "patches": [
+                {
+                    "date": 1725342068887,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n"
+                },
+                {
+                    "date": 1725342087901,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -22,9 +22,9 @@\n     departure = serializers.IntegerField(help_text=\"Total count of departures scheduled\", required=False)\n     custom_user = serializers.IntegerField(help_text=\"Total count of registered users\", required=False)\n     destination_book = serializers.IntegerField(help_text=\"Total count of bookings made for destinations\", required=False)\n     activity = serializers.IntegerField(help_text=\"Total count of activities available\", required=False)\n-    activity = serializers.IntegerField(help_text=\"Total count of activities available\", required=False)\n+    queries = serializers.IntegerField(help_text=\"Total count of activities available\", required=False)\n \n class GetDashboardAPIView(APIView):\n     \"\"\"\n     API view to retrieve the total count of records for key models in the system.\n@@ -50,8 +50,9 @@\n         \"departure\": Departure,\n         \"custom_user\": CustomUser,\n         \"destination_book\": DestinationBook,\n         \"activity\": Activity,\n+        \"\"\n     }\n \n     @swagger_auto_schema(\n         operation_description=\"Retrieve total counts of records for all specified models.\",\n"
+                },
+                {
+                    "date": 1725342094296,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -50,9 +50,9 @@\n         \"departure\": Departure,\n         \"custom_user\": CustomUser,\n         \"destination_book\": DestinationBook,\n         \"activity\": Activity,\n-        \"\"\n+        \"queries\": Q\n     }\n \n     @swagger_auto_schema(\n         operation_description=\"Retrieve total counts of records for all specified models.\",\n"
+                },
+                {
+                    "date": 1725342100829,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -7,8 +7,9 @@\n from departure.models import Departure\n from accounts.models import CustomUser\n from booking.models import DestinationBook\n from activities.models import Activity\n+from \n \n from rest_framework import serializers\n from drf_yasg.utils import swagger_auto_schema\n from drf_yasg import openapi\n@@ -50,9 +51,9 @@\n         \"departure\": Departure,\n         \"custom_user\": CustomUser,\n         \"destination_book\": DestinationBook,\n         \"activity\": Activity,\n-        \"queries\": Q\n+        \"queries\": Queries\n     }\n \n     @swagger_auto_schema(\n         operation_description=\"Retrieve total counts of records for all specified models.\",\n"
+                },
+                {
+                    "date": 1725342109046,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -7,9 +7,9 @@\n from departure.models import Departure\n from accounts.models import CustomUser\n from booking.models import DestinationBook\n from activities.models import Activity\n-from \n+from queries.models import Queries\n \n from rest_framework import serializers\n from drf_yasg.utils import swagger_auto_schema\n from drf_yasg import openapi\n"
+                },
+                {
+                    "date": 1725342146217,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -39,8 +39,9 @@\n     - departure\n     - custom_user\n     - destination_book\n     - activity\n+    - activity\n     \"\"\"\n \n     model_mapping = {\n         \"package\": Package,\n"
+                }
+            ],
+            "date": 1725342068887,
+            "name": "Commit-0",
+            "content": "from django.shortcuts import render\nfrom rest_framework.response import Response\nfrom rest_framework.views import APIView\nfrom rest_framework import status\nfrom destination.models import Package, Destination, DestinationGalleryImages, DestinationReview\nfrom collection.models import Collection\nfrom departure.models import Departure\nfrom accounts.models import CustomUser\nfrom booking.models import DestinationBook\nfrom activities.models import Activity\n\nfrom rest_framework import serializers\nfrom drf_yasg.utils import swagger_auto_schema\nfrom drf_yasg import openapi\n\nclass GetAllCountsResponseSerializer(serializers.Serializer):\n    package = serializers.IntegerField(help_text=\"Total count of travel packages available\", required=False)\n    destination = serializers.IntegerField(help_text=\"Total count of travel destinations listed\", required=False)\n    gallery_images = serializers.IntegerField(help_text=\"Total count of gallery images associated with destinations\", required=False)\n    destination_review = serializers.IntegerField(help_text=\"Total count of reviews for destinations\", required=False)\n    collection = serializers.IntegerField(help_text=\"Total count of collections\", required=False)\n    departure = serializers.IntegerField(help_text=\"Total count of departures scheduled\", required=False)\n    custom_user = serializers.IntegerField(help_text=\"Total count of registered users\", required=False)\n    destination_book = serializers.IntegerField(help_text=\"Total count of bookings made for destinations\", required=False)\n    activity = serializers.IntegerField(help_text=\"Total count of activities available\", required=False)\n    activity = serializers.IntegerField(help_text=\"Total count of activities available\", required=False)\n\nclass GetDashboardAPIView(APIView):\n    \"\"\"\n    API view to retrieve the total count of records for key models in the system.\n\n    Models included:\n    - package\n    - destination\n    - gallery_images\n    - destination_review\n    - collection\n    - departure\n    - custom_user\n    - destination_book\n    - activity\n    \"\"\"\n\n    model_mapping = {\n        \"package\": Package,\n        \"destination\": Destination,\n        \"gallery_images\": DestinationGalleryImages,\n        \"destination_review\": DestinationReview,\n        \"collection\": Collection,\n        \"departure\": Departure,\n        \"custom_user\": CustomUser,\n        \"destination_book\": DestinationBook,\n        \"activity\": Activity,\n    }\n\n    @swagger_auto_schema(\n        operation_description=\"Retrieve total counts of records for all specified models.\",\n        responses={\n            200: openapi.Response(\n                description=\"Total count of records for each model\",\n                schema=GetAllCountsResponseSerializer\n            ),\n            500: openapi.Response(\n                description=\"Server error.\"\n            )\n        }\n    )\n    def get(self, request, format=None):\n        counts = {}\n        try:\n            for key, model in self.model_mapping.items():\n                counts[key] = model.objects.count()\n            return Response(counts, status=status.HTTP_200_OK)\n        except Exception as e:\n            return Response({\"message\": str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)"
+        }
+    ]
+}
