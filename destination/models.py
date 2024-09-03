@@ -29,7 +29,7 @@ class Destination(models.Model):
     destination_title = models.CharField(max_length=70)
     packages = models.ManyToManyField(Package)
     price = models.FloatField(null=True, blank=True)
-    price_type = models.CharField(max_length=3, default='NPR')  
+    price_type = models.CharField(max_length=3, default='USD')  
     is_price = models.BooleanField(default=False)
     featured_image = models.ImageField(upload_to="destination/featured/images/", null=True, blank=True)
     overview = models.CharField(max_length=5000, null=True, blank=True)

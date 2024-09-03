@@ -1,4 +1,3 @@
-{% load static %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -81,7 +80,7 @@
 <body>
     <div class="email-container">
         <div class="header">
-            <img src="{% static 'static/logo.png' %}" alt="Everest Thrill Logo">
+            <img src="https://api.everestthrills.com/gallery/images/Logo.png" alt="Everest Thrill Logo">
         </div>
         <div class="content">
             <h1>New Trip Booking Notification – {{ destination }}</h1>
@@ -99,7 +98,7 @@
                     <p><strong>Preferred Service Type:</strong> {{ preferred_service_type|capfirst }}
                     </p>
                 </div>
-                <img src="{% static 'static/calendar.gif' %}" alt="Calendar Icon">
+                <img src="https://api.everestthrills.com/gallery/images/calendar.gif" alt="Calendar Icon" style="width: 409.135px; height: 146px;">
             </div>
             <p>We look forward to providing you with a memorable experience! Should you have any questions or need further assistance, please feel free to reach out.</p>
         </div>
