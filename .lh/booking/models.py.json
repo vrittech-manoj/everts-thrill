@@ -3,7 +3,7 @@
     "activeCommit": 0,
     "commits": [
         {
-            "activePatchIndex": 39,
+            "activePatchIndex": 42,
             "patches": [
                 {
                     "date": 1724847125107,
@@ -164,6 +164,18 @@
                 {
                     "date": 1725338898193,
                     "content": "Index: \n===================================================================\n--- \n+++ \n@@ -64,8 +64,8 @@\n     created_date = models.DateTimeField(auto_now_add=True)\n     updated_date = models.DateTimeField(auto_now=True)\n \n     def __str__(self) -> str:\n-        return str(self.user.username) + \":\" + str(self.services.name)\n+        return f\"{str(self.user.username)}:{str(self.services.name)}\"\n     \n     \n     \n\\ No newline at end of file\n"
+                },
+                {
+                    "date": 1725339553285,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -39,17 +39,23 @@\n \n     def __str__(self) -> str:\n         return f\"{str(self.full_name)}:{str(self.destination.destination_title)}\"\n \n+    def clean(self):\n+        # Check for special characters in full_name\n+        if self.full_name and re.search(r'[^a-zA-Z0-9\\s]', self.full_name):\n+            raise ValidationError(\"Full name contains special characters, which are not allowed.\")\n+        super().clean()\n+\n     def save(self, *args, **kwargs):\n-        # Remove special characters from full_name\n-        if self.full_name:\n-            self.full_name = re.sub(r'[^a-zA-Z0-9\\s]', '', self.full_name)\n-\n-            # Generate slug if not already provided\n+        # Call clean method to validate the full_name before saving\n+        self.full_name = self.full_name.strip() if self.full_name else self.full_name\n+        self.clean()\n+        \n+        # Generate slug if not already provided\n         if not self.slug:\n-            self.slug = f'{slugify(self.full_name)}-{str(self.public_id)[1:5]}{str(self.public_id)[-1:-5]}'\n-\n+            self.slug = slugify(self.full_name) + '-' + str(self.public_id)[1:5] + str(self.public_id)[-1:-5]\n+        \n         super().save(*args, **kwargs)\n \n \n class ServiceBook(models.Model):\n"
+                },
+                {
+                    "date": 1725339566837,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -7,8 +7,9 @@\n from airlines.models import Airlines\n import uuid\n import re\n from django.utils.text import slugify\n+from django.core.exceptions import ValidationError\n \n # Create your models here.\n \n class DestinationBook(models.Model):\n"
+                },
+                {
+                    "date": 1725339574978,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -50,13 +50,13 @@\n     def save(self, *args, **kwargs):\n         # Call clean method to validate the full_name before saving\n         self.full_name = self.full_name.strip() if self.full_name else self.full_name\n         self.clean()\n-        \n+\n         # Generate slug if not already provided\n         if not self.slug:\n-            self.slug = slugify(self.full_name) + '-' + str(self.public_id)[1:5] + str(self.public_id)[-1:-5]\n-        \n+            self.slug = f'{slugify(self.full_name)}-{str(self.public_id)[1:5]}{str(self.public_id)[-1:-5]}'\n+\n         super().save(*args, **kwargs)\n \n \n class ServiceBook(models.Model):\n"
                 }
             ],
             "date": 1724847125106,

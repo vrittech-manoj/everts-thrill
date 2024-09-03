@@ -8,6 +8,7 @@ from airlines.models import Airlines
 import uuid
 import re
 from django.utils.text import slugify
+from django.core.exceptions import ValidationError
 
 # Create your models here.
 
@@ -40,12 +41,18 @@ class DestinationBook(models.Model):
     def __str__(self) -> str:
         return f"{str(self.full_name)}:{str(self.destination.destination_title)}"
 
-    def save(self, *args, **kwargs):
-        # Remove special characters from full_name
-        if self.full_name:
-            self.full_name = re.sub(r'[^a-zA-Z0-9\s]', '', self.full_name)
+    def clean(self):
+        # Check for special characters in full_name
+        if self.full_name and re.search(r'[^a-zA-Z0-9\s]', self.full_name):
+            raise ValidationError("Full name contains special characters, which are not allowed.")
+        super().clean()
 
-            # Generate slug if not already provided
+    def save(self, *args, **kwargs):
+        # Call clean method to validate the full_name before saving
+        self.full_name = self.full_name.strip() if self.full_name else self.full_name
+        self.clean()
+
+        # Generate slug if not already provided
         if not self.slug:
             self.slug = f'{slugify(self.full_name)}-{str(self.public_id)[1:5]}{str(self.public_id)[-1:-5]}'
 
