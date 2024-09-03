@@ -2,7 +2,6 @@ from rest_framework.permissions import BasePermission
 from . import roles
 
 def IsAuthenticated(request):
-    print(request.user)
     return bool(request.user and request.user.is_authenticated)
 
 def ownerPermission(request,view,label):
@@ -10,7 +9,6 @@ def ownerPermission(request,view,label):
         return True
     
     payload_user = view.get_object()
-    print(payload_user,label,request.user.id)
     if request.user.id == payload_user.id:
         return True
     else:
@@ -46,7 +44,6 @@ class AdminLevelPermission(BasePermission):
 class AllUserDataPermission(BasePermission):
     def has_permission(self, request, view):
         method_name = view.action
-        # print(method_name)
         return AdminPermission(request) if method_name == 'list' else False
 
     

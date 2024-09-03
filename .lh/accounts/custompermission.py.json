@@ -3,7 +3,7 @@
     "activeCommit": 0,
     "commits": [
         {
-            "activePatchIndex": 4,
+            "activePatchIndex": 7,
             "patches": [
                 {
                     "date": 1725344549392,
@@ -24,6 +24,18 @@
                 {
                     "date": 1725344585688,
                     "content": "Index: \n===================================================================\n--- \n+++ \n@@ -26,9 +26,8 @@\n             return True\n         elif method_name == 'partial_update':\n             return ownerPermission(request,view,'id')\n         elif method_name == 'update':\n-            print(\"on going \")\n             return IsAuthenticated(request) and ownerPermission(request,view,'id')\n         else:\n             return False\n \n"
+                },
+                {
+                    "date": 1725344777888,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -1,9 +1,8 @@\n from rest_framework.permissions import BasePermission\n from . import roles\n \n def IsAuthenticated(request):\n-    print(request.user)\n     return bool(request.user and request.user.is_authenticated)\n \n def ownerPermission(request,view,label):\n     if request.user.role in [roles.ADMIN,roles.SUPER_ADMIN]:\n"
+                },
+                {
+                    "date": 1725344784758,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -8,9 +8,8 @@\n     if request.user.role in [roles.ADMIN,roles.SUPER_ADMIN]:\n         return True\n     \n     payload_user = view.get_object()\n-    print(payload_user,label,request.user.id)\n     if request.user.id == payload_user.id:\n         return True\n     else:\n         False\n"
+                },
+                {
+                    "date": 1725344790566,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -43,8 +43,7 @@\n \n class AllUserDataPermission(BasePermission):\n     def has_permission(self, request, view):\n         method_name = view.action\n-        # print(method_name)\n         return AdminPermission(request) if method_name == 'list' else False\n \n     \n\\ No newline at end of file\n"
                 }
             ],
             "date": 1725344549392,
