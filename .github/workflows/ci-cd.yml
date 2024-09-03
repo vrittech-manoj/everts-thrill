@@ -50,6 +50,7 @@ jobs:
 
         # Install rsync
         #sudo apt-get install -y rsync
+        
 
         # Create necessary directories on the server
         echo "Create necessary directories on the server"
