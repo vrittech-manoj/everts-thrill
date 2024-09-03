@@ -19,7 +19,7 @@ class Package(models.Model):
 
     def save(self, *args, **kwargs):
         if not self.slug:
-            self.slug = slugify(self.name) + '-' + str(self.public_id)[1:5] + str(self.public_id)[-1:-5]
+            self.slug = f'{slugify(self.name)}-{str(self.public_id)[1:5]}{str(self.public_id)[-1:-5]}'
         super().save(*args, **kwargs)
 
 
@@ -62,7 +62,7 @@ class Destination(models.Model):
 
     def save(self, *args, **kwargs):
         if not self.slug:
-            self.slug = slugify(self.destination_title) + '-' + str(self.public_id)[1:5] + str(self.public_id)[-1:-5]
+            self.slug = f'{slugify(self.destination_title)}-{str(self.public_id)[1:5]}{str(self.public_id)[-1:-5]}'
 
         # Auto-generate meta fields if not provided by user
         if not self.meta_title:
@@ -89,5 +89,5 @@ class DestinationReview(models.Model):
     destination_trip = models.ForeignKey(Destination, related_name="review", on_delete=models.CASCADE)
 
     def __str__(self) -> str:
-        return str(self.user.username) + ':' + '*' * self.stars
+        return f'{str(self.user.username)}:' + '*' * self.stars
 
