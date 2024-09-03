@@ -50,14 +50,11 @@ class CustomUserSerializerViewSet(viewsets.ModelViewSet):
     # permission_classes = [Account]
     serializer_class = CustomUserReadSerializer
     filter_backends = [SearchFilter,DjangoFilterBackend,OrderingFilter]
-    search_fields = ['id','email','username','first_name','last_name','phone']
+    search_fields = ['id','email','username','first_name']
     ordering_fields = ['username','id']
     filterset_fields = {
         'email': ['exact', 'icontains'],
         'username': ['exact'],
-        'role': ['exact'],
-
-        'created_date': ['date__gte', 'date__lte'],  # Date filtering
         'is_active':['exact'],
     }
 
@@ -215,7 +212,7 @@ class PermissionViewSet(viewsets.ModelViewSet):
 class PermissionAllDelete(APIView):
     authentication_classes = [JWTAuthentication]
     permission_classes = [IsAuthenticated]  
-    def get(self, request, format=None):
+    def get(self, request, format=None):  # sourcery skip: avoid-builtin-shadow
         object = Permission.objects.all().delete()
         return Response({'message': 'All permission delete successful'}, status=status.HTTP_200_OK)
 
@@ -306,8 +303,7 @@ class userLimitedData(generics.ListAPIView):
     }
     
     def get_queryset(self):
-        users = CustomUser.objects.filter(role = roles.USER,is_active = True)
-        return users
+        return CustomUser.objects.filter(role = roles.USER,is_active = True)
 
     def get_serializer_class(self):
         return CustomUserReadLimitedSerializer
@@ -334,8 +330,7 @@ class AllUserData(generics.ListAPIView):
     }
     
     def get_queryset(self):
-        users = CustomUser.objects.all().order_by('id')
-        return users
+        return CustomUser.objects.all().order_by('id')
 
     def get_serializer_class(self):
         return CustomUserReadLimitedSerializer_1
@@ -356,36 +351,32 @@ class UserDetailsView(generics.RetrieveAPIView):
 class GoogleLogin(APIView):
     @csrf_exempt
     def post(self, request):
-    
+
         google_id_token = request.data.get('idToken',False)
 
         if google_id_token == False:
             return Response({'error': 'No ID token provided.'}, status=status.HTTP_400_BAD_REQUEST)
-     
+
         idinfo,is_verify = VerifyGoogleToken(google_id_token)
-       
+
         if idinfo:
             user,success_user = createGoogleAccount(idinfo)
         else:
             return Response({'error': 'Invalid ID token.'}, status=status.HTTP_401_UNAUTHORIZED)
-   
-        # If the user is authenticated, log them in and generate tokens
-        if success_user == True:
-            if user.is_active == False:
-                return Response({'error': 'Your Account is inactive'}, status=status.HTTP_401_UNAUTHORIZED)
-            # login(request, user)
-            refresh = RefreshToken.for_user(user)
-            user_obj = CustomUserSerializer(user,context={'request': request}) 
-            return Response({
-                'access': str(refresh.access_token),
-                'refresh': str(refresh),
-                'user': user_obj.data,
-                'message': 'Login successful',
-            }, status=status.HTTP_200_OK)
 
-        # If the user is not authenticated, return an error message
-        else:
+        if success_user != True:
             return Response({'error': 'Google Token Failed to verify'}, status=status.HTTP_401_UNAUTHORIZED)
+        if user.is_active == False:
+            return Response({'error': 'Your Account is inactive'}, status=status.HTTP_401_UNAUTHORIZED)
+        # login(request, user)
+        refresh = RefreshToken.for_user(user)
+        user_obj = CustomUserSerializer(user,context={'request': request})
+        return Response({
+            'access': str(refresh.access_token),
+            'refresh': str(refresh),
+            'user': user_obj.data,
+            'message': 'Login successful',
+        }, status=status.HTTP_200_OK)
         
 def createGoogleAccount(idinfo):
     email = idinfo.get('email')
@@ -396,43 +387,38 @@ def createGoogleAccount(idinfo):
     user = CustomUser.objects.filter(Q(email = email) | Q(username = username))
     if user.exists():
         user = user.first()
-        return user,True
-    else:    
+    else:
         user = CustomUser.objects.create(email = email , first_name = first_name , last_name = last_name, username=username,role = 5,old_password_change_case = False,provider = 2,is_verified = True)
-        return user , True
+
+    return user,True
 
 class AppleLogin(APIView):
     @csrf_exempt
     def post(self, request):
-    
+
         apple_token = request.data.get('idToken',False)
         if apple_token == False:
             return Response({'error': 'No ID token provided.'}, status=status.HTTP_400_BAD_REQUEST)
-        
+
         idinfo,is_verify = VerifyAppleToken(apple_token)
-        print(idinfo)
         if idinfo:
             user,success_user = createAppleAccount(idinfo)
         else:
             return Response({'error': 'Invalid ID token.'}, status=status.HTTP_401_UNAUTHORIZED)
-   
-        # If the user is authenticated, log them in and generate tokens
-        if success_user == True:
-            if user.is_active == False:
-                return Response({'error': 'Your Account is inactive'}, status=status.HTTP_401_UNAUTHORIZED)
-            # login(request, user)
-            refresh = RefreshToken.for_user(user)
-            user_obj = CustomUserSerializer(user,context={'request': request}) 
-            return Response({
-                'access': str(refresh.access_token),
-                'refresh': str(refresh),
-                'user': user_obj.data,
-                'message': 'Login successful',
-            }, status=status.HTTP_200_OK)
 
-        # If the user is not authenticated, return an error message
-        else:
+        if success_user != True:
             return Response({'error': 'Apple Token Failed to verify'}, status=status.HTTP_401_UNAUTHORIZED)
+        if user.is_active == False:
+            return Response({'error': 'Your Account is inactive'}, status=status.HTTP_401_UNAUTHORIZED)
+        # login(request, user)
+        refresh = RefreshToken.for_user(user)
+        user_obj = CustomUserSerializer(user,context={'request': request})
+        return Response({
+            'access': str(refresh.access_token),
+            'refresh': str(refresh),
+            'user': user_obj.data,
+            'message': 'Login successful',
+        }, status=status.HTTP_200_OK)
 
 
 def createAppleAccount(idinfo):

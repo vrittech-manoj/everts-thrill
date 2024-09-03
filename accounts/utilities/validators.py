@@ -28,10 +28,10 @@ def validate_mobile_number(value):
             return True
         else:
             raise ValidationError(_("Please enter valid phone numbers"))
-    except NumberParseException:
+    except NumberParseException as e:
         raise ValidationError(
             _("Please enter phone number with country code, prefix must be +")
-        )
+        ) from e
 
 
 def validate_emails(email):

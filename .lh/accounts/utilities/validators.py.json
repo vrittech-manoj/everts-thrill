@@ -1,0 +1,18 @@
+{
+    "sourceFile": "accounts/utilities/validators.py",
+    "activeCommit": 0,
+    "commits": [
+        {
+            "activePatchIndex": 0,
+            "patches": [
+                {
+                    "date": 1725344715369,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n"
+                }
+            ],
+            "date": 1725344715369,
+            "name": "Commit-0",
+            "content": "import phonenumbers\nfrom rest_framework.exceptions import ValidationError\nfrom django.utils.translation import gettext_lazy as _\nfrom phonenumbers import NumberParseException\n\n\ndef validate_mobile_number(value):\n    \"\"\"\n    To use this function you need to install phonenumbers package\n    https://github.com/daviddrysdale/python-phonenumbers\n\n    Without any packages eg:\n    phone_number = models.CharField(\n        max_length= 16,\n        validators=[\n            RegexValidator(\n                regex=r'^\\+?1?\\d{d,15}$',\n                message='Phone number must be entered in the format '+123456789'.\n            )\n        ]\n    )\n    \"\"\"\n    try:\n        phone_number = phonenumbers.parse(value, None)\n        if phonenumbers.is_possible_number(\n            phone_number\n        ) and phonenumbers.is_valid_number(phone_number):\n            return True\n        else:\n            raise ValidationError(_(\"Please enter valid phone numbers\"))\n    except NumberParseException as e:\n        raise ValidationError(\n            _(\"Please enter phone number with country code, prefix must be +\")\n        ) from e\n\n\ndef validate_emails(email):\n    from django.core.validators import validate_email\n    from django.core.exceptions import ValidationError\n\n    try:\n        validate_email(email)\n        return True\n    except ValidationError:\n        return False\n\n\ndef validate_password(password):\n    from django.contrib.auth.password_validation import validate_password\n\n    validate_password(password)\n"
+        }
+    ]
+}

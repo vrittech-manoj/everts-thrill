@@ -1,0 +1,34 @@
+{
+    "sourceFile": "accounts/custompermission.py",
+    "activeCommit": 0,
+    "commits": [
+        {
+            "activePatchIndex": 4,
+            "patches": [
+                {
+                    "date": 1725344549392,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n"
+                },
+                {
+                    "date": 1725344556795,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -21,15 +21,22 @@\n \n class AccountPermission(BasePermission):\n     def has_permission(self, request, view):\n         method_name = view.action\n-        if method_name in ['list', 'create', 'retrieve']:\n+        if method_name == 'list':\n             return True\n-        elif method_name == 'partial_update':\n-            return ownerPermission(request,view,'id')\n+        elif method_name == 'create':\n+            #check \n+            return True\n+        elif method_name == 'retrieve':\n+            return True\n         elif method_name == 'update':\n             print(\"on going \")\n             return IsAuthenticated(request) and ownerPermission(request,view,'id')\n+        elif method_name == 'partial_update':\n+            return ownerPermission(request,view,'id')\n+        elif method_name == 'destroy':\n+            return False\n         else:\n             return False\n \n \n"
+                },
+                {
+                    "date": 1725344565500,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -21,22 +21,15 @@\n \n class AccountPermission(BasePermission):\n     def has_permission(self, request, view):\n         method_name = view.action\n-        if method_name == 'list':\n+        if method_name in ['list', 'create', 'retrieve']:\n             return True\n-        elif method_name == 'create':\n-            #check \n-            return True\n-        elif method_name == 'retrieve':\n-            return True\n+        elif method_name == 'partial_update':\n+            return ownerPermission(request,view,'id')\n         elif method_name == 'update':\n             print(\"on going \")\n             return IsAuthenticated(request) and ownerPermission(request,view,'id')\n-        elif method_name == 'partial_update':\n-            return ownerPermission(request,view,'id')\n-        elif method_name == 'destroy':\n-            return False\n         else:\n             return False\n \n \n"
+                },
+                {
+                    "date": 1725344575248,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -35,30 +35,19 @@\n \n class AdminLevelPermission(BasePermission):\n     def has_permission(self, request, view):\n         method_name = view.action\n-        if method_name == 'list':\n+        if method_name in ['create', 'retrieve', 'update', 'partial_update']:\n+            return AdminPermission(request)\n+        elif method_name == 'list':\n             return True\n-        elif method_name == 'create':\n-           return AdminPermission(request)\n-        elif method_name == 'retrieve':\n-            return AdminPermission(request)\n-        elif method_name == 'update':\n-            return AdminPermission(request)\n-        elif method_name == 'partial_update':\n-            return AdminPermission(request)\n-        elif method_name == 'destroy':\n-            return False\n         else:\n             return False\n \n \n class AllUserDataPermission(BasePermission):\n     def has_permission(self, request, view):\n         method_name = view.action\n         # print(method_name)\n-        if method_name == 'list':\n-            return AdminPermission(request)\n-        else:\n-            return False\n+        return AdminPermission(request) if method_name == 'list' else False\n \n     \n\\ No newline at end of file\n"
+                },
+                {
+                    "date": 1725344585688,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -26,9 +26,8 @@\n             return True\n         elif method_name == 'partial_update':\n             return ownerPermission(request,view,'id')\n         elif method_name == 'update':\n-            print(\"on going \")\n             return IsAuthenticated(request) and ownerPermission(request,view,'id')\n         else:\n             return False\n \n"
+                }
+            ],
+            "date": 1725344549392,
+            "name": "Commit-0",
+            "content": "from rest_framework.permissions import BasePermission\nfrom . import roles\n\ndef IsAuthenticated(request):\n    print(request.user)\n    return bool(request.user and request.user.is_authenticated)\n\ndef ownerPermission(request,view,label):\n    if request.user.role in [roles.ADMIN,roles.SUPER_ADMIN]:\n        return True\n    \n    payload_user = view.get_object()\n    print(payload_user,label,request.user.id)\n    if request.user.id == payload_user.id:\n        return True\n    else:\n        False\n\ndef AdminPermission(request):\n    return IsAuthenticated(request) and request.user.role in [roles.ADMIN, roles.SUPER_ADMIN]\n\nclass AccountPermission(BasePermission):\n    def has_permission(self, request, view):\n        method_name = view.action\n        if method_name in ['list', 'create', 'retrieve']:\n            return True\n        elif method_name == 'partial_update':\n            return ownerPermission(request,view,'id')\n        elif method_name == 'update':\n            print(\"on going \")\n            return IsAuthenticated(request) and ownerPermission(request,view,'id')\n        else:\n            return False\n\n\nclass AdminLevelPermission(BasePermission):\n    def has_permission(self, request, view):\n        method_name = view.action\n        if method_name == 'list':\n            return True\n        elif method_name == 'create':\n           return AdminPermission(request)\n        elif method_name == 'retrieve':\n            return AdminPermission(request)\n        elif method_name == 'update':\n            return AdminPermission(request)\n        elif method_name == 'partial_update':\n            return AdminPermission(request)\n        elif method_name == 'destroy':\n            return False\n        else:\n            return False\n\n\nclass AllUserDataPermission(BasePermission):\n    def has_permission(self, request, view):\n        method_name = view.action\n        # print(method_name)\n        if method_name == 'list':\n            return AdminPermission(request)\n        else:\n            return False\n\n    "
+        }
+    ]
+}

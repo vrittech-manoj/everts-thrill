@@ -22,20 +22,12 @@ def AdminPermission(request):
 class AccountPermission(BasePermission):
     def has_permission(self, request, view):
         method_name = view.action
-        if method_name == 'list':
+        if method_name in ['list', 'create', 'retrieve']:
             return True
-        elif method_name == 'create':
-            #check 
-            return True
-        elif method_name == 'retrieve':
-            return True
-        elif method_name == 'update':
-            print("on going ")
-            return IsAuthenticated(request) and ownerPermission(request,view,'id')
         elif method_name == 'partial_update':
             return ownerPermission(request,view,'id')
-        elif method_name == 'destroy':
-            return False
+        elif method_name == 'update':
+            return IsAuthenticated(request) and ownerPermission(request,view,'id')
         else:
             return False
 
@@ -43,18 +35,10 @@ class AccountPermission(BasePermission):
 class AdminLevelPermission(BasePermission):
     def has_permission(self, request, view):
         method_name = view.action
-        if method_name == 'list':
+        if method_name in ['create', 'retrieve', 'update', 'partial_update']:
+            return AdminPermission(request)
+        elif method_name == 'list':
             return True
-        elif method_name == 'create':
-           return AdminPermission(request)
-        elif method_name == 'retrieve':
-            return AdminPermission(request)
-        elif method_name == 'update':
-            return AdminPermission(request)
-        elif method_name == 'partial_update':
-            return AdminPermission(request)
-        elif method_name == 'destroy':
-            return False
         else:
             return False
 
@@ -63,9 +47,6 @@ class AllUserDataPermission(BasePermission):
     def has_permission(self, request, view):
         method_name = view.action
         # print(method_name)
-        if method_name == 'list':
-            return AdminPermission(request)
-        else:
-            return False
+        return AdminPermission(request) if method_name == 'list' else False
 
     
