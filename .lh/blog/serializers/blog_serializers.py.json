@@ -3,7 +3,7 @@
     "activeCommit": 0,
     "commits": [
         {
-            "activePatchIndex": 34,
+            "activePatchIndex": 35,
             "patches": [
                 {
                     "date": 1724906557875,
@@ -144,6 +144,10 @@
                 {
                     "date": 1725341967298,
                     "content": "Index: \n===================================================================\n--- \n+++ \n@@ -37,5 +37,6 @@\n         # Set the user field\n         validated_data['user'] = user\n \n         # Create the Blog instance\n-        return super().create(validated_data)\n\\ No newline at end of file\n+        return super().create(validated_data)\n+    \n\\ No newline at end of file\n"
+                },
+                {
+                    "date": 1725342469137,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -38,5 +38,17 @@\n         validated_data['user'] = user\n \n         # Create the Blog instance\n         return super().create(validated_data)\n-    \n\\ No newline at end of file\n+    \n+    def update(self, instance, validated_data):\n+        user = self.context['request'].user  # Get the logged-in user\n+        full_name = user.full_name or user.username  # Get the full name or fallback to username\n+\n+        # Update the created_by field with the full name of the logged-in user\n+        validated_data['created_by'] = full_name\n+\n+        # Update the user field\n+        validated_data['user'] = user\n+\n+        # Update the Blog instance\n+        return super().update(instance, validated_data)\n\\ No newline at end of file\n"
                 }
             ],
             "date": 1724906557875,
