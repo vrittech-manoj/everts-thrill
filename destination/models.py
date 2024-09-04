@@ -26,7 +26,7 @@ class Package(models.Model):
 class Destination(models.Model):
     public_id = models.UUIDField(default=uuid.uuid4, editable=False, unique=True)
     slug = models.SlugField(unique=True, blank=True)
-    destination_title = models.CharField(max_length=70)
+    destination_title = models.CharField(max_length=70,unique=True)
     packages = models.ManyToManyField(Package)
     price = models.FloatField(null=True, blank=True)
     price_type = models.CharField(max_length=3, default='USD')  
@@ -62,7 +62,7 @@ class Destination(models.Model):
 
     def save(self, *args, **kwargs):
         if not self.slug:
-            self.slug = f'{slugify(self.destination_title)}-{str(self.public_id)[1:5]}{str(self.public_id)[-1:-5]}'
+            self.slug = f'{slugify(self.destination_title)}'
 
         # Auto-generate meta fields if not provided by user
         if not self.meta_title:
