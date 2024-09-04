@@ -3,11 +3,23 @@
     "activeCommit": 0,
     "commits": [
         {
-            "activePatchIndex": 0,
+            "activePatchIndex": 3,
             "patches": [
                 {
                     "date": 1725173939253,
                     "content": "Index: \n===================================================================\n--- \n+++ \n"
+                },
+                {
+                    "date": 1725429386285,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -40,9 +40,17 @@\n DEBUG = True\n ALLOWED_HOSTS = [host for host in os.getenv('ALLOWED_HOSTS').split(',') if host != '']\n \n # Application definition\n+# settings.py\n \n+# settings.py\n+\n+FILE_UPLOAD_MAX_MEMORY_SIZE = 850 * 1024 * 1024  # 850 MB\n+DATA_UPLOAD_MAX_MEMORY_SIZE = 850 * 1024 * 1024  # 850 MB\n+\n+\n+\n INSTALLED_APPS = [\n     # 'daphne',\n     # 'admin_interface',\n     'colorfield',\n@@ -84,10 +92,10 @@\n \n CORS_ORIGIN_ALLOW_ALL = True\n CORS_ORIGIN_WHITELIST = [white for white in os.getenv('CORS_ORIGIN_WHITELIST').split(',') if white != '']\n CSRF_TRUSTED_ORIGINS = [trusted for trusted in os.getenv('CSRF_TRUSTED_ORIGINS').split(',') if trusted != '']\n+print(CSRF_TRUSTED_ORIGINS, \"\\n csrf\")\n \n-\n MIDDLEWARE = [\n     'corsheaders.middleware.CorsMiddleware',\n     'django.middleware.common.CommonMiddleware',\n \n@@ -120,9 +128,9 @@\n \n WSGI_APPLICATION = 'trek.wsgi.application'\n \n # Database\n-# https://docs.djangoproject.com/en/4.1/ref/settings/#databases\n+#https://docs.djangoproject.com/en/4.1/ref/settings/#databases\n \n DATABASES = {\n     'default': {\n         'ENGINE': os.getenv('DATABASE_ENGINE'),\n@@ -177,9 +185,12 @@\n     BASE_DIR / \"static\",\n ]\n STATIC_ROOT = os.path.join(BASE_DIR,'staticfiles')\n MEDIA_ROOT = os.path.join(BASE_DIR,'media')\n+MEDIA_URL = '/media/'\n+MEDIA_ROOT = '/home/ubuntu/evrest_thrill/media/'\n \n+\n # Default primary key field type\n # https://docs.djangoproject.com/en/4.1/ref/settings/#default-auto-field\n \n DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'\n"
+                },
+                {
+                    "date": 1725429400681,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -186,9 +186,9 @@\n ]\n STATIC_ROOT = os.path.join(BASE_DIR,'staticfiles')\n MEDIA_ROOT = os.path.join(BASE_DIR,'media')\n MEDIA_URL = '/media/'\n-MEDIA_ROOT = '/home/ubuntu/evrest_thrill/media/'\n+# MEDIA_ROOT = '/home/ubuntu/evrest_thrill/media/'\n \n \n # Default primary key field type\n # https://docs.djangoproject.com/en/4.1/ref/settings/#default-auto-field\n"
+                },
+                {
+                    "date": 1725429533023,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -186,9 +186,9 @@\n ]\n STATIC_ROOT = os.path.join(BASE_DIR,'staticfiles')\n MEDIA_ROOT = os.path.join(BASE_DIR,'media')\n MEDIA_URL = '/media/'\n-# MEDIA_ROOT = '/home/ubuntu/evrest_thrill/media/'\n+MEDIA_ROOT = '/home/ubuntu/evrest_thrill/media/'\n \n \n # Default primary key field type\n # https://docs.djangoproject.com/en/4.1/ref/settings/#default-auto-field\n"
                 }
             ],
             "date": 1725173939253,

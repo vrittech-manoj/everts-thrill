@@ -212,7 +212,7 @@ class PermissionViewSet(viewsets.ModelViewSet):
 class PermissionAllDelete(APIView):
     authentication_classes = [JWTAuthentication]
     permission_classes = [IsAuthenticated]  
-    def get(self, request, format=None):  # sourcery skip: avoid-builtin-shadow
+    def get(self, request, format=None):  
         object = Permission.objects.all().delete()
         return Response({'message': 'All permission delete successful'}, status=status.HTTP_200_OK)
 
@@ -221,7 +221,7 @@ class CheckTokenExpireView(APIView):
         # Get the token from the request headers or query parameters
         try:
             raw_token = request.META.get('HTTP_AUTHORIZATION', '').split(' ')[1]
-        except:
+        except Exception:
             return Response({'valid': False}, status=status.HTTP_401_UNAUTHORIZED)
 
         try:
