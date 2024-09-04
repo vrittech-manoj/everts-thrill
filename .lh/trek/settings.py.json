@@ -3,7 +3,7 @@
     "activeCommit": 0,
     "commits": [
         {
-            "activePatchIndex": 3,
+            "activePatchIndex": 5,
             "patches": [
                 {
                     "date": 1725173939253,
@@ -20,6 +20,14 @@
                 {
                     "date": 1725429533023,
                     "content": "Index: \n===================================================================\n--- \n+++ \n@@ -186,9 +186,9 @@\n ]\n STATIC_ROOT = os.path.join(BASE_DIR,'staticfiles')\n MEDIA_ROOT = os.path.join(BASE_DIR,'media')\n MEDIA_URL = '/media/'\n-# MEDIA_ROOT = '/home/ubuntu/evrest_thrill/media/'\n+MEDIA_ROOT = '/home/ubuntu/evrest_thrill/media/'\n \n \n # Default primary key field type\n # https://docs.djangoproject.com/en/4.1/ref/settings/#default-auto-field\n"
+                },
+                {
+                    "date": 1725429915265,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -184,13 +184,13 @@\n STATICFILES_DIRS = [\n     BASE_DIR / \"static\",\n ]\n STATIC_ROOT = os.path.join(BASE_DIR,'staticfiles')\n-MEDIA_ROOT = os.path.join(BASE_DIR,'media')\n+# MEDIA_ROOT = os.path.join(BASE_DIR,'media')\n MEDIA_URL = '/media/'\n-MEDIA_ROOT = '/home/ubuntu/evrest_thrill/media/'\n \n \n+\n # Default primary key field type\n # https://docs.djangoproject.com/en/4.1/ref/settings/#default-auto-field\n \n DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'\n"
+                },
+                {
+                    "date": 1725430221165,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -184,10 +184,10 @@\n STATICFILES_DIRS = [\n     BASE_DIR / \"static\",\n ]\n STATIC_ROOT = os.path.join(BASE_DIR,'staticfiles')\n-# MEDIA_ROOT = os.path.join(BASE_DIR,'media')\n-MEDIA_URL = '/media/'\n+MEDIA_ROOT = os.path.join(BASE_DIR,'media')\n+MEDIA_URL = 'media/'\n \n \n \n # Default primary key field type\n"
                 }
             ],
             "date": 1725173939253,
