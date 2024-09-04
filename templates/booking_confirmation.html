@@ -75,6 +75,28 @@
             width: 25px;
             margin: 0 10px;
         }
+        .trip-details-box {
+            background-color: #f0f8ff;
+            padding: 15px;
+            border-radius: 10px;
+            margin: 20px 0;
+            display: flex;
+            align-items: center;
+        }
+        .trip-details-box .details {
+            flex: 1;
+        }
+        .trip-details-box .details p {
+            margin: 5px 0;
+        }
+        .trip-details-box img {
+            width: 100px;
+            margin-left: 20px;
+        }
+        .footer .social-icons img {
+            width: 24px;
+            margin: 0 10px;
+        }
     </style>
 </head>
 <body>
@@ -86,7 +108,7 @@
             <h1>New Trip Booking Notification – {{ destination }}</h1>
             <p>Dear {{ recipient_name }},</p>
             <p>Thank you for booking your adventure with us! Here are the details of your upcoming trip:</p>
-            <div class="trip-details">
+            <div class="trip-details-box">
                 <div class="trip-details-text">
                     <p><strong style="color: #00008B;">Trip Details:</strong></p>
                     <p><strong>Contact:</strong> {{ contact }}</p>
@@ -98,8 +120,10 @@
                     <p><strong>Preferred Service Type:</strong> {{ preferred_service_type|capfirst }}
                     </p>
                 </div>
-                <img src="https://api.everestthrills.com/media/gallery/images/calendar.gif"
-                 alt="Calendar Icon" style="width: 409.135px; height: 146px;">
+                <div class="w-full" style="display: flex; flex-grow: 1;">
+                    
+                </div>
+                <img src="https://api.everestthrills.com/media/gallery/images/calendar.gif" alt="Calendar Icon" style="width:409.135px; height: 146px;">
             </div>
             <p>We look forward to providing you with a memorable experience! Should you have any questions or need further assistance, please feel free to reach out.</p>
         </div>
