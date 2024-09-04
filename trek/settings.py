@@ -24,10 +24,8 @@ print(current_os, " operatitng system")
 
 if current_os == "Linux" and server_type == "AWS":
     dotenv_path = os.path.join(os.path.dirname(__file__), '.env') #server env
-    print(current_os ,f":{server_type} server env connected")
 else:
     dotenv_path = os.path.join(os.path.dirname(__file__), 'env_local') #this is local env
-    print(current_os , ":local env connected")
 load_dotenv(dotenv_path)
 
 # Quick-start development settings - unsuitable for production
@@ -93,7 +91,6 @@ AUTH_USER_MODEL = 'accounts.CustomUser'
 CORS_ORIGIN_ALLOW_ALL = True
 CORS_ORIGIN_WHITELIST = [white for white in os.getenv('CORS_ORIGIN_WHITELIST').split(',') if white != '']
 CSRF_TRUSTED_ORIGINS = [trusted for trusted in os.getenv('CSRF_TRUSTED_ORIGINS').split(',') if trusted != '']
-print(CSRF_TRUSTED_ORIGINS, "\n csrf")
 
 MIDDLEWARE = [
     'corsheaders.middleware.CorsMiddleware',
