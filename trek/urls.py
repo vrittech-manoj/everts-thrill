@@ -75,7 +75,7 @@ schema_view = get_schema_view(
       default_version='v1',
       description="Everest Thrill Trekking System",
       terms_of_service="https://www.google.com/policies/terms/",
-      contact=openapi.Contact(email="manojdas.py@gmail.com"),
+      contact=openapi.Contact(email="prashantkarna21@gmail.com"),
       license=openapi.License(name="No License"),
       **{'x-logo': {'url': 'your-logo-url'}},
    ),
