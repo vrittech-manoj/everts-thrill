@@ -35,7 +35,7 @@ class termandconditionViewsets(viewsets.ModelViewSet):
         description = request.data.get('description', None)
         
         if description is None:
-            return Response({"error": "Description is required."}, status=status.HTTP_400_BAD_REQUEST)
+            return Response({"data": None}, status=status.HTTP_200_OK)
         
         term_and_condition = TermAndCondition.objects.all()
         

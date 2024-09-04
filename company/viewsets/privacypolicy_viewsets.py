@@ -61,7 +61,7 @@ class privacypolicyViewsets(viewsets.ModelViewSet):
             privacy_policy = PrivacyPolicy.objects.first()
             
             if not privacy_policy:
-                return Response({"error": "Privacy policy not found."}, status=status.HTTP_404_NOT_FOUND)
+                return Response({"data": None}, status=status.HTTP_200_OK)
         
         except PrivacyPolicy.DoesNotExist:
             return Response({"error": "Privacy policy not found."}, status=status.HTTP_404_NOT_FOUND)
