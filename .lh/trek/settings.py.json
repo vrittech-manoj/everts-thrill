@@ -3,7 +3,7 @@
     "activeCommit": 0,
     "commits": [
         {
-            "activePatchIndex": 8,
+            "activePatchIndex": 9,
             "patches": [
                 {
                     "date": 1725173939253,
@@ -40,6 +40,10 @@
                 {
                     "date": 1725443407604,
                     "content": "Index: \n===================================================================\n--- \n+++ \n@@ -90,10 +90,10 @@\n \n CORS_ORIGIN_ALLOW_ALL = True\n CORS_ORIGIN_WHITELIST = [white for white in os.getenv('CORS_ORIGIN_WHITELIST').split(',') if white != '']\n CSRF_TRUSTED_ORIGINS = [trusted for trusted in os.getenv('CSRF_TRUSTED_ORIGINS').split(',') if trusted != '']\n-print(CSRF_TRUSTED_ORIGINS, \"\\n csrf\")\n \n+\n MIDDLEWARE = [\n     'corsheaders.middleware.CorsMiddleware',\n     'django.middleware.common.CommonMiddleware',\n \n"
+                },
+                {
+                    "date": 1725443503532,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -19,9 +19,8 @@\n # Build paths inside the project like this: BASE_DIR / 'subdir'.\n BASE_DIR = Path(__file__).resolve().parent.parent\n \n current_os = platform.system()\n-print(current_os, \" operatitng system\")\n \n if current_os == \"Linux\" and server_type == \"AWS\":\n     dotenv_path = os.path.join(os.path.dirname(__file__), '.env') #server env\n else:\n@@ -91,9 +90,8 @@\n CORS_ORIGIN_ALLOW_ALL = True\n CORS_ORIGIN_WHITELIST = [white for white in os.getenv('CORS_ORIGIN_WHITELIST').split(',') if white != '']\n CSRF_TRUSTED_ORIGINS = [trusted for trusted in os.getenv('CSRF_TRUSTED_ORIGINS').split(',') if trusted != '']\n \n-\n MIDDLEWARE = [\n     'corsheaders.middleware.CorsMiddleware',\n     'django.middleware.common.CommonMiddleware',\n \n"
                 }
             ],
             "date": 1725173939253,
