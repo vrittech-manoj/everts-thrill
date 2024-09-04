@@ -20,8 +20,7 @@ class visainformationViewsets(viewsets.ModelViewSet):
     ordering_fields = ['id']
 
     def get_queryset(self):
-        queryset = super().get_queryset()
-        return queryset
+        return super().get_queryset()
 
     def get_serializer_class(self):
         if self.action in ['create', 'update', 'partial_update']:
