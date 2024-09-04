@@ -3,11 +3,27 @@
     "activeCommit": 0,
     "commits": [
         {
-            "activePatchIndex": 0,
+            "activePatchIndex": 4,
             "patches": [
                 {
                     "date": 1725440330098,
                     "content": "Index: \n===================================================================\n--- \n+++ \n"
+                },
+                {
+                    "date": 1725440921148,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -48,24 +48,29 @@\n             # Create new visa information\n             new_visa_information = VisaInformation.objects.create(description=description)\n             return Response({\"message\": \"Visa information created successfully.\", \"id\": new_visa_information.id}, status=status.HTTP_201_CREATED)\n     \n+   from rest_framework.decorators import action\n+from rest_framework.response import Response\n+from rest_framework import status\n+\n+class VisaInformationViewSet(viewsets.ModelViewSet):\n+    queryset = VisaInformation.objects.all()\n+    serializer_class = VisaInformationSerializer\n+\n     @action(detail=False, methods=['get', 'put'], name=\"retrieve-update\", url_path=\"detail-visa-information\")\n     def retrieve_update_visa_information(self, request, *args, **kwargs):\n-        try:\n-            # Assuming there's only one visa information, get the first one.\n-            visa_information = VisaInformation.objects.first()\n-            \n-            if not visa_information:\n-                return Response({\"error\": \"Visa information not found.\"}, status=status.HTTP_404_NOT_FOUND)\n-        \n-        except VisaInformation.DoesNotExist:\n-            return Response({\"error\": \"Visa information not found.\"}, status=status.HTTP_404_NOT_FOUND)\n+        # Get the first visa information\n+        visa_information = VisaInformation.objects.first()\n \n+        # If no visa information exists, return null\n+        if not visa_information:\n+            return Response({\"data\": None}, status=status.HTTP_200_OK)\n+\n         if request.method == 'GET':\n             # Retrieve the visa information\n             serializer = VisaInformationRetrieveSerializers(visa_information)\n-            return Response(serializer.data, status=status.HTTP_200_OK)\n+            return Response({\"data\": serializer.data}, status=status.HTTP_200_OK)\n         \n         elif request.method == 'PUT':\n             # Update the visa information\n             description = request.data.get('description', None)\n"
+                },
+                {
+                    "date": 1725440928484,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -48,9 +48,9 @@\n             # Create new visa information\n             new_visa_information = VisaInformation.objects.create(description=description)\n             return Response({\"message\": \"Visa information created successfully.\", \"id\": new_visa_information.id}, status=status.HTTP_201_CREATED)\n     \n-   from rest_framework.decorators import action\n+    from rest_framework.decorators import action\n from rest_framework.response import Response\n from rest_framework import status\n \n class VisaInformationViewSet(viewsets.ModelViewSet):\n"
+                },
+                {
+                    "date": 1725440937612,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -48,16 +48,10 @@\n             # Create new visa information\n             new_visa_information = VisaInformation.objects.create(description=description)\n             return Response({\"message\": \"Visa information created successfully.\", \"id\": new_visa_information.id}, status=status.HTTP_201_CREATED)\n     \n-    from rest_framework.decorators import action\n-from rest_framework.response import Response\n-from rest_framework import status\n+   \n \n-class VisaInformationViewSet(viewsets.ModelViewSet):\n-    queryset = VisaInformation.objects.all()\n-    serializer_class = VisaInformationSerializer\n-\n     @action(detail=False, methods=['get', 'put'], name=\"retrieve-update\", url_path=\"detail-visa-information\")\n     def retrieve_update_visa_information(self, request, *args, **kwargs):\n         # Get the first visa information\n         visa_information = VisaInformation.objects.first()\n"
+                },
+                {
+                    "date": 1725440944500,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -48,10 +48,8 @@\n             # Create new visa information\n             new_visa_information = VisaInformation.objects.create(description=description)\n             return Response({\"message\": \"Visa information created successfully.\", \"id\": new_visa_information.id}, status=status.HTTP_201_CREATED)\n     \n-   \n-\n     @action(detail=False, methods=['get', 'put'], name=\"retrieve-update\", url_path=\"detail-visa-information\")\n     def retrieve_update_visa_information(self, request, *args, **kwargs):\n         # Get the first visa information\n         visa_information = VisaInformation.objects.first()\n"
                 }
             ],
             "date": 1725440330098,
