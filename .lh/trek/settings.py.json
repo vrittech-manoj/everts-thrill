@@ -3,7 +3,7 @@
     "activeCommit": 0,
     "commits": [
         {
-            "activePatchIndex": 9,
+            "activePatchIndex": 10,
             "patches": [
                 {
                     "date": 1725173939253,
@@ -44,6 +44,10 @@
                 {
                     "date": 1725443503532,
                     "content": "Index: \n===================================================================\n--- \n+++ \n@@ -19,9 +19,8 @@\n # Build paths inside the project like this: BASE_DIR / 'subdir'.\n BASE_DIR = Path(__file__).resolve().parent.parent\n \n current_os = platform.system()\n-print(current_os, \" operatitng system\")\n \n if current_os == \"Linux\" and server_type == \"AWS\":\n     dotenv_path = os.path.join(os.path.dirname(__file__), '.env') #server env\n else:\n@@ -91,9 +90,8 @@\n CORS_ORIGIN_ALLOW_ALL = True\n CORS_ORIGIN_WHITELIST = [white for white in os.getenv('CORS_ORIGIN_WHITELIST').split(',') if white != '']\n CSRF_TRUSTED_ORIGINS = [trusted for trusted in os.getenv('CSRF_TRUSTED_ORIGINS').split(',') if trusted != '']\n \n-\n MIDDLEWARE = [\n     'corsheaders.middleware.CorsMiddleware',\n     'django.middleware.common.CommonMiddleware',\n \n"
+                },
+                {
+                    "date": 1725528412916,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -19,13 +19,16 @@\n # Build paths inside the project like this: BASE_DIR / 'subdir'.\n BASE_DIR = Path(__file__).resolve().parent.parent\n \n current_os = platform.system()\n+print(current_os, \" operatitng system\")\n \n if current_os == \"Linux\" and server_type == \"AWS\":\n     dotenv_path = os.path.join(os.path.dirname(__file__), '.env') #server env\n+    print(current_os ,f\":{server_type} server env connected\")\n else:\n     dotenv_path = os.path.join(os.path.dirname(__file__), 'env_local') #this is local env\n+    print(current_os , \":local env connected\")\n load_dotenv(dotenv_path)\n \n # Quick-start development settings - unsuitable for production\n # See https://docs.djangoproject.com/en/4.2/howto/deployment/checklist/\n@@ -89,8 +92,9 @@\n \n CORS_ORIGIN_ALLOW_ALL = True\n CORS_ORIGIN_WHITELIST = [white for white in os.getenv('CORS_ORIGIN_WHITELIST').split(',') if white != '']\n CSRF_TRUSTED_ORIGINS = [trusted for trusted in os.getenv('CSRF_TRUSTED_ORIGINS').split(',') if trusted != '']\n+print(CSRF_TRUSTED_ORIGINS, \"\\n csrf\")\n \n MIDDLEWARE = [\n     'corsheaders.middleware.CorsMiddleware',\n     'django.middleware.common.CommonMiddleware',\n@@ -181,12 +185,9 @@\n     BASE_DIR / \"static\",\n ]\n STATIC_ROOT = os.path.join(BASE_DIR,'staticfiles')\n MEDIA_ROOT = os.path.join(BASE_DIR,'media')\n-MEDIA_URL = 'media/'\n \n-\n-\n # Default primary key field type\n # https://docs.djangoproject.com/en/4.1/ref/settings/#default-auto-field\n \n DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'\n@@ -245,5 +246,5 @@\n     \"127.0.0.1\",\n     # ...\n ]\n \n-SMS_KEY_PASSWORD = ''\n\\ No newline at end of file\n+SMS_KEY_PASSWORD = ''\n"
                 }
             ],
             "date": 1725173939253,
