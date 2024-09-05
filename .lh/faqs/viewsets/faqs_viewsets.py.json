@@ -3,7 +3,7 @@
     "activeCommit": 0,
     "commits": [
         {
-            "activePatchIndex": 6,
+            "activePatchIndex": 8,
             "patches": [
                 {
                     "date": 1725166549730,
@@ -32,6 +32,14 @@
                 {
                     "date": 1725170074647,
                     "content": "Index: \n===================================================================\n--- \n+++ \n@@ -16,9 +16,9 @@\n     ordering_fields = ['id']\n \n     filterset_fields = {\n         'title': ['exact'],\n-        'destination__id': ['exact'],\n+        'destination': ['exact'],\n     }\n \n     def get_queryset(self):\n         queryset = super().get_queryset()\n"
+                },
+                {
+                    "date": 1725531306112,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -0,0 +1,37 @@\n+from rest_framework import viewsets\n+from rest_framework.filters import SearchFilter, OrderingFilter\n+from django_filters.rest_framework import DjangoFilterBackend\n+from ..models import Faqs\n+from ..serializers.faqs_serializers import FaqsListSerializers, FaqsRetrieveSerializers, FaqsWriteSerializers\n+from ..utilities.importbase import *\n+\n+class faqsViewsets(viewsets.ModelViewSet):\n+    serializer_class = FaqsListSerializers\n+    permission_classes = [faqsPermission]\n+    pagination_class = MyPageNumberPagination\n+    # queryset = Faqs.objects.all().order_by(\"title\")\n+\n+    filter_backends = [SearchFilter, DjangoFilterBackend, OrderingFilter]\n+    search_fields = ['title']\n+    ordering_fields = ['id']\n+\n+    filterset_fields = {\n+        'title': ['exact'],\n+        'destination': ['exact'],\n+    }\n+\n+    def get_queryset(self):\n+        queryset = super().get_queryset()\n+        return queryset\n+\n+    def get_serializer_class(self):\n+        if self.action in ['create', 'update', 'partial_update']:\n+            return FaqsWriteSerializers\n+        elif self.action == 'retrieve':\n+            return FaqsRetrieveSerializers\n+        return super().get_serializer_class()\n+\n+    # @action(detail=False, methods=['get'], name=\"action_name\", url_path=\"url_path\")\n+    # def action_name(self, request, *args, **kwargs):\n+    #     return super().list(request, *args, **kwargs)\n+\n"
+                },
+                {
+                    "date": 1725531314347,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -8,9 +8,9 @@\n class faqsViewsets(viewsets.ModelViewSet):\n     serializer_class = FaqsListSerializers\n     permission_classes = [faqsPermission]\n     pagination_class = MyPageNumberPagination\n-    # queryset = Faqs.objects.all().order_by(\"title\")\n+    queryset = Faqs.objects.all()#.order_by(\"title\")\n \n     filter_backends = [SearchFilter, DjangoFilterBackend, OrderingFilter]\n     search_fields = ['title']\n     ordering_fields = ['id']\n@@ -34,41 +34,4 @@\n     # @action(detail=False, methods=['get'], name=\"action_name\", url_path=\"url_path\")\n     # def action_name(self, request, *args, **kwargs):\n     #     return super().list(request, *args, **kwargs)\n \n-from rest_framework import viewsets\n-from rest_framework.filters import SearchFilter, OrderingFilter\n-from django_filters.rest_framework import DjangoFilterBackend\n-from ..models import Faqs\n-from ..serializers.faqs_serializers import FaqsListSerializers, FaqsRetrieveSerializers, FaqsWriteSerializers\n-from ..utilities.importbase import *\n-\n-class faqsViewsets(viewsets.ModelViewSet):\n-    serializer_class = FaqsListSerializers\n-    permission_classes = [faqsPermission]\n-    pagination_class = MyPageNumberPagination\n-    queryset = Faqs.objects.all().order_by(\"title\")\n-\n-    filter_backends = [SearchFilter, DjangoFilterBackend, OrderingFilter]\n-    search_fields = ['title']\n-    ordering_fields = ['id']\n-\n-    filterset_fields = {\n-        'title': ['exact'],\n-        'destination': ['exact'],\n-    }\n-\n-    def get_queryset(self):\n-        queryset = super().get_queryset()\n-        return queryset\n-\n-    def get_serializer_class(self):\n-        if self.action in ['create', 'update', 'partial_update']:\n-            return FaqsWriteSerializers\n-        elif self.action == 'retrieve':\n-            return FaqsRetrieveSerializers\n-        return super().get_serializer_class()\n-\n-    # @action(detail=False, methods=['get'], name=\"action_name\", url_path=\"url_path\")\n-    # def action_name(self, request, *args, **kwargs):\n-    #     return super().list(request, *args, **kwargs)\n-\n"
                 }
             ],
             "date": 1725166549730,
