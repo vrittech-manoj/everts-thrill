@@ -3,7 +3,7 @@
     "activeCommit": 0,
     "commits": [
         {
-            "activePatchIndex": 15,
+            "activePatchIndex": 20,
             "patches": [
                 {
                     "date": 1724906622951,
@@ -68,6 +68,26 @@
                 {
                     "date": 1725341323824,
                     "content": "Index: \n===================================================================\n--- \n+++ \n@@ -10,9 +10,9 @@\n     title = models.CharField(max_length = 150,blank=True)\n     description = models.TextField(blank = True,null = True)\n     featured_image = models.ImageField(upload_to=\"blog/images\",null=True,blank=True)\n     created_date = models.DateTimeField(auto_now_add=True)\n-    created_by =\n+    created_by = models.CharField(max_length = 150,blank=True)\n     updated_date = models.DateTimeField(auto_now=True)\n     read_time = models.CharField(max_length = 150,default=\"10 mins\")\n     is_popular = models.BooleanField(default=False)\n   \n"
+                },
+                {
+                    "date": 1725526542532,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -6,9 +6,9 @@\n # Create your models here.\n class Blog(models.Model):\n     public_id = models.UUIDField(default=uuid.uuid4,editable=False,unique=True)\n     user = models.ForeignKey(CustomUser, related_name=\"user_blog\", on_delete=models.CASCADE,null=True)\n-    title = models.CharField(max_length = 150,blank=True)\n+    title = models.CharField(max_length = 150,unique = True)\n     description = models.TextField(blank = True,null = True)\n     featured_image = models.ImageField(upload_to=\"blog/images\",null=True,blank=True)\n     created_date = models.DateTimeField(auto_now_add=True)\n     created_by = models.CharField(max_length = 150,blank=True)\n"
+                },
+                {
+                    "date": 1725526563318,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -6,8 +6,9 @@\n # Create your models here.\n class Blog(models.Model):\n     public_id = models.UUIDField(default=uuid.uuid4,editable=False,unique=True)\n     user = models.ForeignKey(CustomUser, related_name=\"user_blog\", on_delete=models.CASCADE,null=True)\n+    slug = models.SlugField(unique=True, blank=True)\n     title = models.CharField(max_length = 150,unique = True)\n     description = models.TextField(blank = True,null = True)\n     featured_image = models.ImageField(upload_to=\"blog/images\",null=True,blank=True)\n     created_date = models.DateTimeField(auto_now_add=True)\n"
+                },
+                {
+                    "date": 1725526577412,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -18,5 +18,10 @@\n     is_popular = models.BooleanField(default=False)\n   \n     def __str__(self):\n         return self.title\n+    \n+     def save(self, *args, **kwargs):\n+        if not self.slug:\n+            self.slug = f'{slugify(self.destination_title)}'\n+\n     \n\\ No newline at end of file\n"
+                },
+                {
+                    "date": 1725526586114,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -21,7 +21,7 @@\n         return self.title\n     \n      def save(self, *args, **kwargs):\n         if not self.slug:\n-            self.slug = f'{slugify(self.destination_title)}'\n+            self.slug = f'{slugify(self.title)}'\n \n     \n\\ No newline at end of file\n"
+                },
+                {
+                    "date": 1725526603131,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -19,9 +19,9 @@\n   \n     def __str__(self):\n         return self.title\n     \n-     def save(self, *args, **kwargs):\n+    def save(self, *args, **kwargs):\n         if not self.slug:\n             self.slug = f'{slugify(self.title)}'\n \n     \n\\ No newline at end of file\n"
                 }
             ],
             "date": 1724906622951,

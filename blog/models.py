@@ -7,7 +7,8 @@ from accounts.models import CustomUser
 class Blog(models.Model):
     public_id = models.UUIDField(default=uuid.uuid4,editable=False,unique=True)
     user = models.ForeignKey(CustomUser, related_name="user_blog", on_delete=models.CASCADE,null=True)
-    title = models.CharField(max_length = 150,blank=True)
+    slug = models.SlugField(unique=True, blank=True)
+    title = models.CharField(max_length = 150,unique = True)
     description = models.TextField(blank = True,null = True)
     featured_image = models.ImageField(upload_to="blog/images",null=True,blank=True)
     created_date = models.DateTimeField(auto_now_add=True)
@@ -18,4 +19,9 @@ class Blog(models.Model):
   
     def __str__(self):
         return self.title
+    
+    def save(self, *args, **kwargs):
+        if not self.slug:
+            self.slug = f'{slugify(self.title)}'
+
     

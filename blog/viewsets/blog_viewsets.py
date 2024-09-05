@@ -12,6 +12,7 @@ class BlogViewSets(viewsets.ModelViewSet):
     filter_backends = [SearchFilter, DjangoFilterBackend, OrderingFilter]
     search_fields = ['title']
     ordering_fields = ['id', 'title', 'created_date']
+    lookup_field = "slug"
     
     filterset_fields = {
         'title': ['exact'],
