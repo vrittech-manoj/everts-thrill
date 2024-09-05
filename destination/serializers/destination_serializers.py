@@ -8,18 +8,18 @@ from django.db import transaction
 def str_to_list(data,value_to_convert):
     try:
         mutable_data = data.dict()
-    except:
+    except Exception:
         mutable_data = data
     value_to_convert_data = mutable_data[value_to_convert]
     if isinstance(value_to_convert_data,list):# type(value_to_convert_data) == list:
-        
+
         return mutable_data
     try:
         variations = ast.literal_eval(value_to_convert_data)
         mutable_data[value_to_convert] = variations
         return mutable_data
     except ValueError as e:
-        raise serializers.ValidationError({f'{value_to_convert}': str(e)})
+        raise serializers.ValidationError({f'{value_to_convert}': str(e)}) from e
     
 
 class PackageSerializers(serializers.ModelSerializer):
