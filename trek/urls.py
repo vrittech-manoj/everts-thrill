@@ -31,7 +31,7 @@ from accounts.urls import router as accounts_router
 from blog.urls import router as blog_router
 from destination.urls import router as destination_router
 from managements.urls import router as managements_router
-from payment.urls import router as payment_router
+# from payment.urls import router as payment_router
 from queries.urls import router as queries_router
 from services.urls import router as services_router
 from destination.routers.routers import router as destination_router
@@ -54,7 +54,7 @@ router.registry.extend(accounts_router.registry)
 router.registry.extend(blog_router.registry)
 router.registry.extend(destination_router.registry)
 router.registry.extend(managements_router.registry)
-router.registry.extend(payment_router.registry)
+# router.registry.extend(payment_router.registry)
 router.registry.extend(queries_router.registry)
 router.registry.extend(services_router.registry)
 router.registry.extend(airlines_router.registry)
@@ -75,7 +75,7 @@ schema_view = get_schema_view(
       default_version='v1',
       description="Everest Thrill Trekking System",
       terms_of_service="https://www.google.com/policies/terms/",
-      contact=openapi.Contact(email="manojdas.py@gmail.com"),
+      contact=openapi.Contact(email="prashantkarna21@gmail.com"),
       license=openapi.License(name="No License"),
       **{'x-logo': {'url': 'your-logo-url'}},
    ),
@@ -94,7 +94,7 @@ urlpatterns = [
     path('api/',include('destination.urls')),
     path('api/services/',include('services.urls')),
     path('api/queries/',include('queries.urls')),
-    path('api/managements/',include('managements.urls')),
+    # path('api/managements/',include('managements.urls')),
     path('api/',include('accountsmanagement.urls')),
     path('api/',include(collection_router.urls)),
     path('api/',include(activities_router.urls)),
@@ -114,4 +114,8 @@ urlpatterns = [
     #path('swagger<format>/', schema_view.without_ui(cache_timeout=0), name='schema-json'),
     path('', schema_view.with_ui('swagger', cache_timeout=0), name='schema-swagger-ui'),
     path('redoc/', schema_view.with_ui('redoc', cache_timeout=0), name='schema-redoc'),
-]+ static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+]
+
+
+if settings.DEBUG:
+    urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

@@ -20,8 +20,7 @@ class visainformationViewsets(viewsets.ModelViewSet):
     ordering_fields = ['id']
 
     def get_queryset(self):
-        queryset = super().get_queryset()
-        return queryset
+        return super().get_queryset()
 
     def get_serializer_class(self):
         if self.action in ['create', 'update', 'partial_update']:
@@ -52,20 +51,17 @@ class visainformationViewsets(viewsets.ModelViewSet):
     
     @action(detail=False, methods=['get', 'put'], name="retrieve-update", url_path="detail-visa-information")
     def retrieve_update_visa_information(self, request, *args, **kwargs):
-        try:
-            # Assuming there's only one visa information, get the first one.
-            visa_information = VisaInformation.objects.first()
-            
-            if not visa_information:
-                return Response({"error": "Visa information not found."}, status=status.HTTP_404_NOT_FOUND)
-        
-        except VisaInformation.DoesNotExist:
-            return Response({"error": "Visa information not found."}, status=status.HTTP_404_NOT_FOUND)
+        # Get the first visa information
+        visa_information = VisaInformation.objects.first()
+
+        # If no visa information exists, return null
+        if not visa_information:
+            return Response({"data": None}, status=status.HTTP_200_OK)
 
         if request.method == 'GET':
             # Retrieve the visa information
             serializer = VisaInformationRetrieveSerializers(visa_information)
-            return Response(serializer.data, status=status.HTTP_200_OK)
+            return Response({"data": serializer.data}, status=status.HTTP_200_OK)
         
         elif request.method == 'PUT':
             # Update the visa information

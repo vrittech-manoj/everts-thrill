@@ -3,7 +3,7 @@
     "activeCommit": 0,
     "commits": [
         {
-            "activePatchIndex": 10,
+            "activePatchIndex": 12,
             "patches": [
                 {
                     "date": 1725344503184,
@@ -48,6 +48,14 @@
                 {
                     "date": 1725344747101,
                     "content": "Index: \n===================================================================\n--- \n+++ \n@@ -211,9 +211,9 @@\n \n class PermissionAllDelete(APIView):\n     authentication_classes = [JWTAuthentication]\n     permission_classes = [IsAuthenticated]  \n-    def get(self, request, format=None):\n+    def get(self, request, format=None):  # sourcery skip: avoid-builtin-shadow\n         object = Permission.objects.all().delete()\n         return Response({'message': 'All permission delete successful'}, status=status.HTTP_200_OK)\n \n class CheckTokenExpireView(APIView): \n"
+                },
+                {
+                    "date": 1725429050511,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -220,9 +220,9 @@\n     def get(self, request, format=None):\n         # Get the token from the request headers or query parameters\n         try:\n             raw_token = request.META.get('HTTP_AUTHORIZATION', '').split(' ')[1]\n-        except:\n+        except Exception:\n             return Response({'valid': False}, status=status.HTTP_401_UNAUTHORIZED)\n \n         try:\n             # Verify the access token\n"
+                },
+                {
+                    "date": 1725429069156,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -211,9 +211,9 @@\n \n class PermissionAllDelete(APIView):\n     authentication_classes = [JWTAuthentication]\n     permission_classes = [IsAuthenticated]  \n-    def get(self, request, format=None):  # sourcery skip: avoid-builtin-shadow\n+    def get(self, request, format=None):  \n         object = Permission.objects.all().delete()\n         return Response({'message': 'All permission delete successful'}, status=status.HTTP_200_OK)\n \n class CheckTokenExpireView(APIView): \n"
                 }
             ],
             "date": 1725344503184,
