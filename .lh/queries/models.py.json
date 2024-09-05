@@ -1,0 +1,22 @@
+{
+    "sourceFile": "queries/models.py",
+    "activeCommit": 0,
+    "commits": [
+        {
+            "activePatchIndex": 1,
+            "patches": [
+                {
+                    "date": 1725521159356,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n"
+                },
+                {
+                    "date": 1725521206951,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -9,8 +9,8 @@\n \n class Queries(models.Model):\n     name = models.CharField(max_length = 100,null = True, blank = True)\n     phone = models.CharField(max_length=15,null=True , default = '')\n-    phone = models.CharField(max_length=15,null=True , default = '')\n+    email = models.EmailField(null=True,blank=True)\n     message = models.TextField(null = True, blank = True)\n     created_date = models.DateTimeField(auto_now_add=True, null = True,blank = True)\n     updated_date = models.DateTimeField(auto_now=True, null = True,blank = True)\n\\ No newline at end of file\n"
+                }
+            ],
+            "date": 1725521159356,
+            "name": "Commit-0",
+            "content": "from django.db import models\nfrom accounts.models import CustomUser\n\n# Create your models here.\n# class Queries(models.Model):\n#     user = models.ForeignKey(CustomUser,on_delete = models.CASCADE)\n#     message =  models.TextField()\n#     created_date = models.DateTimeField(auto_now_add=True)\n\nclass Queries(models.Model):\n    name = models.CharField(max_length = 100,null = True, blank = True)\n    phone = models.CharField(max_length=15,null=True , default = '')\n    phone = models.CharField(max_length=15,null=True , default = '')\n    message = models.TextField(null = True, blank = True)\n    created_date = models.DateTimeField(auto_now_add=True, null = True,blank = True)\n    updated_date = models.DateTimeField(auto_now=True, null = True,blank = True)"
+        }
+    ]
+}
