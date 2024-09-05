@@ -3,11 +3,11 @@ from rest_framework import status
 from ..models import Queries
 from rest_framework.filters import SearchFilter, OrderingFilter
 from django_filters.rest_framework import DjangoFilterBackend
-from ..serializers.queries_serializers import QueriesReadSerializers, QueriesWriteSerializers
+from ..serializers.queries_serializers import QueriesReadSerializers, QueriesWriteSerializers,QueriesListSerializers
 from ..utilities.importbase import *
 
 class QueriesViewsets(viewsets.ModelViewSet):
-    serializer_class = QueriesReadSerializers
+    serializer_class = QueriesListSerializers
     permission_classes = [AdminViewSetsPermission]
     authentication_classes = [JWTAuthentication]
     pagination_class = MyPageNumberPagination

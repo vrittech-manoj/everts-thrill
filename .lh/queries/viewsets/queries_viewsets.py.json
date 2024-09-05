@@ -3,11 +3,19 @@
     "activeCommit": 0,
     "commits": [
         {
-            "activePatchIndex": 0,
+            "activePatchIndex": 2,
             "patches": [
                 {
                     "date": 1724909786747,
                     "content": "Index: \n===================================================================\n--- \n+++ \n"
+                },
+                {
+                    "date": 1725520592338,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -6,9 +6,9 @@\n from ..serializers.queries_serializers import QueriesReadSerializers, QueriesWriteSerializers\n from ..utilities.importbase import *\n \n class QueriesViewsets(viewsets.ModelViewSet):\n-    serializer_class = QueriesReadSerializers\n+    serializer_class = QueriesListSerializers\n     permission_classes = [AdminViewSetsPermission]\n     authentication_classes = [JWTAuthentication]\n     pagination_class = MyPageNumberPagination\n     queryset = Queries.objects.all()\n"
+                },
+                {
+                    "date": 1725520598246,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -2,9 +2,9 @@\n from rest_framework import status\n from ..models import Queries\n from rest_framework.filters import SearchFilter, OrderingFilter\n from django_filters.rest_framework import DjangoFilterBackend\n-from ..serializers.queries_serializers import QueriesReadSerializers, QueriesWriteSerializers\n+from ..serializers.queries_serializers import QueriesReadSerializers, QueriesWriteSerializers,QueriesListSerializers\n from ..utilities.importbase import *\n \n class QueriesViewsets(viewsets.ModelViewSet):\n     serializer_class = QueriesListSerializers\n"
                 }
             ],
             "date": 1724909786747,
