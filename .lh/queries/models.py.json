@@ -3,7 +3,7 @@
     "activeCommit": 0,
     "commits": [
         {
-            "activePatchIndex": 2,
+            "activePatchIndex": 3,
             "patches": [
                 {
                     "date": 1725521159356,
@@ -16,6 +16,10 @@
                 {
                     "date": 1725521452717,
                     "content": "Index: \n===================================================================\n--- \n+++ \n@@ -7,9 +7,9 @@\n #     message =  models.TextField()\n #     created_date = models.DateTimeField(auto_now_add=True)\n \n class Queries(models.Model):\n-    name = models.CharField(max_length = 100,null = True, blank = True)\n+    full_name = models.CharField(max_length = 100,null = True, blank = True)\n     phone = models.CharField(max_length=15,null=True , default = '')\n     email = models.EmailField(null=True,blank=True)\n     message = models.TextField(null = True, blank = True)\n     created_date = models.DateTimeField(auto_now_add=True, null = True,blank = True)\n"
+                },
+                {
+                    "date": 1725521594459,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -7,9 +7,9 @@\n #     message =  models.TextField()\n #     created_date = models.DateTimeField(auto_now_add=True)\n \n class Queries(models.Model):\n-    full_name = models.CharField(max_length = 100,null = True, blank = True)\n+    name = models.CharField(max_length = 100,null = True, blank = True)\n     phone = models.CharField(max_length=15,null=True , default = '')\n     email = models.EmailField(null=True,blank=True)\n     message = models.TextField(null = True, blank = True)\n     created_date = models.DateTimeField(auto_now_add=True, null = True,blank = True)\n"
                 }
             ],
             "date": 1725521159356,
