@@ -38,7 +38,7 @@ class PopupWriteSerializers(serializers.ModelSerializer):
             popup_instance.save()
             popups.append(popup_instance)
             index += 1
-# TODO return all the data in payload
+        #TODO return all the data in payload
         return popups[0]
 
     def to_representation(self, instance):
