@@ -3,7 +3,7 @@
     "activeCommit": 0,
     "commits": [
         {
-            "activePatchIndex": 20,
+            "activePatchIndex": 23,
             "patches": [
                 {
                     "date": 1725167117986,
@@ -88,6 +88,18 @@
                 {
                     "date": 1725587140967,
                     "content": "Index: \n===================================================================\n--- \n+++ \n@@ -17,9 +17,9 @@\n         fields = ('title','id' 'description', 'faq_type', 'destination', 'created_at', )\n \n \n class FaqsRetrieveSerializers(serializers.ModelSerializer):\n-    faqs_for_destination = DestinationSerializers(many = True,read_only=True)\n+    destination = DestinationSerializers(many = True,read_only=True)\n     class Meta:\n         model = Faqs\n         fields = ('title','id' 'description', 'faq_type', 'destination', 'created_at', )\n \n"
+                },
+                {
+                    "date": 1725587329139,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -24,9 +24,8 @@\n         fields = ('title','id' 'description', 'faq_type', 'destination', 'created_at', )\n \n \n class FaqsWriteSerializers(serializers.ModelSerializer):\n-    # faqs_for_destination = DestinationSerializers(many = True)\n \n     class Meta:\n         model = Faqs\n         fields = '__all__'\n"
+                },
+                {
+                    "date": 1725587336842,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -9,9 +9,9 @@\n         ref_name = 'FaqsDestination'\n \n \n class FaqsListSerializers(serializers.ModelSerializer):\n-    destination = DestinationSerializers(many = True,read_only=True)\n+    destination = DestinationSerializers(read_only=True)\n \n     class Meta:\n         model = Faqs\n         fields = ('title','id' 'description', 'faq_type', 'destination', 'created_at', )\n"
+                },
+                {
+                    "date": 1725587349976,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -17,9 +17,9 @@\n         fields = ('title','id' 'description', 'faq_type', 'destination', 'created_at', )\n \n \n class FaqsRetrieveSerializers(serializers.ModelSerializer):\n-    destination = DestinationSerializers(many = True,read_only=True)\n+    destination = DestinationSerializers(read_only=True)\n     class Meta:\n         model = Faqs\n         fields = ('title','id' 'description', 'faq_type', 'destination', 'created_at', )\n \n"
                 }
             ],
             "date": 1725167117986,

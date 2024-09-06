@@ -10,7 +10,7 @@ class DestinationSerializers(serializers.ModelSerializer):
 
 
 class FaqsListSerializers(serializers.ModelSerializer):
-    destination = DestinationSerializers(many = True,read_only=True)
+    destination = DestinationSerializers(read_only=True)
 
     class Meta:
         model = Faqs
@@ -18,14 +18,13 @@ class FaqsListSerializers(serializers.ModelSerializer):
 
 
 class FaqsRetrieveSerializers(serializers.ModelSerializer):
-    destination = DestinationSerializers(many = True,read_only=True)
+    destination = DestinationSerializers(read_only=True)
     class Meta:
         model = Faqs
         fields = ('title','id' 'description', 'faq_type', 'destination', 'created_at', )
 
 
 class FaqsWriteSerializers(serializers.ModelSerializer):
-    # faqs_for_destination = DestinationSerializers(many = True)
 
     class Meta:
         model = Faqs
