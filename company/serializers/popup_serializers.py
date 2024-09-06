@@ -17,31 +17,40 @@ class PopupWriteSerializers(serializers.ModelSerializer):
         fields = '__all__'
 
     def create(self, validated_data):
-        popups = []
         request = self.context['request']
 
+        # Log the incoming request data and files
+        print(f"Request data: {request.data}")
+        print(f"Request files: {request.FILES}")
+
+        popups = []
+
         index = 0
-        while f'data[{index}][title]' in request.data:
-            title = request.data.get(f'data[{index}][title]')
-            url = request.data.get(f'data[{index}][url]')
-            image = request.FILES.get(f'data[{index}][image]', None)
+        while f'title_{index}' in request.data:
+            title = request.data.get(f'title_{index}')
+            url = request.data.get(f'url_{index}', '')
+            image = request.FILES.get(f'image_{index}', None)
 
             if not title:
-                raise serializers.ValidationError(f"Title is required for popup {index}.")
+                raise serializers.ValidationError(f"Title is required for popup {index + 1}.")
 
             if image:
                 popup_instance = Popup.objects.create(title=title, image=image, url=url)
-            
-            elif popup_instance.url:
-                popup_instance.url = popup_instance.image.url
             else:
                 popup_instance = Popup.objects.create(title=title, url=url)
 
             popup_instance.save()
             popups.append(popup_instance)
             index += 1
-# TODO return all the data in payload
-        return popups[0]
+
+        if not popups:
+            raise serializers.ValidationError("No popups were created.")
+
+        return popups
+
+
+
+
 
     def to_representation(self, instance):
         """Convert to a format that matches the original request structure."""
