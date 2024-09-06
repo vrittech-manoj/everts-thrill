@@ -35,7 +35,7 @@ class QueriesViewsets(viewsets.ModelViewSet):
         headers = self.get_success_headers(serializer.data)
         return Response(
             {
-                "message": "Query created successfully!",
+                "message": "Thank you for getting in touch with us. Our team will contact you shortly.",
                 "data": serializer.data
             }, 
             status=status.HTTP_201_CREATED, 
