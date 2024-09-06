@@ -5,13 +5,15 @@ from rest_framework.permissions import IsAuthenticated
 from rest_framework.filters import SearchFilter, OrderingFilter
 from django_filters.rest_framework import DjangoFilterBackend
 from ..utilities.permission import AdminViewSetsPermission
+from ..utilities.pagination import *
 
 class BlogViewSets(viewsets.ModelViewSet):
     queryset = Blog.objects.all().order_by('-created_date')
-    permission_classes = [AdminViewSetsPermission]  
+    permission_classes = [AdminViewSetsPermission] 
+    pagination_class = MyPageNumberPagination 
     filter_backends = [SearchFilter, DjangoFilterBackend, OrderingFilter]
-    search_fields = ['title', 'description']
-    ordering_fields = ['created_date', 'title']
+    search_fields = ['title']
+    ordering_fields = ['id', 'title', 'created_date']
     lookup_field = "slug"
     
     filterset_fields = {
@@ -20,7 +22,7 @@ class BlogViewSets(viewsets.ModelViewSet):
     }
 
     def get_queryset(self):
-        return Blog.objects.all()
+        return Blog.objects
     
 
     def get_serializer_class(self):
