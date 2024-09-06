@@ -21,14 +21,6 @@ class BlogViewSets(viewsets.ModelViewSet):
 
     def get_queryset(self):
         queryset = Blog.objects.all().order_by("created_date")
-        
-        # Check if 'is_popular' filter is present in the query parameters
-        is_popular_filter = self.request.query_params.get('is_popular')
-        
-        if is_popular_filter is not None:
-            # Filter the queryset to only include popular blogs
-            queryset = queryset.filter(is_popular=True)
-        
         return queryset
 
     def get_serializer_class(self):
