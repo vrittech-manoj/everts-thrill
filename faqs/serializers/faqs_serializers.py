@@ -14,14 +14,14 @@ class FaqsListSerializers(serializers.ModelSerializer):
 
     class Meta:
         model = Faqs
-        fields = ('title','id' 'description', 'faq_type', 'destination', 'created_at', )
+        fields = ('title','id', 'description', 'faq_type', 'destination', 'created_at', )
 
 
 class FaqsRetrieveSerializers(serializers.ModelSerializer):
     destination = DestinationSerializers(read_only=True)
     class Meta:
         model = Faqs
-        fields = ('title','id' 'description', 'faq_type', 'destination', 'created_at', )
+        fields = ('title','id','description', 'faq_type', 'destination', 'created_at', )
 
 
 class FaqsWriteSerializers(serializers.ModelSerializer):
