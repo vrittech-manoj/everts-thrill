@@ -22,6 +22,9 @@ class AccountPermission(BasePermission):
         method_name = view.action
         if method_name in ['list', 'create', 'retrieve']:
             return True
+        elif method_name in ['GetSelfDetail']:
+            return IsAuthenticated(request)
+    
         elif method_name == 'partial_update':
             return ownerPermission(request,view,'id')
         elif method_name == 'update':

@@ -68,6 +68,9 @@ class CustomUserSerializerViewSet(viewsets.ModelViewSet):
     def get_queryset(self):
         user = self.request.user
         queryset = CustomUser.objects.all().order_by('-id')
+
+        if self.action == "GetSelfDetail":
+            return CustomUser.objects.filter(id=self.request.user.id)
         
         if not user.is_authenticated:
             query = CustomUser.objects.none()
@@ -130,6 +133,11 @@ class CustomUserSerializerViewSet(viewsets.ModelViewSet):
 
             # Return the custom response
         return Response(response_data, status=status.HTTP_201_CREATED)
+    
+   
+    @action(detail=False, methods=['get'], name="GetSelfDetail", url_path="me")
+    def GetSelfDetail(self, request, *args, **kwargs):
+        return super().list(request, *args, **kwargs)   
     
 class RoleViewSet(APIView):
     # authentication_classes = [JWTAuthentication]
