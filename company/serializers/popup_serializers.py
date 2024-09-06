@@ -31,7 +31,7 @@ class PopupWriteSerializers(serializers.ModelSerializer):
 
             if image:
                 popup_instance = Popup.objects.create(title=title, image=image, url=url)
-                popup_instance.url = popup_instance.image.url
+                # popup_instance.url = popup_instance.image.url
             else:
                 popup_instance = Popup.objects.create(title=title, url=url)
 
