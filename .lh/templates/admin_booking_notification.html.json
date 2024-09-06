@@ -3,7 +3,7 @@
     "activeCommit": 0,
     "commits": [
         {
-            "activePatchIndex": 18,
+            "activePatchIndex": 20,
             "patches": [
                 {
                     "date": 1725252227249,
@@ -80,6 +80,14 @@
                 {
                     "date": 1725526002130,
                     "content": "Index: \n===================================================================\n--- \n+++ \n@@ -102,9 +102,9 @@\n </head>\n <body>\n     <div class=\"email-container\">\n         <div class=\"header\">\n-            <img src=\"https://api.everestthrills.com/media/gallery/images/Logo.png\" alt=\"Everest Thrill Logo\">\n+            <img src=\"https://api.everestthrills.com/gallery/images/Logo_osllZSB.png\" alt=\"Everest Thrill Logo\">\n         </div>\n         <div class=\"content\">\n             <h1>New Trip Booking Notification – {{ recipient_name }}</h1>\n             <p>Dear {{ admin_name }},</p>\n"
+                },
+                {
+                    "date": 1725617827399,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -102,9 +102,9 @@\n </head>\n <body>\n     <div class=\"email-container\">\n         <div class=\"header\">\n-            <img src=\"https://api.everestthrills.com/gallery/images/Logo_osllZSB.png\" alt=\"Everest Thrill Logo\">\n+            <img src=\"https://api.everestthrills.com/gallery/images/Logo_fNOYaHP.png\" alt=\"Everest Thrill Logo\">\n         </div>\n         <div class=\"content\">\n             <h1>New Trip Booking Notification – {{ recipient_name }}</h1>\n             <p>Dear {{ admin_name }},</p>\n"
+                },
+                {
+                    "date": 1725617875646,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -121,9 +121,9 @@\n                     <p><strong>Departure Date:</strong> {{ departure_date }}</p>\n                     <p><strong>Preferred Service Type:</strong>{{ preferred_service_type|capfirst }}\n                     </p>\n                 </div>\n-                <img src=\"https://api.everestthrills.com/gallery/images/calendar_XSpjtK5.gif\" alt=\"Calendar Icon\" style=\"width: 409.135px; height: 146px;\">\n+                <img src=\"https://api.everestthrills.com/gallery/images/calendar_DiYKO8g.gif\" alt=\"Calendar Icon\" style=\"width: 409.135px; height: 146px;\">\n             </div>\n             <p>Please review this booking and make the necessary arrangements.</p>\n         </div>\n         <div class=\"footer\">\n"
                 }
             ],
             "date": 1725252227249,
