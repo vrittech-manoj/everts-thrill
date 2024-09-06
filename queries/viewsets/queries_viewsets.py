@@ -3,11 +3,11 @@ from rest_framework import status
 from ..models import Queries
 from rest_framework.filters import SearchFilter, OrderingFilter
 from django_filters.rest_framework import DjangoFilterBackend
-from ..serializers.queries_serializers import QueriesReadSerializers, QueriesWriteSerializers
+from ..serializers.queries_serializers import QueriesReadSerializers, QueriesWriteSerializers,QueriesListSerializers
 from ..utilities.importbase import *
 
 class QueriesViewsets(viewsets.ModelViewSet):
-    serializer_class = QueriesReadSerializers
+    serializer_class = QueriesListSerializers
     permission_classes = [AdminViewSetsPermission]
     authentication_classes = [JWTAuthentication]
     pagination_class = MyPageNumberPagination
@@ -35,7 +35,7 @@ class QueriesViewsets(viewsets.ModelViewSet):
         headers = self.get_success_headers(serializer.data)
         return Response(
             {
-                "message": "Query created successfully!",
+                "message": "Thank you for getting in touch with us. Our team will contact you shortly.",
                 "data": serializer.data
             }, 
             status=status.HTTP_201_CREATED, 

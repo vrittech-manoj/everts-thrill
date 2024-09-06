@@ -1,0 +1,30 @@
+{
+    "sourceFile": "queries/admin.py",
+    "activeCommit": 0,
+    "commits": [
+        {
+            "activePatchIndex": 3,
+            "patches": [
+                {
+                    "date": 1725520738465,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n"
+                },
+                {
+                    "date": 1725520745343,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -1,4 +1,6 @@\n from django.contrib import admin\n-from .models import \n+from .models import Queries\n \n+admin\n+\n # Register your models here.\n"
+                },
+                {
+                    "date": 1725520763477,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -1,6 +1,7 @@\n from django.contrib import admin\n from .models import Queries\n \n-admin\n+admin.site.register([SiteSetting])\n \n+\n # Register your models here.\n"
+                },
+                {
+                    "date": 1725520769813,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -1,7 +1,7 @@\n from django.contrib import admin\n from .models import Queries\n \n-admin.site.register([SiteSetting])\n+admin.site.register(Queries])\n \n \n # Register your models here.\n"
+                }
+            ],
+            "date": 1725520738465,
+            "name": "Commit-0",
+            "content": "from django.contrib import admin\nfrom .models import \n\n# Register your models here.\n"
+        }
+    ]
+}

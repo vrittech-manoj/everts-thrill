@@ -3,11 +3,111 @@
     "activeCommit": 0,
     "commits": [
         {
-            "activePatchIndex": 0,
+            "activePatchIndex": 25,
             "patches": [
                 {
                     "date": 1725167117986,
                     "content": "Index: \n===================================================================\n--- \n+++ \n"
+                },
+                {
+                    "date": 1725534683697,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -4,9 +4,9 @@\n \n class DestinationSerializers(serializers.ModelSerializer):\n     class Meta:\n         model = Destination\n-        fields = '__all__'\n+        fields = \n         ref_name = 'FaqsDestination'\n \n class FaqsListSerializers(serializers.ModelSerializer):\n     faqs_for_destination = DestinationSerializers(read_only=True)\n"
+                },
+                {
+                    "date": 1725534688919,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -4,9 +4,9 @@\n \n class DestinationSerializers(serializers.ModelSerializer):\n     class Meta:\n         model = Destination\n-        fields = \n+        fields = ['destination_title',]\n         ref_name = 'FaqsDestination'\n \n class FaqsListSerializers(serializers.ModelSerializer):\n     faqs_for_destination = DestinationSerializers(read_only=True)\n"
+                },
+                {
+                    "date": 1725534740920,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -4,9 +4,9 @@\n \n class DestinationSerializers(serializers.ModelSerializer):\n     class Meta:\n         model = Destination\n-        fields = ['destination_title',]\n+        fields = ['destination_title','id']\n         ref_name = 'FaqsDestination'\n \n class FaqsListSerializers(serializers.ModelSerializer):\n     faqs_for_destination = DestinationSerializers(read_only=True)\n@@ -20,9 +20,8 @@\n         model = Faqs\n         fields = '__all__'\n \n class FaqsWriteSerializers(serializers.ModelSerializer):\n-    destinations_faq_detail = serializers.SerializerMethodField()\n \n     class Meta:\n         model = Faqs\n         fields = '__all__'\n"
+                },
+                {
+                    "date": 1725534746847,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -20,11 +20,7 @@\n         model = Faqs\n         fields = '__all__'\n \n class FaqsWriteSerializers(serializers.ModelSerializer):\n-\n     class Meta:\n         model = Faqs\n         fields = '__all__'\n-\n-    def get_destinations_faq_detail(self, obj):\n-        return DestinationSerializers(obj.destination).data\n"
+                },
+                {
+                    "date": 1725534991222,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -4,9 +4,9 @@\n \n class DestinationSerializers(serializers.ModelSerializer):\n     class Meta:\n         model = Destination\n-        fields = ['destination_title','id']\n+        fields = '__all__'\n         ref_name = 'FaqsDestination'\n \n class FaqsListSerializers(serializers.ModelSerializer):\n     faqs_for_destination = DestinationSerializers(read_only=True)\n@@ -20,7 +20,12 @@\n         model = Faqs\n         fields = '__all__'\n \n class FaqsWriteSerializers(serializers.ModelSerializer):\n+    destinations_faq_detail = serializers.SerializerMethodField()\n+\n     class Meta:\n         model = Faqs\n         fields = '__all__'\n+\n+    def get_destinations_faq_detail(self, obj):\n+        return DestinationSerializers(obj.destination).data\n"
+                },
+                {
+                    "date": 1725586417138,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -7,25 +7,47 @@\n         model = Destination\n         fields = '__all__'\n         ref_name = 'FaqsDestination'\n \n+\n class FaqsListSerializers(serializers.ModelSerializer):\n     faqs_for_destination = DestinationSerializers(read_only=True)\n+\n     class Meta:\n         model = Faqs\n         fields = '__all__'\n \n+\n class FaqsRetrieveSerializers(serializers.ModelSerializer):\n     faqs_for_destination = DestinationSerializers(read_only=True)\n+\n     class Meta:\n         model = Faqs\n         fields = '__all__'\n \n+\n class FaqsWriteSerializers(serializers.ModelSerializer):\n-    destinations_faq_detail = serializers.SerializerMethodField()\n+    faqs_for_destination = DestinationSerializers()\n \n     class Meta:\n         model = Faqs\n         fields = '__all__'\n \n-    def get_destinations_faq_detail(self, obj):\n-        return DestinationSerializers(obj.destination).data\n+    def create(self, validated_data):\n+        destination_data = validated_data.pop('faqs_for_destination')\n+        destination_instance = Destination.objects.create(**destination_data)\n+        faqs_instance = Faqs.objects.create(faqs_for_destination=destination_instance, **validated_data)\n+        return faqs_instance\n+\n+    def update(self, instance, validated_data):\n+        destination_data = validated_data.pop('faqs_for_destination', None)\n+\n+        if destination_data:\n+            destination_instance = instance.faqs_for_destination\n+            for key, value in destination_data.items():\n+                setattr(destination_instance, key, value)\n+            destination_instance.save()\n+\n+        for attr, value in validated_data.items():\n+            setattr(instance, attr, value)\n+        instance.save()\n+        return instance\n"
+                },
+                {
+                    "date": 1725586578220,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -31,23 +31,23 @@\n     class Meta:\n         model = Faqs\n         fields = '__all__'\n \n-    def create(self, validated_data):\n-        destination_data = validated_data.pop('faqs_for_destination')\n-        destination_instance = Destination.objects.create(**destination_data)\n-        faqs_instance = Faqs.objects.create(faqs_for_destination=destination_instance, **validated_data)\n-        return faqs_instance\n+    # def create(self, validated_data):\n+    #     destination_data = validated_data.pop('faqs_for_destination')\n+    #     destination_instance = Destination.objects.create(**destination_data)\n+    #     faqs_instance = Faqs.objects.create(faqs_for_destination=destination_instance, **validated_data)\n+    #     return faqs_instance\n \n-    def update(self, instance, validated_data):\n-        destination_data = validated_data.pop('faqs_for_destination', None)\n+    # def update(self, instance, validated_data):\n+    #     destination_data = validated_data.pop('faqs_for_destination', None)\n \n-        if destination_data:\n-            destination_instance = instance.faqs_for_destination\n-            for key, value in destination_data.items():\n-                setattr(destination_instance, key, value)\n-            destination_instance.save()\n+    #     if destination_data:\n+    #         destination_instance = instance.faqs_for_destination\n+    #         for key, value in destination_data.items():\n+    #             setattr(destination_instance, key, value)\n+    #         destination_instance.save()\n \n-        for attr, value in validated_data.items():\n-            setattr(instance, attr, value)\n-        instance.save()\n-        return instance\n+    #     for attr, value in validated_data.items():\n+    #         setattr(instance, attr, value)\n+    #     instance.save()\n+    #     return instance\n"
+                },
+                {
+                    "date": 1725586741255,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -9,9 +9,9 @@\n         ref_name = 'FaqsDestination'\n \n \n class FaqsListSerializers(serializers.ModelSerializer):\n-    faqs_for_destination = DestinationSerializers(read_only=True)\n+    faqs_for_destination = DestinationSerializers(many = Trueread_only=True)\n \n     class Meta:\n         model = Faqs\n         fields = '__all__'\n"
+                },
+                {
+                    "date": 1725586754560,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -9,17 +9,17 @@\n         ref_name = 'FaqsDestination'\n \n \n class FaqsListSerializers(serializers.ModelSerializer):\n-    faqs_for_destination = DestinationSerializers(many = Trueread_only=True)\n+    faqs_for_destination = DestinationSerializers(many = True,read_only=True)\n \n     class Meta:\n         model = Faqs\n         fields = '__all__'\n \n \n class FaqsRetrieveSerializers(serializers.ModelSerializer):\n-    faqs_for_destination = DestinationSerializers(read_only=True)\n+    faqs_for_destination = DestinationSerializers(many = True,read_only=True)\n \n     class Meta:\n         model = Faqs\n         fields = '__all__'\n"
+                },
+                {
+                    "date": 1725586778964,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -25,9 +25,9 @@\n         fields = '__all__'\n \n \n class FaqsWriteSerializers(serializers.ModelSerializer):\n-    faqs_for_destination = DestinationSerializers()\n+    faqs_for_destination = DestinationSerializers(many = True)\n \n     class Meta:\n         model = Faqs\n         fields = '__all__'\n"
+                },
+                {
+                    "date": 1725587026401,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -31,23 +31,5 @@\n     class Meta:\n         model = Faqs\n         fields = '__all__'\n \n-    # def create(self, validated_data):\n-    #     destination_data = validated_data.pop('faqs_for_destination')\n-    #     destination_instance = Destination.objects.create(**destination_data)\n-    #     faqs_instance = Faqs.objects.create(faqs_for_destination=destination_instance, **validated_data)\n-    #     return faqs_instance\n-\n-    # def update(self, instance, validated_data):\n-    #     destination_data = validated_data.pop('faqs_for_destination', None)\n-\n-    #     if destination_data:\n-    #         destination_instance = instance.faqs_for_destination\n-    #         for key, value in destination_data.items():\n-    #             setattr(destination_instance, key, value)\n-    #         destination_instance.save()\n-\n-    #     for attr, value in validated_data.items():\n-    #         setattr(instance, attr, value)\n-    #     instance.save()\n-    #     return instance\n+    \n\\ No newline at end of file\n"
+                },
+                {
+                    "date": 1725587033058,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -18,16 +18,15 @@\n \n \n class FaqsRetrieveSerializers(serializers.ModelSerializer):\n     faqs_for_destination = DestinationSerializers(many = True,read_only=True)\n-\n     class Meta:\n         model = Faqs\n         fields = '__all__'\n \n \n class FaqsWriteSerializers(serializers.ModelSerializer):\n-    faqs_for_destination = DestinationSerializers(many = True)\n+    # faqs_for_destination = DestinationSerializers(many = True)\n \n     class Meta:\n         model = Faqs\n         fields = '__all__'\n"
+                },
+                {
+                    "date": 1725587053009,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -4,9 +4,9 @@\n \n class DestinationSerializers(serializers.ModelSerializer):\n     class Meta:\n         model = Destination\n-        fields = '__all__'\n+        fields = ['destination_title']\n         ref_name = 'FaqsDestination'\n \n \n class FaqsListSerializers(serializers.ModelSerializer):\n"
+                },
+                {
+                    "date": 1725587058262,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -4,9 +4,9 @@\n \n class DestinationSerializers(serializers.ModelSerializer):\n     class Meta:\n         model = Destination\n-        fields = ['destination_title']\n+        fields = ['destination_title','id']\n         ref_name = 'FaqsDestination'\n \n \n class FaqsListSerializers(serializers.ModelSerializer):\n"
+                },
+                {
+                    "date": 1725587081216,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -13,9 +13,9 @@\n     faqs_for_destination = DestinationSerializers(many = True,read_only=True)\n \n     class Meta:\n         model = Faqs\n-        fields = '__all__'\n+        fields = \n \n \n class FaqsRetrieveSerializers(serializers.ModelSerializer):\n     faqs_for_destination = DestinationSerializers(many = True,read_only=True)\n"
+                },
+                {
+                    "date": 1725587088571,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -13,9 +13,9 @@\n     faqs_for_destination = DestinationSerializers(many = True,read_only=True)\n \n     class Meta:\n         model = Faqs\n-        fields = \n+        fields = ('title', 'description', 'faq_type', 'destination', 'created_at', 'updated_at', )\n \n \n class FaqsRetrieveSerializers(serializers.ModelSerializer):\n     faqs_for_destination = DestinationSerializers(many = True,read_only=True)\n"
+                },
+                {
+                    "date": 1725587100561,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -13,9 +13,9 @@\n     faqs_for_destination = DestinationSerializers(many = True,read_only=True)\n \n     class Meta:\n         model = Faqs\n-        fields = ('title', 'description', 'faq_type', 'destination', 'created_at', 'updated_at', )\n+        fields = ('title','id' 'description', 'faq_type', 'destination', 'created_at' )\n \n \n class FaqsRetrieveSerializers(serializers.ModelSerializer):\n     faqs_for_destination = DestinationSerializers(many = True,read_only=True)\n"
+                },
+                {
+                    "date": 1725587111172,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -13,16 +13,16 @@\n     faqs_for_destination = DestinationSerializers(many = True,read_only=True)\n \n     class Meta:\n         model = Faqs\n-        fields = ('title','id' 'description', 'faq_type', 'destination', 'created_at' )\n+        fields = ('title','id' 'description', 'faq_type', 'destination', 'created_at', )\n \n \n class FaqsRetrieveSerializers(serializers.ModelSerializer):\n     faqs_for_destination = DestinationSerializers(many = True,read_only=True)\n     class Meta:\n         model = Faqs\n-        fields = '__all__'\n+        fields = ('title','id' 'description', 'faq_type', 'destination', 'created_at', )\n \n \n class FaqsWriteSerializers(serializers.ModelSerializer):\n     # faqs_for_destination = DestinationSerializers(many = True)\n"
+                },
+                {
+                    "date": 1725587135710,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -9,9 +9,9 @@\n         ref_name = 'FaqsDestination'\n \n \n class FaqsListSerializers(serializers.ModelSerializer):\n-    faqs_for_destination = DestinationSerializers(many = True,read_only=True)\n+    destination = DestinationSerializers(many = True,read_only=True)\n \n     class Meta:\n         model = Faqs\n         fields = ('title','id' 'description', 'faq_type', 'destination', 'created_at', )\n"
+                },
+                {
+                    "date": 1725587140967,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -17,9 +17,9 @@\n         fields = ('title','id' 'description', 'faq_type', 'destination', 'created_at', )\n \n \n class FaqsRetrieveSerializers(serializers.ModelSerializer):\n-    faqs_for_destination = DestinationSerializers(many = True,read_only=True)\n+    destination = DestinationSerializers(many = True,read_only=True)\n     class Meta:\n         model = Faqs\n         fields = ('title','id' 'description', 'faq_type', 'destination', 'created_at', )\n \n"
+                },
+                {
+                    "date": 1725587329139,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -24,9 +24,8 @@\n         fields = ('title','id' 'description', 'faq_type', 'destination', 'created_at', )\n \n \n class FaqsWriteSerializers(serializers.ModelSerializer):\n-    # faqs_for_destination = DestinationSerializers(many = True)\n \n     class Meta:\n         model = Faqs\n         fields = '__all__'\n"
+                },
+                {
+                    "date": 1725587336842,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -9,9 +9,9 @@\n         ref_name = 'FaqsDestination'\n \n \n class FaqsListSerializers(serializers.ModelSerializer):\n-    destination = DestinationSerializers(many = True,read_only=True)\n+    destination = DestinationSerializers(read_only=True)\n \n     class Meta:\n         model = Faqs\n         fields = ('title','id' 'description', 'faq_type', 'destination', 'created_at', )\n"
+                },
+                {
+                    "date": 1725587349976,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -17,9 +17,9 @@\n         fields = ('title','id' 'description', 'faq_type', 'destination', 'created_at', )\n \n \n class FaqsRetrieveSerializers(serializers.ModelSerializer):\n-    destination = DestinationSerializers(many = True,read_only=True)\n+    destination = DestinationSerializers(read_only=True)\n     class Meta:\n         model = Faqs\n         fields = ('title','id' 'description', 'faq_type', 'destination', 'created_at', )\n \n"
+                },
+                {
+                    "date": 1725587414419,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -13,9 +13,9 @@\n     destination = DestinationSerializers(read_only=True)\n \n     class Meta:\n         model = Faqs\n-        fields = ('title','id' 'description', 'faq_type', 'destination', 'created_at', )\n+        fields = ('title','id', 'description', 'faq_type', 'destination', 'created_at', )\n \n \n class FaqsRetrieveSerializers(serializers.ModelSerializer):\n     destination = DestinationSerializers(read_only=True)\n"
+                },
+                {
+                    "date": 1725587421443,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -20,9 +20,9 @@\n class FaqsRetrieveSerializers(serializers.ModelSerializer):\n     destination = DestinationSerializers(read_only=True)\n     class Meta:\n         model = Faqs\n-        fields = ('title','id' 'description', 'faq_type', 'destination', 'created_at', )\n+        fields = ('title','id','description', 'faq_type', 'destination', 'created_at', )\n \n \n class FaqsWriteSerializers(serializers.ModelSerializer):\n \n"
                 }
             ],
             "date": 1725167117986,

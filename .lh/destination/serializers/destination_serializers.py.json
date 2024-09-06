@@ -3,7 +3,7 @@
     "activeCommit": 0,
     "commits": [
         {
-            "activePatchIndex": 14,
+            "activePatchIndex": 17,
             "patches": [
                 {
                     "date": 1724929074297,
@@ -64,6 +64,18 @@
                 {
                     "date": 1725173438721,
                     "content": "Index: \n===================================================================\n--- \n+++ \n@@ -118,16 +118,9 @@\n \n     class Meta:\n         model = Destination\n         fields = '__all__'\n-        \n-    def to_representation(self, instance):\n-        representation = super().to_representation(instance)\n-        # Conditionally remove price fields if is_price is False\n-        if not instance.is_price:\n-            representation.pop('price', None)\n-            representation.pop('price_type', None)\n-        return representation\n+    \n \n class DestinationRetrieveAdminSerializers(serializers.ModelSerializer):\n     galleryimages = DestinationGalleryImagesSerializer(many=True, read_only=True)\n     destination_departures = DepartureSerializer(many=True, read_only=True)\n"
+                },
+                {
+                    "date": 1725518639410,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -1,5 +1,5 @@\n-from rest_framework import serializers\n+`from rest_framework import serializers\n from ..models import Destination, DestinationGalleryImages, Departure, Package\n from destination.serializers.package_serializers import PackageRetrieveSerializers\n import ast\n from django.db import transaction\n"
+                },
+                {
+                    "date": 1725526192039,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -1,5 +1,5 @@\n-`from rest_framework import serializers\n+from rest_framework import serializers\n from ..models import Destination, DestinationGalleryImages, Departure, Package\n from destination.serializers.package_serializers import PackageRetrieveSerializers\n import ast\n from django.db import transaction\n@@ -11,16 +11,16 @@\n     except:\n         mutable_data = data\n     value_to_convert_data = mutable_data[value_to_convert]\n     if isinstance(value_to_convert_data,list):# type(value_to_convert_data) == list:\n-        \n+\n         return mutable_data\n     try:\n         variations = ast.literal_eval(value_to_convert_data)\n         mutable_data[value_to_convert] = variations\n         return mutable_data\n     except ValueError as e:\n-        raise serializers.ValidationError({f'{value_to_convert}': str(e)})\n+        raise serializers.ValidationError({f'{value_to_convert}': str(e)}) from e\n     \n \n class PackageSerializers(serializers.ModelSerializer):\n     class Meta:\n"
+                },
+                {
+                    "date": 1725526199159,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -7,9 +7,9 @@\n \n def str_to_list(data,value_to_convert):\n     try:\n         mutable_data = data.dict()\n-    except:\n+    except Exception:\n         mutable_data = data\n     value_to_convert_data = mutable_data[value_to_convert]\n     if isinstance(value_to_convert_data,list):# type(value_to_convert_data) == list:\n \n"
                 }
             ],
             "date": 1724929074297,

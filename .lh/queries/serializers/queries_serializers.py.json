@@ -1,0 +1,26 @@
+{
+    "sourceFile": "queries/serializers/queries_serializers.py",
+    "activeCommit": 0,
+    "commits": [
+        {
+            "activePatchIndex": 2,
+            "patches": [
+                {
+                    "date": 1725520555539,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n"
+                },
+                {
+                    "date": 1725520562444,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -6,8 +6,13 @@\n     class Meta:\n         model = CustomUser\n         fields = ['full_name','phone']\n \n+class QueriesReadSerializers(serializers.ModelSerializer):\n+    class Meta:\n+        model = Queries\n+        fields = '__all__'\n+\n         \n class QueriesReadSerializers(serializers.ModelSerializer):\n     class Meta:\n         model = Queries\n"
+                },
+                {
+                    "date": 1725520568941,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -6,9 +6,9 @@\n     class Meta:\n         model = CustomUser\n         fields = ['full_name','phone']\n \n-class QueriesReadSerializers(serializers.ModelSerializer):\n+class QueriesListSerializers(serializers.ModelSerializer):\n     class Meta:\n         model = Queries\n         fields = '__all__'\n \n"
+                }
+            ],
+            "date": 1725520555539,
+            "name": "Commit-0",
+            "content": "from rest_framework import serializers\nfrom ..models import Queries\nfrom accounts.models import CustomUser\n\nclass QueryUserSerializers(serializers.ModelSerializer):\n    class Meta:\n        model = CustomUser\n        fields = ['full_name','phone']\n\n        \nclass QueriesReadSerializers(serializers.ModelSerializer):\n    class Meta:\n        model = Queries\n        fields = '__all__'\n\nclass QueriesWriteSerializers(serializers.ModelSerializer):\n    class Meta:\n        model = Queries\n        fields = '__all__'"
+        }
+    ]
+}

@@ -6,6 +6,12 @@ class QueryUserSerializers(serializers.ModelSerializer):
     class Meta:
         model = CustomUser
         fields = ['full_name','phone']
+
+class QueriesListSerializers(serializers.ModelSerializer):
+    class Meta:
+        model = Queries
+        fields = '__all__'
+
         
 class QueriesReadSerializers(serializers.ModelSerializer):
     class Meta:
