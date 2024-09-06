@@ -1,18 +1,17 @@
-from ..models import Blog
-from ..serializers.blog_serializers import BlogListSerializers, BlogWriteSerializers, BlogRetrieveSerializers
-from ..utilities.importbase import *
 from rest_framework import viewsets
-from django_filters.rest_framework import DjangoFilterBackend
-from rest_framework.filters import SearchFilter, OrderingFilter
+from ..models import Blog
+from ..serializers.blog_serializers import BlogListSerializer, BlogWriteSerializer, BlogRetrieveSerializer
 from rest_framework.permissions import IsAuthenticated
+from rest_framework.filters import SearchFilter, OrderingFilter
+from django_filters.rest_framework import DjangoFilterBackend
+from ..utilities.permission import AdminViewSetsPermission
 
 class BlogViewSets(viewsets.ModelViewSet):
-    serializer_class = BlogListSerializers
-    permission_classes = [AdminViewSetsPermission] 
-    pagination_class = MyPageNumberPagination
+    queryset = Blog.objects.all().order_by('-created_date')
+    permission_classes = [AdminViewSetsPermission]  
     filter_backends = [SearchFilter, DjangoFilterBackend, OrderingFilter]
-    search_fields = ['title']
-    ordering_fields = ['id', 'title', 'created_date']
+    search_fields = ['title', 'description']
+    ordering_fields = ['created_date', 'title']
     lookup_field = "slug"
     
     filterset_fields = {
@@ -21,25 +20,18 @@ class BlogViewSets(viewsets.ModelViewSet):
     }
 
     def get_queryset(self):
-        queryset = Blog.objects.all().order_by("created_date")
-        
-        # Check if 'is_popular' filter is present in the query parameters
-        is_popular_filter = self.request.query_params.get('is_popular')
-        
-        if is_popular_filter is not None:
-            # Filter the queryset to only include popular blogs
-            queryset = queryset.filter(is_popular=True)
-        
-        return queryset
+        return Blog.objects.all()
+    
 
     def get_serializer_class(self):
         if self.action in ['create', 'update', 'partial_update']:
-            return BlogWriteSerializers
+            return BlogWriteSerializer
         elif self.action == 'retrieve':
-            return BlogRetrieveSerializers
-        return BlogListSerializers  # Default serializer
+            return BlogRetrieveSerializer
+        return BlogListSerializer
 
-    # def perform_create(self, serializer):
-    #     custom_user = self.request.user
-    #     serializer.save(user=custom_user.username)
+    def perform_create(self, serializer):
+        serializer.save(user=self.request.user)
 
+    def perform_update(self, serializer):
+        serializer.save(user=self.request.user)

@@ -5,47 +5,52 @@ from accounts.models import CustomUser
 class BlogUserSerializer(serializers.ModelSerializer):
     class Meta:
         model = CustomUser
-        fields = ['full_name', 'image']
-
-class BlogListSerializers(serializers.ModelSerializer):
-    user = BlogUserSerializer(read_only=True)
-    
-    class Meta:
-        model = Blog
-        fields = '__all__'
-
-class BlogRetrieveSerializers(serializers.ModelSerializer):
+        fields = ['full_name', 'image']  
+class BlogListSerializer(serializers.ModelSerializer):
     user = BlogUserSerializer(read_only=True)
 
     class Meta:
         model = Blog
-        fields = '__all__'
+        fields = ['public_id','id', 'title', 'slug', 'description', 'created_date', 'created_by', 'read_time', 'is_popular', 'user', 'featured_image']  # Adjust fields as necessary
 
-class BlogWriteSerializers(serializers.ModelSerializer):
+class BlogRetrieveSerializer(serializers.ModelSerializer):
+    user = BlogUserSerializer(read_only=True)
+
     class Meta:
         model = Blog
         fields = '__all__'
-        read_only_fields = ['created_by','user']  
+
+class BlogWriteSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Blog
+        fields = '__all__'
+    class BlogWriteSerializer(serializers.ModelSerializer):
+     class Meta:
+        model = Blog
+        fields = '__all__'
 
     def create(self, validated_data):
-        user = self.context['request'].user  # Get the logged-in user
-        full_name = user.full_name or user.username  # Get the full name or fallback to username
+        user = self.context['request'].user
+        full_name = user.full_name or user.username  
 
-        # Set the full name in the created_by field
         validated_data['created_by'] = full_name
         validated_data['user'] = user
-        blog_instance = Blog.objects.create(**validated_data)
+        try:
+            blog_instance = Blog.objects.create(**validated_data)
+        except Exception as e:
+            pass
+
         return blog_instance
-    
     def update(self, instance, validated_data):
-        user = self.context['request'].user  # Get the logged-in user
-        full_name = user.full_name or user.username  # Get the full name or fallback to username
-
-        # Update the created_by field with the full name of the logged-in user
+        user = self.context['request'].user
+        full_name = user.full_name or user.username  
         validated_data['created_by'] = full_name
-
-        # Update the user field
         validated_data['user'] = user
+        try:
+            for key, value in validated_data.items():
+                setattr(instance, key, value)  
+            instance.save()  
+        except Exception as e:
+            pass
 
-        # Update the Blog instance
-        return super().update(instance, validated_data)
+        return instance

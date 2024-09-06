@@ -3,7 +3,7 @@
     "activeCommit": 0,
     "commits": [
         {
-            "activePatchIndex": 2,
+            "activePatchIndex": 4,
             "patches": [
                 {
                     "date": 1724822924753,
@@ -16,6 +16,14 @@
                 {
                     "date": 1725171922890,
                     "content": "Index: \n===================================================================\n--- \n+++ \n@@ -0,0 +1,23 @@\n+from rest_framework.permissions import BasePermission\n+from accounts import roles\n+\n+def IsAuthenticated(request):\n+    return bool(request.user and request.user.is_authenticated)\n+\n+def AdminLevel(request):\n+    return bool(IsAuthenticated(request) and request.user.is_authenticated and request.user.role in [roles.ADMIN,roles.SUPER_ADMIN])\n+\n+class AdminViewSetsPermission(BasePermission):\n+    def has_permission(self, request, view):\n+        True\n+        if view.action in [\"list\"]:\n+            return True\n+        elif view.action in ['retrieve']:\n+            return True\n+        elif view.action in ['create','update']:\n+            return AdminLevel(request) #second level\n+            return ObjectBOwner(request) #third level\n+        elif view.action == \"partial_update\":\n+            return AdminLevel(request)\n+        elif view.action == 'destroy':\n+            return AdminLevel(request)\n"
+                },
+                {
+                    "date": 1725591431119,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -14,33 +14,10 @@\n             return True\n         elif view.action in ['retrieve']:\n             return True\n         elif view.action in ['create','update']:\n-            return AdminLevel(request) #second level\n-            return ObjectBOwner(request) #third level\n+           \n+            return ObjectBOwner(request) #third level return AdminLevel(request) #second level\n         elif view.action == \"partial_update\":\n             return AdminLevel(request)\n         elif view.action == 'destroy':\n             return AdminLevel(request)\n-from rest_framework.permissions import BasePermission\n-from accounts import roles\n-\n-def IsAuthenticated(request):\n-    return bool(request.user and request.user.is_authenticated)\n-\n-def AdminLevel(request):\n-    return bool(IsAuthenticated(request) and request.user.is_authenticated and request.user.role in [roles.ADMIN,roles.SUPER_ADMIN])\n-\n-class AdminViewSetsPermission(BasePermission):\n-    def has_permission(self, request, view):\n-        True\n-        if view.action in [\"list\"]:\n-            return True\n-        elif view.action in ['retrieve']:\n-            return True\n-        elif view.action in ['create','update']:\n-            return AdminLevel(request) #second level\n-            return ObjectBOwner(request) #third level\n-        elif view.action == \"partial_update\":\n-            return AdminLevel(request)\n-        elif view.action == 'destroy':\n-            return AdminLevel(request)\n"
+                },
+                {
+                    "date": 1725592846417,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -14,10 +14,10 @@\n             return True\n         elif view.action in ['retrieve']:\n             return True\n         elif view.action in ['create','update']:\n-           \n-            return ObjectBOwner(request) #third level return AdminLevel(request) #second level\n+            return AdminLevel(request) #second level\n+            return ObjectBOwner(request) #third level\n         elif view.action == \"partial_update\":\n             return AdminLevel(request)\n         elif view.action == 'destroy':\n             return AdminLevel(request)\n"
                 }
             ],
             "date": 1724822924753,

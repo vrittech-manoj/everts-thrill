@@ -23,5 +23,6 @@ class Blog(models.Model):
     def save(self, *args, **kwargs):
         if not self.slug:
             self.slug = f'{slugify(self.title)}'
+        super(Blog, self).save(*args, **kwargs)
 
     

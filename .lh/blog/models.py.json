@@ -3,7 +3,7 @@
     "activeCommit": 0,
     "commits": [
         {
-            "activePatchIndex": 20,
+            "activePatchIndex": 21,
             "patches": [
                 {
                     "date": 1724906622951,
@@ -88,6 +88,10 @@
                 {
                     "date": 1725526603131,
                     "content": "Index: \n===================================================================\n--- \n+++ \n@@ -19,9 +19,9 @@\n   \n     def __str__(self):\n         return self.title\n     \n-     def save(self, *args, **kwargs):\n+    def save(self, *args, **kwargs):\n         if not self.slug:\n             self.slug = f'{slugify(self.title)}'\n \n     \n\\ No newline at end of file\n"
+                },
+                {
+                    "date": 1725593122846,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -22,6 +22,7 @@\n     \n     def save(self, *args, **kwargs):\n         if not self.slug:\n             self.slug = f'{slugify(self.title)}'\n+        uper(Blog, self).save(*args, **kwargs)\n \n     \n\\ No newline at end of file\n"
                 }
             ],
             "date": 1724906622951,
