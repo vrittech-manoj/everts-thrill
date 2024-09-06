@@ -3,7 +3,7 @@
     "activeCommit": 0,
     "commits": [
         {
-            "activePatchIndex": 90,
+            "activePatchIndex": 92,
             "patches": [
                 {
                     "date": 1724906557875,
@@ -368,6 +368,14 @@
                 {
                     "date": 1725593514724,
                     "content": "Index: \n===================================================================\n--- \n+++ \n@@ -26,9 +26,9 @@\n         fields = '__all__'\n     class BlogWriteSerializer(serializers.ModelSerializer):\n      class Meta:\n         model = Blog\n-        fields = \n+        fields = '__all__'\n \n     def create(self, validated_data):\n         user = self.context['request'].user\n         full_name = user.full_name or user.username  \n"
+                },
+                {
+                    "date": 1725594395330,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -10,9 +10,9 @@\n     user = BlogUserSerializer(read_only=True)\n \n     class Meta:\n         model = Blog\n-        fields = ['public_id','id', 'title', 'slug', 'description', 'created_date', 'created_by', 'read_time', 'is_popular', 'user', 'featured_image']  # Adjust fields as necessary\n+        fields = ['public_id','id', 'title', 'slug', 'description', 'created_date', 'created_by', 'read_time', 'is_popular', 'user', 'featured_image']  \n \n class BlogRetrieveSerializer(serializers.ModelSerializer):\n     user = BlogUserSerializer(read_only=True)\n \n"
+                },
+                {
+                    "date": 1725594405447,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -10,9 +10,9 @@\n     user = BlogUserSerializer(read_only=True)\n \n     class Meta:\n         model = Blog\n-        fields = ['public_id','id', 'title', 'slug', 'description', 'created_date', 'created_by', 'read_time', 'is_popular', 'user', 'featured_image']  \n+        fields = '__all'\n \n class BlogRetrieveSerializer(serializers.ModelSerializer):\n     user = BlogUserSerializer(read_only=True)\n \n"
                 }
             ],
             "date": 1724906557875,

@@ -11,7 +11,7 @@ class BlogListSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Blog
-        fields = ['public_id','id', 'title', 'slug', 'description', 'created_date', 'created_by', 'read_time', 'is_popular', 'user', 'featured_image']  # Adjust fields as necessary
+        fields = '__all__'
 
 class BlogRetrieveSerializer(serializers.ModelSerializer):
     user = BlogUserSerializer(read_only=True)
