@@ -33,12 +33,9 @@ class BlogWriteSerializers(serializers.ModelSerializer):
 
         # Set the full name in the created_by field
         validated_data['created_by'] = full_name
-
-        # Set the user field
         validated_data['user'] = user
-
-        # Create the Blog instance
-        return super().create(validated_data)
+        blog_instance = Blog.objects.create(**validated_data)
+        return blog_instance
     
     def update(self, instance, validated_data):
         user = self.context['request'].user  # Get the logged-in user

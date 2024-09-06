@@ -3,7 +3,7 @@
     "activeCommit": 0,
     "commits": [
         {
-            "activePatchIndex": 33,
+            "activePatchIndex": 36,
             "patches": [
                 {
                     "date": 1724906885229,
@@ -140,6 +140,18 @@
                 {
                     "date": 1725589908572,
                     "content": "Index: \n===================================================================\n--- \n+++ \n@@ -28,9 +28,9 @@\n         if self.action in ['create', 'update', 'partial_update']:\n             return BlogWriteSerializers\n         elif self.action == 'retrieve':\n             return BlogRetrieveSerializers\n-        return BlogListSerializers  # Default serializer\n+        return BlogListSerializers  \n \n     # def perform_create(self, serializer):\n     #     custom_user = self.request.user\n     #     serializer.save(user=custom_user.username)\n"
+                },
+                {
+                    "date": 1725590601803,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -28,9 +28,9 @@\n         if self.action in ['create', 'update', 'partial_update']:\n             return BlogWriteSerializers\n         elif self.action == 'retrieve':\n             return BlogRetrieveSerializers\n-        return BlogListSerializers  \n+        return BlogListSerializers  # Default serializer\n \n     # def perform_create(self, serializer):\n     #     custom_user = self.request.user\n     #     serializer.save(user=custom_user.username)\n"
+                },
+                {
+                    "date": 1725590612831,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -6,9 +6,9 @@\n from rest_framework.filters import SearchFilter, OrderingFilter\n from rest_framework.permissions import IsAuthenticated\n \n class BlogViewSets(viewsets.ModelViewSet):\n-    serializer_class = BlogListSerializers\n+    serializer_class\n     permission_classes = [AdminViewSetsPermission] \n     pagination_class = MyPageNumberPagination\n     filter_backends = [SearchFilter, DjangoFilterBackend, OrderingFilter]\n     search_fields = ['title']\n@@ -21,8 +21,16 @@\n     }\n \n     def get_queryset(self):\n         queryset = Blog.objects.all().order_by(\"created_date\")\n+        \n+        # Check if 'is_popular' filter is present in the query parameters\n+        is_popular_filter = self.request.query_params.get('is_popular')\n+        \n+        if is_popular_filter is not None:\n+            # Filter the queryset to only include popular blogs\n+            queryset = queryset.filter(is_popular=True)\n+        \n         return queryset\n \n     def get_serializer_class(self):\n         if self.action in ['create', 'update', 'partial_update']:\n"
+                },
+                {
+                    "date": 1725590618786,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -6,9 +6,9 @@\n from rest_framework.filters import SearchFilter, OrderingFilter\n from rest_framework.permissions import IsAuthenticated\n \n class BlogViewSets(viewsets.ModelViewSet):\n-    serializer_class\n+    serializer_class = BlogListSerializers\n     permission_classes = [AdminViewSetsPermission] \n     pagination_class = MyPageNumberPagination\n     filter_backends = [SearchFilter, DjangoFilterBackend, OrderingFilter]\n     search_fields = ['title']\n"
                 }
             ],
             "date": 1724906885229,
