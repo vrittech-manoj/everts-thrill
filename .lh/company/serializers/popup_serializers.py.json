@@ -3,11 +3,35 @@
     "activeCommit": 0,
     "commits": [
         {
-            "activePatchIndex": 0,
+            "activePatchIndex": 6,
             "patches": [
                 {
                     "date": 1725600608506,
                     "content": "Index: \n===================================================================\n--- \n+++ \n"
+                },
+                {
+                    "date": 1725600797967,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -30,9 +30,9 @@\n                 raise serializers.ValidationError(f\"Title is required for popup {index}.\")\n \n             if image:\n                 popup_instance = Popup.objects.create(title=title, image=image, url=url)\n-                # popup_instance.url = popup_instance.image.url\n+                \n             else:\n                 popup_instance = Popup.objects.create(title=title, url=url)\n \n             popup_instance.save()\n"
+                },
+                {
+                    "date": 1725600804758,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -30,9 +30,10 @@\n                 raise serializers.ValidationError(f\"Title is required for popup {index}.\")\n \n             if image:\n                 popup_instance = Popup.objects.create(title=title, image=image, url=url)\n-                \n+            \n+            elif\n             else:\n                 popup_instance = Popup.objects.create(title=title, url=url)\n \n             popup_instance.save()\n"
+                },
+                {
+                    "date": 1725600812084,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -31,9 +31,11 @@\n \n             if image:\n                 popup_instance = Popup.objects.create(title=title, image=image, url=url)\n             \n-            elif\n+            elif not popup_instance.url:\n+    popup_instance.url = popup_instance.image.url\n+\n             else:\n                 popup_instance = Popup.objects.create(title=title, url=url)\n \n             popup_instance.save()\n"
+                },
+                {
+                    "date": 1725600819871,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -32,10 +32,9 @@\n             if image:\n                 popup_instance = Popup.objects.create(title=title, image=image, url=url)\n             \n             elif not popup_instance.url:\n-    popup_instance.url = popup_instance.image.url\n-\n+                popup_instance.url = popup_instance.image.url\n             else:\n                 popup_instance = Popup.objects.create(title=title, url=url)\n \n             popup_instance.save()\n"
+                },
+                {
+                    "date": 1725600847846,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -31,9 +31,9 @@\n \n             if image:\n                 popup_instance = Popup.objects.create(title=title, image=image, url=url)\n             \n-            elif not popup_instance.url:\n+            elif popup_instance.url:\n                 popup_instance.url = popup_instance.image.url\n             else:\n                 popup_instance = Popup.objects.create(title=title, url=url)\n \n"
+                },
+                {
+                    "date": 1725600853015,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -0,0 +1,60 @@\n+from rest_framework import serializers\n+from ..models import Popup\n+\n+class PopupListSerializers(serializers.ModelSerializer):\n+    class Meta:\n+        model = Popup\n+        fields = '__all__'\n+\n+class PopupRetrieveSerializers(serializers.ModelSerializer):\n+    class Meta:\n+        model = Popup\n+        fields = '__all__'\n+\n+class PopupWriteSerializers(serializers.ModelSerializer):\n+    class Meta:\n+        model = Popup\n+        fields = '__all__'\n+\n+    def create(self, validated_data):\n+        popups = []\n+        request = self.context['request']\n+\n+        index = 0\n+        while f'data[{index}][title]' in request.data:\n+            title = request.data.get(f'data[{index}][title]')\n+            url = request.data.get(f'data[{index}][url]')\n+            image = request.FILES.get(f'data[{index}][image]', None)\n+\n+            if not title:\n+                raise serializers.ValidationError(f\"Title is required for popup {index}.\")\n+\n+            if image:\n+                popup_instance = Popup.objects.create(title=title, image=image, url=url)\n+            \n+            elif popup_instance.url:\n+                popup_instance.url = popup_instance.image.url\n+            else:\n+                popup_instance = Popup.objects.create(title=title, url=url)\n+\n+            popup_instance.save()\n+            popups.append(popup_instance)\n+            index += 1\n+# TODO return all the data in payload\n+        return popups[0]\n+\n+    def to_representation(self, instance):\n+        \"\"\"Convert to a format that matches the original request structure.\"\"\"\n+        if isinstance(instance, list):\n+            return [self.single_representation(popup) for popup in instance]\n+        return self.single_representation(instance)\n+\n+    def single_representation(self, instance):\n+        return {\n+            \"id\": instance.id,\n+            \"title\": instance.title,\n+            \"image\": instance.image.url if instance.image else None,\n+            \"url\": instance.url,\n+            \"created_date\": instance.created_date,\n+            \"updated_date\": instance.updated_date\n+        }\n\\ No newline at end of file\n"
                 }
             ],
             "date": 1725600608506,
