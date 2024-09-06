@@ -3,7 +3,7 @@
     "activeCommit": 0,
     "commits": [
         {
-            "activePatchIndex": 13,
+            "activePatchIndex": 15,
             "patches": [
                 {
                     "date": 1725165751205,
@@ -60,6 +60,14 @@
                 {
                     "date": 1725171294125,
                     "content": "Index: \n===================================================================\n--- \n+++ \n@@ -21,9 +21,9 @@\n     def get_queryset(self):\n         user = self.request.user\n         if user.is_staff: \n             return Review.objects.all()  \n-        return Review.visible.all()  # Show only visible reviews for regular users\n+        return Review.visible.all()  \n \n \n     def get_serializer_class(self):\n         if self.action in ['create', 'update', 'partial_update']:\n"
+                },
+                {
+                    "date": 1725621546775,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -9,9 +9,9 @@\n     permission_classes = [reviewPermission]\n     pagination_class = MyPageNumberPagination\n \n     filter_backends = [SearchFilter, DjangoFilterBackend, OrderingFilter]\n-    search_fields = ['id', 'star_rating']\n+    search_fields = ['id', 'star_rating','name']\n     ordering_fields = ['id', 'star_rating']\n \n     filterset_fields = {\n         'star_rating': ['exact'],\n"
+                },
+                {
+                    "date": 1725621554534,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -10,13 +10,14 @@\n     pagination_class = MyPageNumberPagination\n \n     filter_backends = [SearchFilter, DjangoFilterBackend, OrderingFilter]\n     search_fields = ['id', 'star_rating','name']\n-    ordering_fields = ['id', 'star_rating']\n+    ordering_fields = ['id', 'star_rating','name']\n \n     filterset_fields = {\n         'star_rating': ['exact'],\n         'destination': ['exact'],\n+        'destination': ['exact'],\n     }\n \n     def get_queryset(self):\n         user = self.request.user\n"
                 }
             ],
             "date": 1725165751205,
