@@ -3,7 +3,7 @@
     "activeCommit": 0,
     "commits": [
         {
-            "activePatchIndex": 16,
+            "activePatchIndex": 17,
             "patches": [
                 {
                     "date": 1724909550360,
@@ -72,6 +72,10 @@
                 {
                     "date": 1725442184993,
                     "content": "Index: \n===================================================================\n--- \n+++ \n@@ -25,9 +25,9 @@\n \n class Destination(models.Model):\n     public_id = models.UUIDField(default=uuid.uuid4, editable=False, unique=True)\n     slug = models.SlugField(unique=True, blank=True)\n-    destination_title = models.CharField(max_length=70,unique=)\n+    destination_title = models.CharField(max_length=70,unique=True)\n     packages = models.ManyToManyField(Package)\n     price = models.FloatField(null=True, blank=True)\n     price_type = models.CharField(max_length=3, default='USD')  \n     is_price = models.BooleanField(default=False)\n@@ -61,9 +61,9 @@\n         return self.destination_title\n \n     def save(self, *args, **kwargs):\n         if not self.slug:\n-            self.slug = f'{slugify(self.destination_title)}-{str(self.public_id)[1:5]}{str(self.public_id)[-1:-5]}'\n+            self.slug = f'{slugify(self.destination_title)}'\n \n         # Auto-generate meta fields if not provided by user\n         if not self.meta_title:\n             self.meta_title = f\"{self.destination_title} - Explore the Best Packages\"\n"
+                },
+                {
+                    "date": 1725629475262,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -31,9 +31,9 @@\n     price = models.FloatField(null=True, blank=True)\n     price_type = models.CharField(max_length=3, default='USD')  \n     is_price = models.BooleanField(default=False)\n     featured_image = models.ImageField(upload_to=\"destination/featured/images/\", null=True, blank=True)\n-    overview = models.CharField(max_length=5000, null=True, blank=True)\n+    overview = models.CharField( null=True, blank=True)\n     inclusion_and_exclusion = models.TextField(null=True, default='', blank=True)\n     ltinerary = models.TextField()\n     trip_map_url = models.URLField(null=True, blank=True)\n     trip_map_image = models.ImageField(upload_to=\"destination/trip-map/images/\", null=True, blank=True)\n"
                 }
             ],
             "date": 1724909550360,

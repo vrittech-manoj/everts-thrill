@@ -32,7 +32,7 @@ class Destination(models.Model):
     price_type = models.CharField(max_length=3, default='USD')  
     is_price = models.BooleanField(default=False)
     featured_image = models.ImageField(upload_to="destination/featured/images/", null=True, blank=True)
-    overview = models.CharField(max_length=5000, null=True, blank=True)
+    overview = models.CharField(null=True, blank=True)
     inclusion_and_exclusion = models.TextField(null=True, default='', blank=True)
     ltinerary = models.TextField()
     trip_map_url = models.URLField(null=True, blank=True)
