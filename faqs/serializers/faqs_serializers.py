@@ -10,7 +10,7 @@ class DestinationSerializers(serializers.ModelSerializer):
 
 
 class FaqsListSerializers(serializers.ModelSerializer):
-    faqs_for_destination = DestinationSerializers(read_only=True)
+    faqs_for_destination = DestinationSerializers(many = True,read_only=True)
 
     class Meta:
         model = Faqs
@@ -18,7 +18,7 @@ class FaqsListSerializers(serializers.ModelSerializer):
 
 
 class FaqsRetrieveSerializers(serializers.ModelSerializer):
-    faqs_for_destination = DestinationSerializers(read_only=True)
+    faqs_for_destination = DestinationSerializers(many = True,read_only=True)
 
     class Meta:
         model = Faqs
@@ -26,7 +26,7 @@ class FaqsRetrieveSerializers(serializers.ModelSerializer):
 
 
 class FaqsWriteSerializers(serializers.ModelSerializer):
-    faqs_for_destination = DestinationSerializers()
+    faqs_for_destination = DestinationSerializers(many = True)
 
     class Meta:
         model = Faqs
