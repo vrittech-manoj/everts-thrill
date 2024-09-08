@@ -1,5 +1,7 @@
 from rest_framework import serializers
 from ..models import Popup
+from django.db import transaction
+from rest_framework.exceptions import ValidationError
 
 class PopupListSerializers(serializers.ModelSerializer):
     class Meta:
@@ -11,55 +13,72 @@ class PopupRetrieveSerializers(serializers.ModelSerializer):
         model = Popup
         fields = '__all__'
 
+
+
 class PopupWriteSerializers(serializers.ModelSerializer):
     class Meta:
         model = Popup
         fields = '__all__'
 
+    @transaction.atomic
     def create(self, validated_data):
         popups = []
         request = self.context['request']
+        try:
+            # Check if the request data is a list (array) or a single object
+            if isinstance(request.data.get('data'), list):
+                # Handle array type data
+                index = 0
+                while f'data[{index}][title]' in request.data:
+                    title = request.data.get(f'data[{index}][title]')
+                    url = request.data.get(f'data[{index}][url]')
+                    image = request.FILES.get(f'data[{index}][image]', None)
 
-        # Check if the request data is a list (array) or a single object
-        if isinstance(request.data.get('data'), list):
-            # Handle array type data
-            index = 0
-            while f'data[{index}][title]' in request.data:
-                title = request.data.get(f'data[{index}][title]')
-                url = request.data.get(f'data[{index}][url]')
-                image = request.FILES.get(f'data[{index}][image]', None)
+                    if not title:
+                        raise ValidationError(f"Title is required for popup {index}.")
+
+                    # Debugging: print out the data to verify
+                    print(f"Creating popup {index} with title: {title}, url: {url}, image: {image}")
+                    popup_instance = self.create_popup_instance(title, url, image)
+                    popups.append(popup_instance)
+                    index += 1
+            else:
+                # Handle single object data
+                title = request.data.get('data[title]')
+                url = request.data.get('data[url]')
+                image = request.FILES.get('data[image]', None)
 
                 if not title:
-                    raise serializers.ValidationError(f"Title is required for popup {index}.")
+                    raise ValidationError("Title is required for popup.")
 
+                # Debugging: print out the data to verify
+                print(f"Creating single popup with title: {title}, url: {url}, image: {image}")
                 popup_instance = self.create_popup_instance(title, url, image)
                 popups.append(popup_instance)
-                index += 1
-        else:
-            # Handle single object data
-            title = request.data.get('data[title]')
-            url = request.data.get('data[url]')
-            image = request.FILES.get('data[image]', None)
 
-            if not title:
-                raise serializers.ValidationError("Title is required for popup.")
-
-            popup_instance = self.create_popup_instance(title, url, image)
-            popups.append(popup_instance)
-
-        # Return all the data in the payload
-        return popups[0]
+            # Return the saved popup instances
+            return popups
+        except Exception as e:
+            # Rollback the transaction in case of error and log the issue
+            transaction.set_rollback(True)
+            print(f"Error occurred: {e}")
+            raise
 
     def create_popup_instance(self, title, url, image):
         """Helper function to create a Popup instance."""
-        if image:
-            popup_instance = Popup.objects.create(title=title, image=image, url=url)
-            popup_instance.url = popup_instance.image.url
-        else:
-            popup_instance = Popup.objects.create(title=title, url=url)
+        try:
+            if image:
+                popup_instance = Popup.objects.create(title=title, image=image, url=url)
+                popup_instance.url = popup_instance.image.url
+            else:
+                popup_instance = Popup.objects.create(title=title, url=url)
 
-        popup_instance.save()
-        return popup_instance
+            popup_instance.save()
+            print(f"Popup saved successfully with ID: {popup_instance.id}")
+            return popup_instance
+        except Exception as e:
+            print(f"Error while saving popup: {e}")
+            raise
 
     def to_representation(self, instance):
         """Convert to a format that matches the original request structure."""
