@@ -6,6 +6,8 @@ from rest_framework.filters import SearchFilter, OrderingFilter
 from django_filters.rest_framework import DjangoFilterBackend
 from ..utilities.permission import AdminViewSetsPermission
 from ..utilities.pagination import *
+from rest_framework.response import Response
+from rest_framework import status
 
 class BlogViewSets(viewsets.ModelViewSet):
     queryset = Blog.objects.all().order_by('-created_date')
@@ -37,3 +39,13 @@ class BlogViewSets(viewsets.ModelViewSet):
 
     def perform_update(self, serializer):
         serializer.save(user=self.request.user)
+        
+    def destroy(self, request, *args, **kwargs):
+        instance = self.get_object()
+        self.perform_destroy(instance)
+        
+        return Response(
+            {"detail": "Item/s successfully deleted."}, 
+            status=status.HTTP_200_OK
+        )
+
