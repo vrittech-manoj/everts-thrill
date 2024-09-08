@@ -1,0 +1,26 @@
+{
+    "sourceFile": "collection/viewsets/collection_viewsets.py",
+    "activeCommit": 0,
+    "commits": [
+        {
+            "activePatchIndex": 2,
+            "patches": [
+                {
+                    "date": 1725774275409,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n"
+                },
+                {
+                    "date": 1725774290291,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -8,13 +8,13 @@\n class collectionViewsets(viewsets.ModelViewSet):\n     serializer_class = CollectionListSerializers\n     permission_classes = [collectionPermission]\n     pagination_class = MyPageNumberPagination\n-    queryset = Collection.objects.all().order_by(\"-inde\")\n+    queryset = Collection.objects.all().order_by(\"-index\")\n \n     filter_backends = [SearchFilter, DjangoFilterBackend, OrderingFilter]\n     search_fields = ['id','name']\n-    ordering_fields = ['id','name']\n+    ordering_fields = ['id','name','index']\n \n     filterset_fields = {\n         'id': ['exact'],\n         'name':['exact'],\n"
+                },
+                {
+                    "date": 1725774302631,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -8,9 +8,9 @@\n class collectionViewsets(viewsets.ModelViewSet):\n     serializer_class = CollectionListSerializers\n     permission_classes = [collectionPermission]\n     pagination_class = MyPageNumberPagination\n-    queryset = Collection.objects.all().order_by(\"-index\")\n+    queryset = Collection.objects.all().order_by(\"-name\")\n \n     filter_backends = [SearchFilter, DjangoFilterBackend, OrderingFilter]\n     search_fields = ['id','name']\n     ordering_fields = ['id','name','index']\n"
+                }
+            ],
+            "date": 1725774275409,
+            "name": "Commit-0",
+            "content": "from rest_framework import viewsets\nfrom rest_framework.filters import SearchFilter, OrderingFilter\nfrom django_filters.rest_framework import DjangoFilterBackend\nfrom ..models import Collection\nfrom ..serializers.collection_serializers import CollectionListSerializers, CollectionRetrieveSerializers, CollectionWriteSerializers\nfrom ..utilities.importbase import *\n\nclass collectionViewsets(viewsets.ModelViewSet):\n    serializer_class = CollectionListSerializers\n    permission_classes = [collectionPermission]\n    pagination_class = MyPageNumberPagination\n    queryset = Collection.objects.all().order_by(\"-inde\")\n\n    filter_backends = [SearchFilter, DjangoFilterBackend, OrderingFilter]\n    search_fields = ['id','name']\n    ordering_fields = ['id','name']\n\n    filterset_fields = {\n        'id': ['exact'],\n        'name':['exact'],\n    }\n\n    def get_queryset(self):\n        queryset = super().get_queryset()\n        return queryset\n\n    def get_serializer_class(self):\n        if self.action in ['create', 'update', 'partial_update']:\n            return CollectionWriteSerializers\n        elif self.action == 'retrieve':\n            return CollectionRetrieveSerializers\n        return super().get_serializer_class()\n\n    # @action(detail=False, methods=['get'], name=\"action_name\", url_path=\"url_path\")\n    # def action_name(self, request, *args, **kwargs):\n    #     return super().list(request, *args, **kwargs)\n\n"
+        }
+    ]
+}
