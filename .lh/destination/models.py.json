@@ -3,7 +3,7 @@
     "activeCommit": 0,
     "commits": [
         {
-            "activePatchIndex": 17,
+            "activePatchIndex": 18,
             "patches": [
                 {
                     "date": 1724909550360,
@@ -76,6 +76,10 @@
                 {
                     "date": 1725629475262,
                     "content": "Index: \n===================================================================\n--- \n+++ \n@@ -31,9 +31,9 @@\n     price = models.FloatField(null=True, blank=True)\n     price_type = models.CharField(max_length=3, default='USD')  \n     is_price = models.BooleanField(default=False)\n     featured_image = models.ImageField(upload_to=\"destination/featured/images/\", null=True, blank=True)\n-    overview = models.CharField(max_length=5000, null=True, blank=True)\n+    overview = models.CharField( null=True, blank=True)\n     inclusion_and_exclusion = models.TextField(null=True, default='', blank=True)\n     ltinerary = models.TextField()\n     trip_map_url = models.URLField(null=True, blank=True)\n     trip_map_image = models.ImageField(upload_to=\"destination/trip-map/images/\", null=True, blank=True)\n"
+                },
+                {
+                    "date": 1725776798824,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -5,11 +5,9 @@\n from django.core.validators import MaxValueValidator\n from activities.models import Activity\n from collection.models import Collection\n from faqs.models import Faqs\n-from departure.models import Departure\n-\n-class Package(models.Model):\n+from departure.models import Departureclass Package(models.Model):\n     public_id = models.UUIDField(default=uuid.uuid4, editable=False, unique=True)\n     slug = models.SlugField(unique=True, blank=True)\n     name = models.CharField(max_length=400, unique=True)\n     image = models.ImageField(upload_to=\"destination/package_image/\", null=True, blank=True)\n@@ -31,9 +29,9 @@\n     price = models.FloatField(null=True, blank=True)\n     price_type = models.CharField(max_length=3, default='USD')  \n     is_price = models.BooleanField(default=False)\n     featured_image = models.ImageField(upload_to=\"destination/featured/images/\", null=True, blank=True)\n-    overview = models.CharField( null=True, blank=True)\n+    overview = models.CharField(null=True, blank=True)\n     inclusion_and_exclusion = models.TextField(null=True, default='', blank=True)\n     ltinerary = models.TextField()\n     trip_map_url = models.URLField(null=True, blank=True)\n     trip_map_image = models.ImageField(upload_to=\"destination/trip-map/images/\", null=True, blank=True)\n"
                 }
             ],
             "date": 1724909550360,

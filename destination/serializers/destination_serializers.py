@@ -209,12 +209,27 @@ class DestinationWriteSerializers(serializers.ModelSerializer):
 
             # Update or create departures
             for departure_data in departures_data:
+                import json
+                print(type(departure_data['upcoming_departure_status']))
                 departure_id = departure_data.pop('id', None)
+                destination_id = departure_data.pop('destination_trip', None)
+                upcoming_departure_status = departure_data.pop('upcoming_departure_status','false')
+                
+                if upcoming_departure_status == 'true':
+                    departure_data['upcoming_departure_status'] = True
+                else:
+                    departure_data['upcoming_departure_status'] = False
+                    
+                print("departure id updating",departure_data,instance)
+                print("destination_id updating",departure_data,instance)
                 if departure_id:
                     # Update the existing departure
                     departure_instance = Departure.objects.get(id=departure_id, destination_trip=instance)
+                    print(departure_instance,"here is the *******************")
                     for key, value in departure_data.items():
                         setattr(departure_instance, key, value)
+                    print("departure id exists")
+                    print(departure_instance)
                     departure_instance.save()
                 else:
                     # Create a new departure if the departure does not exist

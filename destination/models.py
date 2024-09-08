@@ -7,7 +7,6 @@ from activities.models import Activity
 from collection.models import Collection
 from faqs.models import Faqs
 from departure.models import Departure
-
 class Package(models.Model):
     public_id = models.UUIDField(default=uuid.uuid4, editable=False, unique=True)
     slug = models.SlugField(unique=True, blank=True)
