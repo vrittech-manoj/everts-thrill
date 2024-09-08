@@ -3,7 +3,7 @@
     "activeCommit": 0,
     "commits": [
         {
-            "activePatchIndex": 26,
+            "activePatchIndex": 27,
             "patches": [
                 {
                     "date": 1725770777912,
@@ -112,6 +112,10 @@
                 {
                     "date": 1725774210389,
                     "content": "Index: \n===================================================================\n--- \n+++ \n@@ -78,8 +78,9 @@\n                 raise ValidationError(\"Unsupported content type.\")\n \n             # Return the saved popup instances\n             return popups\n+        \n \n     def create_popup_instance(self, title, url, image):\n         \"\"\"Helper function to create a Popup instance.\"\"\"\n         try:\n"
+                },
+                {
+                    "date": 1725774456460,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -19,16 +19,16 @@\n     class Meta:\n         model = Popup\n         fields = '__all__'\n \n-    @transaction.atomic\n+    \n+        try:\n+            # Check if the content type is form data or JSON\n+            if request.content_type @transaction.atomic\n     def create(self, validated_data):\n         popups = []\n         request = self.context['request']\n-\n-        try:\n-            # Check if the content type is form data or JSON\n-            if request.content_type == 'application/json':\n+== 'application/json':\n                 # Handle JSON array data\n                 data_entries = request.data.get('data', [])\n                 if isinstance(data_entries, list):\n                     for index, data in enumerate(data_entries):\n@@ -79,8 +79,13 @@\n \n             # Return the saved popup instances\n             return popups\n         \n+        except Exception as e:\n+            # Rollback the transaction in case of error and log the issue\n+            transaction.set_rollback(True)\n+            print(f\"Error occurred: {e}\")\n+            raise\n \n     def create_popup_instance(self, title, url, image):\n         \"\"\"Helper function to create a Popup instance.\"\"\"\n         try:\n"
                 }
             ],
             "date": 1725770777912,
