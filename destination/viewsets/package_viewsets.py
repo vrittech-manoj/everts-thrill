@@ -4,6 +4,8 @@ from ..serializers.destination_type_serializers import PackageReadSerializers,Pa
 from ..utilities.importbase import *
 from rest_framework.permissions import IsAuthenticated
 from ..utilities.permissions import destinationPermission
+from rest_framework.response import Response
+from rest_framework import status
 
 
 class PackageViewsets(viewsets.ModelViewSet):
@@ -24,4 +26,14 @@ class PackageViewsets(viewsets.ModelViewSet):
             return PackageWriteSerializers
         elif self.action in ['list','retrieve']:
             return super().get_serializer_class()
+        
+    def destroy(self, request, *args, **kwargs):
+        instance = self.get_object()
+        self.perform_destroy(instance)
+        
+        # Custom response with a message for the toast notification
+        return Response(
+            {"detail": "Item/s successfully deleted."}, 
+            status=status.HTTP_200_OK
+        )
     
