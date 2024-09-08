@@ -26,7 +26,6 @@ class PopupWriteSerializers(serializers.ModelSerializer):
             title = request.data.get(f'data[{index}][title]')
             url = request.data.get(f'data[{index}][url]')
             image = request.FILES.get(f'data[{index}][image]', None)
-            print(popup_id,"######################")
 
             if not title:
                 print(f"Title is required for popup {index}.")
@@ -36,7 +35,6 @@ class PopupWriteSerializers(serializers.ModelSerializer):
             # If ID is provided, update the existing record
             if popup_id:
                 try:
-                    print("line 39")
                     popup_instance = Popup.objects.get(id=popup_id)
                     popup_instance.title = title
                     popup_instance.url = url
@@ -48,7 +46,6 @@ class PopupWriteSerializers(serializers.ModelSerializer):
                     index += 1
                     continue
             else:
-                print("line 51")
                 # Create a new Popup instance
                 if image:
                     popup_instance = Popup.objects.create(title=title, image=image, url=url)
