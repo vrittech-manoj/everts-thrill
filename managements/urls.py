@@ -5,7 +5,7 @@ from .viewsets import site_setting_viewsets
 
 router = DefaultRouter()
 
-router.register('site-setting', site_setting_viewsets.SiteSettingViewsets, basename="SiteSettingViewsets")
+# router.register('site-setting', site_setting_viewsets.SiteSettingViewsets, basename="SiteSettingViewsets")
 
 urlpatterns = [    
     # path('', include(router.urls)),
