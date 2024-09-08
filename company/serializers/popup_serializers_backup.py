@@ -20,7 +20,7 @@ class PopupWriteSerializers(serializers.ModelSerializer):
         model = Popup
         fields = '__all__'
 
-   @transaction.atomic
+    @transaction.atomic
     def create(self, validated_data):
         popups = []
         request = self.context['request']
@@ -79,6 +79,12 @@ class PopupWriteSerializers(serializers.ModelSerializer):
 
             # Return the saved popup instances
             return popups
+        
+        except Exception as e:
+            # Rollback the transaction in case of error and log the issue
+            transaction.set_rollback(True)
+            print(f"Error occurred: {e}")
+            raise
 
     def create_popup_instance(self, title, url, image):
         """Helper function to create a Popup instance."""
