@@ -6,7 +6,8 @@ class Popup(models.Model):
     image = models.ImageField(upload_to='components/popup', null=True, blank=True)
     url = models.URLField(null=True, blank=True)
     
-    created_date = models.DateTimeField(auto_now_add=True)
+    created_date = models.DateField(auto_now_add=True, null = True,blank = True)
+    created_date_time = models.DateTimeField(auto_now_add=True, null = True,blank = True)
     updated_date = models.DateTimeField(auto_now=True)
 
 class MeetTeam(models.Model):

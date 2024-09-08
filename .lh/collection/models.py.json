@@ -1,0 +1,26 @@
+{
+    "sourceFile": "collection/models.py",
+    "activeCommit": 0,
+    "commits": [
+        {
+            "activePatchIndex": 2,
+            "patches": [
+                {
+                    "date": 1725789525502,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n"
+                },
+                {
+                    "date": 1725789530630,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -7,7 +7,8 @@\n     index = models.PositiveIntegerField(default = 999)\n     destination_collection = models.ManyToManyField('destination.Destination',related_name=\"collections\")\n     created_date = models.DateField(auto_now_add=True, null = True,blank = True)\n     created_date_time = models.DateTimeField(auto_now_add=True, null = True,blank = True)\n+    created_date_time = models.DateTimeField(auto_now_add=True, null = True,blank = True)\n     \n     def __str__(self):\n         return self.name\n"
+                },
+                {
+                    "date": 1725789542049,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -7,8 +7,8 @@\n     index = models.PositiveIntegerField(default = 999)\n     destination_collection = models.ManyToManyField('destination.Destination',related_name=\"collections\")\n     created_date = models.DateField(auto_now_add=True, null = True,blank = True)\n     created_date_time = models.DateTimeField(auto_now_add=True, null = True,blank = True)\n-    created_date_time = models.DateTimeField(auto_now_add=True, null = True,blank = True)\n+    updated_date_time = models.DateTimeField(auto_now=True, null = True,blank = True)\n     \n     def __str__(self):\n         return self.name\n"
+                }
+            ],
+            "date": 1725789525502,
+            "name": "Commit-0",
+            "content": "from django.db import models\n\n\n# Create your models here.\nclass Collection(models.Model):\n    name = models.CharField(max_length=255)\n    index = models.PositiveIntegerField(default = 999)\n    destination_collection = models.ManyToManyField('destination.Destination',related_name=\"collections\")\n    created_date = models.DateField(auto_now_add=True, null = True,blank = True)\n    created_date_time = models.DateTimeField(auto_now_add=True, null = True,blank = True)\n    \n    def __str__(self):\n        return self.name\n"
+        }
+    ]
+}

@@ -15,7 +15,7 @@ class destinationbookViewsets(viewsets.ModelViewSet):
     lookup_field = "slug"
 
     filter_backends = [SearchFilter, DjangoFilterBackend, OrderingFilter]
-    search_fields = ['full_name']
+    search_fields = ['full_name', 'email', 'phone_number', 'country', 'airlines', 'number_of_travelers', 'activity', 'package', 'arrival_date', 'departure_date', 'service_type', 'destination', 'customize_trip', 'created_date', 'updated_date',]
     ordering_fields = ['id','full_name']
 
     filterset_fields = {
@@ -23,10 +23,9 @@ class destinationbookViewsets(viewsets.ModelViewSet):
         'full_name': ['exact'],
         'country': ['exact', 'icontains'],
         'service_type': ['exact', 'icontains'],
-        'arrival_date': ['exact'],
-        
-        
-        
+        'arrival_date': ['exact','gte','lte'],
+        'departure_date': ['exact','gte','lte'],
+        'created_date': ['exact','gte','lte'],
         }
 
     def get_queryset(self):

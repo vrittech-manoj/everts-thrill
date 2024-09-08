@@ -3,7 +3,7 @@
     "activeCommit": 0,
     "commits": [
         {
-            "activePatchIndex": 3,
+            "activePatchIndex": 9,
             "patches": [
                 {
                     "date": 1725521159356,
@@ -20,6 +20,30 @@
                 {
                     "date": 1725521594459,
                     "content": "Index: \n===================================================================\n--- \n+++ \n@@ -7,9 +7,9 @@\n #     message =  models.TextField()\n #     created_date = models.DateTimeField(auto_now_add=True)\n \n class Queries(models.Model):\n-    full_name = models.CharField(max_length = 100,null = True, blank = True)\n+    name = models.CharField(max_length = 100,null = True, blank = True)\n     phone = models.CharField(max_length=15,null=True , default = '')\n     email = models.EmailField(null=True,blank=True)\n     message = models.TextField(null = True, blank = True)\n     created_date = models.DateTimeField(auto_now_add=True, null = True,blank = True)\n"
+                },
+                {
+                    "date": 1725789347467,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -12,5 +12,6 @@\n     phone = models.CharField(max_length=15,null=True , default = '')\n     email = models.EmailField(null=True,blank=True)\n     message = models.TextField(null = True, blank = True)\n     created_date = models.DateTimeField(auto_now_add=True, null = True,blank = True)\n+    \n     updated_date = models.DateTimeField(auto_now=True, null = True,blank = True)\n\\ No newline at end of file\n"
+                },
+                {
+                    "date": 1725789353119,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -12,6 +12,6 @@\n     phone = models.CharField(max_length=15,null=True , default = '')\n     email = models.EmailField(null=True,blank=True)\n     message = models.TextField(null = True, blank = True)\n     created_date = models.DateTimeField(auto_now_add=True, null = True,blank = True)\n-    \n+    created_date\n     updated_date = models.DateTimeField(auto_now=True, null = True,blank = True)\n\\ No newline at end of file\n"
+                },
+                {
+                    "date": 1725789364723,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -12,6 +12,6 @@\n     phone = models.CharField(max_length=15,null=True , default = '')\n     email = models.EmailField(null=True,blank=True)\n     message = models.TextField(null = True, blank = True)\n     created_date = models.DateTimeField(auto_now_add=True, null = True,blank = True)\n-    created_date\n+    created_date_time = \n     updated_date = models.DateTimeField(auto_now=True, null = True,blank = True)\n\\ No newline at end of file\n"
+                },
+                {
+                    "date": 1725789372363,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -12,6 +12,6 @@\n     phone = models.CharField(max_length=15,null=True , default = '')\n     email = models.EmailField(null=True,blank=True)\n     message = models.TextField(null = True, blank = True)\n     created_date = models.DateTimeField(auto_now_add=True, null = True,blank = True)\n-    created_date_time = \n+    created_date_time = models.DateTimeField(auto_now_add=True, null = True,blank = True)\n     updated_date = models.DateTimeField(auto_now=True, null = True,blank = True)\n\\ No newline at end of file\n"
+                },
+                {
+                    "date": 1725789382258,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -0,0 +1,17 @@\n+from django.db import models\n+from accounts.models import CustomUser\n+\n+# Create your models here.\n+# class Queries(models.Model):\n+#     user = models.ForeignKey(CustomUser,on_delete = models.CASCADE)\n+#     message =  models.TextField()\n+#     created_date = models.DateTimeField(auto_now_add=True)\n+\n+class Queries(models.Model):\n+    name = models.CharField(max_length = 100,null = True, blank = True)\n+    phone = models.CharField(max_length=15,null=True , default = '')\n+    email = models.EmailField(null=True,blank=True)\n+    message = models.TextField(null = True, blank = True)\n+    created_date = models(auto_now_add=True, null = True,blank = True)\n+    created_date_time = models.DateTimeField(auto_now_add=True, null = True,blank = True)\n+    updated_date = models.DateTimeField(auto_now=True, null = True,blank = True)\n\\ No newline at end of file\n"
+                },
+                {
+                    "date": 1725789387812,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -11,24 +11,7 @@\n     name = models.CharField(max_length = 100,null = True, blank = True)\n     phone = models.CharField(max_length=15,null=True , default = '')\n     email = models.EmailField(null=True,blank=True)\n     message = models.TextField(null = True, blank = True)\n-    created_date = models(auto_now_add=True, null = True,blank = True)\n+    created_date = models.DateField(auto_now_add=True, null = True,blank = True)\n     created_date_time = models.DateTimeField(auto_now_add=True, null = True,blank = True)\n-    updated_date = models.DateTimeField(auto_now=True, null = True,blank = True)\n-from django.db import models\n-from accounts.models import CustomUser\n-\n-# Create your models here.\n-# class Queries(models.Model):\n-#     user = models.ForeignKey(CustomUser,on_delete = models.CASCADE)\n-#     message =  models.TextField()\n-#     created_date = models.DateTimeField(auto_now_add=True)\n-\n-class Queries(models.Model):\n-    name = models.CharField(max_length = 100,null = True, blank = True)\n-    phone = models.CharField(max_length=15,null=True , default = '')\n-    email = models.EmailField(null=True,blank=True)\n-    message = models.TextField(null = True, blank = True)\n-    created_date = models.DateTimeField(auto_now_add=True, null = True,blank = True)\n-    created_date_time = models.DateTimeField(auto_now_add=True, null = True,blank = True)\n     updated_date = models.DateTimeField(auto_now=True, null = True,blank = True)\n\\ No newline at end of file\n"
                 }
             ],
             "date": 1725521159356,

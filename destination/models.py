@@ -53,7 +53,8 @@ class Destination(models.Model):
     meta_description = models.CharField(max_length=255, null=True, blank=True)
     meta_keywords = models.CharField(max_length=255, null=True, blank=True)
 
-    created_date = models.DateTimeField(auto_now_add=True)
+    created_date = models.DateField(auto_now_add=True, null = True,blank = True)
+    created_date_time = models.DateTimeField(auto_now_add=True, null = True,blank = True)
     updated_date = models.DateTimeField(auto_now=True)
 
     def __str__(self):

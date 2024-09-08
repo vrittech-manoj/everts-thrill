@@ -1,0 +1,22 @@
+{
+    "sourceFile": "departure/models.py",
+    "activeCommit": 0,
+    "commits": [
+        {
+            "activePatchIndex": 1,
+            "patches": [
+                {
+                    "date": 1725789599407,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n"
+                },
+                {
+                    "date": 1725789609355,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -6,8 +6,10 @@\n     destination_trip = models.ForeignKey('destination.Destination',related_name = 'destination_departures', on_delete  = models.CASCADE)\n     upcoming_departure_date = models.DateTimeField( null=True, blank=True)\n     upcoming_departure_status = models.BooleanField(default=False, null=True, blank=True)\n     upcoming_departure_price = models.PositiveIntegerField(default=0, null=True, blank=True)\n-    \n+    created_date = models.DateField(auto_now_add=True, null = True,blank = True)\n+    created_date_time = models.DateTimeField(auto_now_add=True, null = True,blank = True)\n+    updated_date_time = models.DateTimeField(auto_now_add=True, null = True,blank = True)\n \n     def __str__(self):\n         return f\"Departure on {self.upcoming_departure_date} - Status: {'Active' if self.upcoming_departure_status else 'Inactive'} - Price: {self.upcoming_departure_price}\"\n"
+                }
+            ],
+            "date": 1725789599407,
+            "name": "Commit-0",
+            "content": "# Create your models here.\nfrom django.db import models\n# from destination.models import Destination\n\nclass Departure(models.Model):\n    destination_trip = models.ForeignKey('destination.Destination',related_name = 'destination_departures', on_delete  = models.CASCADE)\n    upcoming_departure_date = models.DateTimeField( null=True, blank=True)\n    upcoming_departure_status = models.BooleanField(default=False, null=True, blank=True)\n    upcoming_departure_price = models.PositiveIntegerField(default=0, null=True, blank=True)\n    \n\n    def __str__(self):\n        return f\"Departure on {self.upcoming_departure_date} - Status: {'Active' if self.upcoming_departure_status else 'Inactive'} - Price: {self.upcoming_departure_price}\"\n"
+        }
+    ]
+}
