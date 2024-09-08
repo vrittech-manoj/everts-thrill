@@ -1,5 +1,7 @@
 from rest_framework import viewsets, permissions, filters
 from ..models import Destination
+from rest_framework.response import Response
+from rest_framework import status
 
 from django.shortcuts import get_object_or_404
 from ..serializers.destination_serializers import (
@@ -49,3 +51,12 @@ class DestinationViewsets(viewsets.ModelViewSet):
     def get_object(self):
         slug = self.kwargs.get('slug')
         return get_object_or_404(Destination, slug=slug)
+
+    def destroy(self, request, *args, **kwargs):
+        instance = self.get_object()
+        self.perform_destroy(instance)
+        
+        return Response(
+            {"detail": "Item/s successfully deleted."}, 
+            status=status.HTTP_200_OK
+        )

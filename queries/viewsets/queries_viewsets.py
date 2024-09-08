@@ -5,6 +5,8 @@ from rest_framework.filters import SearchFilter, OrderingFilter
 from django_filters.rest_framework import DjangoFilterBackend
 from ..serializers.queries_serializers import QueriesReadSerializers, QueriesWriteSerializers,QueriesListSerializers
 from ..utilities.importbase import *
+from rest_framework.response import Response
+from rest_framework import status
 
 class QueriesViewsets(viewsets.ModelViewSet):
     serializer_class = QueriesListSerializers
@@ -42,3 +44,14 @@ class QueriesViewsets(viewsets.ModelViewSet):
             status=status.HTTP_201_CREATED, 
             headers=headers
         )
+        
+    def destroy(self, request, *args, **kwargs):
+        instance = self.get_object()
+        self.perform_destroy(instance)
+        
+        return Response(
+            {"detail": "Item/s successfully deleted."}, 
+            status=status.HTTP_200_OK
+        )
+    
+        

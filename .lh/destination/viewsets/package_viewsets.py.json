@@ -3,7 +3,7 @@
     "activeCommit": 0,
     "commits": [
         {
-            "activePatchIndex": 4,
+            "activePatchIndex": 5,
             "patches": [
                 {
                     "date": 1724996889627,
@@ -24,6 +24,10 @@
                 {
                     "date": 1725790609505,
                     "content": "Index: \n===================================================================\n--- \n+++ \n@@ -32,8 +32,8 @@\n         self.perform_destroy(instance)\n         \n         # Custom response with a message for the toast notification\n         return Response(\n-            {\"detail\": \"Item successfully deleted.\"}, \n+            {\"detail\": \"Item/s successfully deleted.\"}, \n             status=status.HTTP_200_OK\n         )\n     \n\\ No newline at end of file\n"
+                },
+                {
+                    "date": 1725790873541,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -0,0 +1,38 @@\n+# trunk-ignore-all(isort)\n+from ..models import Package\n+from ..serializers.destination_type_serializers import PackageReadSerializers,PackageWriteSerializers\n+from ..utilities.importbase import *\n+from rest_framework.permissions import IsAuthenticated\n+from ..utilities.permissions import destinationPermission\n+from rest_framework.response import Response\n+from rest_framework import status\n+\n+\n+class PackageViewsets(viewsets.ModelViewSet):\n+    serializer_class = PackageReadSerializers\n+    permission_classes = [destinationPermission]\n+    pagination_class = MyPageNumberPagination\n+    queryset  = Package.objects.all().order_by(\"-id\")\n+\n+    filter_backends = [SearchFilter,DjangoFilterBackend,OrderingFilter]\n+    search_fields = ['name']\n+    ordering_fields = ['id','name']\n+    filterset_fields = {\n+        'name': ['exact', 'icontains'],\n+    }\n+\n+    def get_serializer_class(self):\n+        if self.action in ['create','update','partial_update']:\n+            return PackageWriteSerializers\n+        elif self.action in ['list','retrieve']:\n+            return super().get_serializer_class()\n+        \n+    def destroy(self, request, *args, **kwargs):\n+        instance = self.get_object()\n+        self.perform_destroy(instance)\n+        \n+        return Response(\n+            {\"detail\": \"Item/s successfully deleted.\"}, \n+            status=status.HTTP_200_OK\n+        )\n+    \n\\ No newline at end of file\n"
                 }
             ],
             "date": 1724996889627,

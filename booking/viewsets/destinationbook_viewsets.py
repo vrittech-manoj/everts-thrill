@@ -5,6 +5,8 @@ from ..models import DestinationBook
 from ..serializers.destinationbook_serializers import DestinationBookListSerializers, DestinationBookRetrieveSerializers, DestinationBookWriteSerializers
 from ..utilities.importbase import *
 from django.shortcuts import get_object_or_404
+from rest_framework.response import Response
+from rest_framework import status
 
 class destinationbookViewsets(viewsets.ModelViewSet):
     serializer_class = DestinationBookListSerializers
@@ -42,6 +44,17 @@ class destinationbookViewsets(viewsets.ModelViewSet):
     def get_object(self):
         slug = self.kwargs.get('slug')
         return get_object_or_404(DestinationBook, slug=slug)
+    
+
+
+    def destroy(self, request, *args, **kwargs):
+        instance = self.get_object()
+        self.perform_destroy(instance)
+        
+        return Response(
+            {"detail": "Item/s successfully deleted."}, 
+            status=status.HTTP_200_OK
+        )
 
     # @action(detail=False, methods=['get'], name="action_name", url_path="url_path")
     # def action_name(self, request, *args, **kwargs):

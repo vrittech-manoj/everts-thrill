@@ -4,6 +4,8 @@ from django_filters.rest_framework import DjangoFilterBackend
 from ..models import Collection
 from ..serializers.collection_serializers import CollectionListSerializers, CollectionRetrieveSerializers, CollectionWriteSerializers
 from ..utilities.importbase import *
+from rest_framework.response import Response
+from rest_framework import status
 
 class collectionViewsets(viewsets.ModelViewSet):
     serializer_class = CollectionListSerializers
@@ -30,6 +32,16 @@ class collectionViewsets(viewsets.ModelViewSet):
         elif self.action == 'retrieve':
             return CollectionRetrieveSerializers
         return super().get_serializer_class()
+    
+    def destroy(self, request, *args, **kwargs):
+        instance = self.get_object()
+        self.perform_destroy(instance)
+        
+        return Response(
+            {"detail": "Item/s successfully deleted."}, 
+            status=status.HTTP_200_OK
+        )
+
 
     # @action(detail=False, methods=['get'], name="action_name", url_path="url_path")
     # def action_name(self, request, *args, **kwargs):

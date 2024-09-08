@@ -4,6 +4,8 @@ from django_filters.rest_framework import DjangoFilterBackend
 from ..models import Review
 from ..serializers.review_serializers import ReviewListSerializers, ReviewRetrieveSerializers, ReviewWriteSerializers
 from ..utilities.importbase import *
+from rest_framework.response import Response
+from rest_framework import status
 
 class reviewViewsets(viewsets.ModelViewSet):
     permission_classes = [reviewPermission]
@@ -34,6 +36,16 @@ class reviewViewsets(viewsets.ModelViewSet):
         elif self.action == 'retrieve':
             return ReviewRetrieveSerializers
         return ReviewListSerializers
+    
+    def destroy(self, request, *args, **kwargs):
+        instance = self.get_object()
+        self.perform_destroy(instance)
+        
+        return Response(
+            {"detail": "Item/s successfully deleted."}, 
+            status=status.HTTP_200_OK
+        )
+    
 
     # @action(detail=False, methods=['get'], name="action_name", url_path="url_path")
     # def action_name(self, request, *args, **kwargs):

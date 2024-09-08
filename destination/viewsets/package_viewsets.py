@@ -31,7 +31,6 @@ class PackageViewsets(viewsets.ModelViewSet):
         instance = self.get_object()
         self.perform_destroy(instance)
         
-        # Custom response with a message for the toast notification
         return Response(
             {"detail": "Item/s successfully deleted."}, 
             status=status.HTTP_200_OK
