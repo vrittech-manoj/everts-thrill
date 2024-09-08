@@ -25,6 +25,7 @@ class PopupWriteSerializers(serializers.ModelSerializer):
         popups = []
         request = self.context['request']
         data_entries = request.data.get('data', [])
+        print(data_entries)
         try:
             # Check if the request data is a list (array) or a single object
             if isinstance(request.data.get('data'), list):
@@ -84,7 +85,7 @@ class PopupWriteSerializers(serializers.ModelSerializer):
         try:
             if image:
                 popup_instance = Popup.objects.create(title=title, image=image, url=url)
-                popup_instance.url = popup_instance.image.url
+                # popup_instance.url = popup_instance.image.url
             else:
                 popup_instance = Popup.objects.create(title=title, url=url)
 
