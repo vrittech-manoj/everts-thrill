@@ -45,19 +45,23 @@ class PopupWriteSerializers(serializers.ModelSerializer):
                     popups.append(popup_instance)
                     index += 1
             elif isinstance(data_entries, list):
-                # Handle array type data
+                 # Handle array type data
                 for index, data in enumerate(data_entries):
                     title = data.get('title')
                     url = data.get('url')
-                    image = request.FILES.get(f'data[{index}][image]', None)  # Handle image in the files
 
                     if not title:
                         raise ValidationError(f"Title is required for popup {index}.")
 
-                    # Debugging: print out the data to verify
-                    print(f"Creating popup {index} with title: {title}, url: {url}, image: {image}")
-                    popup_instance = self.create_popup_instance(title, url, image)
+                    # Debugging: Log to verify fields
+                    print(f"Creating popup {index} with title: {title}, url: {url}")
+
+                    # Attempt to create the popup instance without image
+                    popup_instance = Popup.objects.create(title=title, url=url)
+                    popup_instance.save()
+
                     popups.append(popup_instance)
+                    print(f"Popup created: {popup_instance.id}, Title: {popup_instance.title}")
             else:
                 # Handle single object data
                 title = request.data.get('data[title]')
