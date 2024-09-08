@@ -32,7 +32,7 @@ class DestinationBook(models.Model):
     departure_date = models.DateField()
     service_type = models.CharField(max_length=20, choices=SERVICE_TYPES)
     destination = models.ForeignKey(Destination,related_name = 'destination_book', on_delete = models.CASCADE)
-    customize_trip = models.CharField(max_length=450)
+    customize_trip = models.CharField(null=True,blank=True)
 
 
     created_date = models.DateField(auto_now_add=True, null = True,blank = True)
