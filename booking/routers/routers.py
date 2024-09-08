@@ -6,4 +6,4 @@ router = DefaultRouter()
 
 
 router.register('booking-management', destinationbookViewsets, basename="destinationbookViewsets")
-router.register('booking-service', servicebookViewsets, basename="servicebookViewsets")
+# router.register('booking-service', servicebookViewsets, basename="servicebookViewsets")

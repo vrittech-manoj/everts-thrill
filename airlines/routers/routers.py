@@ -5,4 +5,4 @@ router = DefaultRouter()
 auto_api_routers = router
 
 
-router.register('airlines', airlinesViewsets, basename="airlinesViewsets")
+# router.register('airlines', airlinesViewsets, basename="airlinesViewsets")
