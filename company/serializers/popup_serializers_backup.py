@@ -24,6 +24,7 @@ class PopupWriteSerializers(serializers.ModelSerializer):
     def create(self, validated_data):
         popups = []
         request = self.context['request']
+        data_entries = request.data.get('data', [])
         try:
             # Check if the request data is a list (array) or a single object
             if isinstance(request.data.get('data'), list):
@@ -42,6 +43,20 @@ class PopupWriteSerializers(serializers.ModelSerializer):
                     popup_instance = self.create_popup_instance(title, url, image)
                     popups.append(popup_instance)
                     index += 1
+            elif isinstance(data_entries, list):
+                # Handle array type data
+                for index, data in enumerate(data_entries):
+                    title = data.get('title')
+                    url = data.get('url')
+                    image = request.FILES.get(f'data[{index}][image]', None)  # Handle image in the files
+
+                    if not title:
+                        raise ValidationError(f"Title is required for popup {index}.")
+
+                    # Debugging: print out the data to verify
+                    print(f"Creating popup {index} with title: {title}, url: {url}, image: {image}")
+                    popup_instance = self.create_popup_instance(title, url, image)
+                    popups.append(popup_instance)
             else:
                 # Handle single object data
                 title = request.data.get('data[title]')

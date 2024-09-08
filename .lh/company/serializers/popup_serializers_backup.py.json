@@ -3,7 +3,7 @@
     "activeCommit": 0,
     "commits": [
         {
-            "activePatchIndex": 4,
+            "activePatchIndex": 12,
             "patches": [
                 {
                     "date": 1725770777912,
@@ -24,6 +24,38 @@
                 {
                     "date": 1725772310778,
                     "content": "Index: \n===================================================================\n--- \n+++ \n@@ -1,6 +1,8 @@\n from rest_framework import serializers\n from ..models import Popup\n+from django.db import transaction\n+from rest_framework.exceptions import ValidationError\n \n class PopupListSerializers(serializers.ModelSerializer):\n     class Meta:\n         model = Popup\n"
+                },
+                {
+                    "date": 1725772613756,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -23,8 +23,9 @@\n     @transaction.atomic\n     def create(self, validated_data):\n         popups = []\n         request = self.context['request']\n+         data_entries = request.data.get('data', [])\n         try:\n             # Check if the request data is a list (array) or a single object\n             if isinstance(request.data.get('data'), list):\n                 # Handle array type data\n"
+                },
+                {
+                    "date": 1725772642186,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -23,9 +23,9 @@\n     @transaction.atomic\n     def create(self, validated_data):\n         popups = []\n         request = self.context['request']\n-         data_entries = request.data.get('data', [])\n+        data_entries = request.data.get('data', [])\n         try:\n             # Check if the request data is a list (array) or a single object\n             if isinstance(request.data.get('data'), list):\n                 # Handle array type data\n@@ -42,8 +42,9 @@\n                     print(f\"Creating popup {index} with title: {title}, url: {url}, image: {image}\")\n                     popup_instance = self.create_popup_instance(title, url, image)\n                     popups.append(popup_instance)\n                     index += 1\n+            \n             else:\n                 # Handle single object data\n                 title = request.data.get('data[title]')\n                 url = request.data.get('data[url]')\n"
+                },
+                {
+                    "date": 1725772647827,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -42,8 +42,9 @@\n                     print(f\"Creating popup {index} with title: {title}, url: {url}, image: {image}\")\n                     popup_instance = self.create_popup_instance(title, url, image)\n                     popups.append(popup_instance)\n                     index += 1\n+        elif:\n             \n             else:\n                 # Handle single object data\n                 title = request.data.get('data[title]')\n"
+                },
+                {
+                    "date": 1725772653528,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -42,9 +42,9 @@\n                     print(f\"Creating popup {index} with title: {title}, url: {url}, image: {image}\")\n                     popup_instance = self.create_popup_instance(title, url, image)\n                     popups.append(popup_instance)\n                     index += 1\n-        elif:\n+        elif\n             \n             else:\n                 # Handle single object data\n                 title = request.data.get('data[title]')\n"
+                },
+                {
+                    "date": 1725772664819,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -42,9 +42,9 @@\n                     print(f\"Creating popup {index} with title: {title}, url: {url}, image: {image}\")\n                     popup_instance = self.create_popup_instance(title, url, image)\n                     popups.append(popup_instance)\n                     index += 1\n-        elif\n+            elif sinstance(data_entries, list):\n             \n             else:\n                 # Handle single object data\n                 title = request.data.get('data[title]')\n"
+                },
+                {
+                    "date": 1725772672885,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -42,9 +42,9 @@\n                     print(f\"Creating popup {index} with title: {title}, url: {url}, image: {image}\")\n                     popup_instance = self.create_popup_instance(title, url, image)\n                     popups.append(popup_instance)\n                     index += 1\n-            elif sinstance(data_entries, list):\n+            elif isinstance(data_entries, list):\n             \n             else:\n                 # Handle single object data\n                 title = request.data.get('data[title]')\n"
+                },
+                {
+                    "date": 1725772690184,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -43,8 +43,10 @@\n                     popup_instance = self.create_popup_instance(title, url, image)\n                     popups.append(popup_instance)\n                     index += 1\n             elif isinstance(data_entries, list):\n+                \n+                \n             \n             else:\n                 # Handle single object data\n                 title = request.data.get('data[title]')\n"
+                },
+                {
+                    "date": 1725772700113,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -43,11 +43,21 @@\n                     popup_instance = self.create_popup_instance(title, url, image)\n                     popups.append(popup_instance)\n                     index += 1\n             elif isinstance(data_entries, list):\n-                \n-                \n-            \n+                # Handle array type data\n+                for index, data in enumerate(data_entries):\n+                    title = data.get('title')\n+                    url = data.get('url')\n+                    image = request.FILES.get(f'data[{index}][image]', None)  # Handle image in the files\n+\n+                    if not title:\n+                        raise ValidationError(f\"Title is required for popup {index}.\")\n+\n+                    # Debugging: print out the data to verify\n+                    print(f\"Creating popup {index} with title: {title}, url: {url}, image: {image}\")\n+                    popup_instance = self.create_popup_instance(title, url, image)\n+                    popups.append(popup_instance)\n             else:\n                 # Handle single object data\n                 title = request.data.get('data[title]')\n                 url = request.data.get('data[url]')\n"
                 }
             ],
             "date": 1725770777912,
