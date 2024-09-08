@@ -20,16 +20,37 @@ class PopupWriteSerializers(serializers.ModelSerializer):
         model = Popup
         fields = '__all__'
 
-    @transaction.atomic
+   @transaction.atomic
     def create(self, validated_data):
         popups = []
         request = self.context['request']
-        data_entries = request.data.get('data', [])
-        print(data_entries)
+
         try:
-            # Check if the request data is a list (array) or a single object
-            if isinstance(request.data.get('data'), list):
-                # Handle array type data
+            # Check if the content type is form data or JSON
+            if request.content_type == 'application/json':
+                # Handle JSON array data
+                data_entries = request.data.get('data', [])
+                if isinstance(data_entries, list):
+                    for index, data in enumerate(data_entries):
+                        title = data.get('title')
+                        url = data.get('url')
+
+                        if not title:
+                            raise ValidationError(f"Title is required for popup {index}.")
+
+                        # Debugging: Log to verify fields
+                        print(f"Creating popup {index} with title: {title}, url: {url}")
+
+                        # Create and save popup
+                        popup_instance = Popup.objects.create(title=title, url=url)
+                        popups.append(popup_instance)
+
+                        print(f"Popup created: {popup_instance.id}, Title: {popup_instance.title}")
+                else:
+                    raise ValidationError("Expected a list of data entries for JSON array.")
+            
+            elif request.content_type.startswith('multipart/form-data'):
+                # Handle form-encoded data
                 index = 0
                 while f'data[{index}][title]' in request.data:
                     title = request.data.get(f'data[{index}][title]')
@@ -39,50 +60,25 @@ class PopupWriteSerializers(serializers.ModelSerializer):
                     if not title:
                         raise ValidationError(f"Title is required for popup {index}.")
 
-                    # Debugging: print out the data to verify
-                    print(f"Creating popup {index} with title: {title}, url: {url}, image: {image}")
-                    popup_instance = self.create_popup_instance(title, url, image)
-                    popups.append(popup_instance)
-                    index += 1
-            elif isinstance(data_entries, list):
-                 # Handle array type data
-                for index, data in enumerate(data_entries):
-                    title = data.get('title')
-                    url = data.get('url')
+                    # Debugging: Log the title and URL
+                    print(f"Creating form-based popup {index} with title: {title}, url: {url}")
 
-                    if not title:
-                        raise ValidationError(f"Title is required for popup {index}.")
-
-                    # Debugging: Log to verify fields
-                    print(f"Creating popup {index} with title: {title}, url: {url}")
-
-                    # Attempt to create the popup instance without image
+                    # Create and save popup
                     popup_instance = Popup.objects.create(title=title, url=url)
-                    popup_instance.save()
+
+                    # If you need to handle images later, you can add that logic here
+                    if image:
+                        popup_instance.image = image
+                        popup_instance.save()
 
                     popups.append(popup_instance)
-                    print(f"Popup created: {popup_instance.id}, Title: {popup_instance.title}")
+                    print(f"Form-based popup created: {popup_instance.id}, Title: {popup_instance.title}")
+                    index += 1
             else:
-                # Handle single object data
-                title = request.data.get('data[title]')
-                url = request.data.get('data[url]')
-                image = request.FILES.get('data[image]', None)
-
-                if not title:
-                    raise ValidationError("Title is required for popup.")
-
-                # Debugging: print out the data to verify
-                print(f"Creating single popup with title: {title}, url: {url}, image: {image}")
-                popup_instance = self.create_popup_instance(title, url, image)
-                popups.append(popup_instance)
+                raise ValidationError("Unsupported content type.")
 
             # Return the saved popup instances
             return popups
-        except Exception as e:
-            # Rollback the transaction in case of error and log the issue
-            transaction.set_rollback(True)
-            print(f"Error occurred: {e}")
-            raise
 
     def create_popup_instance(self, title, url, image):
         """Helper function to create a Popup instance."""
