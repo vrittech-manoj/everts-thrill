@@ -38,8 +38,9 @@ class PopupWriteSerializers(serializers.ModelSerializer):
                     popup_instance = Popup.objects.get(id=popup_id)
                     popup_instance.title = title
                     popup_instance.url = url
-                    if image:
-                        popup_instance.image = image
+                    popup_instance.image = image
+                    # if image:
+                    #     popup_instance.image = image
                     popup_instance.save()
                 except Popup.DoesNotExist:
                     print(f"Popup with id {popup_id} does not exist.")
