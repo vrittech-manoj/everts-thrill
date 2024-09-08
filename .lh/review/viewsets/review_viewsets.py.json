@@ -3,7 +3,7 @@
     "activeCommit": 0,
     "commits": [
         {
-            "activePatchIndex": 15,
+            "activePatchIndex": 18,
             "patches": [
                 {
                     "date": 1725165751205,
@@ -68,6 +68,18 @@
                 {
                     "date": 1725621554534,
                     "content": "Index: \n===================================================================\n--- \n+++ \n@@ -10,13 +10,14 @@\n     pagination_class = MyPageNumberPagination\n \n     filter_backends = [SearchFilter, DjangoFilterBackend, OrderingFilter]\n     search_fields = ['id', 'star_rating','name']\n-    ordering_fields = ['id', 'star_rating']\n+    ordering_fields = ['id', 'star_rating','name']\n \n     filterset_fields = {\n         'star_rating': ['exact'],\n         'destination': ['exact'],\n+        'destination': ['exact'],\n     }\n \n     def get_queryset(self):\n         user = self.request.user\n"
+                },
+                {
+                    "date": 1725790020228,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -11,13 +11,14 @@\n \n     filter_backends = [SearchFilter, DjangoFilterBackend, OrderingFilter]\n     search_fields = ['id', 'star_rating','name']\n     ordering_fields = ['id', 'star_rating','name']\n+    \n \n     filterset_fields = {\n         'star_rating': ['exact'],\n         'destination': ['exact'],\n-        'destination': ['exact'],\n+        'name': ['exact'],\n     }\n \n     def get_queryset(self):\n         user = self.request.user\n"
+                },
+                {
+                    "date": 1725790025734,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -11,8 +11,9 @@\n \n     filter_backends = [SearchFilter, DjangoFilterBackend, OrderingFilter]\n     search_fields = ['id', 'star_rating','name']\n     ordering_fields = ['id', 'star_rating','name']\n+    \n \n     filterset_fields = {\n         'star_rating': ['exact'],\n         'destination': ['exact'],\n"
+                },
+                {
+                    "date": 1725790142966,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -0,0 +1,40 @@\n+from rest_framework import viewsets\n+from rest_framework.filters import SearchFilter, OrderingFilter\n+from django_filters.rest_framework import DjangoFilterBackend\n+from ..models import Review\n+from ..serializers.review_serializers import ReviewListSerializers, ReviewRetrieveSerializers, ReviewWriteSerializers\n+from ..utilities.importbase import *\n+\n+class reviewViewsets(viewsets.ModelViewSet):\n+    permission_classes = [reviewPermission]\n+    pagination_class = MyPageNumberPagination\n+\n+    filter_backends = [SearchFilter, DjangoFilterBackend, OrderingFilter]\n+    search_fields =  [ 'id','name', 'star_rating', 'review_type', 'destination__destination_title', 'created_date', 'created_date_time', 'updated_date', ]\n+    ordering_fields = ['id', 'star_rating','name']\n+   \n+\n+    filterset_fields = {\n+        'star_rating': ['exact'],\n+        'destination': ['exact'],\n+        'name': ['exact'],\n+        'created_date': ['exact','gte','lte'],\n+    }\n+\n+    def get_queryset(self):\n+        user = self.request.user\n+        if user.is_staff: \n+            return Review.objects.all()  \n+        return Review.visible.all()  \n+\n+\n+    def get_serializer_class(self):\n+        if self.action in ['create', 'update', 'partial_update']:\n+            return ReviewWriteSerializers\n+        elif self.action == 'retrieve':\n+            return ReviewRetrieveSerializers\n+        return ReviewListSerializers\n+\n+    # @action(detail=False, methods=['get'], name=\"action_name\", url_path=\"url_path\")\n+    # def action_name(self, request, *args, **kwargs):\n+    #     return super().list(request, *args, **kwargs)\n"
                 }
             ],
             "date": 1725165751205,

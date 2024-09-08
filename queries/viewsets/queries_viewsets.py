@@ -20,7 +20,7 @@ class QueriesViewsets(viewsets.ModelViewSet):
     filterset_fields = {
         'id': ['exact'],
         'name': ['exact'],
-        'created_date': ['exact'],
+        'created_date': ['exact','gte','lte'],
     }
 
     def get_serializer_class(self):

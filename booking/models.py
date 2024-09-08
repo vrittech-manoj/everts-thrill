@@ -28,14 +28,15 @@ class DestinationBook(models.Model):
     number_of_travelers = models.IntegerField(default = 1) #if group companions then specify numbers
     activity = models.ForeignKey(Activity,related_name = 'activity_booking', on_delete = models.CASCADE)
     package = models.ForeignKey(Package,related_name = 'package_booking', on_delete = models.CASCADE)
-    arrival_date = models.DateTimeField()
-    departure_date = models.DateTimeField()
+    arrival_date = models.DateField()
+    departure_date = models.DateField()
     service_type = models.CharField(max_length=20, choices=SERVICE_TYPES)
     destination = models.ForeignKey(Destination,related_name = 'destination_book', on_delete = models.CASCADE)
     customize_trip = models.CharField(max_length=450)
 
 
-    created_date = models.DateTimeField(auto_now_add=True)
+    created_date = models.DateField(auto_now_add=True, null = True,blank = True)
+    created_date_time = models.DateTimeField(auto_now_add=True, null = True,blank = True)
     updated_date = models.DateTimeField(auto_now=True)
 
     def __str__(self) -> str:

@@ -10,13 +10,15 @@ class reviewViewsets(viewsets.ModelViewSet):
     pagination_class = MyPageNumberPagination
 
     filter_backends = [SearchFilter, DjangoFilterBackend, OrderingFilter]
-    search_fields = ['id', 'star_rating','name']
+    search_fields =  [ 'id','name', 'star_rating', 'review_type', 'destination__destination_title', 'created_date', 'created_date_time', 'updated_date', ]
     ordering_fields = ['id', 'star_rating','name']
+   
 
     filterset_fields = {
         'star_rating': ['exact'],
         'destination': ['exact'],
         'name': ['exact'],
+        'created_date': ['exact','gte','lte'],
     }
 
     def get_queryset(self):
