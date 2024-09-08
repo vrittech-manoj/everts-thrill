@@ -1,0 +1,22 @@
+{
+    "sourceFile": "company/serializers/popup_serializers_backup.py",
+    "activeCommit": 0,
+    "commits": [
+        {
+            "activePatchIndex": 1,
+            "patches": [
+                {
+                    "date": 1725770777912,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n"
+                },
+                {
+                    "date": 1725771274597,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -47,9 +47,9 @@\n             popup_instance = self.create_popup_instance(title, url, image)\n             popups.append(popup_instance)\n \n         # Return all the data in the payload\n-        return popups\n+        return popups[0]\n \n     def create_popup_instance(self, title, url, image):\n         \"\"\"Helper function to create a Popup instance.\"\"\"\n         if image:\n"
+                }
+            ],
+            "date": 1725770777912,
+            "name": "Commit-0",
+            "content": "from rest_framework import serializers\nfrom ..models import Popup\n\nclass PopupListSerializers(serializers.ModelSerializer):\n    class Meta:\n        model = Popup\n        fields = '__all__'\n\nclass PopupRetrieveSerializers(serializers.ModelSerializer):\n    class Meta:\n        model = Popup\n        fields = '__all__'\n\nclass PopupWriteSerializers(serializers.ModelSerializer):\n    class Meta:\n        model = Popup\n        fields = '__all__'\n\n    def create(self, validated_data):\n        popups = []\n        request = self.context['request']\n\n        # Check if the request data is a list (array) or a single object\n        if isinstance(request.data.get('data'), list):\n            # Handle array type data\n            index = 0\n            while f'data[{index}][title]' in request.data:\n                title = request.data.get(f'data[{index}][title]')\n                url = request.data.get(f'data[{index}][url]')\n                image = request.FILES.get(f'data[{index}][image]', None)\n\n                if not title:\n                    raise serializers.ValidationError(f\"Title is required for popup {index}.\")\n\n                popup_instance = self.create_popup_instance(title, url, image)\n                popups.append(popup_instance)\n                index += 1\n        else:\n            # Handle single object data\n            title = request.data.get('data[title]')\n            url = request.data.get('data[url]')\n            image = request.FILES.get('data[image]', None)\n\n            if not title:\n                raise serializers.ValidationError(\"Title is required for popup.\")\n\n            popup_instance = self.create_popup_instance(title, url, image)\n            popups.append(popup_instance)\n\n        # Return all the data in the payload\n        return popups\n\n    def create_popup_instance(self, title, url, image):\n        \"\"\"Helper function to create a Popup instance.\"\"\"\n        if image:\n            popup_instance = Popup.objects.create(title=title, image=image, url=url)\n            popup_instance.url = popup_instance.image.url\n        else:\n            popup_instance = Popup.objects.create(title=title, url=url)\n\n        popup_instance.save()\n        return popup_instance\n\n    def to_representation(self, instance):\n        \"\"\"Convert to a format that matches the original request structure.\"\"\"\n        if isinstance(instance, list):\n            return [self.single_representation(popup) for popup in instance]\n        return self.single_representation(instance)\n\n    def single_representation(self, instance):\n        return {\n            \"id\": instance.id,\n            \"title\": instance.title,\n            \"image\": instance.image.url if instance.image else None,\n            \"url\": instance.url,\n            \"created_date\": instance.created_date,\n            \"updated_date\": instance.updated_date\n        }\n"
+        }
+    ]
+}
