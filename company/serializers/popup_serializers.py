@@ -47,11 +47,12 @@ class PopupWriteSerializers(serializers.ModelSerializer):
                     index += 1
                     continue
             else:
-                # Create a new Popup instance
-                if image:
-                    popup_instance = Popup.objects.create(title=title, image=image, url=url)
-                else:
-                    popup_instance = Popup.objects.create(title=title, url=url)
+                popup_instance = Popup.objects.create(title=title, image=image, url=url)
+                # # Create a new Popup instance
+                # if image:
+                #     popup_instance = Popup.objects.create(title=title, image=image, url=url)
+                # else:
+                #     popup_instance = Popup.objects.create(title=title,image=image, url=url)
 
             popups.append(popup_instance)
             index += 1

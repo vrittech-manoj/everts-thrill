@@ -3,7 +3,7 @@
     "activeCommit": 0,
     "commits": [
         {
-            "activePatchIndex": 4,
+            "activePatchIndex": 5,
             "patches": [
                 {
                     "date": 1725774275409,
@@ -24,6 +24,10 @@
                 {
                     "date": 1725791403075,
                     "content": "Index: \n===================================================================\n--- \n+++ \n@@ -3,8 +3,10 @@\n from django_filters.rest_framework import DjangoFilterBackend\n from ..models import Collection\n from ..serializers.collection_serializers import CollectionListSerializers, CollectionRetrieveSerializers, CollectionWriteSerializers\n from ..utilities.importbase import *\n+from rest_framework.response import Response\n+from rest_framework import status\n \n class collectionViewsets(viewsets.ModelViewSet):\n     serializer_class = CollectionListSerializers\n     permission_classes = [collectionPermission]\n@@ -30,9 +32,9 @@\n         elif self.action == 'retrieve':\n             return CollectionRetrieveSerializers\n         return super().get_serializer_class()\n     \n-     def destroy(self, request, *args, **kwargs):\n+    def destroy(self, request, *args, **kwargs):\n         instance = self.get_object()\n         self.perform_destroy(instance)\n         \n         return Response(\n@@ -44,41 +46,4 @@\n     # @action(detail=False, methods=['get'], name=\"action_name\", url_path=\"url_path\")\n     # def action_name(self, request, *args, **kwargs):\n     #     return super().list(request, *args, **kwargs)\n \n-from rest_framework import viewsets\n-from rest_framework.filters import SearchFilter, OrderingFilter\n-from django_filters.rest_framework import DjangoFilterBackend\n-from ..models import Collection\n-from ..serializers.collection_serializers import CollectionListSerializers, CollectionRetrieveSerializers, CollectionWriteSerializers\n-from ..utilities.importbase import *\n-\n-class collectionViewsets(viewsets.ModelViewSet):\n-    serializer_class = CollectionListSerializers\n-    permission_classes = [collectionPermission]\n-    pagination_class = MyPageNumberPagination\n-    queryset = Collection.objects.all().order_by(\"-name\")\n-\n-    filter_backends = [SearchFilter, DjangoFilterBackend, OrderingFilter]\n-    search_fields = ['id','name']\n-    ordering_fields = ['id','name','index']\n-\n-    filterset_fields = {\n-        'id': ['exact'],\n-        'name':['exact'],\n-    }\n-\n-    def get_queryset(self):\n-        queryset = super().get_queryset()\n-        return queryset\n-\n-    def get_serializer_class(self):\n-        if self.action in ['create', 'update', 'partial_update']:\n-            return CollectionWriteSerializers\n-        elif self.action == 'retrieve':\n-            return CollectionRetrieveSerializers\n-        return super().get_serializer_class()\n-\n-    # @action(detail=False, methods=['get'], name=\"action_name\", url_path=\"url_path\")\n-    # def action_name(self, request, *args, **kwargs):\n-    #     return super().list(request, *args, **kwargs)\n-\n"
+                },
+                {
+                    "date": 1725861544435,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -10,9 +10,9 @@\n class collectionViewsets(viewsets.ModelViewSet):\n     serializer_class = CollectionListSerializers\n     permission_classes = [collectionPermission]\n     pagination_class = MyPageNumberPagination\n-    queryset = Collection.objects.all().order_by(\"-name\")\n+    queryset = Collection.objects.all().order_by(\"-index\")\n \n     filter_backends = [SearchFilter, DjangoFilterBackend, OrderingFilter]\n     search_fields = ['id','name']\n     ordering_fields = ['id','name','index']\n"
                 }
             ],
             "date": 1725774275409,

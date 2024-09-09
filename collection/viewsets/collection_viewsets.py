@@ -11,7 +11,7 @@ class collectionViewsets(viewsets.ModelViewSet):
     serializer_class = CollectionListSerializers
     permission_classes = [collectionPermission]
     pagination_class = MyPageNumberPagination
-    queryset = Collection.objects.all().order_by("-name")
+    queryset = Collection.objects.all().order_by("-index")
 
     filter_backends = [SearchFilter, DjangoFilterBackend, OrderingFilter]
     search_fields = ['id','name']
