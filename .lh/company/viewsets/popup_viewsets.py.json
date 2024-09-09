@@ -3,7 +3,7 @@
     "activeCommit": 0,
     "commits": [
         {
-            "activePatchIndex": 3,
+            "activePatchIndex": 5,
             "patches": [
                 {
                     "date": 1725861032541,
@@ -20,6 +20,14 @@
                 {
                     "date": 1725862225929,
                     "content": "Index: \n===================================================================\n--- \n+++ \n@@ -13,20 +13,5 @@\n         if self.action in ['create', 'update', 'partial_update']:\n             return PopupWriteSerializers\n         elif self.action == 'retrieve':\n             return PopupRetrieveSerializers\n-        return super().get_serializer_class()\n-\n-\n-    def perform_create(self, serializer):\n-        # Check title length before saving\n-        title = serializer.validated_data.get('title', '')\n-        if len(title) > 200:\n-            return Response({'error': 'Title exceeds the maximum length of 200 characters.'}, status=status.HTTP_400_BAD_REQUEST)\n-        serializer.save()\n-\n-    def perform_update(self, serializer):\n-        # Check title length before updating\n-        title = serializer.validated_data.get('title', '')\n-        if len(title) > 200:\n-            return Response({'error': 'Title exceeds the maximum length of 200 characters.'}, status=status.HTTP_400_BAD_REQUEST)\n-        serializer.save()\n\\ No newline at end of file\n+        return super().get_serializer_class()\n\\ No newline at end of file\n"
+                },
+                {
+                    "date": 1725863385630,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -13,5 +13,32 @@\n         if self.action in ['create', 'update', 'partial_update']:\n             return PopupWriteSerializers\n         elif self.action == 'retrieve':\n             return PopupRetrieveSerializers\n-        return super().get_serializer_class()\n\\ No newline at end of file\n+        return super().get_serializer_class()\n+    \n+    def create(self, request, *args, **kwargs):\n+        try:\n+            serializer = self.get_serializer(data=request.data)\n+            serializer.is_valid(raise_exception=True)\n+            self.perform_create(serializer)\n+            return Response(serializer.data, status=status.HTTP_201_CREATED)\n+        except ValidationError as e:\n+            return Response({'error': e.message_dict}, status=status.HTTP_400_BAD_REQUEST)\n+        except Exception as e:\n+            return Response({'error': str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)\n+\n+    def update(self, request, *args, **kwargs):\n+        partial = kwargs.pop('partial', False)\n+        instance = self.get_object()\n+        try:\n+            serializer = self.get_serializer(instance, data=request.data, partial=partial)\n+            serializer.is_valid(raise_exception=True)\n+            self.perform_update(serializer)\n+            return Response(serializer.data)\n+        except ValidationError as e:\n+            return Response({'error': e.message_dict}, status=status.HTTP_400_BAD_REQUEST)\n+        except Exception as e:\n+            return Response({'error': str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)\n+\n+    def partial_update(self, request, *args, **kwargs):\n+        return self.update(request, *args, partial=True)\n\\ No newline at end of file\n"
+                },
+                {
+                    "date": 1725863397159,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -2,8 +2,9 @@\n from rest_framework.response import Response\n from ..models import Popup\n from rest_framework import viewsets, status\n from rest_framework.response import Response\n+from django.core.exceptions import ValidationError\n from ..serializers.popup_serializers import PopupListSerializers, PopupRetrieveSerializers, PopupWriteSerializers\n \n class popupViewsets(viewsets.ModelViewSet):\n     serializer_class = PopupListSerializers\n"
                 }
             ],
             "date": 1725861032541,

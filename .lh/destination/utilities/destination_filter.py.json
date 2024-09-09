@@ -3,7 +3,7 @@
     "activeCommit": 0,
     "commits": [
         {
-            "activePatchIndex": 24,
+            "activePatchIndex": 25,
             "patches": [
                 {
                     "date": 1724821555571,
@@ -104,6 +104,10 @@
                 {
                     "date": 1724944535930,
                     "content": "Index: \n===================================================================\n--- \n+++ \n@@ -21,17 +21,21 @@\n             queryset = queryset.filter(collections__id__in=collections)\n         return queryset\n \n     def filter_by_packages(self, queryset, name, value):\n+        \"\"\"\n+        First filter destinations based on packages if provided.\n+        \"\"\"\n         if value:\n             packages = value.split(',') if ',' in value else [value]\n             queryset = queryset.filter(packages__id__in=packages)\n         return queryset\n \n- def filter_by_activities(self, queryset, name, value):\n+    def filter_by_activities(self, queryset, name, value):\n+        \"\"\"\n+        Filter the already filtered destinations (by packages) by activities if provided.\n+        If no packages filter is applied, it will filter directly by activities.\n+        \"\"\"\n         if value:\n             activities = value.split(',') if ',' in value else [value]\n-            # Filter destinations by activities directly associated with them\n-            queryset = queryset.filter(\n-                activities__id__in=activities\n-            ).distinct()\n+            queryset = queryset.filter(activities__id__in=activities).distinct()\n         return queryset\n"
+                },
+                {
+                    "date": 1725863327279,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -12,8 +12,9 @@\n         fields = {\n             'destination_title': ['exact', 'icontains'],\n             'nature_of_trip': ['exact', 'icontains'],\n             'duration': ['exact', 'gte', 'lte'],\n+            'duration': ['exact', 'gte', 'lte'],\n         }\n \n     def filter_by_collections(self, queryset, name, value):\n         if value:\n"
                 }
             ],
             "date": 1724821555571,

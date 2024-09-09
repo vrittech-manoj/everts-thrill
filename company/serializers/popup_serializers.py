@@ -1,5 +1,6 @@
 from rest_framework import serializers
 from ..models import Popup
+from django.core.exceptions import ValidationError
 
 class PopupListSerializers(serializers.ModelSerializer):
     class Meta:
@@ -76,5 +77,13 @@ class PopupWriteSerializers(serializers.ModelSerializer):
             "created_date": instance.created_date,
             "updated_date": instance.updated_date
         }
+    
+    def save(self, **kwargs):
+        try:
+            # Call the model's save method which may raise ValidationError
+            return super().save(**kwargs)
+        except ValidationError as e:
+            # Catch the ValidationError and raise a DRF ValidationError
+            raise serializers.ValidationError({'title': str(e)})
         
     

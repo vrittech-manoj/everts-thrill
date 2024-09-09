@@ -13,6 +13,7 @@ class DestinationFilter(django_filters.FilterSet):
             'destination_title': ['exact', 'icontains'],
             'nature_of_trip': ['exact', 'icontains'],
             'duration': ['exact', 'gte', 'lte'],
+            'created_date': ['exact', 'gte', 'lte'],
         }
 
     def filter_by_collections(self, queryset, name, value):
