@@ -10,6 +10,7 @@ class Blog(models.Model):
     slug = models.SlugField(unique=True, blank=True)
     title = models.CharField(max_length = 150,unique = True)
     description = models.TextField(blank = True,null = True)
+    short_description = models.TextField(blank = True,null = True)
     featured_image = models.ImageField(upload_to="blog/images",null=True,blank=True)
     created_date = models.DateField(auto_now_add=True, null = True,blank = True)
     created_date_time = models.DateTimeField(auto_now_add=True, null = True,blank = True)

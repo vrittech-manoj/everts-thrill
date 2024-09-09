@@ -3,7 +3,7 @@
     "activeCommit": 0,
     "commits": [
         {
-            "activePatchIndex": 12,
+            "activePatchIndex": 13,
             "patches": [
                 {
                     "date": 1725344503184,
@@ -56,6 +56,10 @@
                 {
                     "date": 1725429069156,
                     "content": "Index: \n===================================================================\n--- \n+++ \n@@ -211,9 +211,9 @@\n \n class PermissionAllDelete(APIView):\n     authentication_classes = [JWTAuthentication]\n     permission_classes = [IsAuthenticated]  \n-    def get(self, request, format=None):  # sourcery skip: avoid-builtin-shadow\n+    def get(self, request, format=None):  \n         object = Permission.objects.all().delete()\n         return Response({'message': 'All permission delete successful'}, status=status.HTTP_200_OK)\n \n class CheckTokenExpireView(APIView): \n"
+                },
+                {
+                    "date": 1725866698934,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -67,8 +67,11 @@\n     \n     def get_queryset(self):\n         user = self.request.user\n         queryset = CustomUser.objects.all().order_by('-id')\n+\n+        if self.action == \"GetSelfDetail\":\n+            return CustomUser.objects.filter(id=self.request.user.id)\n         \n         if not user.is_authenticated:\n             query = CustomUser.objects.none()\n         elif user.role == roles.SUPER_ADMIN:\n@@ -130,8 +133,13 @@\n \n             # Return the custom response\n         return Response(response_data, status=status.HTTP_201_CREATED)\n     \n+   \n+    @action(detail=False, methods=['get'], name=\"GetSelfDetail\", url_path=\"me\")\n+    def GetSelfDetail(self, request, *args, **kwargs):\n+        return super().list(request, *args, **kwargs)   \n+    \n class RoleViewSet(APIView):\n     # authentication_classes = [JWTAuthentication]\n     # permission_classes = [IsAuthenticated]  \n     \n@@ -246,9 +254,9 @@\n                 'password': openapi.Schema(type=openapi.TYPE_STRING),\n             },\n             required=['email', 'password']\n         ),\n-        # responses={200: MyResponseSerializer},\n+        # responses={200: MyResponseSerializer},          \n         operation_summary=\"Login and get token\",\n         operation_description=\"Login and get token\",\n     )\n     # @csrf_exempt\n"
                 }
             ],
             "date": 1725344503184,
