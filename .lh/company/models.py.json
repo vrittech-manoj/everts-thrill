@@ -3,7 +3,7 @@
     "activeCommit": 0,
     "commits": [
         {
-            "activePatchIndex": 9,
+            "activePatchIndex": 10,
             "patches": [
                 {
                     "date": 1725343190513,
@@ -44,6 +44,10 @@
                 {
                     "date": 1725789576256,
                     "content": "Index: \n===================================================================\n--- \n+++ \n@@ -5,9 +5,10 @@\n     title = models.CharField(max_length = 200,null = True)\n     image = models.ImageField(upload_to='components/popup', null=True, blank=True)\n     url = models.URLField(null=True, blank=True)\n     \n-    created_date = models.DateTimeField(auto_now_add=True)\n+    created_date = models.DateField(auto_now_add=True, null = True,blank = True)\n+    created_date_time = models.DateTimeField(auto_now_add=True, null = True,blank = True)\n     updated_date = models.DateTimeField(auto_now=True)\n \n class MeetTeam(models.Model):\n     member_name = models.CharField(max_length = 200,null = True)\n@@ -39,9 +40,9 @@\n     created_date = models.DateTimeField(auto_now_add=True)\n     updated_date = models.DateTimeField(auto_now=True)\n \n class HeroSection(models.Model):\n-    title = models.CharField(max_length = 200,null = True,blank=)\n+    title = models.CharField(max_length = 200,null = True,blank=True)\n     is_button = models.BooleanField(default = False)\n     is_title = models.BooleanField(default = False)\n     position = models.CharField(max_length=23, choices=[('top', 'Top'), ('middle', 'Middle'), ('bottom', 'Bottom')],unique=True)\n     video = models.FileField(upload_to='hero_section_videos', blank=True, null=True)\n"
+                },
+                {
+                    "date": 1725861286838,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -1,9 +1,9 @@\n from django.db import models\n from accounts.models import CustomUser\n \n class Popup(models.Model):\n-    title = models.CharField(max_length = 200,null = True)\n+    title = models.CharField(,null = True)\n     image = models.ImageField(upload_to='components/popup', null=True, blank=True)\n     url = models.URLField(null=True, blank=True)\n     \n     created_date = models.DateField(auto_now_add=True, null = True,blank = True)\n"
                 }
             ],
             "date": 1725343190513,

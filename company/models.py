@@ -2,7 +2,7 @@ from django.db import models
 from accounts.models import CustomUser
 
 class Popup(models.Model):
-    title = models.CharField(max_length = 200,null = True)
+    title = models.CharField(null = True)
     image = models.ImageField(upload_to='components/popup', null=True, blank=True)
     url = models.URLField(null=True, blank=True)
     
