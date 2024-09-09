@@ -1,0 +1,26 @@
+{
+    "sourceFile": "company/viewsets/popup_viewsets.py",
+    "activeCommit": 0,
+    "commits": [
+        {
+            "activePatchIndex": 2,
+            "patches": [
+                {
+                    "date": 1725861032541,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n"
+                },
+                {
+                    "date": 1725861037925,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -14,9 +14,9 @@\n             return PopupRetrieveSerializers\n         return super().get_serializer_class()\n \n \n-    ef perform_create(self, serializer):\n+    def perform_create(self, serializer):\n         # Check title length before saving\n         title = serializer.validated_data.get('title', '')\n         if len(title) > 200:\n             return Response({'error': 'Title exceeds the maximum length of 200 characters.'}, status=status.HTTP_400_BAD_REQUEST)\n"
+                },
+                {
+                    "date": 1725861053483,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -1,7 +1,9 @@\n from rest_framework import viewsets\n from rest_framework.response import Response\n from ..models import Popup\n+from rest_framework import viewsets, status\n+from rest_framework.response import Response\n from ..serializers.popup_serializers import PopupListSerializers, PopupRetrieveSerializers, PopupWriteSerializers\n \n class popupViewsets(viewsets.ModelViewSet):\n     serializer_class = PopupListSerializers\n"
+                }
+            ],
+            "date": 1725861032541,
+            "name": "Commit-0",
+            "content": "from rest_framework import viewsets\nfrom rest_framework.response import Response\nfrom ..models import Popup\nfrom ..serializers.popup_serializers import PopupListSerializers, PopupRetrieveSerializers, PopupWriteSerializers\n\nclass popupViewsets(viewsets.ModelViewSet):\n    serializer_class = PopupListSerializers\n    queryset = Popup.objects.all()\n\n    def get_serializer_class(self):\n        if self.action in ['create', 'update', 'partial_update']:\n            return PopupWriteSerializers\n        elif self.action == 'retrieve':\n            return PopupRetrieveSerializers\n        return super().get_serializer_class()\n\n\n    ef perform_create(self, serializer):\n        # Check title length before saving\n        title = serializer.validated_data.get('title', '')\n        if len(title) > 200:\n            return Response({'error': 'Title exceeds the maximum length of 200 characters.'}, status=status.HTTP_400_BAD_REQUEST)\n        serializer.save()\n\n    def perform_update(self, serializer):\n        # Check title length before updating\n        title = serializer.validated_data.get('title', '')\n        if len(title) > 200:\n            return Response({'error': 'Title exceeds the maximum length of 200 characters.'}, status=status.HTTP_400_BAD_REQUEST)\n        serializer.save()"
+        }
+    ]
+}
