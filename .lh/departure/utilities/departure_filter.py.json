@@ -1,0 +1,30 @@
+{
+    "sourceFile": "departure/utilities/departure_filter.py",
+    "activeCommit": 0,
+    "commits": [
+        {
+            "activePatchIndex": 3,
+            "patches": [
+                {
+                    "date": 1725874499430,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n"
+                },
+                {
+                    "date": 1725874607349,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -1,9 +1,8 @@\n import django_filters\n from ..models import Departure\n \n class DepartureFilter(django_filters.FilterSet):\n-    # Custom filter for filtering by month of the departure date\n     departure_month = django_filters.NumberFilter(field_name='upcoming_departure_date', lookup_expr='month')\n \n     class Meta:\n         model = Departure\n"
+                },
+                {
+                    "date": 1725874930925,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -1,12 +1,29 @@\n import django_filters\n from ..models import Departure\n+from django.utils.dateparse import parse_date\n \n+# Mapping month names to their corresponding numbers\n+MONTHS_MAPPING = {\n+    'january': 1, 'february': 2, 'march': 3, 'april': 4, \n+    'may': 5, 'june': 6, 'july': 7, 'august': 8, \n+    'september': 9, 'october': 10, 'november': 11, 'december': 12\n+}\n+\n class DepartureFilter(django_filters.FilterSet):\n-    departure_month = django_filters.NumberFilter(field_name='upcoming_departure_date', lookup_expr='month')\n+    # Custom filter for filtering by the name of the month\n+    departure_month_name = django_filters.CharFilter(method='filter_by_month_name')\n \n     class Meta:\n         model = Departure\n         fields = {\n             'id': ['exact'],\n             'upcoming_departure_date': ['exact', 'lte', 'gte'],\n         }\n+\n+    def filter_by_month_name(self, queryset, name, value):\n+        # Convert the month name to lowercase and get the corresponding month number\n+        month_number = MONTHS_MAPPING.get(value.lower())\n+        if month_number:\n+            # Filter the queryset by the month number\n+            return queryset.filter(upcoming_departure_date__month=month_number)\n+        return queryset.none()  # Return an empty queryset if the month name is invalid\n"
+                },
+                {
+                    "date": 1725875132195,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -1,7 +1,8 @@\n import django_filters\n+from django_filters import rest_framework as filters\n from ..models import Departure\n-from django.utils.dateparse import parse_date\n+from rest_framework.exceptions import ValidationError\n \n # Mapping month names to their corresponding numbers\n MONTHS_MAPPING = {\n     'january': 1, 'february': 2, 'march': 3, 'april': 4, \n@@ -9,10 +10,17 @@\n     'september': 9, 'october': 10, 'november': 11, 'december': 12\n }\n \n class DepartureFilter(django_filters.FilterSet):\n-    # Custom filter for filtering by the name of the month\n-    departure_month_name = django_filters.CharFilter(method='filter_by_month_name')\n+    \"\"\"\n+    Custom filter for filtering Departures by the name of the month.\n+    Use full month names (e.g., 'January', 'February') in the 'departure_month_name' filter.\n+    \"\"\"\n+    departure_month_name = filters.CharFilter(\n+        method='filter_by_month_name',\n+        label='Month Name',\n+        help_text='Filter by the name of the departure month. Use full month names like January, February, etc.'\n+    )\n \n     class Meta:\n         model = Departure\n         fields = {\n@@ -20,10 +28,14 @@\n             'upcoming_departure_date': ['exact', 'lte', 'gte'],\n         }\n \n     def filter_by_month_name(self, queryset, name, value):\n-        # Convert the month name to lowercase and get the corresponding month number\n+        \"\"\"\n+        Custom filter method to filter by month name.\n+        Validates and converts the month name to its corresponding month number.\n+        \"\"\"\n         month_number = MONTHS_MAPPING.get(value.lower())\n         if month_number:\n             # Filter the queryset by the month number\n             return queryset.filter(upcoming_departure_date__month=month_number)\n-        return queryset.none()  # Return an empty queryset if the month name is invalid\n+        else:\n+            raise ValidationError(f\"Invalid month name '{value}'. Please provide a valid month name.\")\n"
+                }
+            ],
+            "date": 1725874499430,
+            "name": "Commit-0",
+            "content": "import django_filters\nfrom ..models import Departure\n\nclass DepartureFilter(django_filters.FilterSet):\n    # Custom filter for filtering by month of the departure date\n    departure_month = django_filters.NumberFilter(field_name='upcoming_departure_date', lookup_expr='month')\n\n    class Meta:\n        model = Departure\n        fields = {\n            'id': ['exact'],\n            'upcoming_departure_date': ['exact', 'lte', 'gte'],\n        }\n"
+        }
+    ]
+}

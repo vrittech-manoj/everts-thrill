@@ -1,0 +1,222 @@
+{
+    "sourceFile": "departure/utilities/departurefilterset.py",
+    "activeCommit": 0,
+    "commits": [
+        {
+            "activePatchIndex": 51,
+            "patches": [
+                {
+                    "date": 1725872372198,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n"
+                },
+                {
+                    "date": 1725872378015,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -0,0 +1,14 @@\n+import django_filters\n+from .models import De\n+\n+class YourModelFilter(django_filters.FilterSet):\n+    # Custom filter for the month\n+    upcoming_departure_month = django_filters.NumberFilter(field_name='upcoming_departure_date', method='filter_by_month')\n+\n+    class Meta:\n+        model = YourModel\n+        fields = []  # Add other fields you want to filter by\n+\n+    def filter_by_month(self, queryset, name, value):\n+        # Filter by the month part of the upcoming_departure_date\n+        return queryset.filter(upcoming_departure_date__month=value)\n"
+                },
+                {
+                    "date": 1725872383674,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -1,6 +1,6 @@\n import django_filters\n-from .models import De\n+from ..models import De\n \n class YourModelFilter(django_filters.FilterSet):\n     # Custom filter for the month\n     upcoming_departure_month = django_filters.NumberFilter(field_name='upcoming_departure_date', method='filter_by_month')\n@@ -11,18 +11,4 @@\n \n     def filter_by_month(self, queryset, name, value):\n         # Filter by the month part of the upcoming_departure_date\n         return queryset.filter(upcoming_departure_date__month=value)\n-import django_filters\n-from .models import YourModel\n-\n-class YourModelFilter(django_filters.FilterSet):\n-    # Custom filter for the month\n-    upcoming_departure_month = django_filters.NumberFilter(field_name='upcoming_departure_date', method='filter_by_month')\n-\n-    class Meta:\n-        model = YourModel\n-        fields = []  # Add other fields you want to filter by\n-\n-    def filter_by_month(self, queryset, name, value):\n-        # Filter by the month part of the upcoming_departure_date\n-        return queryset.filter(upcoming_departure_date__month=value)\n"
+                },
+                {
+                    "date": 1725872395376,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -1,13 +1,13 @@\n import django_filters\n-from ..models import De\n+from ..models import Departure\n \n class YourModelFilter(django_filters.FilterSet):\n     # Custom filter for the month\n     upcoming_departure_month = django_filters.NumberFilter(field_name='upcoming_departure_date', method='filter_by_month')\n \n     class Meta:\n-        model = YourModel\n+        model = Departure\n         fields = []  # Add other fields you want to filter by\n \n     def filter_by_month(self, queryset, name, value):\n         # Filter by the month part of the upcoming_departure_date\n"
+                },
+                {
+                    "date": 1725872400837,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -6,9 +6,9 @@\n     upcoming_departure_month = django_filters.NumberFilter(field_name='upcoming_departure_date', method='filter_by_month')\n \n     class Meta:\n         model = Departure\n-        fields = []  # Add other fields you want to filter by\n+        fields = []  \n \n     def filter_by_month(self, queryset, name, value):\n         # Filter by the month part of the upcoming_departure_date\n         return queryset.filter(upcoming_departure_date__month=value)\n"
+                },
+                {
+                    "date": 1725872426237,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -6,9 +6,9 @@\n     upcoming_departure_month = django_filters.NumberFilter(field_name='upcoming_departure_date', method='filter_by_month')\n \n     class Meta:\n         model = Departure\n-        fields = []  \n+        fields =   \n \n     def filter_by_month(self, queryset, name, value):\n         # Filter by the month part of the upcoming_departure_date\n         return queryset.filter(upcoming_departure_date__month=value)\n"
+                },
+                {
+                    "date": 1725872462075,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -6,9 +6,9 @@\n     upcoming_departure_month = django_filters.NumberFilter(field_name='upcoming_departure_date', method='filter_by_month')\n \n     class Meta:\n         model = Departure\n-        fields =   \n+        fields = \n \n     def filter_by_month(self, queryset, name, value):\n         # Filter by the month part of the upcoming_departure_date\n         return queryset.filter(upcoming_departure_date__month=value)\n"
+                },
+                {
+                    "date": 1725872471622,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -6,9 +6,12 @@\n     upcoming_departure_month = django_filters.NumberFilter(field_name='upcoming_departure_date', method='filter_by_month')\n \n     class Meta:\n         model = Departure\n-        fields = \n+        fields = {\n+        'id': ['exact'],\n+        'upcoming_departure_date':['exact','lte','gte'],\n+    }\n \n     def filter_by_month(self, queryset, name, value):\n         # Filter by the month part of the upcoming_departure_date\n         return queryset.filter(upcoming_departure_date__month=value)\n"
+                },
+                {
+                    "date": 1725872572758,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -1,8 +1,8 @@\n import django_filters\n from ..models import Departure\n \n-class YourModelFilter(django_filters.FilterSet):\n+class DModelFilter(django_filters.FilterSet):\n     # Custom filter for the month\n     upcoming_departure_month = django_filters.NumberFilter(field_name='upcoming_departure_date', method='filter_by_month')\n \n     class Meta:\n"
+                },
+                {
+                    "date": 1725872647350,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -1,17 +1,21 @@\n import django_filters\n from ..models import Departure\n \n-class DModelFilter(django_filters.FilterSet):\n+class DepartureModelFilter(django_filters.FilterSet):\n     # Custom filter for the month\n     upcoming_departure_month = django_filters.NumberFilter(field_name='upcoming_departure_date', method='filter_by_month')\n \n     class Meta:\n         model = Departure\n+        class Meta:\n+        model = Destination\n         fields = {\n-        'id': ['exact'],\n-        'upcoming_departure_date':['exact','lte','gte'],\n-    }\n+            'destination_title': ['exact', 'icontains'],\n+            'nature_of_trip': ['exact', 'icontains'],\n+            'duration': ['exact', 'gte', 'lte'],\n+            'created_date': ['exact', 'gte', 'lte'],\n+        }\n \n     def filter_by_month(self, queryset, name, value):\n         # Filter by the month part of the upcoming_departure_date\n         return queryset.filter(upcoming_departure_date__month=value)\n"
+                },
+                {
+                    "date": 1725872654731,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -6,10 +6,8 @@\n     upcoming_departure_month = django_filters.NumberFilter(field_name='upcoming_departure_date', method='filter_by_month')\n \n     class Meta:\n         model = Departure\n-        class Meta:\n-        model = Destination\n         fields = {\n             'destination_title': ['exact', 'icontains'],\n             'nature_of_trip': ['exact', 'icontains'],\n             'duration': ['exact', 'gte', 'lte'],\n"
+                },
+                {
+                    "date": 1725872661179,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -7,13 +7,11 @@\n \n     class Meta:\n         model = Departure\n         fields = {\n-            'destination_title': ['exact', 'icontains'],\n-            'nature_of_trip': ['exact', 'icontains'],\n-            'duration': ['exact', 'gte', 'lte'],\n-            'created_date': ['exact', 'gte', 'lte'],\n-        }\n+        'id': ['exact'],\n+        'upcoming_departure_date':['exact','lte','gte'],\n+    }\n \n     def filter_by_month(self, queryset, name, value):\n         # Filter by the month part of the upcoming_departure_date\n         return queryset.filter(upcoming_departure_date__month=value)\n"
+                },
+                {
+                    "date": 1725872666608,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -9,9 +9,9 @@\n         model = Departure\n         fields = {\n         'id': ['exact'],\n         'upcoming_departure_date':['exact','lte','gte'],\n-    }\n+        }\n \n     def filter_by_month(self, queryset, name, value):\n         # Filter by the month part of the upcoming_departure_date\n         return queryset.filter(upcoming_departure_date__month=value)\n"
+                },
+                {
+                    "date": 1725872843002,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -1,17 +1,17 @@\n import django_filters\n from ..models import Departure\n \n class DepartureModelFilter(django_filters.FilterSet):\n-    # Custom filter for the month\n+    # Custom filter for filtering by the month part of the `upcoming_departure_date`\n     upcoming_departure_month = django_filters.NumberFilter(field_name='upcoming_departure_date', method='filter_by_month')\n \n     class Meta:\n         model = Departure\n         fields = {\n-        'id': ['exact'],\n-        'upcoming_departure_date':['exact','lte','gte'],\n+            'id': ['exact'],  # Allow filtering by exact match on the `id` field\n+            'upcoming_departure_date': ['exact', 'lte', 'gte']  # Allow exact, lte, and gte filters on `upcoming_departure_date`\n         }\n \n+    # Custom method to filter by the month part of `upcoming_departure_date`\n     def filter_by_month(self, queryset, name, value):\n-        # Filter by the month part of the upcoming_departure_date\n         return queryset.filter(upcoming_departure_date__month=value)\n"
+                },
+                {
+                    "date": 1725872848873,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -7,9 +7,9 @@\n \n     class Meta:\n         model = Departure\n         fields = {\n-            'id': ['exact'],  # Allow filtering by exact match on the `id` field\n+            'id': ['exact'], \n             'upcoming_departure_date': ['exact', 'lte', 'gte']  # Allow exact, lte, and gte filters on `upcoming_departure_date`\n         }\n \n     # Custom method to filter by the month part of `upcoming_departure_date`\n"
+                },
+                {
+                    "date": 1725872854181,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -8,10 +8,9 @@\n     class Meta:\n         model = Departure\n         fields = {\n             'id': ['exact'], \n-            'upcoming_departure_date': ['exact', 'lte', 'gte']  # Allow exact, lte, and gte filters on `upcoming_departure_date`\n-        }\n+            'upcoming_departure_date': ['exact', 'lte', 'gte']\n \n     # Custom method to filter by the month part of `upcoming_departure_date`\n     def filter_by_month(self, queryset, name, value):\n         return queryset.filter(upcoming_departure_date__month=value)\n"
+                },
+                {
+                    "date": 1725872862271,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -9,8 +9,9 @@\n         model = Departure\n         fields = {\n             'id': ['exact'], \n             'upcoming_departure_date': ['exact', 'lte', 'gte']\n+        }\n \n     # Custom method to filter by the month part of `upcoming_departure_date`\n     def filter_by_month(self, queryset, name, value):\n         return queryset.filter(upcoming_departure_date__month=value)\n"
+                },
+                {
+                    "date": 1725872871674,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -1,9 +1,8 @@\n import django_filters\n from ..models import Departure\n \n class DepartureModelFilter(django_filters.FilterSet):\n-    # Custom filter for filtering by the month part of the `upcoming_departure_date`\n     upcoming_departure_month = django_filters.NumberFilter(field_name='upcoming_departure_date', method='filter_by_month')\n \n     class Meta:\n         model = Departure\n"
+                },
+                {
+                    "date": 1725872935775,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -1,8 +1,8 @@\n import django_filters\n from ..models import Departure\n \n-class DepartureModelFilter(django_filters.FilterSet):\n+class DepartureModelFilter(django_filters.FilterSetdjango_filters.FilterSetdjango_filters.FilterSet):\n     upcoming_departure_month = django_filters.NumberFilter(field_name='upcoming_departure_date', method='filter_by_month')\n \n     class Meta:\n         model = Departure\n"
+                },
+                {
+                    "date": 1725873171432,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -1,15 +1,16 @@\n import django_filters\n from ..models import Departure\n \n-class DepartureModelFilter(django_filters.FilterSetdjango_filters.FilterSetdjango_filters.FilterSet):\n+class DepartureModelFilter(django_filters.FilterSet):\n+    # Custom filter for filtering by the month part of the `upcoming_departure_date`\n     upcoming_departure_month = django_filters.NumberFilter(field_name='upcoming_departure_date', method='filter_by_month')\n \n     class Meta:\n         model = Departure\n         fields = {\n-            'id': ['exact'], \n-            'upcoming_departure_date': ['exact', 'lte', 'gte']\n+            'id': ['exact'],  # Allows exact filtering on `id`\n+            'upcoming_departure_date': ['exact', 'lte', 'gte']  # Allows exact, lte, gte filtering on `upcoming_departure_date`\n         }\n \n     # Custom method to filter by the month part of `upcoming_departure_date`\n     def filter_by_month(self, queryset, name, value):\n"
+                },
+                {
+                    "date": 1725873216492,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -14,4 +14,5 @@\n \n     # Custom method to filter by the month part of `upcoming_departure_date`\n     def filter_by_month(self, queryset, name, value):\n         return queryset.filter(upcoming_departure_date__month=value)\n+\n"
+                },
+                {
+                    "date": 1725873229719,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -15,4 +15,46 @@\n     # Custom method to filter by the month part of `upcoming_departure_date`\n     def filter_by_month(self, queryset, name, value):\n         return queryset.filter(upcoming_departure_date__month=value)\n \n+import django_filters\n+from ..models import Destination,Package\n+from django.db.models import Q\n+\n+class DepartureFilter(django_filters.FilterSet):\n+    activities = django_filters.CharFilter(method='filter_by_activities')\n+    collections = django_filters.CharFilter(method='filter_by_collections')\n+    packages = django_filters.CharFilter(method='filter_by_packages')\n+\n+    class Meta:\n+        model = Destination\n+        fields = {\n+            'destination_title': ['exact', 'icontains'],\n+            'nature_of_trip': ['exact', 'icontains'],\n+            'duration': ['exact', 'gte', 'lte'],\n+            'created_date': ['exact', 'gte', 'lte'],\n+        }\n+\n+    def filter_by_collections(self, queryset, name, value):\n+        if value:\n+            collections = value.split(',') if ',' in value else [value]\n+            queryset = queryset.filter(collections__id__in=collections)\n+        return queryset\n+\n+    def filter_by_packages(self, queryset, name, value):\n+        \"\"\"\n+        First filter destinations based on packages if provided.\n+        \"\"\"\n+        if value:\n+            packages = value.split(',') if ',' in value else [value]\n+            queryset = queryset.filter(packages__id__in=packages)\n+        return queryset\n+\n+    def filter_by_activities(self, queryset, name, value):\n+        \"\"\"\n+        Filter the already filtered destinations (by packages) by activities if provided.\n+        If no packages filter is applied, it will filter directly by activities.\n+        \"\"\"\n+        if value:\n+            activities = value.split(',') if ',' in value else [value]\n+            queryset = queryset.filter(activities__id__in=activities).distinct()\n+        return queryset\n"
+                },
+                {
+                    "date": 1725873243624,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -20,14 +20,14 @@\n from ..models import Destination,Package\n from django.db.models import Q\n \n class DepartureFilter(django_filters.FilterSet):\n-    activities = django_filters.CharFilter(method='filter_by_activities')\n+    a upcoming_departure_month = django_filters.NumberFilter(field_name='upcoming_departure_date', method='filter_by_month')\n     collections = django_filters.CharFilter(method='filter_by_collections')\n     packages = django_filters.CharFilter(method='filter_by_packages')\n \n     class Meta:\n-        model = Destination\n+        model = Departure\n         fields = {\n             'destination_title': ['exact', 'icontains'],\n             'nature_of_trip': ['exact', 'icontains'],\n             'duration': ['exact', 'gte', 'lte'],\n"
+                },
+                {
+                    "date": 1725873248962,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -20,9 +20,9 @@\n from ..models import Destination,Package\n from django.db.models import Q\n \n class DepartureFilter(django_filters.FilterSet):\n-    a upcoming_departure_month = django_filters.NumberFilter(field_name='upcoming_departure_date', method='filter_by_month')\n+    upcoming_departure_month = django_filters.NumberFilter(field_name='upcoming_departure_date', method='filter_by_month')\n     collections = django_filters.CharFilter(method='filter_by_collections')\n     packages = django_filters.CharFilter(method='filter_by_packages')\n \n     class Meta:\n"
+                },
+                {
+                    "date": 1725873255354,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -21,11 +21,9 @@\n from django.db.models import Q\n \n class DepartureFilter(django_filters.FilterSet):\n     upcoming_departure_month = django_filters.NumberFilter(field_name='upcoming_departure_date', method='filter_by_month')\n-    collections = django_filters.CharFilter(method='filter_by_collections')\n-    packages = django_filters.CharFilter(method='filter_by_packages')\n-\n+    \n     class Meta:\n         model = Departure\n         fields = {\n             'destination_title': ['exact', 'icontains'],\n"
+                },
+                {
+                    "date": 1725873264334,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -31,28 +31,7 @@\n             'duration': ['exact', 'gte', 'lte'],\n             'created_date': ['exact', 'gte', 'lte'],\n         }\n \n-    def filter_by_collections(self, queryset, name, value):\n-        if value:\n-            collections = value.split(',') if ',' in value else [value]\n-            queryset = queryset.filter(collections__id__in=collections)\n-        return queryset\n-\n-    def filter_by_packages(self, queryset, name, value):\n-        \"\"\"\n-        First filter destinations based on packages if provided.\n-        \"\"\"\n-        if value:\n-            packages = value.split(',') if ',' in value else [value]\n-            queryset = queryset.filter(packages__id__in=packages)\n-        return queryset\n-\n-    def filter_by_activities(self, queryset, name, value):\n-        \"\"\"\n-        Filter the already filtered destinations (by packages) by activities if provided.\n-        If no packages filter is applied, it will filter directly by activities.\n-        \"\"\"\n-        if value:\n-            activities = value.split(',') if ',' in value else [value]\n-            queryset = queryset.filter(activities__id__in=activities).distinct()\n-        return queryset\n+    \n+    def filter_by_month(self, queryset, name, value):\n+        return queryset.filter(upcoming_departure_date__month=value)\n\\ No newline at end of file\n"
+                },
+                {
+                    "date": 1725873280112,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -29,8 +29,10 @@\n             'destination_title': ['exact', 'icontains'],\n             'nature_of_trip': ['exact', 'icontains'],\n             'duration': ['exact', 'gte', 'lte'],\n             'created_date': ['exact', 'gte', 'lte'],\n+            'id': ['exact'],  # Allows exact filtering on `id`\n+            'upcoming_departure_date': ['exact', 'lte', 'gte']\n         }\n \n     \n     def filter_by_month(self, queryset, name, value):\n"
+                },
+                {
+                    "date": 1725873285215,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -29,9 +29,9 @@\n             'destination_title': ['exact', 'icontains'],\n             'nature_of_trip': ['exact', 'icontains'],\n             'duration': ['exact', 'gte', 'lte'],\n             'created_date': ['exact', 'gte', 'lte'],\n-            'id': ['exact'],  # Allows exact filtering on `id`\n+            'id': ['exact'],\n             'upcoming_departure_date': ['exact', 'lte', 'gte']\n         }\n \n     \n"
+                },
+                {
+                    "date": 1725873304524,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -15,12 +15,8 @@\n     # Custom method to filter by the month part of `upcoming_departure_date`\n     def filter_by_month(self, queryset, name, value):\n         return queryset.filter(upcoming_departure_date__month=value)\n \n-import django_filters\n-from ..models import Destination,Package\n-from django.db.models import Q\n-\n class DepartureFilter(django_filters.FilterSet):\n     upcoming_departure_month = django_filters.NumberFilter(field_name='upcoming_departure_date', method='filter_by_month')\n     \n     class Meta:\n"
+                },
+                {
+                    "date": 1725873309891,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -15,8 +15,12 @@\n     # Custom method to filter by the month part of `upcoming_departure_date`\n     def filter_by_month(self, queryset, name, value):\n         return queryset.filter(upcoming_departure_date__month=value)\n \n+import django_filters\n+from ..models import Destination,Package\n+from django.db.models import Q\n+\n class DepartureFilter(django_filters.FilterSet):\n     upcoming_departure_month = django_filters.NumberFilter(field_name='upcoming_departure_date', method='filter_by_month')\n     \n     class Meta:\n"
+                },
+                {
+                    "date": 1725873332098,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -15,12 +15,11 @@\n     # Custom method to filter by the month part of `upcoming_departure_date`\n     def filter_by_month(self, queryset, name, value):\n         return queryset.filter(upcoming_departure_date__month=value)\n \n-import django_filters\n-from ..models import Destination,Package\n-from django.db.models import Q\n \n+\n+\n class DepartureFilter(django_filters.FilterSet):\n     upcoming_departure_month = django_filters.NumberFilter(field_name='upcoming_departure_date', method='filter_by_month')\n     \n     class Meta:\n"
+                },
+                {
+                    "date": 1725873342289,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -17,19 +17,14 @@\n         return queryset.filter(upcoming_departure_date__month=value)\n \n \n \n-\n class DepartureFilter(django_filters.FilterSet):\n     upcoming_departure_month = django_filters.NumberFilter(field_name='upcoming_departure_date', method='filter_by_month')\n     \n     class Meta:\n         model = Departure\n         fields = {\n-            'destination_title': ['exact', 'icontains'],\n-            'nature_of_trip': ['exact', 'icontains'],\n-            'duration': ['exact', 'gte', 'lte'],\n-            'created_date': ['exact', 'gte', 'lte'],\n             'id': ['exact'],\n             'upcoming_departure_date': ['exact', 'lte', 'gte']\n         }\n \n"
+                },
+                {
+                    "date": 1725873359792,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -1,24 +1,8 @@\n import django_filters\n from ..models import Departure\n \n-class DepartureModelFilter(django_filters.FilterSet):\n-    # Custom filter for filtering by the month part of the `upcoming_departure_date`\n-    upcoming_departure_month = django_filters.NumberFilter(field_name='upcoming_departure_date', method='filter_by_month')\n \n-    class Meta:\n-        model = Departure\n-        fields = {\n-            'id': ['exact'],  # Allows exact filtering on `id`\n-            'upcoming_departure_date': ['exact', 'lte', 'gte']  # Allows exact, lte, gte filtering on `upcoming_departure_date`\n-        }\n-\n-    # Custom method to filter by the month part of `upcoming_departure_date`\n-    def filter_by_month(self, queryset, name, value):\n-        return queryset.filter(upcoming_departure_date__month=value)\n-\n-\n-\n class DepartureFilter(django_filters.FilterSet):\n     upcoming_departure_month = django_filters.NumberFilter(field_name='upcoming_departure_date', method='filter_by_month')\n     \n     class Meta:\n"
+                },
+                {
+                    "date": 1725873382738,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -1,9 +1,8 @@\n import django_filters\n from ..models import Departure\n \n-\n-class DepartureFilter(django_filters.FilterSet):\n+class DepartureMFilter(django_filters.FilterSet):\n     upcoming_departure_month = django_filters.NumberFilter(field_name='upcoming_departure_date', method='filter_by_month')\n     \n     class Meta:\n         model = Departure\n"
+                },
+                {
+                    "date": 1725873521174,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -1,16 +1,16 @@\n import django_filters\n from ..models import Departure\n \n-class DepartureMFilter(django_filters.FilterSet):\n+class DepartureModelFilter(django_filters.FilterSet):\n     upcoming_departure_month = django_filters.NumberFilter(field_name='upcoming_departure_date', method='filter_by_month')\n     \n     class Meta:\n         model = Departure\n         fields = {\n-            'id': ['exact'],\n-            'upcoming_departure_date': ['exact', 'lte', 'gte']\n-        }\n+    'id': ['exact'],\n+    'upcoming_departure_date': ['exact', 'lte', 'gte']\n+}\n \n     \n     def filter_by_month(self, queryset, name, value):\n         return queryset.filter(upcoming_departure_date__month=value)\n\\ No newline at end of file\n"
+                },
+                {
+                    "date": 1725873529147,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -6,11 +6,11 @@\n     \n     class Meta:\n         model = Departure\n         fields = {\n-    'id': ['exact'],\n-    'upcoming_departure_date': ['exact', 'lte', 'gte']\n-}\n+        'id': ['exact'],\n+        'upcoming_departure_date': ['exact', 'lte', 'gte']\n+        }\n \n     \n     def filter_by_month(self, queryset, name, value):\n         return queryset.filter(upcoming_departure_date__month=value)\n\\ No newline at end of file\n"
+                },
+                {
+                    "date": 1725873547356,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -1,16 +1,16 @@\n import django_filters\n from ..models import Departure\n \n class DepartureModelFilter(django_filters.FilterSet):\n-    upcoming_departure_month = django_filters.NumberFilter(field_name='upcoming_departure_date', method='filter_by_month')\n+    # upcoming_departure_month = django_filters.NumberFilter(field_name='upcoming_departure_date', method='filter_by_month')\n     \n     class Meta:\n         model = Departure\n         fields = {\n         'id': ['exact'],\n         'upcoming_departure_date': ['exact', 'lte', 'gte']\n-        }\n+    }\n \n     \n     def filter_by_month(self, queryset, name, value):\n         return queryset.filter(upcoming_departure_date__month=value)\n\\ No newline at end of file\n"
+                },
+                {
+                    "date": 1725873567364,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -1,9 +1,9 @@\n import django_filters\n from ..models import Departure\n \n class DepartureModelFilter(django_filters.FilterSet):\n-    # upcoming_departure_month = django_filters.NumberFilter(field_name='upcoming_departure_date', method='filter_by_month')\n+    upcoming_departure_month = django_filters.NumberFilter(field_name='upcoming_departure_date', method='filter_by_month')\n     \n     class Meta:\n         model = Departure\n         fields = {\n"
+                },
+                {
+                    "date": 1725873751604,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -7,9 +7,9 @@\n     class Meta:\n         model = Departure\n         fields = {\n         'id': ['exact'],\n-        'upcoming_departure_date': ['exact', 'lte', 'gte']\n+        'upcoming_departure_date': ['exact', 'lte', 'gte'],\n     }\n \n     \n     def filter_by_month(self, queryset, name, value):\n"
+                },
+                {
+                    "date": 1725873768431,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -5,9 +5,9 @@\n     upcoming_departure_month = django_filters.NumberFilter(field_name='upcoming_departure_date', method='filter_by_month')\n     \n     class Meta:\n         model = Departure\n-        fields = {\n+        fields = []\n         'id': ['exact'],\n         'upcoming_departure_date': ['exact', 'lte', 'gte'],\n     }\n \n"
+                },
+                {
+                    "date": 1725873775717,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -5,9 +5,9 @@\n     upcoming_departure_month = django_filters.NumberFilter(field_name='upcoming_departure_date', method='filter_by_month')\n     \n     class Meta:\n         model = Departure\n-        fields = []\n+        fields = {}\n         'id': ['exact'],\n         'upcoming_departure_date': ['exact', 'lte', 'gte'],\n     }\n \n"
+                },
+                {
+                    "date": 1725873782024,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -0,0 +1,16 @@\n+import django_filters\n+from ..models import Departure\n+\n+class DepartureModelFilter(django_filters.FilterSet):\n+    upcoming_departure_month = django_filters.NumberFilter(field_name='upcoming_departure_date', method='filter_by_month')\n+    \n+    class Meta:\n+        model = Departure\n+        fields = {\n+        'id': ['exact'],\n+        'upcoming_departure_date': ['exact', 'lte', 'gte'],\n+              }\n+\n+    \n+    def filter_by_month(self, queryset, name, value):\n+        return queryset.filter(upcoming_departure_date__month=value)\n\\ No newline at end of file\n"
+                },
+                {
+                    "date": 1725873824818,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -5,28 +5,12 @@\n     upcoming_departure_month = django_filters.NumberFilter(field_name='upcoming_departure_date', method='filter_by_month')\n     \n     class Meta:\n         model = Departure\n-        fields = {\n-        'id': ['exact'],\n-        'upcoming_departure_date': ['exact', 'lte', 'gte'],\n+        fields = []\n+                'id': ['exact'],\n+                'upcoming_departure_date': ['exact', 'lte', 'gte'],\n               }\n \n     \n     def filter_by_month(self, queryset, name, value):\n-        return queryset.filter(upcoming_departure_date__month=value)\n-import django_filters\n-from ..models import Departure\n-\n-class DepartureModelFilter(django_filters.FilterSet):\n-    upcoming_departure_month = django_filters.NumberFilter(field_name='upcoming_departure_date', method='filter_by_month')\n-    \n-    class Meta:\n-        model = Departure\n-        fields = {}\n-        'id': ['exact'],\n-        'upcoming_departure_date': ['exact', 'lte', 'gte'],\n-    }\n-\n-    \n-    def filter_by_month(self, queryset, name, value):\n         return queryset.filter(upcoming_departure_date__month=value)\n\\ No newline at end of file\n"
+                },
+                {
+                    "date": 1725873852419,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -5,9 +5,9 @@\n     upcoming_departure_month = django_filters.NumberFilter(field_name='upcoming_departure_date', method='filter_by_month')\n     \n     class Meta:\n         model = Departure\n-        fields = []\n+        fields = \n                 'id': ['exact'],\n                 'upcoming_departure_date': ['exact', 'lte', 'gte'],\n               }\n \n"
+                },
+                {
+                    "date": 1725873883657,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -5,10 +5,10 @@\n     upcoming_departure_month = django_filters.NumberFilter(field_name='upcoming_departure_date', method='filter_by_month')\n     \n     class Meta:\n         model = Departure\n-        fields = \n-                'id': ['exact'],\n+        fields = {\n+                'id': ['exact'],       \n                 'upcoming_departure_date': ['exact', 'lte', 'gte'],\n               }\n \n     \n"
+                },
+                {
+                    "date": 1725873892689,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -6,10 +6,10 @@\n     \n     class Meta:\n         model = Departure\n         fields = {\n-                'id': ['exact'],       \n-                'upcoming_departure_date': ['exact', 'lte', 'gte'],\n+                # 'id': ['exact'],       \n+                # 'upcoming_departure_date': ['exact', 'lte', 'gte'],\n               }\n \n     \n     def filter_by_month(self, queryset, name, value):\n"
+                },
+                {
+                    "date": 1725873902480,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -5,9 +5,9 @@\n     upcoming_departure_month = django_filters.NumberFilter(field_name='upcoming_departure_date', method='filter_by_month')\n     \n     class Meta:\n         model = Departure\n-        fields = {\n+        fields = []\n                 # 'id': ['exact'],       \n                 # 'upcoming_departure_date': ['exact', 'lte', 'gte'],\n               }\n \n"
+                },
+                {
+                    "date": 1725873918743,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -8,9 +8,9 @@\n         model = Departure\n         fields = []\n                 # 'id': ['exact'],       \n                 # 'upcoming_departure_date': ['exact', 'lte', 'gte'],\n-              }\n+            #   }\n \n     \n-    def filter_by_month(self, queryset, name, value):\n\\ No newline at end of file\n-        return queryset.filter(upcoming_departure_date__month=value)\n+    # def filter_by_month(self, queryset, name, value):\n+    #     return queryset.filter(upcoming_departure_date__month=value)\n\\ No newline at end of file\n"
+                },
+                {
+                    "date": 1725873928416,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -5,12 +5,12 @@\n     upcoming_departure_month = django_filters.NumberFilter(field_name='upcoming_departure_date', method='filter_by_month')\n     \n     class Meta:\n         model = Departure\n-        fields = []\n-                # 'id': ['exact'],       \n-                # 'upcoming_departure_date': ['exact', 'lte', 'gte'],\n-            #   }\n+        fields = {\n+                'id': ['exact'],\n+                'upcoming_departure_date': ['exact', 'lte', 'gte'],\n+              }\n\\ No newline at end of file\n \n     \n-    # def filter_by_month(self, queryset, name, value):\n-    #     return queryset.filter(upcoming_departure_date__month=value)\n+    def filter_by_month(self, queryset, name, value):\n+        return queryset.filter(upcoming_departure_date__month=value)\n\\ No newline at end of file\n"
+                },
+                {
+                    "date": 1725873939268,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -1,9 +1,9 @@\n import django_filters\n from ..models import Departure\n \n class DepartureModelFilter(django_filters.FilterSet):\n-    upcoming_departure_month = django_filters.NumberFilter(field_name='upcoming_departure_date', method='filter_by_month')\n+    # upcoming_departure_month = django_filters.NumberFilter(field_name='upcoming_departure_date', method='filter_by_month')\n     \n     class Meta:\n         model = Departure\n         fields = {\n@@ -11,6 +11,6 @@\n                 'upcoming_departure_date': ['exact', 'lte', 'gte'],\n               }\n \n     \n-    def filter_by_month(self, queryset, name, value):\n-        return queryset.filter(upcoming_departure_date__month=value)\n\\ No newline at end of file\n+    # def filter_by_month(self, queryset, name, value):\n+    #     return queryset.filter(upcoming_departure_date__month=value)\n\\ No newline at end of file\n"
+                },
+                {
+                    "date": 1725874003124,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -1,16 +1,34 @@\n import django_filters\n from ..models import Departure\n \n class DepartureModelFilter(django_filters.FilterSet):\n-    # upcoming_departure_month = django_filters.NumberFilter(field_name='upcoming_departure_date', method='filter_by_month')\n+    # Custom filter for filtering by the month part of the `upcoming_departure_date`\n+    upcoming_departure_month = django_filters.NumberFilter(field_name='upcoming_departure_date', method='filter_by_month')\n+\n+    class Meta:\n+        model = Departure\n+        fields = {\n+            'id': ['exact'],  # Allows exact filtering on `id`\n+            'upcoming_departure_date': ['exact', 'lte', 'gte']  # Allows exact, lte, gte filtering on `upcoming_departure_date`\n+        }\n+\n+    # Custom method to filter by the month part of `upcoming_departure_date`\n\\ No newline at end of file\n+    def filter_by_month(self, queryset, name, value):\n+        return queryset.filter(upcoming_departure_date__month=value)\n+\n+\n+\n+class DepartureFilter(django_filters.FilterSet):\n+    upcoming_departure_month = django_filters.NumberFilter(field_name='upcoming_departure_date', method='filter_by_month')\n     \n     class Meta:\n         model = Departure\n         fields = {\n-                'id': ['exact'],\n-                'upcoming_departure_date': ['exact', 'lte', 'gte'],\n-              }\n \n+            'id': ['exact'],\n+            'upcoming_departure_date': ['exact', 'lte', 'gte']\n+        }\n+\n     \n-    # def filter_by_month(self, queryset, name, value):\n-    #     return queryset.filter(upcoming_departure_date__month=value)\n+    def filter_by_month(self, queryset, name, value):\n+        return queryset.filter(upcoming_departure_date__month=value)\n\\ No newline at end of file\n"
+                },
+                {
+                    "date": 1725874042813,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -2,9 +2,9 @@\n from ..models import Departure\n \n \n \n-class DepartureMFilter(django_filters.FilterSet):\n+class DepartureModFilter(django_filters.FilterSet):\n     upcoming_departure_month = django_filters.NumberFilter(field_name='upcoming_departure_date', method='filter_by_month')\n     \n     class Meta:\n         model = Departure\n"
+                }
+            ],
+            "date": 1725872372198,
+            "name": "Commit-0",
+            "content": "import django_filters\nfrom .models import YourModel\n\nclass YourModelFilter(django_filters.FilterSet):\n    # Custom filter for the month\n    upcoming_departure_month = django_filters.NumberFilter(field_name='upcoming_departure_date', method='filter_by_month')\n\n    class Meta:\n        model = YourModel\n        fields = []  # Add other fields you want to filter by\n\n    def filter_by_month(self, queryset, name, value):\n        # Filter by the month part of the upcoming_departure_date\n        return queryset.filter(upcoming_departure_date__month=value)\n"
+        }
+    ]
+}
