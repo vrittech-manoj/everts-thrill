@@ -1,14 +1,21 @@
 from django.db import models
 from accounts.models import CustomUser
+from django.core.exceptions import ValidationError
 
 class Popup(models.Model):
-    title = models.CharField(null = True)
+    title = models.CharField(max_length = 200,null = True)
     image = models.ImageField(upload_to='components/popup', null=True, blank=True)
     url = models.URLField(null=True, blank=True)
     
     created_date = models.DateField(auto_now_add=True, null = True,blank = True)
     created_date_time = models.DateTimeField(auto_now_add=True, null = True,blank = True)
     updated_date = models.DateTimeField(auto_now=True)
+    
+    def save(self, *args, **kwargs):
+        # Check if title length exceeds the max_length
+        if self.title and len(self.title) > 200:
+            raise ValidationError({'title': 'The title cannot exceed 200 characters.'})
+        super().save(*args, **kwargs)
 
 class MeetTeam(models.Model):
     member_name = models.CharField(max_length = 200,null = True)
