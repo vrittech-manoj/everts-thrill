@@ -3,7 +3,7 @@
     "activeCommit": 0,
     "commits": [
         {
-            "activePatchIndex": 140,
+            "activePatchIndex": 141,
             "patches": [
                 {
                     "date": 1725600608506,
@@ -568,6 +568,10 @@
                 {
                     "date": 1725865031134,
                     "content": "Index: \n===================================================================\n--- \n+++ \n@@ -83,7 +83,7 @@\n             # Call the model's save method which may raise ValidationError\n             return super().save(**kwargs)\n         except ValidationError as e:\n             # Catch the ValidationError and raise a DRF ValidationError\n-            raise serializers.ValidationError({{'title': 'The title cannot exceed 200 characters.'})\n+            raise serializers.ValidationError({'title': 'The title cannot exceed 200 characters.'})\n         \n     \n\\ No newline at end of file\n"
+                },
+                {
+                    "date": 1725865182600,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -77,13 +77,5 @@\n             \"created_date\": instance.created_date,\n             \"updated_date\": instance.updated_date\n         }\n     \n-    def save(self, **kwargs):\n-        try:\n-            # Call the model's save method which may raise ValidationError\n-            return super().save(**kwargs)\n-        except ValidationError as e:\n-            # Catch the ValidationError and raise a DRF ValidationError\n-            raise serializers.ValidationError({'title': 'The title cannot exceed 200 characters.'})\n-        \n     \n\\ No newline at end of file\n"
                 }
             ],
             "date": 1725600608506,

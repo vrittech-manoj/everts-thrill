@@ -78,12 +78,4 @@ class PopupWriteSerializers(serializers.ModelSerializer):
             "updated_date": instance.updated_date
         }
     
-    def save(self, **kwargs):
-        try:
-            # Call the model's save method which may raise ValidationError
-            return super().save(**kwargs)
-        except ValidationError as e:
-            # Catch the ValidationError and raise a DRF ValidationError
-            raise serializers.ValidationError({'title': 'The title cannot exceed 200 characters.'})
-        
     
