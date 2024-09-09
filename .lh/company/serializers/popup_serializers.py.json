@@ -3,7 +3,7 @@
     "activeCommit": 0,
     "commits": [
         {
-            "activePatchIndex": 136,
+            "activePatchIndex": 137,
             "patches": [
                 {
                     "date": 1725600608506,
@@ -552,6 +552,10 @@
                 {
                     "date": 1725863161021,
                     "content": "Index: \n===================================================================\n--- \n+++ \n@@ -1,6 +1,7 @@\n from rest_framework import serializers\n from ..models import Popup\n+from django.core.exceptions import ValidationError\n \n class PopupListSerializers(serializers.ModelSerializer):\n     class Meta:\n         model = Popup\n@@ -75,7 +76,14 @@\n             \"url\": instance.url,\n             \"created_date\": instance.created_date,\n             \"updated_date\": instance.updated_date\n         }\n+    \n+    def save(self, **kwargs):\n+        try:\n+            # Call the model's save method which may raise ValidationError\n+            return super().save(**kwargs)\n+        except ValidationError as e:\n+            # Catch the ValidationError and raise a DRF ValidationError\n+            raise serializers.ValidationError({'title': str(e)})\n         \n-        \n     \n\\ No newline at end of file\n"
+                },
+                {
+                    "date": 1725863662924,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -77,13 +77,13 @@\n             \"created_date\": instance.created_date,\n             \"updated_date\": instance.updated_date\n         }\n     \n-    def save(self, **kwargs):\n-        try:\n-            # Call the model's save method which may raise ValidationError\n-            return super().save(**kwargs)\n-        except ValidationError as e:\n-            # Catch the ValidationError and raise a DRF ValidationError\n-            raise serializers.ValidationError({'title': str(e)})\n+    # def save(self, **kwargs):\n+    #     try:\n+    #         # Call the model's save method which may raise ValidationError\n+    #         return super().save(**kwargs)\n+    #     except ValidationError as e:\n+    #         # Catch the ValidationError and raise a DRF ValidationError\n+    #         raise serializers.ValidationError({'title': str(e)})\n         \n     \n\\ No newline at end of file\n"
                 }
             ],
             "date": 1725600608506,
