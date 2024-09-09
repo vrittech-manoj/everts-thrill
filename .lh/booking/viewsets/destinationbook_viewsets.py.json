@@ -3,7 +3,7 @@
     "activeCommit": 0,
     "commits": [
         {
-            "activePatchIndex": 21,
+            "activePatchIndex": 25,
             "patches": [
                 {
                     "date": 1724904877577,
@@ -92,6 +92,22 @@
                 {
                     "date": 1725791285730,
                     "content": "Index: \n===================================================================\n--- \n+++ \n@@ -42,11 +42,10 @@\n     def get_object(self):\n         slug = self.kwargs.get('slug')\n         return get_object_or_404(DestinationBook, slug=slug)\n     \n-from rest_framework.response import Response\n-    from rest_framework import status\n \n+\n     def destroy(self, request, *args, **kwargs):\n         instance = self.get_object()\n         self.perform_destroy(instance)\n         \n"
+                },
+                {
+                    "date": 1725856097320,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -4,8 +4,10 @@\n from ..models import DestinationBook\n from ..serializers.destinationbook_serializers import DestinationBookListSerializers, DestinationBookRetrieveSerializers, DestinationBookWriteSerializers\n from ..utilities.importbase import *\n from django.shortcuts import get_object_or_404\n+from rest_framework.response import Response\n+from rest_framework import status\n \n class destinationbookViewsets(viewsets.ModelViewSet):\n     serializer_class = DestinationBookListSerializers\n     permission_classes = [bookingPermission]\n@@ -14,9 +16,9 @@\n     queryset = DestinationBook.objects.all().order_by(\"-created_date\")\n     lookup_field = \"slug\"\n \n     filter_backends = [SearchFilter, DjangoFilterBackend, OrderingFilter]\n-    search_fields = ['full_name', 'email', 'phone_number', 'country', 'airlines', 'number_of_travelers', 'activity', 'package', 'arrival_date', 'departure_date', 'service_type', 'destination', 'customize_trip', 'created_date', 'updated_date',]\n+    search_fields = ['full_name', 'email', 'phone_number', 'country', 'airlines', 'number_of_travelers', 'activity', 'package__', 'arrival_date', 'departure_date', 'service_type', 'destination', 'customize_trip', 'created_date', 'updated_date',]\n     ordering_fields = ['id','full_name']\n \n     filterset_fields = {\n         'id': ['exact'],\n"
+                },
+                {
+                    "date": 1725856125751,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -16,9 +16,9 @@\n     queryset = DestinationBook.objects.all().order_by(\"-created_date\")\n     lookup_field = \"slug\"\n \n     filter_backends = [SearchFilter, DjangoFilterBackend, OrderingFilter]\n-    search_fields = ['full_name', 'email', 'phone_number', 'country', 'airlines', 'number_of_travelers', 'activity', 'package__', 'arrival_date', 'departure_date', 'service_type', 'destination', 'customize_trip', 'created_date', 'updated_date',]\n+    search_fields = ['full_name', 'email', 'phone_number', 'country', 'airlines', 'number_of_travelers', 'activity', 'package__name', 'arrival_date', 'departure_date', 'service_type', 'destination', 'customize_trip', 'created_date', 'updated_date',]\n     ordering_fields = ['id','full_name']\n \n     filterset_fields = {\n         'id': ['exact'],\n"
+                },
+                {
+                    "date": 1725856137522,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -16,9 +16,9 @@\n     queryset = DestinationBook.objects.all().order_by(\"-created_date\")\n     lookup_field = \"slug\"\n \n     filter_backends = [SearchFilter, DjangoFilterBackend, OrderingFilter]\n-    search_fields = ['full_name', 'email', 'phone_number', 'country', 'airlines', 'number_of_travelers', 'activity', 'package__name', 'arrival_date', 'departure_date', 'service_type', 'destination', 'customize_trip', 'created_date', 'updated_date',]\n+    search_fields = ['full_name', 'email', 'phone_number', 'country', 'airlines', 'number_of_travelers', 'activity', 'package__name', 'arrival_date', 'departure_date', 'service_type', 'destination__destination', 'customize_trip', 'created_date', 'updated_date',]\n     ordering_fields = ['id','full_name']\n \n     filterset_fields = {\n         'id': ['exact'],\n"
+                },
+                {
+                    "date": 1725856156610,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -16,9 +16,9 @@\n     queryset = DestinationBook.objects.all().order_by(\"-created_date\")\n     lookup_field = \"slug\"\n \n     filter_backends = [SearchFilter, DjangoFilterBackend, OrderingFilter]\n-    search_fields = ['full_name', 'email', 'phone_number', 'country', 'airlines', 'number_of_travelers', 'activity', 'package__name', 'arrival_date', 'departure_date', 'service_type', 'destination__destination', 'customize_trip', 'created_date', 'updated_date',]\n+    search_fields = ['full_name', 'email', 'phone_number', 'country', 'airlines', 'number_of_travelers', 'activity__name', 'package__name', 'arrival_date', 'departure_date', 'service_type', 'destination__destination_title', 'customize_trip', 'created_date', 'updated_date',]\n     ordering_fields = ['id','full_name']\n \n     filterset_fields = {\n         'id': ['exact'],\n"
                 }
             ],
             "date": 1724904877577,
