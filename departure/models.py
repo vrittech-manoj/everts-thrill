@@ -12,4 +12,4 @@ class Departure(models.Model):
     updated_date_time = models.DateTimeField(auto_now_add=True, null = True,blank = True)
 
     def __str__(self):
-        return f"Departure on {self.upcoming_departure_date} - Status: {'Active' if self.upcoming_departure_status else 'Inactive'} - Price: {self.upcoming_departure_price}"
+        return f"Departure on {self.upcoming_departure_date} - Status: {'Guaranteed' if self.upcoming_departure_status else 'Not Guaranteed'} - Price: {self.upcoming_departure_price}"
