@@ -39,7 +39,7 @@ class Destination(models.Model):
     gear_and_equipment = models.TextField(null=True, default='', blank=True)
     useful_information = models.TextField(null=True, default='', blank=True)
     
-    duration = models.PositiveIntegerField()
+    duration = models.CharField(null=True, blank=True)
     trip_grade = models.CharField(max_length=150)
     best_season = models.CharField(max_length=150, null=True, blank=True)
     max_altitude = models.CharField(max_length=150)
