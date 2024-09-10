@@ -3,7 +3,7 @@
     "activeCommit": 0,
     "commits": [
         {
-            "activePatchIndex": 2,
+            "activePatchIndex": 4,
             "patches": [
                 {
                     "date": 1725963226862,
@@ -16,6 +16,14 @@
                 {
                     "date": 1725963239017,
                     "content": "Index: \n===================================================================\n--- \n+++ \n@@ -1,6 +1,6 @@\n from django.contrib import admin\n-from .models import Popup, MeetTeam, TermAndCondition, VisaInformation, LegalDocuments,HeroSection,PrivacyPolicy,He\n+from .models import Popup, MeetTeam, TermAndCondition, VisaInformation, LegalDocuments,HeroSection,PrivacyPolicy,HeroSectionOverlay\n \n # Register your models here.\n admin.site.register(Popup)\n admin.site.register(MeetTeam)\n@@ -8,5 +8,5 @@\n admin.site.register(VisaInformation)\n admin.site.register(LegalDocuments)\n admin.site.register(HeroSection)\n admin.site.register(PrivacyPolicy)\n-admin.site.register(PrivacyPolicy)\n\\ No newline at end of file\n+admin.site.register(HeroSectionOverlay)\n\\ No newline at end of file\n"
+                },
+                {
+                    "date": 1725972320617,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -8,5 +8,6 @@\n admin.site.register(VisaInformation)\n admin.site.register(LegalDocuments)\n admin.site.register(HeroSection)\n admin.site.register(PrivacyPolicy)\n+admin.site.register(HeroSectionOverlay)\n admin.site.register(HeroSectionOverlay)\n\\ No newline at end of file\n"
+                },
+                {
+                    "date": 1725972327357,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -1,6 +1,6 @@\n from django.contrib import admin\n-from .models import Popup, MeetTeam, TermAndCondition, VisaInformation, LegalDocuments,HeroSection,PrivacyPolicy,HeroSectionOverlay\n+from .models import Popup, MeetTeam, TermAndCondition, VisaInformation,, LegalDocuments,HeroSection,PrivacyPolicy,HeroSectionOverlay\n \n # Register your models here.\n admin.site.register(Popup)\n admin.site.register(MeetTeam)\n@@ -9,5 +9,5 @@\n admin.site.register(LegalDocuments)\n admin.site.register(HeroSection)\n admin.site.register(PrivacyPolicy)\n admin.site.register(HeroSectionOverlay)\n-admin.site.register(HeroSectionOverlay)\n\\ No newline at end of file\n+admin.site.register(AboutUs)\n\\ No newline at end of file\n"
                 }
             ],
             "date": 1725963226862,

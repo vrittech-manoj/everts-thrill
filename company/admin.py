@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Popup, MeetTeam, TermAndCondition, VisaInformation, LegalDocuments,HeroSection,PrivacyPolicy,HeroSectionOverlay
+from .models import Popup, MeetTeam, TermAndCondition, VisaInformation,AboutUs, LegalDocuments,HeroSection,PrivacyPolicy,HeroSectionOverlay
 
 # Register your models here.
 admin.site.register(Popup)
@@ -10,3 +10,4 @@ admin.site.register(LegalDocuments)
 admin.site.register(HeroSection)
 admin.site.register(PrivacyPolicy)
 admin.site.register(HeroSectionOverlay)
+admin.site.register(AboutUs)
