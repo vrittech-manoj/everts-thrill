@@ -38,6 +38,13 @@ class VisaInformation(models.Model):
 
 class TermAndCondition(models.Model):
     description = models.TextField()
+    created_date = models.DateTimeField(auto_now_add=True)
+    updated_date = models.DateTimeField(auto_now=True)
+    
+class AboutUs(models.Model):
+    description = models.TextField()
+    created_date = models.DateTimeField(auto_now_add=True)
+    updated_date = models.DateTimeField(auto_now=True)
 
 class LegalDocuments(models.Model):
     # user = models.ForeignKey(CustomUser,related_name = 'user_legal_documents', on_delete  = models.CASCADE)
