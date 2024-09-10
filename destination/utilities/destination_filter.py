@@ -3,10 +3,23 @@ import re
 from django.db.models import Q
 from ..models import Destination
 
+
+# Mapping month names to their corresponding numbers
+MONTHS_MAPPING = {
+    'january': 1, 'february': 2, 'march': 3, 'april': 4,
+    'may': 5, 'june': 6, 'july': 7, 'august': 8,
+    'september': 9, 'october': 10, 'november': 11, 'december': 12
+}
+
 class DestinationFilter(django_filters.FilterSet):
     activities = django_filters.CharFilter(method='filter_by_activities')
     collections = django_filters.CharFilter(method='filter_by_collections')
     packages = django_filters.CharFilter(method='filter_by_packages')
+    departure_month_name = django_filters.CharFilter(
+        method='filter_by_departure_month_name',
+        label='Departure Month (Name)',
+        help_text='Filter by the name of the departure month. Use full month names like January, February, etc.'
+    )
     duration_gte = django_filters.NumberFilter(label='Duration (Greater than or equal to)', method='filter_by_duration_gte')
     duration_lte = django_filters.NumberFilter(label='Duration (Less than or equal to)', method='filter_by_duration_lte')
 
@@ -89,3 +102,15 @@ class DestinationFilter(django_filters.FilterSet):
                 pass  # Ignore invalid values and don't filter
 
         return queryset
+    
+    def filter_by_departure_month_name(self, queryset, name, value):
+        """
+        Custom filter method to filter Destinations by the month name of upcoming departures.
+        Converts the month name to its corresponding month number.
+        """
+        month_number = MONTHS_MAPPING.get(value.lower())
+        if month_number:
+            # Filter destinations where associated departures have upcoming_departure_date in the specified month
+            return queryset.filter(destination_departures__upcoming_departure_date__month=month_number)
+        else:
+            raise ValidationError(f"Invalid month name '{value}'. Please provide a valid month name.")
