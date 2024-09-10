@@ -3,7 +3,7 @@
     "activeCommit": 0,
     "commits": [
         {
-            "activePatchIndex": 79,
+            "activePatchIndex": 80,
             "patches": [
                 {
                     "date": 1724821555571,
@@ -324,6 +324,10 @@
                 {
                     "date": 1725951158119,
                     "content": "Index: \n===================================================================\n--- \n+++ \n@@ -14,9 +14,9 @@\n class DestinationFilter(django_filters.FilterSet):\n     activities = django_filters.CharFilter(method='filter_by_activities')\n     collections = django_filters.CharFilter(method='filter_by_collections')\n     packages = django_filters.CharFilter(method='filter_by_packages')\n-    departure_month_name = filter.CharFilter(\n+    departure_month_name = django_filters.CharFilter(\n         method='filter_by_departure_month_name',\n         label='Departure Month (Name)',\n         help_text='Filter by the name of the departure month. Use full month names like January, February, etc.'\n     )\n"
+                },
+                {
+                    "date": 1725951702545,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -1,8 +1,12 @@\n import django_filters\n import re\n from django.db.models import Q\n from ..models import Destination\n+import django_filters\n+from django_filters import rest_framework as filters\n+from ..models import Departure\n+from rest_framework.exceptions import ValidationError\n \n \n # Mapping month names to their corresponding numbers\n MONTHS_MAPPING = {\n"
                 }
             ],
             "date": 1724821555571,

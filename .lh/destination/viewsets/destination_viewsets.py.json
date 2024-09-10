@@ -3,7 +3,7 @@
     "activeCommit": 0,
     "commits": [
         {
-            "activePatchIndex": 19,
+            "activePatchIndex": 28,
             "patches": [
                 {
                     "date": 1724818676603,
@@ -84,6 +84,42 @@
                 {
                     "date": 1725863284127,
                     "content": "Index: \n===================================================================\n--- \n+++ \n@@ -27,9 +27,9 @@\n     pagination_class = MyPageNumberPagination\n     queryset = Destination.objects.all().order_by(\"-destination_title\")\n \n     filter_backends = [SearchFilter, DjangoFilterBackend, OrderingFilter]\n-    search_fields = ['destination_title', 'packages', 'price', 'price_type', 'is_price', 'featured_image', 'overview', 'inclusion_and_exclusion', 'ltinerary', 'trip_map_url', 'trip_map_image', 'gear_and_equipment', 'useful_information', 'duration', 'trip_grade', 'best_season', 'max_altitude', 'meals', 'nature_of_trip', 'accommodation', 'group_size', ]\n+    search_fields = ['destination_title','id' 'packages', 'price', 'price_type', 'is_price', 'featured_image', 'overview', 'inclusion_and_exclusion', 'ltinerary', 'trip_map_url', 'trip_map_image', 'gear_and_equipment', 'useful_information', 'duration', 'trip_grade', 'best_season', 'max_altitude', 'meals', 'nature_of_trip', 'accommodation', 'group_size', ]\n     ordering_fields = ['destination_title', 'id','duration']\n     filterset_class = DestinationFilter\n     lookup_field = \"slug\"\n \n"
+                },
+                {
+                    "date": 1725953220232,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -27,9 +27,9 @@\n     pagination_class = MyPageNumberPagination\n     queryset = Destination.objects.all().order_by(\"-destination_title\")\n \n     filter_backends = [SearchFilter, DjangoFilterBackend, OrderingFilter]\n-    search_fields = ['destination_title','id' 'packages', 'price', 'price_type', 'is_price', 'featured_image', 'overview', 'inclusion_and_exclusion', 'ltinerary', 'trip_map_url', 'trip_map_image', 'gear_and_equipment', 'useful_information', 'duration', 'trip_grade', 'best_season', 'max_altitude', 'meals', 'nature_of_trip', 'accommodation', 'group_size', ]\n+    search_fields = ['destination_title','id', 'packages', 'price', 'price_type', 'is_price', 'featured_image', 'overview', 'inclusion_and_exclusion', 'ltinerary', 'trip_map_url', 'trip_map_image', 'gear_and_equipment', 'useful_information', 'duration', 'trip_grade', 'best_season', 'max_altitude', 'meals', 'nature_of_trip', 'accommodation', 'group_size', ]\n     ordering_fields = ['destination_title', 'id','duration']\n     filterset_class = DestinationFilter\n     lookup_field = \"slug\"\n \n@@ -57,6 +57,7 @@\n         self.perform_destroy(instance)\n         \n         return Response(\n             {\"detail\": \"Item/s successfully deleted.\"}, \n-            status=status.HTTP_200_OK\n+            status=st\n+            atus.HTTP_200_OK\n         )\n"
+                },
+                {
+                    "date": 1725953228174,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -57,7 +57,7 @@\n         self.perform_destroy(instance)\n         \n         return Response(\n             {\"detail\": \"Item/s successfully deleted.\"}, \n-            status=st\n-            atus.HTTP_200_OK\n+            status=status.HTTP_200_OK\n         )\n+    \n"
+                },
+                {
+                    "date": 1725953357456,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -59,5 +59,11 @@\n         return Response(\n             {\"detail\": \"Item/s successfully deleted.\"}, \n             status=status.HTTP_200_OK\n         )\n-    \n+    def get_serializer_context(self):\n+        \"\"\"\n+        Ensure the request context is passed to the serializer.\n+        \"\"\"\n+        context = super().get_serializer_context()\n+        context['request'] = self.request  \n+        return context\n"
+                },
+                {
+                    "date": 1725958423138,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -59,11 +59,13 @@\n         return Response(\n             {\"detail\": \"Item/s successfully deleted.\"}, \n             status=status.HTTP_200_OK\n         )\n+    def get_serializer_class(self):\n+        if self.action == \"retrieve\":\n+            return DestinationRetrieveAdminSerializers\n+        return super().get_serializer_class()\n+\n     def get_serializer_context(self):\n-        \"\"\"\n-        Ensure the request context is passed to the serializer.\n-        \"\"\"\n         context = super().get_serializer_context()\n-        context['request'] = self.request  \n+        context['request'] = self.request  # Ensure the request context is passed to the serializer\n         return context\n"
+                },
+                {
+                    "date": 1725958450420,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -61,8 +61,9 @@\n             status=status.HTTP_200_OK\n         )\n     def get_serializer_class(self):\n         if self.action == \"retrieve\":\n+            \n             return DestinationRetrieveAdminSerializers\n         return super().get_serializer_class()\n \n     def get_serializer_context(self):\n"
+                },
+                {
+                    "date": 1725958455525,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -61,9 +61,9 @@\n             status=status.HTTP_200_OK\n         )\n     def get_serializer_class(self):\n         if self.action == \"retrieve\":\n-            \n+           if self.request.user.is_authenticated and self.request.user.role in [roles.ADMIN, roles.SUPER_ADMIN]:\n             return DestinationRetrieveAdminSerializers\n         return super().get_serializer_class()\n \n     def get_serializer_context(self):\n"
+                },
+                {
+                    "date": 1725958460858,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -61,10 +61,10 @@\n             status=status.HTTP_200_OK\n         )\n     def get_serializer_class(self):\n         if self.action == \"retrieve\":\n-           if self.request.user.is_authenticated and self.request.user.role in [roles.ADMIN, roles.SUPER_ADMIN]:\n-            return DestinationRetrieveAdminSerializers\n+             if self.request.user.is_authenticated and self.request.user.role in [roles.ADMIN, roles.SUPER_ADMIN]:\n+                return DestinationRetrieveAdminSerializers\n         return super().get_serializer_class()\n \n     def get_serializer_context(self):\n         context = super().get_serializer_context()\n"
+                },
+                {
+                    "date": 1725958535181,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -59,13 +59,8 @@\n         return Response(\n             {\"detail\": \"Item/s successfully deleted.\"}, \n             status=status.HTTP_200_OK\n         )\n-    def get_serializer_class(self):\n-        if self.action == \"retrieve\":\n-             if self.request.user.is_authenticated and self.request.user.role in [roles.ADMIN, roles.SUPER_ADMIN]:\n-                return DestinationRetrieveAdminSerializers\n-        return super().get_serializer_class()\n \n     def get_serializer_context(self):\n         context = super().get_serializer_context()\n         context['request'] = self.request  # Ensure the request context is passed to the serializer\n"
+                },
+                {
+                    "date": 1725958665638,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -59,9 +59,4 @@\n         return Response(\n             {\"detail\": \"Item/s successfully deleted.\"}, \n             status=status.HTTP_200_OK\n         )\n-\n-    def get_serializer_context(self):\n-        context = super().get_serializer_context()\n-        context['request'] = self.request  # Ensure the request context is passed to the serializer\n-        return context\n"
                 }
             ],
             "date": 1724818676603,

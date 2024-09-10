@@ -3,6 +3,14 @@ from ..models import Destination, DestinationGalleryImages, Departure, Package
 from destination.serializers.package_serializers import PackageRetrieveSerializers
 import ast
 from django.db import transaction
+from rest_framework.exceptions import ValidationError
+from django.db.models import Q
+
+MONTHS_MAPPING = {
+    'january': 1, 'february': 2, 'march': 3, 'april': 4,
+    'may': 5, 'june': 6, 'july': 7, 'august': 8,
+    'september': 9, 'october': 10, 'november': 11, 'december': 12
+}
 
 
 def str_to_list(data,value_to_convert):
@@ -113,23 +121,69 @@ class DestinationlistAdminSerializers(serializers.ModelSerializer):
 
 class DestinationRetrieveUserSerializers(serializers.ModelSerializer):
     galleryimages = DestinationGalleryImagesSerializer(many=True, read_only=True)
-    destination_departures = DepartureSerializer(many=True, read_only=True)
+    destination_departures = serializers.SerializerMethodField()  
     packages= PackageSerializers(many = True, read_only = True)
 
     class Meta:
         model = Destination
         fields = '__all__'
     
+    def get_destination_departures(self, obj):
+        request = self.context.get('request')
+        departure_month_name = request.query_params.get('departure_month')
+        
+        if departure_month_name:
+            try:
+                # Convert the full month name to the corresponding month number using MONTHS_MAPPING
+                departure_month_number = MONTHS_MAPPING.get(departure_month_name.lower())
+                
+                if not departure_month_number:
+                    raise ValidationError(f"Invalid month name '{departure_month_name}'. Please provide a valid full month name.")
+                
+                # Filter the departures by the month number
+                upcoming_departures = obj.destination_departures.filter(
+                    Q(upcoming_departure_date__month=departure_month_number)
+                )
+            except ValueError:
+                upcoming_departures = obj.destination_departures.none()  # Invalid month name
+        else:
+            # If no month name is specified, return all departures
+            upcoming_departures = obj.destination_departures.all()
+        
+        return DepartureSerializer(upcoming_departures, many=True).data
 
 class DestinationRetrieveAdminSerializers(serializers.ModelSerializer):
     galleryimages = DestinationGalleryImagesSerializer(many=True, read_only=True)
-    destination_departures = DepartureSerializer(many=True, read_only=True)
-    packages= PackageSerializers(many = True, read_only = True)
+    destination_departures = serializers.SerializerMethodField()  
+    packages = PackageSerializers(many=True, read_only=True)
 
     class Meta:
         model = Destination
         fields = '__all__'
+
+    def get_destination_departures(self, obj):
+        request = self.context.get('request')
+        departure_month_name = request.query_params.get('departure_month')
         
+        if departure_month_name:
+            try:
+                # Convert the full month name to the corresponding month number using MONTHS_MAPPING
+                departure_month_number = MONTHS_MAPPING.get(departure_month_name.lower())
+                
+                if not departure_month_number:
+                    raise ValidationError(f"Invalid month name '{departure_month_name}'. Please provide a valid full month name.")
+                
+                # Filter the departures by the month number
+                upcoming_departures = obj.destination_departures.filter(
+                    Q(upcoming_departure_date__month=departure_month_number)
+                )
+            except ValueError:
+                upcoming_departures = obj.destination_departures.none()  # Invalid month name
+        else:
+            # If no month name is specified, return all departures
+            upcoming_departures = obj.destination_departures.all()
+        
+        return DepartureSerializer(upcoming_departures, many=True).data
         
 class DestinationWriteSerializers(serializers.ModelSerializer):
     galleryimages = DestinationGalleryImagesSerializer(many=True, read_only=True)
