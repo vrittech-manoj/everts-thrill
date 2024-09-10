@@ -48,12 +48,18 @@ class LegalDocuments(models.Model):
     updated_date = models.DateTimeField(auto_now=True)
 
 class HeroSection(models.Model):
-    title = models.CharField(max_length = 200,null = True,blank=True)
-    is_button = models.BooleanField(default = False)
-    is_title = models.BooleanField(default = False)
     position = models.CharField(max_length=23, choices=[('top', 'Top'), ('middle', 'Middle'), ('bottom', 'Bottom')],unique=True)
     video = models.FileField(upload_to='hero_section_videos', blank=True, null=True)
     video_link = models.URLField(blank=True, null=True)
     
+    created_date = models.DateTimeField(auto_now_add=True)
+    updated_date = models.DateTimeField(auto_now=True)
+    
+class HeroSectionOverlay(models.Model):
+    overlay_text = models.CharField(max_length = 200,null = True,blank=True)
+    button_text = models.CharField(max_length = 200,null = True,blank=True)
+    button_link = models.URLField(null=True, blank=True)
+    is_button = models.BooleanField(default = False)
+    is_overlay_text = models.BooleanField(default = False)
     created_date = models.DateTimeField(auto_now_add=True)
     updated_date = models.DateTimeField(auto_now=True)

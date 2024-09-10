@@ -3,7 +3,7 @@
     "activeCommit": 0,
     "commits": [
         {
-            "activePatchIndex": 13,
+            "activePatchIndex": 19,
             "patches": [
                 {
                     "date": 1725343190513,
@@ -60,6 +60,30 @@
                 {
                     "date": 1725862212501,
                     "content": "Index: \n===================================================================\n--- \n+++ \n@@ -1,6 +1,7 @@\n from django.db import models\n from accounts.models import CustomUser\n+from django.core.exceptions import ValidationError\n \n class Popup(models.Model):\n     title = models.CharField(max_length = 200,null = True)\n     image = models.ImageField(upload_to='components/popup', null=True, blank=True)\n"
+                },
+                {
+                    "date": 1725943709545,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -47,11 +47,9 @@\n     created_date = models.DateTimeField(auto_now_add=True)\n     updated_date = models.DateTimeField(auto_now=True)\n \n class HeroSection(models.Model):\n-    title = models.CharField(max_length = 200,null = True,blank=True)\n-    is_button = models.BooleanField(default = False)\n-    is_title = models.BooleanField(default = False)\n+    \n     position = models.CharField(max_length=23, choices=[('top', 'Top'), ('middle', 'Middle'), ('bottom', 'Bottom')],unique=True)\n     video = models.FileField(upload_to='hero_section_videos', blank=True, null=True)\n     video_link = models.URLField(blank=True, null=True)\n     \n"
+                },
+                {
+                    "date": 1725943717845,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -47,11 +47,12 @@\n     created_date = models.DateTimeField(auto_now_add=True)\n     updated_date = models.DateTimeField(auto_now=True)\n \n class HeroSection(models.Model):\n-    \n     position = models.CharField(max_length=23, choices=[('top', 'Top'), ('middle', 'Middle'), ('bottom', 'Bottom')],unique=True)\n     video = models.FileField(upload_to='hero_section_videos', blank=True, null=True)\n     video_link = models.URLField(blank=True, null=True)\n     \n     created_date = models.DateTimeField(auto_now_add=True)\n-    updated_date = models.DateTimeField(auto_now=True)\n\\ No newline at end of file\n+    updated_date = models.DateTimeField(auto_now=True)\n+    \n+class \n\\ No newline at end of file\n"
+                },
+                {
+                    "date": 1725943743595,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -54,5 +54,5 @@\n     \n     created_date = models.DateTimeField(auto_now_add=True)\n     updated_date = models.DateTimeField(auto_now=True)\n     \n-class \n\\ No newline at end of file\n+class Home\n\\ No newline at end of file\n"
+                },
+                {
+                    "date": 1725943752361,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -54,5 +54,5 @@\n     \n     created_date = models.DateTimeField(auto_now_add=True)\n     updated_date = models.DateTimeField(auto_now=True)\n     \n-class Home\n\\ No newline at end of file\n+class HomeScreenAccess\n\\ No newline at end of file\n"
+                },
+                {
+                    "date": 1725943759389,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -54,5 +54,5 @@\n     \n     created_date = models.DateTimeField(auto_now_add=True)\n     updated_date = models.DateTimeField(auto_now=True)\n     \n-class HomeScreenAccessories\n\\ No newline at end of file\n+class HomeScreenAccessories(models.)\n\\ No newline at end of file\n"
+                },
+                {
+                    "date": 1725943913013,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -0,0 +1,63 @@\n+from django.db import models\n+from accounts.models import CustomUser\n+from django.core.exceptions import ValidationError\n+\n+class Popup(models.Model):\n+    title = models.CharField(max_length = 200,null = True)\n+    image = models.ImageField(upload_to='components/popup', null=True, blank=True)\n+    url = models.URLField(null=True, blank=True)\n+    \n+    created_date = models.DateField(auto_now_add=True, null = True,blank = True)\n+    created_date_time = models.DateTimeField(auto_now_add=True, null = True,blank = True)\n+    updated_date = models.DateTimeField(auto_now=True)\n+    \n+    def save(self, *args, **kwargs):\n+        # Check if title length exceeds the max_length\n+        if self.title and len(self.title) > 200:\n+            raise ValidationError({'title': 'The title cannot exceed 200 characters.'})\n+        super().save(*args, **kwargs)\n+\n+class MeetTeam(models.Model):\n+    member_name = models.CharField(max_length = 200,null = True)\n+    position = models.CharField(max_length = 200,null = True)\n+    description = models.TextField()\n+    image = models.ImageField(upload_to='components/meetteam', null=True, blank=True)\n+    url = models.URLField(null=True, blank=True)\n+\n+class PrivacyPolicy(models.Model):\n+    description = models.TextField()\n+    \n+    created_date = models.DateTimeField(auto_now_add=True)\n+    updated_date = models.DateTimeField(auto_now=True)\n+\n+class VisaInformation(models.Model):\n+    description = models.TextField()\n+    \n+    created_date = models.DateTimeField(auto_now_add=True)\n+    updated_date = models.DateTimeField(auto_now=True)\n+\n+class TermAndCondition(models.Model):\n+    description = models.TextField()\n+\n+class LegalDocuments(models.Model):\n+    # user = models.ForeignKey(CustomUser,related_name = 'user_legal_documents', on_delete  = models.CASCADE)\n+    image = models.ImageField(upload_to='components/legal-documents', null=True, blank=True)\n+    url = models.URLField(null=True, blank=True)\n+    \n+    created_date = models.DateTimeField(auto_now_add=True)\n+    updated_date = models.DateTimeField(auto_now=True)\n+\n+class HeroSection(models.Model):\n+    position = models.CharField(max_length=23, choices=[('top', 'Top'), ('middle', 'Middle'), ('bottom', 'Bottom')],unique=True)\n+    video = models.FileField(upload_to='hero_section_videos', blank=True, null=True)\n+    video_link = models.URLField(blank=True, null=True)\n+    \n+    created_date = models.DateTimeField(auto_now_add=True)\n+    updated_date = models.DateTimeField(auto_now=True)\n+    \n+class HeroSectionOverlay(models.Model):\n+    overlay_text = models.CharField(max_length = 200,null = True,blank=True)\n+    button_text = models.CharField(max_length = 200,null = True,blank=True)\n+    button_link = models.URLField(null=True, blank=True)\n+    is_button = models.BooleanField(default = False)\n+    is_overlay_text = models.BooleanField(default = False)\n\\ No newline at end of file\n"
                 }
             ],
             "date": 1725343190513,

@@ -1,5 +1,6 @@
 from rest_framework.routers import DefaultRouter
 from ..viewsets.popup_viewsets import popupViewsets
+from ..viewsets.herosectionoverlay_viewsets import herosectionoverlayViewsets
 from ..viewsets.herosection_viewsets import herosectionViewsets
 from ..viewsets.legaldocuments_viewsets import legaldocumentsViewsets
 from ..viewsets.termandcondition_viewsets import termandconditionViewsets
@@ -17,3 +18,4 @@ router.register('visainformation', visainformationViewsets, basename="visainform
 router.register('termandcondition', termandconditionViewsets, basename="termandconditionViewsets")
 router.register('legaldocuments', legaldocumentsViewsets, basename="legaldocumentsViewsets")
 router.register('hero-section', herosectionViewsets, basename="herosectionViewsets")
+router.register('herosectionoverlay', herosectionoverlayViewsets, basename="herosectionoverlayViewsets")
