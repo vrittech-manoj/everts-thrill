@@ -18,6 +18,7 @@ class faqsViewsets(viewsets.ModelViewSet):
     filterset_fields = {
         'title': ['exact'],
         'destination': ['exact'],
+        'faq_type': ['exact'],
     }
 
     def get_queryset(self):
