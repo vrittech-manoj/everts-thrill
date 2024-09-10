@@ -41,13 +41,13 @@ class herosectionoverlayViewsets(viewsets.ModelViewSet):
         button_text = request.data.get('button_text', None)
         button_link = request.data.get('button_link', None)
         
-        # Convert string boolean values to Python booleans
-        is_button = request.data.get('is_button', 'false').lower() == 'true'
-        is_overlay_text = request.data.get('is_overlay_text', 'false').lower() == 'true'
+        # Directly use the boolean values from the frontend without converting them
+        is_button = request.data.get('is_button', False)
+        is_overlay_text = request.data.get('is_overlay_text', False)
 
         if overlay_text is None and is_overlay_text:
             return Response({"error": "Overlay text is required when is_overlay_text is True."}, status=status.HTTP_400_BAD_REQUEST)
-        
+
         hero_section_overlay = HeroSectionOverlay.objects.all()
 
         if hero_section_overlay.exists():
@@ -94,9 +94,9 @@ class herosectionoverlayViewsets(viewsets.ModelViewSet):
             button_text = request.data.get('button_text', None)
             button_link = request.data.get('button_link', None)
             
-            # Convert string boolean values to Python booleans
-            is_button = request.data.get('is_button', 'false').lower() == 'true'
-            is_overlay_text = request.data.get('is_overlay_text', 'false').lower() == 'true'
+            # Directly use the boolean values from the frontend without converting them
+            is_button = request.data.get('is_button', False)
+            is_overlay_text = request.data.get('is_overlay_text', False)
 
             if overlay_text is None and is_overlay_text:
                 return Response({"error": "Overlay text is required when is_overlay_text is True."}, status=status.HTTP_400_BAD_REQUEST)
