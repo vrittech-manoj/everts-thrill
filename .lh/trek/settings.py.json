@@ -3,7 +3,7 @@
     "activeCommit": 0,
     "commits": [
         {
-            "activePatchIndex": 21,
+            "activePatchIndex": 23,
             "patches": [
                 {
                     "date": 1725173939253,
@@ -92,6 +92,14 @@
                 {
                     "date": 1726046908065,
                     "content": "Index: \n===================================================================\n--- \n+++ \n@@ -93,8 +93,11 @@\n \n MIDDLEWARE = [\n     'corsheaders.middleware.CorsMiddleware',\n     'django.middleware.common.CommonMiddleware',\n+    \n+    'django.middleware.security.SecurityMiddleware',\n+    'whitenoise.middleware.WhiteNoiseMiddleware',\n \n     'django.middleware.security.SecurityMiddleware',\n     'django.contrib.sessions.middleware.SessionMiddleware',\n     'django.middleware.common.CommonMiddleware',\n"
+                },
+                {
+                    "date": 1726047364966,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -247,12 +247,4 @@\n ]\n \n SMS_KEY_PASSWORD = ''\n \n-if not DEBUG:\n-    SECURE_SSL_REDIRECT = True\n-    SECURE_HSTS_SECONDS = 31536000\n-    SECURE_HSTS_INCLUDE_SUBDOMAINS = True\n-    SECURE_HSTS_PRELOAD = True\n-    SESSION_COOKIE_SECURE = True\n-    CSRF_COOKIE_SECURE = True\n-    SECURE_REFERRER_POLICY = \"strict-origin-when-cross-origin\"\n\\ No newline at end of file\n"
+                },
+                {
+                    "date": 1726047374801,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -95,11 +95,8 @@\n     'corsheaders.middleware.CorsMiddleware',\n     'django.middleware.common.CommonMiddleware',\n     \n     'django.middleware.security.SecurityMiddleware',\n-    'whitenoise.middleware.WhiteNoiseMiddleware',\n-\n-    'django.middleware.security.SecurityMiddleware',\n     'django.contrib.sessions.middleware.SessionMiddleware',\n     'django.middleware.common.CommonMiddleware',\n     'django.middleware.csrf.CsrfViewMiddleware',\n     'django.contrib.auth.middleware.AuthenticationMiddleware',\n"
                 }
             ],
             "date": 1725173939253,
