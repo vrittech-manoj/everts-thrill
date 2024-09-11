@@ -3,7 +3,7 @@
     "activeCommit": 0,
     "commits": [
         {
-            "activePatchIndex": 19,
+            "activePatchIndex": 21,
             "patches": [
                 {
                     "date": 1725173939253,
@@ -84,6 +84,14 @@
                 {
                     "date": 1725971836883,
                     "content": "Index: \n===================================================================\n--- \n+++ \n@@ -81,9 +81,8 @@\n     'blog',\n     'airlines',\n     'gallery',\n     'report',\n-    'drfapi',\n ]\n \n # ASGI_APPLICATION = 'trek.asgi.application'\n AUTH_USER_MODEL = 'accounts.CustomUser'\n"
+                },
+                {
+                    "date": 1726046887423,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -242,5 +242,14 @@\n     \"127.0.0.1\",\n     # ...\n ]\n \n-SMS_KEY_PASSWORD = ''\n\\ No newline at end of file\n+SMS_KEY_PASSWORD = ''\n+\n+if not DEBUG:\n+    SECURE_SSL_REDIRECT = True\n+    SECURE_HSTS_SECONDS = 31536000\n+    SECURE_HSTS_INCLUDE_SUBDOMAINS = True\n+    SECURE_HSTS_PRELOAD = True\n+    SESSION_COOKIE_SECURE = True\n+    CSRF_COOKIE_SECURE = True\n+    SECURE_REFERRER_POLICY = \"strict-origin-when-cross-origin\"\n\\ No newline at end of file\n"
+                },
+                {
+                    "date": 1726046908065,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -93,8 +93,11 @@\n \n MIDDLEWARE = [\n     'corsheaders.middleware.CorsMiddleware',\n     'django.middleware.common.CommonMiddleware',\n+    \n+    'django.middleware.security.SecurityMiddleware',\n+    'whitenoise.middleware.WhiteNoiseMiddleware',\n \n     'django.middleware.security.SecurityMiddleware',\n     'django.contrib.sessions.middleware.SessionMiddleware',\n     'django.middleware.common.CommonMiddleware',\n"
                 }
             ],
             "date": 1725173939253,
