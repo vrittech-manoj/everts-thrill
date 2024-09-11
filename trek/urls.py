@@ -45,6 +45,7 @@ from review.routers.routers import router as review_router
 from airlines.routers.routers import router as airlines_router
 from trek.utilities.bulk_upload import BulkUploadAPIView
 from gallery.routers.routers import router as gallery_router
+from setupemail.urls import router as setup_email_router
 
 from trek.utilities.bulk_delete import BulkDelete
 
@@ -66,7 +67,7 @@ router.registry.extend(collection_router.registry)
 router.registry.extend(activities_router.registry)
 router.registry.extend(company_router.registry)
 router.registry.extend(gallery_router.registry)
-router.registry.extend(gallery_router.registry)
+router.registry.extend(setup_email_router.registry)
 
 
 schema_view = get_schema_view(
