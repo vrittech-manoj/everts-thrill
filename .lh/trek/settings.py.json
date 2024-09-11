@@ -3,7 +3,7 @@
     "activeCommit": 0,
     "commits": [
         {
-            "activePatchIndex": 23,
+            "activePatchIndex": 26,
             "patches": [
                 {
                     "date": 1725173939253,
@@ -100,6 +100,18 @@
                 {
                     "date": 1726047374801,
                     "content": "Index: \n===================================================================\n--- \n+++ \n@@ -95,11 +95,8 @@\n     'corsheaders.middleware.CorsMiddleware',\n     'django.middleware.common.CommonMiddleware',\n     \n     'django.middleware.security.SecurityMiddleware',\n-    'whitenoise.middleware.WhiteNoiseMiddleware',\n-\n-    'django.middleware.security.SecurityMiddleware',\n     'django.contrib.sessions.middleware.SessionMiddleware',\n     'django.middleware.common.CommonMiddleware',\n     'django.middleware.csrf.CsrfViewMiddleware',\n     'django.contrib.auth.middleware.AuthenticationMiddleware',\n"
+                },
+                {
+                    "date": 1726055215344,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -234,9 +234,9 @@\n EMAIL_PORT = 587\n EMAIL_HOST_USER = 'manojdas.py@gmail.com'\n EMAIL_HOST_PASSWORD = 'qizi zhwj urhp vmvv'\n \n-# EMAIL_BACKEND = 'setupemail.utilities.custom_email_setup_backend.CustomEmailBackend'\n+EMAIL_BACKEND = 'setupemail.utilities.custom_email_setup_backend.CustomEmailBackend'\n \n INTERNAL_IPS = [\n     # ...\n     \"127.0.0.1\",\n"
+                },
+                {
+                    "date": 1726055222661,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -234,9 +234,9 @@\n EMAIL_PORT = 587\n EMAIL_HOST_USER = 'manojdas.py@gmail.com'\n EMAIL_HOST_PASSWORD = 'qizi zhwj urhp vmvv'\n \n-EMAIL_BACKEND = 'setupemail.utilities.custom_email_setup_backend.CustomEmailBackend'\n+# EMAIL_BACKEND = 'setupemail.utilities.custom_email_setup_backend.CustomEmailBackend'\n \n INTERNAL_IPS = [\n     # ...\n     \"127.0.0.1\",\n"
+                },
+                {
+                    "date": 1726055508183,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -234,9 +234,9 @@\n EMAIL_PORT = 587\n EMAIL_HOST_USER = 'manojdas.py@gmail.com'\n EMAIL_HOST_PASSWORD = 'qizi zhwj urhp vmvv'\n \n-# EMAIL_BACKEND = 'setupemail.utilities.custom_email_setup_backend.CustomEmailBackend'\n+EMAIL_BACKEND = 'setupemail.utilities.custom_email_setup_backend.CustomEmailBackend'\n \n INTERNAL_IPS = [\n     # ...\n     \"127.0.0.1\",\n"
                 }
             ],
             "date": 1725173939253,
