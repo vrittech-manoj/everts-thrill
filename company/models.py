@@ -19,6 +19,7 @@ class Popup(models.Model):
 
 class MeetTeam(models.Model):
     member_name = models.CharField(max_length = 200,null = True)
+    index = models.PositiveIntegerField(default = 999)
     position = models.CharField(max_length = 200,null = True)
     description = models.TextField()
     image = models.ImageField(upload_to='components/meetteam', null=True, blank=True)
