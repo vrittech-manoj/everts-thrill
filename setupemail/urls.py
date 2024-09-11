@@ -4,7 +4,6 @@ from .viewsets import email_setup_viewsets
 
 router = DefaultRouter()
 
-
 router.register('email-setup', email_setup_viewsets.EmailSetupViewset, basename="EmailSetupViewset")
 
 urlpatterns = [    

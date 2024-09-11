@@ -1,0 +1,22 @@
+{
+    "sourceFile": "gallery/routers/routers.py",
+    "activeCommit": 0,
+    "commits": [
+        {
+            "activePatchIndex": 1,
+            "patches": [
+                {
+                    "date": 1726029945029,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n"
+                },
+                {
+                    "date": 1726029952827,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -2,6 +2,5 @@\n from ..viewsets.gallery_viewsets import galleryViewsets\n \n router = DefaultRouter()\n \n-\n router.register('gallery', galleryViewsets, basename=\"galleryViewsets\")\n"
+                }
+            ],
+            "date": 1726029945029,
+            "name": "Commit-0",
+            "content": "from rest_framework.routers import DefaultRouter\nfrom ..viewsets.gallery_viewsets import galleryViewsets\n\nrouter = DefaultRouter()\n\n\nrouter.register('gallery', galleryViewsets, basename=\"galleryViewsets\")\n"
+        }
+    ]
+}
