@@ -31,10 +31,10 @@ class BlogViewSets(viewsets.ModelViewSet):
         queryset = Blog.objects.all().order_by('-created_date')
         
         # Get the blog id from the request data
-        blog_id = self.request.data.get('id')
-        if blog_id:
+        blog_slug = self.request.data.get('id')
+        if blog_slug:
             # Exclude the blog with the id provided in the payload
-            queryset = queryset.exclude(id=blog_id)
+            queryset = queryset.exclude(slug=blog_slug)
         return queryset
     
 
