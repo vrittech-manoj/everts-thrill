@@ -23,8 +23,19 @@ class BlogViewSets(viewsets.ModelViewSet):
         'is_popular': ['exact'],
     }
 
+    # def get_queryset(self):
+    #     return Blog.objects
+    
     def get_queryset(self):
-        return Blog.objects
+        queryset = Blog.objects.all().order_by('-created_date')
+        
+        # Get the blog id from the request data
+        blog_id = self.request.data.get('id')
+        if blog_id:
+            # Exclude the blog with the id provided in the payload
+            queryset = queryset.exclude(id=blog_id)
+        # If no blog_id is provided, return all blogs
+        return queryset
     
 
     def get_serializer_class(self):

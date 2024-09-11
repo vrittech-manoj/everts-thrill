@@ -3,7 +3,7 @@
     "activeCommit": 0,
     "commits": [
         {
-            "activePatchIndex": 72,
+            "activePatchIndex": 73,
             "patches": [
                 {
                     "date": 1724906885229,
@@ -296,6 +296,10 @@
                 {
                     "date": 1725793126213,
                     "content": "Index: \n===================================================================\n--- \n+++ \n@@ -5,8 +5,10 @@\n from rest_framework.filters import SearchFilter, OrderingFilter\n from django_filters.rest_framework import DjangoFilterBackend\n from ..utilities.permission import AdminViewSetsPermission\n from ..utilities.pagination import *\n+from rest_framework.response import Response\n+from rest_framework import status\n \n class BlogViewSets(viewsets.ModelViewSet):\n     queryset = Blog.objects.all().order_by('-created_date')\n     permission_classes = [AdminViewSetsPermission] \n"
+                },
+                {
+                    "date": 1726034150210,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -25,10 +25,20 @@\n \n     def get_queryset(self):\n         return Blog.objects\n     \n+    def get_queryset(self):\n+        queryset = Blog.objects.all().order_by('-created_date')\n+        \n+        # Get the blog id from the request data (payload)\n+        blog_id = self.request.data.get('id')\n+        \n+        if blog_id:\n+            # Exclude the blog with the id provided in the payload\n+            queryset = queryset.exclude(id=blog_id)\n+        \n+        return queryset\n     \n-    \n \n     def get_serializer_class(self):\n         if self.action in ['create', 'update', 'partial_update']:\n             return BlogWriteSerializer\n"
                 }
             ],
             "date": 1724906885229,

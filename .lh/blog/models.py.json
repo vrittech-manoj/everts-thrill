@@ -3,7 +3,7 @@
     "activeCommit": 0,
     "commits": [
         {
-            "activePatchIndex": 27,
+            "activePatchIndex": 28,
             "patches": [
                 {
                     "date": 1724906622951,
@@ -116,6 +116,10 @@
                 {
                     "date": 1725868045148,
                     "content": "Index: \n===================================================================\n--- \n+++ \n@@ -9,8 +9,9 @@\n     user = models.ForeignKey(CustomUser, related_name=\"user_blog\", on_delete=models.CASCADE,null=True)\n     slug = models.SlugField(unique=True, blank=True)\n     title = models.CharField(max_length = 150,unique = True)\n     description = models.TextField(blank = True,null = True)\n+    description = models.TextField(blank = True,null = True)\n     featured_image = models.ImageField(upload_to=\"blog/images\",null=True,blank=True)\n     created_date = models.DateField(auto_now_add=True, null = True,blank = True)\n     created_date_time = models.DateTimeField(auto_now_add=True, null = True,blank = True)\n     created_by = models.CharField(max_length = 150,blank=True)\n@@ -24,5 +25,6 @@\n     def save(self, *args, **kwargs):\n         if not self.slug:\n             self.slug = f'{slugify(self.title)}'\n         super(Blog, self).save(*args, **kwargs)\n-        \n\\ No newline at end of file\n+\n+    \n\\ No newline at end of file\n"
+                },
+                {
+                    "date": 1726034332348,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -9,9 +9,9 @@\n     user = models.ForeignKey(CustomUser, related_name=\"user_blog\", on_delete=models.CASCADE,null=True)\n     slug = models.SlugField(unique=True, blank=True)\n     title = models.CharField(max_length = 150,unique = True)\n     description = models.TextField(blank = True,null = True)\n-    description = models.TextField(blank = True,null = True)\n+    short_description = models.TextField(blank = True,null = True)\n     featured_image = models.ImageField(upload_to=\"blog/images\",null=True,blank=True)\n     created_date = models.DateField(auto_now_add=True, null = True,blank = True)\n     created_date_time = models.DateTimeField(auto_now_add=True, null = True,blank = True)\n     created_by = models.CharField(max_length = 150,blank=True)\n"
                 }
             ],
             "date": 1724906622951,
