@@ -24,20 +24,21 @@ class BlogViewSets(viewsets.ModelViewSet):
         'is_popular': ['exact'],
     }
 
-    # def get_queryset(self):
-    #     return Blog.objects
-    
     def get_queryset(self):
-        queryset = Blog.objects.all().order_by('-created_date')
+            queryset = Blog.objects.all().order_by('-created_date')
+            blog_slug = self.request.query_params.get('id')
+            # # Filter by is_popular query parameter if provided (e.g. /api/blog-management/?is_popular=true)
+            # is_popular = self.request.query_params.get('is_popular')
+            # if is_popular:
+            #     queryset = queryset.filter(is_popular=is_popular.lower() == 'true')
+            
+            # Exclude the blog that the user is currently reading if blog_id is provided
+            if blog_slug:
+                queryset = queryset.exclude(slug=blog_slug)
         
-        # Get the blog id from the request data
-        blog_slug = self.request.data.get('id')
-        if blog_slug:
-            # Exclude the blog with the id provided in the payload
-            queryset = queryset.exclude(slug=blog_slug)
-        return queryset
-    
-
+            return queryset
+        
+        
     def get_serializer_class(self):
         if self.action in ['create', 'update', 'partial_update']:
             return BlogWriteSerializer
