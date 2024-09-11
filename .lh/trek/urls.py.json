@@ -3,7 +3,7 @@
     "activeCommit": 0,
     "commits": [
         {
-            "activePatchIndex": 16,
+            "activePatchIndex": 18,
             "patches": [
                 {
                     "date": 1724907996693,
@@ -72,6 +72,14 @@
                 {
                     "date": 1726030294027,
                     "content": "Index: \n===================================================================\n--- \n+++ \n@@ -66,9 +66,9 @@\n router.registry.extend(collection_router.registry)\n router.registry.extend(activities_router.registry)\n router.registry.extend(company_router.registry)\n router.registry.extend(gallery_router.registry)\n-router.registry.extend(gallery_router.registry)\n+router.registry.extend(setup_email_router.registry)\n \n \n schema_view = get_schema_view(\n    openapi.Info(\n"
+                },
+                {
+                    "date": 1726030762409,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -1,6 +1,5 @@\n \"\"\"\n-URL configuration for cnex project.\n \n The `urlpatterns` list routes URLs to views. For more information please see:\n     https://docs.djangoproject.com/en/4.2/topics/http/urls/\n Examples:\n"
+                },
+                {
+                    "date": 1726030770156,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -1,19 +1,5 @@\n-\"\"\"\n \n-The `urlpatterns` list routes URLs to views. For more information please see:\n-    https://docs.djangoproject.com/en/4.2/topics/http/urls/\n-Examples:\n-Function views\n-    1. Add an import:  from my_app import views\n-    2. Add a URL to urlpatterns:  path('', views.home, name='home')\n-Class-based views\n-    1. Add an import:  from other_app.views import Home\n-    2. Add a URL to urlpatterns:  path('', Home.as_view(), name='home')\n-Including another URLconf\n-    1. Import the include() function: from django.urls import include, path\n-    2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))\n-\"\"\"\n from django.contrib import admin\n from django.urls import path,include\n \n from django.urls import re_path\n"
                 }
             ],
             "date": 1724907996693,
