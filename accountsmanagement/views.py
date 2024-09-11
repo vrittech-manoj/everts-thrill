@@ -26,14 +26,13 @@ from django.core.cache import cache
 import random
 import string
 
-otp_time_expired = 1200
+otp_time_expired = 600
 site_f  = "https://lims.dftqc.gov.np" #http://localhost:4200"#"https://dev-lims.netlify.app"#"https://lims.dftqc.gov.np"
 
 class EmailCheckView(generics.GenericAPIView):
 
     def generate_otp(self,user):
         # Generate a random 6-digit OTP
-        return '987654'
         user = str(user)
         return user[0]+''.join(random.choices(string.digits, k=4)) + user[-1]
     
