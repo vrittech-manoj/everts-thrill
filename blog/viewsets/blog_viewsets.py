@@ -11,6 +11,7 @@ from rest_framework import status
 
 class BlogViewSets(viewsets.ModelViewSet):
     queryset = Blog.objects.all().order_by('-created_date')
+    serializer_class = BlogListSerializer
     permission_classes = [AdminViewSetsPermission] 
     pagination_class = MyPageNumberPagination 
     filter_backends = [SearchFilter, DjangoFilterBackend, OrderingFilter]
@@ -34,7 +35,6 @@ class BlogViewSets(viewsets.ModelViewSet):
         if blog_id:
             # Exclude the blog with the id provided in the payload
             queryset = queryset.exclude(id=blog_id)
-        # If no blog_id is provided, return all blogs
         return queryset
     
 
