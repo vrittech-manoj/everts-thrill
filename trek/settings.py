@@ -176,6 +176,7 @@ USE_TZ = True
 import os
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/4.1/howto/static-files/
+SECURE_SSL_REDIRECT = True
 
 STATIC_URL = 'https://api.everestthrills.com/static/'
 STATICFILES_DIRS = [
