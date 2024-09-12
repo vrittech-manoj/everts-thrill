@@ -3,7 +3,7 @@
     "activeCommit": 0,
     "commits": [
         {
-            "activePatchIndex": 6,
+            "activePatchIndex": 9,
             "patches": [
                 {
                     "date": 1725963226862,
@@ -32,6 +32,18 @@
                 {
                     "date": 1726121874078,
                     "content": "Index: \n===================================================================\n--- \n+++ \n@@ -1,6 +1,6 @@\n from django.contrib import admin\n-from .models import Popup, MeetTeam, TermAndCondition, VisaInformation,AboutUs, LegalDocuments,HeroSection,PrivacyPolicy,HeroSectionOverlay\n+from .models import Popup, MeetTeam,HeroSectionStats, TermAndCondition, VisaInformation,AboutUs, LegalDocuments,HeroSection,PrivacyPolicy,HeroSectionOverlay\n \n # Register your models here.\n admin.site.register(Popup)\n admin.site.register(MeetTeam)\n@@ -10,5 +10,5 @@\n admin.site.register(HeroSection)\n admin.site.register(PrivacyPolicy)\n admin.site.register(HeroSectionOverlay)\n admin.site.register(AboutUs)\n-admin.site.register(AboutUs)\n\\ No newline at end of file\n+admin.site.register(HeroSectionStats)\n\\ No newline at end of file\n"
+                },
+                {
+                    "date": 1726131862470,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -10,5 +10,6 @@\n admin.site.register(HeroSection)\n admin.site.register(PrivacyPolicy)\n admin.site.register(HeroSectionOverlay)\n admin.site.register(AboutUs)\n+admin.site.register(HeroSectionStats)\n admin.site.register(HeroSectionStats)\n\\ No newline at end of file\n"
+                },
+                {
+                    "date": 1726131868137,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -1,6 +1,6 @@\n from django.contrib import admin\n-from .models import Popup, MeetTeam,HeroSectionStats, TermAndCondition, VisaInformation,AboutUs, LegalDocuments,HeroSection,PrivacyPolicy,HeroSectionOverlay\n+from .models import Popup, MeetTeam,HeroSectionStats,, TermAndCondition, VisaInformation,AboutUs, LegalDocuments,HeroSection,PrivacyPolicy,HeroSectionOverlay\n \n # Register your models here.\n admin.site.register(Popup)\n admin.site.register(MeetTeam)\n"
+                },
+                {
+                    "date": 1726131875261,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -1,6 +1,6 @@\n from django.contrib import admin\n-from .models import Popup, MeetTeam,HeroSectionStats,, TermAndCondition, VisaInformation,AboutUs, LegalDocuments,HeroSection,PrivacyPolicy,HeroSectionOverlay\n+from .models import Popup, MeetTeam,HeroSectionStats,ContacttUsDescription, TermAndCondition, VisaInformation,AboutUs, LegalDocuments,HeroSection,PrivacyPolicy,HeroSectionOverlay\n \n # Register your models here.\n admin.site.register(Popup)\n admin.site.register(MeetTeam)\n@@ -11,5 +11,5 @@\n admin.site.register(PrivacyPolicy)\n admin.site.register(HeroSectionOverlay)\n admin.site.register(AboutUs)\n admin.site.register(HeroSectionStats)\n-admin.site.register(HeroSectionStats)\n\\ No newline at end of file\n+admin.site.register(ContacttUsDescription)\n\\ No newline at end of file\n"
                 }
             ],
             "date": 1725963226862,

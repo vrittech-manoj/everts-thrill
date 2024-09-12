@@ -1,5 +1,6 @@
 from rest_framework.routers import DefaultRouter
 from ..viewsets.popup_viewsets import popupViewsets
+from ..viewsets.contacttusdescription_viewsets import contacttusdescriptionViewsets
 from ..viewsets.herosectionstats_viewsets import herosectionstatsViewsets
 from ..viewsets.aboutus_viewsets import aboutusViewsets
 from ..viewsets.herosectionoverlay_viewsets import herosectionoverlayViewsets
@@ -23,3 +24,4 @@ router.register('hero-section', herosectionViewsets, basename="herosectionViewse
 router.register('herosectionoverlay', herosectionoverlayViewsets, basename="herosectionoverlayViewsets")
 router.register('aboutus', aboutusViewsets, basename="aboutusViewsets")
 router.register('herosectionstats', herosectionstatsViewsets, basename="herosectionstatsViewsets")
+router.register('contacttusdescription', contacttusdescriptionViewsets, basename="contacttusdescriptionViewsets")
