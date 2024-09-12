@@ -181,7 +181,7 @@ STATIC_URL = 'https://api.everestthrills.com/static/'
 STATICFILES_DIRS = [
     BASE_DIR / "static",
 ]
-MEDIA_URL = 'media/'
+MEDIA_URL = 'https://api.everestthrills.com/media/'
 
 STATIC_ROOT = os.path.join(BASE_DIR,'staticfiles')
 MEDIA_ROOT = os.path.join(BASE_DIR,'media')
