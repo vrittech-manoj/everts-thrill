@@ -79,9 +79,4 @@ class HeroSectionStats(models.Model):
      created_date = models.DateTimeField(auto_now_add=True)
      updated_date = models.DateTimeField(auto_now=True)
      
-     def save(self, *args, **kwargs):
-        # Check the count of objects in the model
-        if HeroSectionStats.objects.count() >= 4 and not self.pk:
-            raise ValidationError("Cannot save more than 4 Data.")
-        super().save(*args, **kwargs)
     
