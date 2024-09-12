@@ -71,3 +71,17 @@ class HeroSectionOverlay(models.Model):
     is_overlay_text = models.BooleanField(default = False)
     created_date = models.DateTimeField(auto_now_add=True)
     updated_date = models.DateTimeField(auto_now=True)
+    
+class HeroSectionStats(models.Model):
+     stat_text = models.CharField(max_length = 200,null = True,blank=True)
+     stat_number = models.CharField(max_length = 200,null = True,blank=True)
+     stat_description = models.TextField(null = True,blank=True)
+     created_date = models.DateTimeField(auto_now_add=True)
+     updated_date = models.DateTimeField(auto_now=True)
+     
+     def save(self, *args, **kwargs):
+        # Check the count of objects in the model
+        if HeroSectionStats.objects.count() >= 4 and not self.pk:
+            raise ValidationError("Cannot save more than 4 Data.")
+        super().save(*args, **kwargs)
+    

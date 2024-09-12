@@ -1,0 +1,30 @@
+{
+    "sourceFile": "company/viewsets/herosectionstats_viewsets.py",
+    "activeCommit": 0,
+    "commits": [
+        {
+            "activePatchIndex": 3,
+            "patches": [
+                {
+                    "date": 1726116425629,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n"
+                },
+                {
+                    "date": 1726116437301,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -21,9 +21,9 @@\n     }\n \n     def get_queryset(self):\n         queryset = super().get_queryset()\n-        #return queryset.filter(user_id=self.request.user.id)\n+        return queryset\n \n     def get_serializer_class(self):\n         if self.action in ['create', 'update', 'partial_update']:\n             return HeroSectionStatsWriteSerializers\n"
+                },
+                {
+                    "date": 1726116447666,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -8,9 +8,9 @@\n class herosectionstatsViewsets(viewsets.ModelViewSet):\n     serializer_class = HeroSectionStatsListSerializers\n     # permission_classes = [companyPermission]\n     # authentication_classes = [JWTAuthentication]\n-    #pagination_class = MyPageNumberPagination\n+    pagination_class = MyPageNumberPagination\n     queryset = HeroSectionStats.objects.all()\n \n     filter_backends = [SearchFilter, DjangoFilterBackend, OrderingFilter]\n     search_fields = ['id']\n"
+                },
+                {
+                    "date": 1726116452772,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -6,9 +6,9 @@\n from ..utilities.importbase import *\n \n class herosectionstatsViewsets(viewsets.ModelViewSet):\n     serializer_class = HeroSectionStatsListSerializers\n-    # permission_classes = [companyPermission]\n+    permission_classes = [companyPermission]\n     # authentication_classes = [JWTAuthentication]\n     pagination_class = MyPageNumberPagination\n     queryset = HeroSectionStats.objects.all()\n \n"
+                }
+            ],
+            "date": 1726116425629,
+            "name": "Commit-0",
+            "content": "from rest_framework import viewsets\nfrom rest_framework.filters import SearchFilter, OrderingFilter\nfrom django_filters.rest_framework import DjangoFilterBackend\nfrom ..models import HeroSectionStats\nfrom ..serializers.herosectionstats_serializers import HeroSectionStatsListSerializers, HeroSectionStatsRetrieveSerializers, HeroSectionStatsWriteSerializers\nfrom ..utilities.importbase import *\n\nclass herosectionstatsViewsets(viewsets.ModelViewSet):\n    serializer_class = HeroSectionStatsListSerializers\n    # permission_classes = [companyPermission]\n    # authentication_classes = [JWTAuthentication]\n    #pagination_class = MyPageNumberPagination\n    queryset = HeroSectionStats.objects.all()\n\n    filter_backends = [SearchFilter, DjangoFilterBackend, OrderingFilter]\n    search_fields = ['id']\n    ordering_fields = ['id']\n\n    filterset_fields = {\n        'id': ['exact'],\n    }\n\n    def get_queryset(self):\n        queryset = super().get_queryset()\n        #return queryset.filter(user_id=self.request.user.id)\n\n    def get_serializer_class(self):\n        if self.action in ['create', 'update', 'partial_update']:\n            return HeroSectionStatsWriteSerializers\n        elif self.action == 'retrieve':\n            return HeroSectionStatsRetrieveSerializers\n        return super().get_serializer_class()\n\n    # @action(detail=False, methods=['get'], name=\"action_name\", url_path=\"url_path\")\n    # def action_name(self, request, *args, **kwargs):\n    #     return super().list(request, *args, **kwargs)\n\n"
+        }
+    ]
+}

@@ -3,7 +3,7 @@
     "activeCommit": 0,
     "commits": [
         {
-            "activePatchIndex": 26,
+            "activePatchIndex": 29,
             "patches": [
                 {
                     "date": 1725173939253,
@@ -112,6 +112,18 @@
                 {
                     "date": 1726055508183,
                     "content": "Index: \n===================================================================\n--- \n+++ \n@@ -234,9 +234,9 @@\n EMAIL_PORT = 587\n EMAIL_HOST_USER = 'manojdas.py@gmail.com'\n EMAIL_HOST_PASSWORD = 'qizi zhwj urhp vmvv'\n \n-# EMAIL_BACKEND = 'setupemail.utilities.custom_email_setup_backend.CustomEmailBackend'\n+EMAIL_BACKEND = 'setupemail.utilities.custom_email_setup_backend.CustomEmailBackend'\n \n INTERNAL_IPS = [\n     # ...\n     \"127.0.0.1\",\n"
+                },
+                {
+                    "date": 1726116350840,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -81,8 +81,9 @@\n     'blog',\n     'airlines',\n     'gallery',\n     'report',\n+    'report',\n ]\n \n # ASGI_APPLICATION = 'trek.asgi.application'\n AUTH_USER_MODEL = 'accounts.CustomUser'\n@@ -228,13 +229,13 @@\n     # \"USER_ID_CLAIM\": \"user_id\",\n     \"USER_AUTHENTICATION_RULE\": \"rest_framework_simplejwt.authentication.default_user_authentication_rule\",\n }\n \n-EMAIL_USE_TLS = True\n-EMAIL_HOST = 'smtp.gmail.com'\n-EMAIL_PORT = 587\n-EMAIL_HOST_USER = 'manojdas.py@gmail.com'\n-EMAIL_HOST_PASSWORD = 'qizi zhwj urhp vmvv'\n+# EMAIL_USE_TLS = True\n+# EMAIL_HOST = 'smtp.gmail.com'\n+# EMAIL_PORT = 587\n+# EMAIL_HOST_USER = 'manojdas.py@gmail.com'\n+# EMAIL_HOST_PASSWORD = 'qizi zhwj urhp vmvv'\n \n EMAIL_BACKEND = 'setupemail.utilities.custom_email_setup_backend.CustomEmailBackend'\n \n INTERNAL_IPS = [\n"
+                },
+                {
+                    "date": 1726116356957,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -81,9 +81,9 @@\n     'blog',\n     'airlines',\n     'gallery',\n     'report',\n-    'report',\n+    'drfapigenerator',\n ]\n \n # ASGI_APPLICATION = 'trek.asgi.application'\n AUTH_USER_MODEL = 'accounts.CustomUser'\n"
+                },
+                {
+                    "date": 1726116395765,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -81,9 +81,8 @@\n     'blog',\n     'airlines',\n     'gallery',\n     'report',\n-    'drfapigenerator',\n ]\n \n # ASGI_APPLICATION = 'trek.asgi.application'\n AUTH_USER_MODEL = 'accounts.CustomUser'\n"
                 }
             ],
             "date": 1725173939253,
