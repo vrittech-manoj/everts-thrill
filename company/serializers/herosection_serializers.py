@@ -5,11 +5,17 @@ class HeroSectionListSerializers(serializers.ModelSerializer):
     class Meta:
         model = HeroSection
         fields = '__all__'
+    
+    def to_representation(self, instance):
+        data = super().to_representation(instance)
+        
+        # Check if the 'video' field exists and is a string
+        video_url = data.get('video', '')
+        if isinstance(video_url, str):
+            # Replace 'http' with 'https' only if it exists in the string
+            data['video'] = video_url.replace('http', 'https', 1)
 
-class HeroSectionRetrieveSerializers(serializers.ModelSerializer):
-    class Meta:
-        model = HeroSection
-        fields = '__all__'
+        return data
 
 class HeroSectionRetrieveSerializers(serializers.ModelSerializer):
     class Meta:
