@@ -3,7 +3,7 @@
     "activeCommit": 0,
     "commits": [
         {
-            "activePatchIndex": 86,
+            "activePatchIndex": 94,
             "patches": [
                 {
                     "date": 1724821555571,
@@ -352,6 +352,38 @@
                 {
                     "date": 1726203473681,
                     "content": "Index: \n===================================================================\n--- \n+++ \n@@ -33,10 +33,10 @@\n             'destination_title': ['exact', 'icontains'],\n             'nature_of_trip': ['exact', 'icontains'],\n             'accommodation': ['exact', 'icontains'],\n             'created_date': ['exact', 'gte', 'lte'],\n-            'best_season': ['exact', 'gte', 'lte'],\n-            'best_season': ['exact', 'gte', 'lte'],\n+            'best_season': ['exact', 'icontains'],\n+            'trip_grade': ['exact', 'gte', 'lte'],\n         }\n # ('public_id', 'slug', 'destination_title', 'packages', 'price', 'price_type', 'is_price', 'featured_image', 'overview', 'inclusion_and_exclusion', 'ltinerary', 'trip_map_url', 'trip_map_image', 'gear_and_equipment', 'useful_information', 'duration', 'trip_grade', 'best_season', 'max_altitude', 'meals', 'nature_of_trip', 'accommodation', 'group_size', )\n     def filter_by_collections(self, queryset, name, value):\n         if value:\n"
+                },
+                {
+                    "date": 1726226586941,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -34,9 +34,10 @@\n             'nature_of_trip': ['exact', 'icontains'],\n             'accommodation': ['exact', 'icontains'],\n             'created_date': ['exact', 'gte', 'lte'],\n             'best_season': ['exact', 'icontains'],\n-            'trip_grade': ['exact', 'gte', 'lte'],\n+            'trip_grade': ['exact', 'icontains'],\n+            'trip_grade': ['exact', 'icontains'],\n         }\n # ('public_id', 'slug', 'destination_title', 'packages', 'price', 'price_type', 'is_price', 'featured_image', 'overview', 'inclusion_and_exclusion', 'ltinerary', 'trip_map_url', 'trip_map_image', 'gear_and_equipment', 'useful_information', 'duration', 'trip_grade', 'best_season', 'max_altitude', 'meals', 'nature_of_trip', 'accommodation', 'group_size', )\n     def filter_by_collections(self, queryset, name, value):\n         if value:\n"
+                },
+                {
+                    "date": 1726226593532,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -35,9 +35,9 @@\n             'accommodation': ['exact', 'icontains'],\n             'created_date': ['exact', 'gte', 'lte'],\n             'best_season': ['exact', 'icontains'],\n             'trip_grade': ['exact', 'icontains'],\n-            'trip_grade': ['exact', 'icontains'],\n+            'price': ['exact'],\n         }\n # ('public_id', 'slug', 'destination_title', 'packages', 'price', 'price_type', 'is_price', 'featured_image', 'overview', 'inclusion_and_exclusion', 'ltinerary', 'trip_map_url', 'trip_map_image', 'gear_and_equipment', 'useful_information', 'duration', 'trip_grade', 'best_season', 'max_altitude', 'meals', 'nature_of_trip', 'accommodation', 'group_size', )\n     def filter_by_collections(self, queryset, name, value):\n         if value:\n"
+                },
+                {
+                    "date": 1726226607806,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -36,8 +36,9 @@\n             'created_date': ['exact', 'gte', 'lte'],\n             'best_season': ['exact', 'icontains'],\n             'trip_grade': ['exact', 'icontains'],\n             'price': ['exact'],\n+            'trip_grade': ['exact'],\n         }\n # ('public_id', 'slug', 'destination_title', 'packages', 'price', 'price_type', 'is_price', 'featured_image', 'overview', 'inclusion_and_exclusion', 'ltinerary', 'trip_map_url', 'trip_map_image', 'gear_and_equipment', 'useful_information', 'duration', 'trip_grade', 'best_season', 'max_altitude', 'meals', 'nature_of_trip', 'accommodation', 'group_size', )\n     def filter_by_collections(self, queryset, name, value):\n         if value:\n"
+                },
+                {
+                    "date": 1726226621392,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -37,8 +37,9 @@\n             'best_season': ['exact', 'icontains'],\n             'trip_grade': ['exact', 'icontains'],\n             'price': ['exact'],\n             'trip_grade': ['exact'],\n+            'trip_grade': ['exact'],\n         }\n # ('public_id', 'slug', 'destination_title', 'packages', 'price', 'price_type', 'is_price', 'featured_image', 'overview', 'inclusion_and_exclusion', 'ltinerary', 'trip_map_url', 'trip_map_image', 'gear_and_equipment', 'useful_information', 'duration', 'trip_grade', 'best_season', 'max_altitude', 'meals', 'nature_of_trip', 'accommodation', 'group_size', )\n     def filter_by_collections(self, queryset, name, value):\n         if value:\n"
+                },
+                {
+                    "date": 1726226639527,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -37,9 +37,10 @@\n             'best_season': ['exact', 'icontains'],\n             'trip_grade': ['exact', 'icontains'],\n             'price': ['exact'],\n             'trip_grade': ['exact'],\n-            'trip_grade': ['exact'],\n+            'max_altitude': ['exact'],\n+            'max_altbest_seasonitude': ['exact'],\n         }\n # ('public_id', 'slug', 'destination_title', 'packages', 'price', 'price_type', 'is_price', 'featured_image', 'overview', 'inclusion_and_exclusion', 'ltinerary', 'trip_map_url', 'trip_map_image', 'gear_and_equipment', 'useful_information', 'duration', 'trip_grade', 'best_season', 'max_altitude', 'meals', 'nature_of_trip', 'accommodation', 'group_size', )\n     def filter_by_collections(self, queryset, name, value):\n         if value:\n"
+                },
+                {
+                    "date": 1726226648860,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -38,9 +38,10 @@\n             'trip_grade': ['exact', 'icontains'],\n             'price': ['exact'],\n             'trip_grade': ['exact'],\n             'max_altitude': ['exact'],\n-            'max_altbest_seasonitude': ['exact'],\n+            'best_season': ['exact'],\n+            'best_season': ['exact'],\n         }\n # ('public_id', 'slug', 'destination_title', 'packages', 'price', 'price_type', 'is_price', 'featured_image', 'overview', 'inclusion_and_exclusion', 'ltinerary', 'trip_map_url', 'trip_map_image', 'gear_and_equipment', 'useful_information', 'duration', 'trip_grade', 'best_season', 'max_altitude', 'meals', 'nature_of_trip', 'accommodation', 'group_size', )\n     def filter_by_collections(self, queryset, name, value):\n         if value:\n"
+                },
+                {
+                    "date": 1726226654022,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -39,9 +39,9 @@\n             'price': ['exact'],\n             'trip_grade': ['exact'],\n             'max_altitude': ['exact'],\n             'best_season': ['exact'],\n-            'best_season': ['exact'],\n+            'price_type': ['exact'],\n         }\n # ('public_id', 'slug', 'destination_title', 'packages', 'price', 'price_type', 'is_price', 'featured_image', 'overview', 'inclusion_and_exclusion', 'ltinerary', 'trip_map_url', 'trip_map_image', 'gear_and_equipment', 'useful_information', 'duration', 'trip_grade', 'best_season', 'max_altitude', 'meals', 'nature_of_trip', 'accommodation', 'group_size', )\n     def filter_by_collections(self, queryset, name, value):\n         if value:\n"
+                },
+                {
+                    "date": 1726226659595,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -39,9 +39,8 @@\n             'price': ['exact'],\n             'trip_grade': ['exact'],\n             'max_altitude': ['exact'],\n             'best_season': ['exact'],\n-            'price_type': ['exact'],\n         }\n # ('public_id', 'slug', 'destination_title', 'packages', 'price', 'price_type', 'is_price', 'featured_image', 'overview', 'inclusion_and_exclusion', 'ltinerary', 'trip_map_url', 'trip_map_image', 'gear_and_equipment', 'useful_information', 'duration', 'trip_grade', 'best_season', 'max_altitude', 'meals', 'nature_of_trip', 'accommodation', 'group_size', )\n     def filter_by_collections(self, queryset, name, value):\n         if value:\n"
                 }
             ],
             "date": 1724821555571,
