@@ -116,12 +116,21 @@ class DestinationFilter(django_filters.FilterSet):
     
     def filter_by_departure_month_name(self, queryset, name, value):
         """
-        Custom filter method to filter Destinations by the month name of upcoming departures.
-        Converts the month name to its corresponding month number.
+        Custom filter method to filter Destinations by the month name(s) of upcoming departures.
+        Converts the month name(s) to their corresponding month numbers.
         """
-        month_number = MONTHS_MAPPING.get(value.lower())
-        if month_number:
-            # Filter destinations where associated departures have upcoming_departure_date in the specified month
-            return queryset.filter(destination_departures__upcoming_departure_date__month=month_number)
-        else:
-            raise ValidationError(f"Invalid month name '{value}'. Please provide a valid month name.")
+        if isinstance(value, str):
+            value = [value]
+
+        # Convert each month name to its corresponding month number
+        month_numbers = []
+        for month in value:
+            month_number = MONTHS_MAPPING.get(month.lower())
+            if month_number:
+                month_numbers.append(month_number)
+            else:
+                raise ValidationError(f"Invalid month name '{month}'. Please provide valid month names.")
+        
+        # Filter destinations where associated departures have upcoming_departure_date in the specified months
+        return queryset.filter(destination_departures__upcoming_departure_date__month__in=month_numbers)
+
