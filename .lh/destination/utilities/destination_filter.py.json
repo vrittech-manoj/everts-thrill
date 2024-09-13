@@ -3,7 +3,7 @@
     "activeCommit": 0,
     "commits": [
         {
-            "activePatchIndex": 80,
+            "activePatchIndex": 86,
             "patches": [
                 {
                     "date": 1724821555571,
@@ -328,6 +328,30 @@
                 {
                     "date": 1725951702545,
                     "content": "Index: \n===================================================================\n--- \n+++ \n@@ -1,8 +1,12 @@\n import django_filters\n import re\n from django.db.models import Q\n from ..models import Destination\n+import django_filters\n+from django_filters import rest_framework as filters\n+from ..models import Departure\n+from rest_framework.exceptions import ValidationError\n \n \n # Mapping month names to their corresponding numbers\n MONTHS_MAPPING = {\n"
+                },
+                {
+                    "date": 1726203365279,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -33,9 +33,9 @@\n             'destination_title': ['exact', 'icontains'],\n             'nature_of_trip': ['exact', 'icontains'],\n             'created_date': ['exact', 'gte', 'lte'],\n         }\n-\n+('public_id', 'slug', 'destination_title', 'packages', 'price', 'price_type', 'is_price', 'featured_image', 'overview', 'inclusion_and_exclusion', 'ltinerary', 'trip_map_url', 'trip_map_image', 'gear_and_equipment', 'useful_information', 'duration', 'trip_grade', 'best_season', 'max_altitude', 'meals', 'nature_of_trip', 'accommodation', 'group_size', )\n     def filter_by_collections(self, queryset, name, value):\n         if value:\n             collections = value.split(',') if ',' in value else [value]\n             queryset = queryset.filter(collections__id__in=collections)\n"
+                },
+                {
+                    "date": 1726203402847,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -31,11 +31,12 @@\n         model = Destination\n         fields = {\n             'destination_title': ['exact', 'icontains'],\n             'nature_of_trip': ['exact', 'icontains'],\n+            'nature_of_trip': ['exact', 'icontains'],\n             'created_date': ['exact', 'gte', 'lte'],\n         }\n-('public_id', 'slug', 'destination_title', 'packages', 'price', 'price_type', 'is_price', 'featured_image', 'overview', 'inclusion_and_exclusion', 'ltinerary', 'trip_map_url', 'trip_map_image', 'gear_and_equipment', 'useful_information', 'duration', 'trip_grade', 'best_season', 'max_altitude', 'meals', 'nature_of_trip', 'accommodation', 'group_size', )\n+# ('public_id', 'slug', 'destination_title', 'packages', 'price', 'price_type', 'is_price', 'featured_image', 'overview', 'inclusion_and_exclusion', 'ltinerary', 'trip_map_url', 'trip_map_image', 'gear_and_equipment', 'useful_information', 'duration', 'trip_grade', 'best_season', 'max_altitude', 'meals', 'nature_of_trip', 'accommodation', 'group_size', )\n     def filter_by_collections(self, queryset, name, value):\n         if value:\n             collections = value.split(',') if ',' in value else [value]\n             queryset = queryset.filter(collections__id__in=collections)\n"
+                },
+                {
+                    "date": 1726203417882,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -31,9 +31,9 @@\n         model = Destination\n         fields = {\n             'destination_title': ['exact', 'icontains'],\n             'nature_of_trip': ['exact', 'icontains'],\n-            'nature_of_trip': ['exact', 'icontains'],\n+            'accommodation': ['exact', 'icontains'],\n             'created_date': ['exact', 'gte', 'lte'],\n         }\n # ('public_id', 'slug', 'destination_title', 'packages', 'price', 'price_type', 'is_price', 'featured_image', 'overview', 'inclusion_and_exclusion', 'ltinerary', 'trip_map_url', 'trip_map_image', 'gear_and_equipment', 'useful_information', 'duration', 'trip_grade', 'best_season', 'max_altitude', 'meals', 'nature_of_trip', 'accommodation', 'group_size', )\n     def filter_by_collections(self, queryset, name, value):\n"
+                },
+                {
+                    "date": 1726203430153,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -33,8 +33,9 @@\n             'destination_title': ['exact', 'icontains'],\n             'nature_of_trip': ['exact', 'icontains'],\n             'accommodation': ['exact', 'icontains'],\n             'created_date': ['exact', 'gte', 'lte'],\n+            'created_date': ['exact', 'gte', 'lte'],\n         }\n # ('public_id', 'slug', 'destination_title', 'packages', 'price', 'price_type', 'is_price', 'featured_image', 'overview', 'inclusion_and_exclusion', 'ltinerary', 'trip_map_url', 'trip_map_image', 'gear_and_equipment', 'useful_information', 'duration', 'trip_grade', 'best_season', 'max_altitude', 'meals', 'nature_of_trip', 'accommodation', 'group_size', )\n     def filter_by_collections(self, queryset, name, value):\n         if value:\n"
+                },
+                {
+                    "date": 1726203459183,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -33,9 +33,10 @@\n             'destination_title': ['exact', 'icontains'],\n             'nature_of_trip': ['exact', 'icontains'],\n             'accommodation': ['exact', 'icontains'],\n             'created_date': ['exact', 'gte', 'lte'],\n-            'created_date': ['exact', 'gte', 'lte'],\n+            'best_season': ['exact', 'gte', 'lte'],\n+            'best_season': ['exact', 'gte', 'lte'],\n         }\n # ('public_id', 'slug', 'destination_title', 'packages', 'price', 'price_type', 'is_price', 'featured_image', 'overview', 'inclusion_and_exclusion', 'ltinerary', 'trip_map_url', 'trip_map_image', 'gear_and_equipment', 'useful_information', 'duration', 'trip_grade', 'best_season', 'max_altitude', 'meals', 'nature_of_trip', 'accommodation', 'group_size', )\n     def filter_by_collections(self, queryset, name, value):\n         if value:\n"
+                },
+                {
+                    "date": 1726203473681,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -33,10 +33,10 @@\n             'destination_title': ['exact', 'icontains'],\n             'nature_of_trip': ['exact', 'icontains'],\n             'accommodation': ['exact', 'icontains'],\n             'created_date': ['exact', 'gte', 'lte'],\n-            'best_season': ['exact', 'gte', 'lte'],\n-            'best_season': ['exact', 'gte', 'lte'],\n+            'best_season': ['exact', 'icontains'],\n+            'trip_grade': ['exact', 'gte', 'lte'],\n         }\n # ('public_id', 'slug', 'destination_title', 'packages', 'price', 'price_type', 'is_price', 'featured_image', 'overview', 'inclusion_and_exclusion', 'ltinerary', 'trip_map_url', 'trip_map_image', 'gear_and_equipment', 'useful_information', 'duration', 'trip_grade', 'best_season', 'max_altitude', 'meals', 'nature_of_trip', 'accommodation', 'group_size', )\n     def filter_by_collections(self, queryset, name, value):\n         if value:\n"
                 }
             ],
             "date": 1724821555571,

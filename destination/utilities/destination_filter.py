@@ -32,9 +32,12 @@ class DestinationFilter(django_filters.FilterSet):
         fields = {
             'destination_title': ['exact', 'icontains'],
             'nature_of_trip': ['exact', 'icontains'],
+            'accommodation': ['exact', 'icontains'],
             'created_date': ['exact', 'gte', 'lte'],
+            'best_season': ['exact', 'icontains'],
+            'trip_grade': ['exact', 'icontains'],
         }
-
+# ('public_id', 'slug', 'destination_title', 'packages', 'price', 'price_type', 'is_price', 'featured_image', 'overview', 'inclusion_and_exclusion', 'ltinerary', 'trip_map_url', 'trip_map_image', 'gear_and_equipment', 'useful_information', 'duration', 'trip_grade', 'best_season', 'max_altitude', 'meals', 'nature_of_trip', 'accommodation', 'group_size', )
     def filter_by_collections(self, queryset, name, value):
         if value:
             collections = value.split(',') if ',' in value else [value]

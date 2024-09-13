@@ -3,7 +3,7 @@
     "activeCommit": 0,
     "commits": [
         {
-            "activePatchIndex": 4,
+            "activePatchIndex": 5,
             "patches": [
                 {
                     "date": 1725789421519,
@@ -24,6 +24,10 @@
                 {
                     "date": 1725789469065,
                     "content": "Index: \n===================================================================\n--- \n+++ \n@@ -9,8 +9,8 @@\n     image = models.ImageField(upload_to='activity_images/',null = True)\n     destinations_activities = models.ManyToManyField('destination.Destination',related_name=\"activities\")\n     created_date = models.DateField(auto_now_add=True, null = True,blank = True)\n     created_date_time = models.DateTimeField(auto_now_add=True, null = True,blank = True)\n-    updated_date_time = models.DateTimeField(auto_now_add=True, null = True,blank = True)\n+    updated_date_time = models.DateTimeField(auto_now=True, null = True,blank = True)\n \n     def __str__(self):\n         return self.name\n"
+                },
+                {
+                    "date": 1726204756016,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -6,8 +6,9 @@\n # Create your models here.\n class Activity(models.Model):\n     name = models.CharField(max_length=255)\n     image = models.ImageField(upload_to='activity_images/',null = True)\n+    description = models.TextField(null = True, blank = True)\n     destinations_activities = models.ManyToManyField('destination.Destination',related_name=\"activities\")\n     created_date = models.DateField(auto_now_add=True, null = True,blank = True)\n     created_date_time = models.DateTimeField(auto_now_add=True, null = True,blank = True)\n     updated_date_time = models.DateTimeField(auto_now=True, null = True,blank = True)\n"
                 }
             ],
             "date": 1725789421519,

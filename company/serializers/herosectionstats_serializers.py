@@ -19,26 +19,36 @@ class HeroSectionStatsWriteSerializers(serializers.ModelSerializer):
         fields = '__all__'
 
     def to_internal_value(self, data):
-        if isinstance(data, list):
-            return [super().to_internal_value(item) for item in data]
+        """
+        Converts the incoming nested dictionary (or list of dictionaries) into 
+        a format suitable for the serializer.
+        """
+        if isinstance(data, dict):
+            stats = data.get('stats', [])
+            if isinstance(stats, list):
+                return [super().to_internal_value(item) for item in stats]
         return super().to_internal_value(data)
 
     @transaction.atomic
     def create(self, validated_data):
+        """
+        Handles bulk creation if validated_data is a list of dictionaries.
+        """
         if isinstance(validated_data, list):
-            # Bulk create if validated_data is a list of dictionaries
             stats = HeroSectionStats.objects.bulk_create(
                 [HeroSectionStats(**item) for item in validated_data]
             )
+            return stats
         else:
-            # Create a single stat entry
-            stats = HeroSectionStats.objects.create(**validated_data)
-        return stats
+            stat = HeroSectionStats.objects.create(**validated_data)
+            return stat
 
     @transaction.atomic
     def update(self, instance, validated_data):
+        """
+        Handles bulk update if validated_data is a list.
+        """
         if isinstance(validated_data, list):
-            # Handle bulk update
             existing_stats = {stat.id: stat for stat in instance}
             updated_stats = []
 
@@ -56,7 +66,6 @@ class HeroSectionStatsWriteSerializers(serializers.ModelSerializer):
 
             return updated_stats
         else:
-            # Handle single instance update
             for attr, value in validated_data.items():
                 setattr(instance, attr, value)
             instance.save()

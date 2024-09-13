@@ -3,7 +3,7 @@
     "activeCommit": 0,
     "commits": [
         {
-            "activePatchIndex": 7,
+            "activePatchIndex": 9,
             "patches": [
                 {
                     "date": 1726120849421,
@@ -36,6 +36,14 @@
                 {
                     "date": 1726121112534,
                     "content": "Index: \n===================================================================\n--- \n+++ \n@@ -50,9 +50,8 @@\n                         setattr(stat_instance, attr, value)\n                     stat_instance.save()\n                     updated_stats.append(stat_instance)\n                 else:\n-                    # Create a new stat if not already existing\n                     new_stat = HeroSectionStats.objects.create(**stat_data)\n                     updated_stats.append(new_stat)\n \n             return updated_stats\n"
+                },
+                {
+                    "date": 1726204883735,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -12,34 +12,48 @@\n     class Meta:\n         model = HeroSectionStats\n         fields = '__all__'\n \n+from rest_framework import serializers\n+from django.db import transaction\n+from .models import HeroSectionStats\n+\n class HeroSectionStatsWriteSerializers(serializers.ModelSerializer):\n     class Meta:\n         model = HeroSectionStats\n         fields = '__all__'\n \n     def to_internal_value(self, data):\n-        if isinstance(data, list):\n-            return [super().to_internal_value(item) for item in data]\n+        \"\"\"\n+        Converts the incoming nested dictionary (or list of dictionaries) into \n+        a format suitable for the serializer.\n+        \"\"\"\n+        if isinstance(data, dict):\n+            stats = data.get('stats', [])\n+            if isinstance(stats, list):\n+                return [super().to_internal_value(item) for item in stats]\n         return super().to_internal_value(data)\n \n     @transaction.atomic\n     def create(self, validated_data):\n+        \"\"\"\n+        Handles bulk creation if validated_data is a list of dictionaries.\n+        \"\"\"\n         if isinstance(validated_data, list):\n-            # Bulk create if validated_data is a list of dictionaries\n             stats = HeroSectionStats.objects.bulk_create(\n                 [HeroSectionStats(**item) for item in validated_data]\n             )\n+            return stats\n         else:\n-            # Create a single stat entry\n-            stats = HeroSectionStats.objects.create(**validated_data)\n-        return stats\n+            stat = HeroSectionStats.objects.create(**validated_data)\n+            return stat\n \n     @transaction.atomic\n     def update(self, instance, validated_data):\n+        \"\"\"\n+        Handles bulk update if validated_data is a list.\n+        \"\"\"\n         if isinstance(validated_data, list):\n-            # Handle bulk update\n             existing_stats = {stat.id: stat for stat in instance}\n             updated_stats = []\n \n             for stat_data in validated_data:\n@@ -55,9 +69,8 @@\n                     updated_stats.append(new_stat)\n \n             return updated_stats\n         else:\n-            # Handle single instance update\n             for attr, value in validated_data.items():\n                 setattr(instance, attr, value)\n             instance.save()\n             return instance\n"
+                },
+                {
+                    "date": 1726204891099,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -12,11 +12,8 @@\n     class Meta:\n         model = HeroSectionStats\n         fields = '__all__'\n \n-from rest_framework import serializers\n-from django.db import transaction\n-from .models import HeroSectionStats\n \n class HeroSectionStatsWriteSerializers(serializers.ModelSerializer):\n     class Meta:\n         model = HeroSectionStats\n"
                 }
             ],
             "date": 1726120849421,
