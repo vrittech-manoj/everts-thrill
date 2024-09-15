@@ -3,7 +3,7 @@
     "activeCommit": 0,
     "commits": [
         {
-            "activePatchIndex": 1,
+            "activePatchIndex": 4,
             "patches": [
                 {
                     "date": 1726114691731,
@@ -12,6 +12,18 @@
                 {
                     "date": 1726114700773,
                     "content": "Index: \n===================================================================\n--- \n+++ \n@@ -12,15 +12,15 @@\n     queryset = MeetTeam.objects.all()\n \n     filter_backends = [SearchFilter, DjangoFilterBackend, OrderingFilter]\n     search_fields = ['id','member_name','position']\n-    ordering_fields = ['id','member_name','position']\n+    ordering_fields = ['id','member_name','position','index']\n \n     filterset_fields = {\n         'id': ['exact'],\n         'member_name': ['exact'],\n         'position': ['exact'],\n-        'position': ['exact'],\n+        'index': ['exact'],\n     }\n \n     def get_queryset(self):\n         queryset = super().get_queryset()\n"
+                },
+                {
+                    "date": 1726397122718,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -8,9 +8,9 @@\n class meetteamViewsets(viewsets.ModelViewSet):\n     serializer_class = MeetTeamListSerializers\n     permission_classes = [companyPermission]\n     pagination_class = MyPageNumberPagination\n-    queryset = MeetTeam.objects.all()\n+    queryset = MeetTeam.objects.all().\n \n     filter_backends = [SearchFilter, DjangoFilterBackend, OrderingFilter]\n     search_fields = ['id','member_name','position']\n     ordering_fields = ['id','member_name','position','index']\n"
+                },
+                {
+                    "date": 1726397151843,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -8,9 +8,9 @@\n class meetteamViewsets(viewsets.ModelViewSet):\n     serializer_class = MeetTeamListSerializers\n     permission_classes = [companyPermission]\n     pagination_class = MyPageNumberPagination\n-    queryset = MeetTeam.objects.all().\n+    queryset = MeetTeam.objects.all().order_by(\"-created_date\")\n \n     filter_backends = [SearchFilter, DjangoFilterBackend, OrderingFilter]\n     search_fields = ['id','member_name','position']\n     ordering_fields = ['id','member_name','position','index']\n"
+                },
+                {
+                    "date": 1726397158255,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -8,9 +8,9 @@\n class meetteamViewsets(viewsets.ModelViewSet):\n     serializer_class = MeetTeamListSerializers\n     permission_classes = [companyPermission]\n     pagination_class = MyPageNumberPagination\n-    queryset = MeetTeam.objects.all().order_by(\"-created_date\")\n+    queryset = MeetTeam.objects.all().order_by(\"index\")\n \n     filter_backends = [SearchFilter, DjangoFilterBackend, OrderingFilter]\n     search_fields = ['id','member_name','position']\n     ordering_fields = ['id','member_name','position','index']\n"
                 }
             ],
             "date": 1726114691731,

@@ -9,7 +9,7 @@ class meetteamViewsets(viewsets.ModelViewSet):
     serializer_class = MeetTeamListSerializers
     permission_classes = [companyPermission]
     pagination_class = MyPageNumberPagination
-    queryset = MeetTeam.objects.all()
+    queryset = MeetTeam.objects.all().order_by("index")
 
     filter_backends = [SearchFilter, DjangoFilterBackend, OrderingFilter]
     search_fields = ['id','member_name','position']
