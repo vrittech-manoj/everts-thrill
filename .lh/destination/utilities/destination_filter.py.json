@@ -3,7 +3,7 @@
     "activeCommit": 0,
     "commits": [
         {
-            "activePatchIndex": 103,
+            "activePatchIndex": 104,
             "patches": [
                 {
                     "date": 1724821555571,
@@ -420,6 +420,10 @@
                 {
                     "date": 1726232908857,
                     "content": "Index: \n===================================================================\n--- \n+++ \n@@ -113,31 +113,7 @@\n                 pass  # Ignore invalid values and don't filter\n \n         return queryset\n     \n-    def filter_by_departure_month_name(self, queryset, name, value):\n-        \"\"\"\n-        Custom filter method to filter Destinations by the month name(s) of upcoming departures.\n-        Converts the month name(s) to their corresponding month numbers.\n-        \"\"\"\n-        if value:\n-            # Split the comma-separated month names into a list\n-            months = value.split(',') if ',' in value else [value]\n+    x\n \n-            # Initialize an empty list to store valid month numbers\n-            month_numbers = []\n \n-            for month in months:\n-                # Convert each month name to its corresponding month number\n-                month_number = MONTHS_MAPPING.get(month.strip().lower())  # Strip spaces and convert to lowercase\n-                if month_number:\n-                    month_numbers.append(month_number)\n-                else:\n-                    # Raise validation error for invalid month names\n-                    raise ValidationError(f\"Invalid month name '{month}'. Please provide valid month names.\")\n-\n-            # Filter destinations where associated departures have upcoming_departure_date in the specified months\n-            queryset = queryset.filter(destination_departures__upcoming_departure_date__month__in=month_numbers)\n-\n-        return queryset\n-\n-\n"
+                },
+                {
+                    "date": 1726233330849,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -113,7 +113,31 @@\n                 pass  # Ignore invalid values and don't filter\n \n         return queryset\n     \n-    x\n+    def filter_by_departure_month_name(self, queryset, name, value):\n+        \"\"\"\n+        Custom filter method to filter Destinations by the month name(s) of upcoming departures.\n+        Converts the month name(s) to their corresponding month numbers.\n+        \"\"\"\n+        if value:\n+            # Split the comma-separated month names into a list\n+            months = value.split(',') if ',' in value else [value]\n \n+            # Initialize an empty list to store valid month numbers\n+            month_numbers = []\n \n+            for month in months:\n+                # Convert each month name to its corresponding month number\n+                month_number = MONTHS_MAPPING.get(month.strip().lower())  # Strip spaces and convert to lowercase\n+                if month_number:\n+                    month_numbers.append(month_number)\n+                else:\n+                    # Raise validation error for invalid month names\n+                    raise ValidationError(f\"Invalid month name '{month}'. Please provide valid month names.\")\n+\n+            # Filter destinations where associated departures have upcoming_departure_date in the specified months\n+            queryset = queryset.filter(destination_departures__upcoming_departure_date__month__in=month_numbers)\n+\n+        return queryset\n+\n+\n"
                 }
             ],
             "date": 1724821555571,

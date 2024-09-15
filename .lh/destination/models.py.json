@@ -3,7 +3,7 @@
     "activeCommit": 0,
     "commits": [
         {
-            "activePatchIndex": 25,
+            "activePatchIndex": 29,
             "patches": [
                 {
                     "date": 1724909550360,
@@ -108,6 +108,22 @@
                 {
                     "date": 1726204722904,
                     "content": "Index: \n===================================================================\n--- \n+++ \n@@ -10,9 +10,9 @@\n class Package(models.Model):\n     public_id = models.UUIDField(default=uuid.uuid4, editable=False, unique=True)\n     slug = models.SlugField(unique=True, blank=True)\n     name = models.CharField(max_length=400, unique=True)\n-    description = models.TextField(\n+    description = models.TextField(null = True, blank = True)\n     image = models.ImageField(upload_to=\"destination/package_image/\", null=True, blank=True)\n \n     def __str__(self):\n         return self.name\n"
+                },
+                {
+                    "date": 1726325855986,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -66,9 +66,9 @@\n             self.slug = f'{slugify(self.destination_title)}'\n \n         # Auto-generate meta fields if not provided by user\n         if not self.meta_title:\n-            self.meta_title = f\"{self.destination_title} - Explore the Best Packages\"\n+            self.meta_title = f\"{self.destination_title} - Explore the Best Des\"\n \n         if not self.meta_description:\n             self.meta_description = self.overview[:255] if self.overview else f\"Explore the best travel packages for {self.destination_title}. Plan your trip with us.\"\n \n"
+                },
+                {
+                    "date": 1726325867493,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -66,9 +66,9 @@\n             self.slug = f'{slugify(self.destination_title)}'\n \n         # Auto-generate meta fields if not provided by user\n         if not self.meta_title:\n-            self.meta_title = f\"{self.destination_title} - Explore the Best Des\"\n+            self.meta_title = f\"{self.destination_title}\"\n \n         if not self.meta_description:\n             self.meta_description = self.overview[:255] if self.overview else f\"Explore the best travel packages for {self.destination_title}. Plan your trip with us.\"\n \n"
+                },
+                {
+                    "date": 1726325880460,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -66,9 +66,9 @@\n             self.slug = f'{slugify(self.destination_title)}'\n \n         # Auto-generate meta fields if not provided by user\n         if not self.meta_title:\n-            self.meta_title = f\"{self.destination_title}\"\n+            self.meta_title = f\"{self.destination_title} - Explore the Best Destinations\"\n \n         if not self.meta_description:\n             self.meta_description = self.overview[:255] if self.overview else f\"Explore the best travel packages for {self.destination_title}. Plan your trip with us.\"\n \n"
+                },
+                {
+                    "date": 1726325888413,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -66,9 +66,9 @@\n             self.slug = f'{slugify(self.destination_title)}'\n \n         # Auto-generate meta fields if not provided by user\n         if not self.meta_title:\n-            self.meta_title = f\"{self.destination_title} - Explore the Best Destinations\"\n+            self.meta_title = f\"{self.destination_title} - Explore the Best Packages\"\n \n         if not self.meta_description:\n             self.meta_description = self.overview[:255] if self.overview else f\"Explore the best travel packages for {self.destination_title}. Plan your trip with us.\"\n \n"
                 }
             ],
             "date": 1724909550360,
