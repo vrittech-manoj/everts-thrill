@@ -35,7 +35,7 @@ class Blog(models.Model):
         if not self.meta_title:
             self.meta_title = self.title  
         if not self.meta_description:
-            self.meta_description = self.short_description or self.description[:160]  # Default to short description or first 160 chars of description
+            self.meta_description = self.short_description or self.description[:100]  
         if not self.meta_keywords:
             self.meta_keywords = ', '.join(self.title.split())
         

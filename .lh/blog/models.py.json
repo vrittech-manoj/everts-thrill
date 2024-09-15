@@ -3,7 +3,7 @@
     "activeCommit": 0,
     "commits": [
         {
-            "activePatchIndex": 34,
+            "activePatchIndex": 36,
             "patches": [
                 {
                     "date": 1724906622951,
@@ -144,6 +144,14 @@
                 {
                     "date": 1726373537430,
                     "content": "Index: \n===================================================================\n--- \n+++ \n@@ -36,7 +36,7 @@\n             self.meta_title = self.title  \n         if not self.meta_description:\n             self.meta_description = self.short_description or self.description[:160]  # Default to short description or first 160 chars of description\n         if not self.meta_keywords:\n-            self.meta_keywords = ', '.join(self.title.split()\n+            self.meta_keywords = ', '.join(self.title.split())\n         \n         super(Blog, self).save(*args, **kwargs)\n"
+                },
+                {
+                    "date": 1726373780102,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -34,9 +34,9 @@\n         # Auto-populate meta fields if not provided\n         if not self.meta_title:\n             self.meta_title = self.title  \n         if not self.meta_description:\n-            self.meta_description = self.short_description or self.description[:160]  # Default to short description or first 160 chars of description\n+            self.meta_description = self.short_description or self.description[:100]  # Default to short description or first 160 chars of description\n         if not self.meta_keywords:\n             self.meta_keywords = ', '.join(self.title.split())\n         \n         super(Blog, self).save(*args, **kwargs)\n"
+                },
+                {
+                    "date": 1726373785299,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -34,9 +34,9 @@\n         # Auto-populate meta fields if not provided\n         if not self.meta_title:\n             self.meta_title = self.title  \n         if not self.meta_description:\n-            self.meta_description = self.short_description or self.description[:100]  # Default to short description or first 160 chars of description\n+            self.meta_description = self.short_description or self.description[:100]  \n         if not self.meta_keywords:\n             self.meta_keywords = ', '.join(self.title.split())\n         \n         super(Blog, self).save(*args, **kwargs)\n"
                 }
             ],
             "date": 1724906622951,

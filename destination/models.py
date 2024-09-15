@@ -67,10 +67,10 @@ class Destination(models.Model):
 
         # Auto-generate meta fields if not provided by user
         if not self.meta_title:
-            self.meta_title = f"{self.destination_title} - Explore the Best Packages"
+            self.meta_title = f"{self.destination_title} - Explore the Best Destination"
 
         if not self.meta_description:
-            self.meta_description = self.overview[:255] if self.overview else f"Explore the best travel packages for {self.destination_title}. Plan your trip with us."
+            self.meta_description = self.overview[:100] if self.overview else f"Explore the best travel packages for {self.destination_title}. Plan your trip with us."
 
         if not self.meta_keywords:
             keywords = [self.destination_title, "travel", "tour", "packages", "holidays", "trip"]

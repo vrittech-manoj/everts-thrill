@@ -3,7 +3,7 @@
     "activeCommit": 0,
     "commits": [
         {
-            "activePatchIndex": 29,
+            "activePatchIndex": 34,
             "patches": [
                 {
                     "date": 1724909550360,
@@ -124,6 +124,26 @@
                 {
                     "date": 1726325888413,
                     "content": "Index: \n===================================================================\n--- \n+++ \n@@ -66,9 +66,9 @@\n             self.slug = f'{slugify(self.destination_title)}'\n \n         # Auto-generate meta fields if not provided by user\n         if not self.meta_title:\n-            self.meta_title = f\"{self.destination_title} - Explore the Best Destinations\"\n+            self.meta_title = f\"{self.destination_title} - Explore the Best Packages\"\n \n         if not self.meta_description:\n             self.meta_description = self.overview[:255] if self.overview else f\"Explore the best travel packages for {self.destination_title}. Plan your trip with us.\"\n \n"
+                },
+                {
+                    "date": 1726373707617,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -69,9 +69,9 @@\n         if not self.meta_title:\n             self.meta_title = f\"{self.destination_title} - Explore the Best Packages\"\n \n         if not self.meta_description:\n-            self.meta_description = self.overview[:255] if self.overview else f\"Explore the best travel packages for {self.destination_title}. Plan your trip with us.\"\n+            self.meta_description = self.overview[:] if self.overview else f\"Explore the best travel packages for {self.destination_title}. Plan your trip with us.\"\n \n         if not self.meta_keywords:\n             keywords = [self.destination_title, \"travel\", \"tour\", \"packages\", \"holidays\", \"trip\"]\n             self.meta_keywords = \", \".join(keywords)\n"
+                },
+                {
+                    "date": 1726373727714,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -66,12 +66,12 @@\n             self.slug = f'{slugify(self.destination_title)}'\n \n         # Auto-generate meta fields if not provided by user\n         if not self.meta_title:\n-            self.meta_title = f\"{self.destination_title} - Explore the Best Packages\"\n+            self.meta_title = f\"{self.destination_title\"\n \n         if not self.meta_description:\n-            self.meta_description = self.overview[:] if self.overview else f\"Explore the best travel packages for {self.destination_title}. Plan your trip with us.\"\n+            self.meta_description = self.overview[:100] if self.overview else f\"Explore the best travel packages for {self.destination_title}. Plan your trip with us.\"\n \n         if not self.meta_keywords:\n             keywords = [self.destination_title, \"travel\", \"tour\", \"packages\", \"holidays\", \"trip\"]\n             self.meta_keywords = \", \".join(keywords)\n"
+                },
+                {
+                    "date": 1726373732845,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -66,9 +66,9 @@\n             self.slug = f'{slugify(self.destination_title)}'\n \n         # Auto-generate meta fields if not provided by user\n         if not self.meta_title:\n-            self.meta_title = f\"{self.destination_title\"\n+            self.meta_title = self.destination_title\n \n         if not self.meta_description:\n             self.meta_description = self.overview[:100] if self.overview else f\"Explore the best travel packages for {self.destination_title}. Plan your trip with us.\"\n \n"
+                },
+                {
+                    "date": 1726373739702,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -66,9 +66,9 @@\n             self.slug = f'{slugify(self.destination_title)}'\n \n         # Auto-generate meta fields if not provided by user\n         if not self.meta_title:\n-            self.meta_title = self.destination_title\n+            self.meta_title = f\"{self.destination_title} - Explore the Best Packages\"\n \n         if not self.meta_description:\n             self.meta_description = self.overview[:100] if self.overview else f\"Explore the best travel packages for {self.destination_title}. Plan your trip with us.\"\n \n"
+                },
+                {
+                    "date": 1726373749178,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -66,9 +66,9 @@\n             self.slug = f'{slugify(self.destination_title)}'\n \n         # Auto-generate meta fields if not provided by user\n         if not self.meta_title:\n-            self.meta_title = f\"{self.destination_title} - Explore the Best Packages\"\n+            self.meta_title = f\"{self.destination_title} - Explore the Best Destination\"\n \n         if not self.meta_description:\n             self.meta_description = self.overview[:100] if self.overview else f\"Explore the best travel packages for {self.destination_title}. Plan your trip with us.\"\n \n"
                 }
             ],
             "date": 1724909550360,
