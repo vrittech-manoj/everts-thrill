@@ -3,7 +3,7 @@
     "activeCommit": 0,
     "commits": [
         {
-            "activePatchIndex": 98,
+            "activePatchIndex": 108,
             "patches": [
                 {
                     "date": 1725013363852,
@@ -400,6 +400,46 @@
                 {
                     "date": 1726493366852,
                     "content": "Index: \n===================================================================\n--- \n+++ \n@@ -315,10 +315,10 @@\n     context = {\n         'admin_name': admin_name,\n         'recipient_name': book.full_name,  \n         'contact': book.phone_number, \n-        'activity': book.activity.name,  \n-        'package': book.package.name,  \n+        # 'activity': book.activity.name,  \n+        # 'package': book.package.name,  \n         'destination': book.destination.destination_title,  \n         'arrival_date': book.arrival_date.strftime('%d/%m/%Y'),  \n         'departure_date': book.departure_date.strftime('%d/%m/%Y'),  \n         'preferred_service_type': book.service_type, \n"
+                },
+                {
+                    "date": 1726493689416,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -311,20 +311,27 @@\n         \n         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)\n \n def send_booking_confirmation_email(email, verify_url, subject, book, admin_email, admin_name):\n-    context = {\n-        'admin_name': admin_name,\n-        'recipient_name': book.full_name,  \n-        'contact': book.phone_number, \n-        # 'activity': book.activity.name,  \n-        # 'package': book.package.name,  \n-        'destination': book.destination.destination_title,  \n-        'arrival_date': book.arrival_date.strftime('%d/%m/%Y'),  \n-        'departure_date': book.departure_date.strftime('%d/%m/%Y'),  \n-        'preferred_service_type': book.service_type, \n-    }\n+   context = {\n+    'admin_name': admin_name,\n+    'recipient_name': book.full_name,\n+    'contact': book.phone_number,\n+    'destination': book.destination.destination_title,\n+    'arrival_date': book.arrival_date.strftime('%d/%m/%Y'),\n+    'departure_date': book.departure_date.strftime('%d/%m/%Y'),\n+    'preferred_service_type': book.service_type,\n+}\n \n+# Conditionally add 'activity' if it's not None\n+if book.activity:\n+    context['activity'] = book.activity.name\n+\n+# Conditionally add 'package' if it's not None\n+if book.package:\n+    context['package'] = book.package.name\n+\n+\n     html_content = render_to_string('booking_confirmation.html', context)\n     from_email = f'Everest Thrills <{admin_email}>'\n \n     # Send email to the customer\n"
+                },
+                {
+                    "date": 1726493698807,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -321,15 +321,15 @@\n     'departure_date': book.departure_date.strftime('%d/%m/%Y'),\n     'preferred_service_type': book.service_type,\n }\n \n-# Conditionally add 'activity' if it's not None\n-if book.activity:\n-    context['activity'] = book.activity.name\n+    # Conditionally add 'activity' if it's not None\n+    if book.activity:\n+        context['activity'] = book.activity.name\n \n-# Conditionally add 'package' if it's not None\n-if book.package:\n-    context['package'] = book.package.name\n+    # Conditionally add 'package' if it's not None\n+    if book.package:\n+        context['package'] = book.package.name\n \n \n     html_content = render_to_string('booking_confirmation.html', context)\n     from_email = f'Everest Thrills <{admin_email}>'\n"
+                },
+                {
+                    "date": 1726493704915,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -322,9 +322,9 @@\n     'preferred_service_type': book.service_type,\n }\n \n     # Conditionally add 'activity' if it's not None\n-    if book.activity:\n+        if book.activity:\n         context['activity'] = book.activity.name\n \n     # Conditionally add 'package' if it's not None\n     if book.package:\n"
+                },
+                {
+                    "date": 1726493737110,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -322,9 +322,9 @@\n     'preferred_service_type': book.service_type,\n }\n \n     # Conditionally add 'activity' if it's not None\n-        if book.activity:\n+if book.activity:\n         context['activity'] = book.activity.name\n \n     # Conditionally add 'package' if it's not None\n     if book.package:\n"
+                },
+                {
+                    "date": 1726493753197,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -322,14 +322,14 @@\n     'preferred_service_type': book.service_type,\n }\n \n     # Conditionally add 'activity' if it's not None\n-if book.activity:\n-        context['activity'] = book.activity.name\n+        if book.activity:\n+                context['activity'] = book.activity.name\n \n-    # Conditionally add 'package' if it's not None\n-    if book.package:\n-        context['package'] = book.package.name\n+            # Conditionally add 'package' if it's not None\n+        if book.package:\n+                context['package'] = book.package.name\n \n \n     html_content = render_to_string('booking_confirmation.html', context)\n     from_email = f'Everest Thrills <{admin_email}>'\n"
+                },
+                {
+                    "date": 1726493760123,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -323,9 +323,9 @@\n }\n \n     # Conditionally add 'activity' if it's not None\n         if book.activity:\n-                context['activity'] = book.activity.name\n+            context['activity'] = book.activity.name\n \n             # Conditionally add 'package' if it's not None\n         if book.package:\n                 context['package'] = book.package.name\n"
+                },
+                {
+                    "date": 1726493797721,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -322,14 +322,14 @@\n     'preferred_service_type': book.service_type,\n }\n \n     # Conditionally add 'activity' if it's not None\n-        if book.activity:\n+    if book.activity:\n             context['activity'] = book.activity.name\n \n             # Conditionally add 'package' if it's not None\n         if book.package:\n-                context['package'] = book.package.name\n+            context['package'] = book.package.name\n \n \n     html_content = render_to_string('booking_confirmation.html', context)\n     from_email = f'Everest Thrills <{admin_email}>'\n"
+                },
+                {
+                    "date": 1726493806503,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -322,13 +322,13 @@\n     'preferred_service_type': book.service_type,\n }\n \n     # Conditionally add 'activity' if it's not None\n-    if book.activity:\n+   if book.activity:\n             context['activity'] = book.activity.name\n \n             # Conditionally add 'package' if it's not None\n-        if book.package:\n+   if book.package:\n             context['package'] = book.package.name\n \n \n     html_content = render_to_string('booking_confirmation.html', context)\n"
+                },
+                {
+                    "date": 1726493816056,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -311,17 +311,17 @@\n         \n         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)\n \n def send_booking_confirmation_email(email, verify_url, subject, book, admin_email, admin_name):\n-   context = {\n-    'admin_name': admin_name,\n-    'recipient_name': book.full_name,\n-    'contact': book.phone_number,\n-    'destination': book.destination.destination_title,\n-    'arrival_date': book.arrival_date.strftime('%d/%m/%Y'),\n-    'departure_date': book.departure_date.strftime('%d/%m/%Y'),\n-    'preferred_service_type': book.service_type,\n-}\n+    context = {\n+        'admin_name': admin_name,\n+        'recipient_name': book.full_name,\n+        'contact': book.phone_number,\n+        'destination': book.destination.destination_title,\n+        'arrival_date': book.arrival_date.strftime('%d/%m/%Y'),\n+        'departure_date': book.departure_date.strftime('%d/%m/%Y'),\n+        'preferred_service_type': book.service_type,\n+    }\n \n     # Conditionally add 'activity' if it's not None\n    if book.activity:\n             context['activity'] = book.activity.name\n"
+                },
+                {
+                    "date": 1726493822526,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -322,14 +322,14 @@\n         'preferred_service_type': book.service_type,\n     }\n \n     # Conditionally add 'activity' if it's not None\n-   if book.activity:\n-            context['activity'] = book.activity.name\n+    if book.activity:\n+                context['activity'] = book.activity.name\n \n-            # Conditionally add 'package' if it's not None\n-   if book.package:\n-            context['package'] = book.package.name\n+                # Conditionally add 'package' if it's not None\n+    if book.package:\n+                context['package'] = book.package.name\n \n \n     html_content = render_to_string('booking_confirmation.html', context)\n     from_email = f'Everest Thrills <{admin_email}>'\n"
                 }
             ],
             "date": 1725013363852,

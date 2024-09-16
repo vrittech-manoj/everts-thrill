@@ -314,15 +314,22 @@ class SendEmailForBookingVerification(APIView):
 def send_booking_confirmation_email(email, verify_url, subject, book, admin_email, admin_name):
     context = {
         'admin_name': admin_name,
-        'recipient_name': book.full_name,  
-        'contact': book.phone_number, 
-        # 'activity': book.activity.name,  
-        # 'package': book.package.name,  
-        'destination': book.destination.destination_title,  
-        'arrival_date': book.arrival_date.strftime('%d/%m/%Y'),  
-        'departure_date': book.departure_date.strftime('%d/%m/%Y'),  
-        'preferred_service_type': book.service_type, 
+        'recipient_name': book.full_name,
+        'contact': book.phone_number,
+        'destination': book.destination.destination_title,
+        'arrival_date': book.arrival_date.strftime('%d/%m/%Y'),
+        'departure_date': book.departure_date.strftime('%d/%m/%Y'),
+        'preferred_service_type': book.service_type,
     }
+
+    # Conditionally add 'activity' if it's not None
+    if book.activity:
+                context['activity'] = book.activity.name
+
+                # Conditionally add 'package' if it's not None
+    if book.package:
+                context['package'] = book.package.name
+
 
     html_content = render_to_string('booking_confirmation.html', context)
     from_email = f'Everest Thrills <{admin_email}>'
