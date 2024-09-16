@@ -65,16 +65,17 @@ class meetteamViewsets(viewsets.ModelViewSet):
             target_obj.save()
 
         else:
-            # Moving target up (target goes before goal)
-            affected_objs = MeetTeam.objects.filter(index__lt=target_index, index__gt=goal_index).order_by('-index')
-            
-            # Increment index of all affected objects
+          # Moving target up (target goes before goal)
+            affected_objs = MeetTeam.objects.filter(index__lt=target_index, index__gte=goal_index).order_by('-index')
+
+            # Increment index of all affected objects by 1
             for obj in affected_objs:
                 obj.index += 1
                 obj.save()
-            
-            # Set target object's new index
-            target_obj.index = goal_index+1  # Ensure target is placed right after the goal
+
+            # Set target object's new index (exact position of the goal)
+            target_obj.index = goal_index  # Place the target in the goal's position
             target_obj.save()
+
 
         return Response({"status": "success"})

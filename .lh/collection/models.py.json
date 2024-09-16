@@ -3,7 +3,7 @@
     "activeCommit": 0,
     "commits": [
         {
-            "activePatchIndex": 2,
+            "activePatchIndex": 5,
             "patches": [
                 {
                     "date": 1725789525502,
@@ -16,6 +16,18 @@
                 {
                     "date": 1725789542049,
                     "content": "Index: \n===================================================================\n--- \n+++ \n@@ -7,8 +7,8 @@\n     index = models.PositiveIntegerField(default = 999)\n     destination_collection = models.ManyToManyField('destination.Destination',related_name=\"collections\")\n     created_date = models.DateField(auto_now_add=True, null = True,blank = True)\n     created_date_time = models.DateTimeField(auto_now_add=True, null = True,blank = True)\n-    created_date_time = models.DateTimeField(auto_now_add=True, null = True,blank = True)\n+    updated_date_time = models.DateTimeField(auto_now=True, null = True,blank = True)\n     \n     def __str__(self):\n         return self.name\n"
+                },
+                {
+                    "date": 1726481588654,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -11,4 +11,12 @@\n     updated_date_time = models.DateTimeField(auto_now=True, null = True,blank = True)\n     \n     def __str__(self):\n         return self.name\n+    \n+    def save(self, *args, **kwargs):\n+        # Check if it's a new object (without primary key) and ensure index is unique\n+        if not self.pk and MeetTeam.objects.filter(index=self.index).exists():\n+            raise ValidationError(f\"An object with index {self.index} already exists. Please choose a different index.\")\n+        \n+        # Proceed with saving (whether it's a new object or an update)\n+        super(MeetTeam, self).save(*args, **kwargs)\n"
+                },
+                {
+                    "date": 1726481594046,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -14,9 +14,9 @@\n         return self.name\n     \n     def save(self, *args, **kwargs):\n         # Check if it's a new object (without primary key) and ensure index is unique\n-        if not self.pk and MeetTeam.objects.filter(index=self.index).exists():\n+        if not self.pk and Collection.objects.filter(index=self.index).exists():\n             raise ValidationError(f\"An object with index {self.index} already exists. Please choose a different index.\")\n         \n         # Proceed with saving (whether it's a new object or an update)\n         super(MeetTeam, self).save(*args, **kwargs)\n"
+                },
+                {
+                    "date": 1726481612387,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -1,5 +1,6 @@\n from django.db import models\n+from django.core.exceptions import ValidationError\n \n \n # Create your models here.\n class Collection(models.Model):\n@@ -18,5 +19,5 @@\n         if not self.pk and Collection.objects.filter(index=self.index).exists():\n             raise ValidationError(f\"An object with index {self.index} already exists. Please choose a different index.\")\n         \n         # Proceed with saving (whether it's a new object or an update)\n-        super(MeetTeam, self).save(*args, **kwargs)\n+        super(Collection, self).save(*args, **kwargs)\n"
                 }
             ],
             "date": 1725789525502,

@@ -3,7 +3,7 @@
     "activeCommit": 0,
     "commits": [
         {
-            "activePatchIndex": 6,
+            "activePatchIndex": 17,
             "patches": [
                 {
                     "date": 1725774275409,
@@ -32,6 +32,50 @@
                 {
                     "date": 1725864750609,
                     "content": "Index: \n===================================================================\n--- \n+++ \n@@ -10,9 +10,9 @@\n class collectionViewsets(viewsets.ModelViewSet):\n     serializer_class = CollectionListSerializers\n     permission_classes = [collectionPermission]\n     pagination_class = MyPageNumberPagination\n-    queryset = Collection.objects.all().order_by(\"-index\")\n+    queryset = Collection.objects.all().order_by(\"index\")\n \n     filter_backends = [SearchFilter, DjangoFilterBackend, OrderingFilter]\n     search_fields = ['id','name']\n     ordering_fields = ['id','name','index']\n"
+                },
+                {
+                    "date": 1726481456615,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -42,8 +42,49 @@\n             status=status.HTTP_200_OK\n         )\n \n \n-    # @action(detail=False, methods=['get'], name=\"action_name\", url_path=\"url_path\")\n-    # def action_name(self, request, *args, **kwargs):\n-    #     return super().list(request, *args, **kwargs)\n+    @action(detail=False, methods=['get'], name=\"dragable\", url_path=\"drag-team\")\n+    def Dragable(self, request, *args, **kwargs):\n+        target = request.GET.get('target')  # ID of the target object (elephant)\n+        goal = request.GET.get('goal')  # ID of the goal object (ball)\n \n+        from rest_framework.response import Response\n+\n+        # Fetch the target and goal objects\n+        try:\n+            target_obj = MeetTeam.objects.get(id=target)\n+            goal_obj = MeetTeam.objects.get(id=goal)\n+        except MeetTeam.DoesNotExist:\n+            return Response({\"error\": \"Target or Goal object not found\"}, status=400)\n+\n+        target_index = target_obj.index\n+        goal_index = goal_obj.index\n+\n+        if target_index < goal_index:\n+            # Moving target down (target goes after goal)\n+            affected_objs = MeetTeam.objects.filter(index__gt=target_index, index__lte=goal_index).order_by('index')\n+            \n+            # Decrement index of all affected objects\n+            for obj in affected_objs:\n+                obj.index -= 1\n+                obj.save()\n+            \n+            # Set target object's new index\n+            target_obj.index = goal_index\n+            target_obj.save()\n+\n+        else:\n+          # Moving target up (target goes before goal)\n+            affected_objs = MeetTeam.objects.filter(index__lt=target_index, index__gte=goal_index).order_by('-index')\n+\n+            # Increment index of all affected objects by 1\n+            for obj in affected_objs:\n+                obj.index += 1\n+                obj.save()\n+\n+            # Set target object's new index (exact position of the goal)\n+            target_obj.index = goal_index  # Place the target in the goal's position\n+            target_obj.save()\n+\n+\n+        return Response({\"status\": \"success\"})\n"
+                },
+                {
+                    "date": 1726481481403,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -5,8 +5,9 @@\n from ..serializers.collection_serializers import CollectionListSerializers, CollectionRetrieveSerializers, CollectionWriteSerializers\n from ..utilities.importbase import *\n from rest_framework.response import Response\n from rest_framework import status\n+from rest_framework.decorators import action\n \n class collectionViewsets(viewsets.ModelViewSet):\n     serializer_class = CollectionListSerializers\n     permission_classes = [collectionPermission]\n"
+                },
+                {
+                    "date": 1726481492409,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -52,9 +52,9 @@\n         from rest_framework.response import Response\n \n         # Fetch the target and goal objects\n         try:\n-            target_obj = MeetTeam.objects.get(id=target)\n+            target_obj = Collection.objects.get(id=target)\n             goal_obj = MeetTeam.objects.get(id=goal)\n         except MeetTeam.DoesNotExist:\n             return Response({\"error\": \"Target or Goal object not found\"}, status=400)\n \n"
+                },
+                {
+                    "date": 1726481500485,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -53,10 +53,10 @@\n \n         # Fetch the target and goal objects\n         try:\n             target_obj = Collection.objects.get(id=target)\n-            goal_obj = MeetTeam.objects.get(id=goal)\n-        except MeetTeam.DoesNotExist:\n+            goal_obj = Collection.objects.get(id=goal)\n+        except Collection.DoesNotExist:\n             return Response({\"error\": \"Target or Goal object not found\"}, status=400)\n \n         target_index = target_obj.index\n         goal_index = goal_obj.index\n"
+                },
+                {
+                    "date": 1726481509657,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -43,9 +43,9 @@\n             status=status.HTTP_200_OK\n         )\n \n \n-    @action(detail=False, methods=['get'], name=\"dragable\", url_path=\"drag-team\")\n+    @action(detail=False, methods=['get'], name=\"dragable\", url_path=\"drag-collection\")\n     def Dragable(self, request, *args, **kwargs):\n         target = request.GET.get('target')  # ID of the target object (elephant)\n         goal = request.GET.get('goal')  # ID of the goal object (ball)\n \n"
+                },
+                {
+                    "date": 1726481516775,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -43,9 +43,9 @@\n             status=status.HTTP_200_OK\n         )\n \n \n-    @action(detail=False, methods=['get'], name=\"dragable\", url_path=\"drag-collection\")\n+    @action(detail=False, methods=['get'], name=\"dragableCollection\", url_path=\"drag-collection\")\n     def Dragable(self, request, *args, **kwargs):\n         target = request.GET.get('target')  # ID of the target object (elephant)\n         goal = request.GET.get('goal')  # ID of the goal object (ball)\n \n"
+                },
+                {
+                    "date": 1726481524938,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -43,10 +43,10 @@\n             status=status.HTTP_200_OK\n         )\n \n \n-    @action(detail=False, methods=['get'], name=\"dragableCollection\", url_path=\"drag-collection\")\n-    def Dragable(self, request, *args, **kwargs):\n+    @action(detail=False, methods=['get'], name=\"draggableCollection\", url_path=\"drag-collection\")\n+    def Draggable(self, request, *args, **kwargs):\n         target = request.GET.get('target')  # ID of the target object (elephant)\n         goal = request.GET.get('goal')  # ID of the goal object (ball)\n \n         from rest_framework.response import Response\n"
+                },
+                {
+                    "date": 1726481532339,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -62,9 +62,9 @@\n         goal_index = goal_obj.index\n \n         if target_index < goal_index:\n             # Moving target down (target goes after goal)\n-            affected_objs = MeetTeam.objects.filter(index__gt=target_index, index__lte=goal_index).order_by('index')\n+            affected_objs = Collection.objects.filter(index__gt=target_index, index__lte=goal_index).order_by('index')\n             \n             # Decrement index of all affected objects\n             for obj in affected_objs:\n                 obj.index -= 1\n@@ -75,9 +75,9 @@\n             target_obj.save()\n \n         else:\n           # Moving target up (target goes before goal)\n-            affected_objs = MeetTeam.objects.filter(index__lt=target_index, index__gte=goal_index).order_by('-index')\n+            affected_objs = Collection.objects.filter(index__lt=target_index, index__gte=goal_index).order_by('-index')\n \n             # Increment index of all affected objects by 1\n             for obj in affected_objs:\n                 obj.index += 1\n"
+                },
+                {
+                    "date": 1726481679799,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -44,9 +44,9 @@\n         )\n \n \n     @action(detail=False, methods=['get'], name=\"draggableCollection\", url_path=\"drag-collection\")\n-    def Draggable(self, request, *args, **kwargs):\n+    def Dragable(self, request, *args, **kwargs):\n         target = request.GET.get('target')  # ID of the target object (elephant)\n         goal = request.GET.get('goal')  # ID of the goal object (ball)\n \n         from rest_framework.response import Response\n"
+                },
+                {
+                    "date": 1726481688690,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -43,9 +43,9 @@\n             status=status.HTTP_200_OK\n         )\n \n \n-    @action(detail=False, methods=['get'], name=\"draggableCollection\", url_path=\"drag-collection\")\n+    @action(detail=False, methods=['get'], name=\"dragableCollection\", url_path=\"drag-collection\")\n     def Dragable(self, request, *args, **kwargs):\n         target = request.GET.get('target')  # ID of the target object (elephant)\n         goal = request.GET.get('goal')  # ID of the goal object (ball)\n \n"
+                },
+                {
+                    "date": 1726481753027,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -45,9 +45,9 @@\n \n \n     @action(detail=False, methods=['get'], name=\"dragableCollection\", url_path=\"drag-collection\")\n     def Dragable(self, request, *args, **kwargs):\n-        target = request.GET.get('target')  # ID of the target object (elephant)\n+        target = request.GET.get('target')  # ID of the target object \n         goal = request.GET.get('goal')  # ID of the goal object (ball)\n \n         from rest_framework.response import Response\n \n"
                 }
             ],
             "date": 1725774275409,
