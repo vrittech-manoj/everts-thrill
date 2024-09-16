@@ -23,8 +23,8 @@ class BookingPackageSerializers(serializers.ModelSerializer):
 class BookingDestinationSerializers(serializers.ModelSerializer):
     class Meta:
         model = Destination
-        fields = ['destination_title']
-
+        fields = ['id','destination_title','duration','group_size','best_season','meals']
+# ('public_id', 'slug', 'destination_title', 'packages', 'price', 'price_type', 'is_price', 'featured_image', 'overview', 'inclusion_and_exclusion', 'ltinerary', 'trip_map_url', 'trip_map_image', 'gear_and_equipment', 'useful_information', 'duration', 'trip_grade', 'best_season', 'max_altitude', 'meals', 'nature_of_trip', 'accommodation', 'group_size', )
 class DestinationBookListSerializers(serializers.ModelSerializer):
     activity = BookingActivitySerializers(read_only = True)
     package = BookingPackageSerializers(read_only = True)
