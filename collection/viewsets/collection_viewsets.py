@@ -10,7 +10,7 @@ from rest_framework.decorators import action
 
 class collectionViewsets(viewsets.ModelViewSet):
     serializer_class = CollectionListSerializers
-    permission_classes = [collectionPermission]
+    # permission_classes = [collectionPermission]
     pagination_class = MyPageNumberPagination
     queryset = Collection.objects.all().order_by("index")
 
@@ -33,6 +33,14 @@ class collectionViewsets(viewsets.ModelViewSet):
         elif self.action == 'retrieve':
             return CollectionRetrieveSerializers
         return super().get_serializer_class()
+    
+    def create_collection(request):
+        serializer = CollectionWriteSerializers(data=request.data)
+        if serializer.is_valid():
+            collection = serializer.save()
+            return Response({"message": "Collection created successfully"}, status=status.HTTP_201_CREATED)
+        else:
+            return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
     
     def destroy(self, request, *args, **kwargs):
         instance = self.get_object()

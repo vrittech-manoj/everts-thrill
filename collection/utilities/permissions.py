@@ -47,10 +47,9 @@ class collectionPermission(BasePermission):
         elif view.action in ['retrieve']:
             return True
         elif view.action in ['create','update']:
-            return AdminLevel(request) #second level
-            return ObjectBOwner(request) #third level
+            return True
         elif view.action == "partial_update":
-            return AdminLevel(request)
+            return True
         elif view.action == 'destroy':
             return AdminLevel(request)
 

@@ -3,7 +3,7 @@
     "activeCommit": 0,
     "commits": [
         {
-            "activePatchIndex": 5,
+            "activePatchIndex": 13,
             "patches": [
                 {
                     "date": 1725789525502,
@@ -28,6 +28,38 @@
                 {
                     "date": 1726481612387,
                     "content": "Index: \n===================================================================\n--- \n+++ \n@@ -1,5 +1,6 @@\n from django.db import models\n+from django.core.exceptions import ValidationError\n \n \n # Create your models here.\n class Collection(models.Model):\n@@ -18,5 +19,5 @@\n         if not self.pk and Collection.objects.filter(index=self.index).exists():\n             raise ValidationError(f\"An object with index {self.index} already exists. Please choose a different index.\")\n         \n         # Proceed with saving (whether it's a new object or an update)\n-        super(MeetTeam, self).save(*args, **kwargs)\n+        super(Collection, self).save(*args, **kwargs)\n"
+                },
+                {
+                    "date": 1726483781707,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -14,10 +14,10 @@\n     def __str__(self):\n         return self.name\n     \n     def save(self, *args, **kwargs):\n-        # Check if it's a new object (without primary key) and ensure index is unique\n-        if not self.pk and Collection.objects.filter(index=self.index).exists():\n+        # Check if an object with the same index exists and is not the current instance\n+        if Collection.objects.filter(index=self.index).exclude(pk=self.pk).exists():\n             raise ValidationError(f\"An object with index {self.index} already exists. Please choose a different index.\")\n-        \n+\n         # Proceed with saving (whether it's a new object or an update)\n         super(Collection, self).save(*args, **kwargs)\n"
+                },
+                {
+                    "date": 1726484058817,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -15,9 +15,9 @@\n         return self.name\n     \n     def save(self, *args, **kwargs):\n         # Check if an object with the same index exists and is not the current instance\n-        if Collection.objects.filter(index=self.index).exclude(pk=self.pk).exists():\n-            raise ValidationError(f\"An object with index {self.index} already exists. Please choose a different index.\")\n+        # if Collection.objects.filter(index=self.index).exclude(pk=self.pk).exists():\n+        #     raise ValidationError(f\"An object with index {self.index} already exists. Please choose a different index.\")\n \n         # Proceed with saving (whether it's a new object or an update)\n         super(Collection, self).save(*args, **kwargs)\n"
+                },
+                {
+                    "date": 1726484113896,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -15,9 +15,9 @@\n         return self.name\n     \n     def save(self, *args, **kwargs):\n         # Check if an object with the same index exists and is not the current instance\n-        # if Collection.objects.filter(index=self.index).exclude(pk=self.pk).exists():\n-        #     raise ValidationError(f\"An object with index {self.index} already exists. Please choose a different index.\")\n+        if Collection.objects.filter(index=self.index).exclude(pk=self.pk).exists():\n+            raise ValidationError(f\"An object with index {self.index} already exists. Please choose a different index.\")\n \n         # Proceed with saving (whether it's a new object or an update)\n         super(Collection, self).save(*args, **kwargs)\n"
+                },
+                {
+                    "date": 1726484195014,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -17,7 +17,6 @@\n     def save(self, *args, **kwargs):\n         # Check if an object with the same index exists and is not the current instance\n         if Collection.objects.filter(index=self.index).exclude(pk=self.pk).exists():\n             raise ValidationError(f\"An object with index {self.index} already exists. Please choose a different index.\")\n-\n         # Proceed with saving (whether it's a new object or an update)\n-        super(Collection, self).save(*args, **kwargs)\n+        super(Collection, self).save(*args, **kwargs)\n\\ No newline at end of file\n"
+                },
+                {
+                    "date": 1726484311794,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -16,7 +16,7 @@\n     \n     def save(self, *args, **kwargs):\n         # Check if an object with the same index exists and is not the current instance\n         if Collection.objects.filter(index=self.index).exclude(pk=self.pk).exists():\n-            raise ValidationError(f\"An object with index {self.index} already exists. Please choose a different index.\")\n+            raise Response(f\"An object with index {self.index} already exists. Please choose a different index.\")\n         # Proceed with saving (whether it's a new object or an update)\n         super(Collection, self).save(*args, **kwargs)\n\\ No newline at end of file\n"
+                },
+                {
+                    "date": 1726484321239,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -1,6 +1,7 @@\n from django.db import models\n from django.core.exceptions import ValidationError\n+from rest_framework.response import Response\n \n \n # Create your models here.\n class Collection(models.Model):\n"
+                },
+                {
+                    "date": 1726484569202,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -17,7 +17,7 @@\n     \n     def save(self, *args, **kwargs):\n         # Check if an object with the same index exists and is not the current instance\n         if Collection.objects.filter(index=self.index).exclude(pk=self.pk).exists():\n-            raise Response(f\"An object with index {self.index} already exists. Please choose a different index.\")\n+            raise ValidationError(f\"An object with index {self.index} already exists. Please choose a different index.\")\n         # Proceed with saving (whether it's a new object or an update)\n         super(Collection, self).save(*args, **kwargs)\n\\ No newline at end of file\n"
+                },
+                {
+                    "date": 1726485572693,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -12,12 +12,5 @@\n     created_date_time = models.DateTimeField(auto_now_add=True, null = True,blank = True)\n     updated_date_time = models.DateTimeField(auto_now=True, null = True,blank = True)\n     \n     def __str__(self):\n-        return self.name\n-    \n-    def save(self, *args, **kwargs):\n-        # Check if an object with the same index exists and is not the current instance\n-        if Collection.objects.filter(index=self.index).exclude(pk=self.pk).exists():\n-            raise ValidationError(f\"An object with index {self.index} already exists. Please choose a different index.\")\n-        # Proceed with saving (whether it's a new object or an update)\n-        super(Collection, self).save(*args, **kwargs)\n\\ No newline at end of file\n+        return self.name\n\\ No newline at end of file\n"
                 }
             ],
             "date": 1725789525502,

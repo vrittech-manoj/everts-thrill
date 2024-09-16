@@ -3,6 +3,8 @@ from ..models import Collection
 from destination.models import Destination
 import ast
 from django.db import transaction
+from rest_framework.response import Response
+from rest_framework.exceptions import ValidationError
 
 def str_to_list(data,value_to_convert):
     try:
@@ -53,5 +55,4 @@ class CollectionWriteSerializers(serializers.ModelSerializer):
         fields = '__all__'
         
     def get_destinations_collection_detail(self,object):
-        return DestinationSerializers(object.destination_collection,many=True).data
-        
+        return DestinationSerializers(object.destination_collection,many=True).data  

@@ -3,7 +3,7 @@
     "activeCommit": 0,
     "commits": [
         {
-            "activePatchIndex": 17,
+            "activePatchIndex": 23,
             "patches": [
                 {
                     "date": 1725774275409,
@@ -76,6 +76,30 @@
                 {
                     "date": 1726481753027,
                     "content": "Index: \n===================================================================\n--- \n+++ \n@@ -45,9 +45,9 @@\n \n \n     @action(detail=False, methods=['get'], name=\"dragableCollection\", url_path=\"drag-collection\")\n     def Dragable(self, request, *args, **kwargs):\n-        target = request.GET.get('target')  # ID of the target object (elephant)\n+        target = request.GET.get('target')  # ID of the target object \n         goal = request.GET.get('goal')  # ID of the goal object (ball)\n \n         from rest_framework.response import Response\n \n"
+                },
+                {
+                    "date": 1726483245139,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -9,9 +9,9 @@\n from rest_framework.decorators import action\n \n class collectionViewsets(viewsets.ModelViewSet):\n     serializer_class = CollectionListSerializers\n-    permission_classes = [collectionPermission]\n+    # permission_classes = [collectionPermission]\n     pagination_class = MyPageNumberPagination\n     queryset = Collection.objects.all().order_by(\"index\")\n \n     filter_backends = [SearchFilter, DjangoFilterBackend, OrderingFilter]\n@@ -46,9 +46,9 @@\n \n     @action(detail=False, methods=['get'], name=\"dragableCollection\", url_path=\"drag-collection\")\n     def Dragable(self, request, *args, **kwargs):\n         target = request.GET.get('target')  # ID of the target object \n-        goal = request.GET.get('goal')  # ID of the goal object (ball)\n+        goal = request.GET.get('goal')  # ID of the goal object \n \n         from rest_framework.response import Response\n \n         # Fetch the target and goal objects\n"
+                },
+                {
+                    "date": 1726484630817,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -33,8 +33,10 @@\n         elif self.action == 'retrieve':\n             return CollectionRetrieveSerializers\n         return super().get_serializer_class()\n     \n+    \n+    \n     def destroy(self, request, *args, **kwargs):\n         instance = self.get_object()\n         self.perform_destroy(instance)\n         \n"
+                },
+                {
+                    "date": 1726484636934,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -33,10 +33,16 @@\n         elif self.action == 'retrieve':\n             return CollectionRetrieveSerializers\n         return super().get_serializer_class()\n     \n+    def create_collection(request):\n+        serializer = CollectionWriteSerializers(data=request.data)\n+        if serializer.is_valid():\n+            collection = serializer.save()\n+            return Response({\"message\": \"Collection created successfully\"}, status=status.HTTP_201_CREATED)\n+        else:\n+            return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)\n     \n-    \n     def destroy(self, request, *args, **kwargs):\n         instance = self.get_object()\n         self.perform_destroy(instance)\n         \n"
+                },
+                {
+                    "date": 1726484671732,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -41,8 +41,10 @@\n             return Response({\"message\": \"Collection created successfully\"}, status=status.HTTP_201_CREATED)\n         else:\n             return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)\n     \n+    \n+    \n     def destroy(self, request, *args, **kwargs):\n         instance = self.get_object()\n         self.perform_destroy(instance)\n         \n"
+                },
+                {
+                    "date": 1726484677893,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -41,10 +41,21 @@\n             return Response({\"message\": \"Collection created successfully\"}, status=status.HTTP_201_CREATED)\n         else:\n             return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)\n     \n+    def update_collection(request, pk):\n+        try:\n+            collection = Collection.objects.get(pk=pk)\n+        except Collection.DoesNotExist:\n+            return Response({\"error\": \"Collection not found.\"}, status=status.HTTP_404_NOT_FOUND)\n+\n+        serializer = CollectionWriteSerializers(collection, data=request.data, partial=True)  # Partial allows updating specific fields\n+        if serializer.is_valid():\n+            collection = serializer.save()\n+            return Response({\"message\": \"Collection updated successfully\"}, status=status.HTTP_200_OK)\n+        else:\n+            return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)\n     \n-    \n     def destroy(self, request, *args, **kwargs):\n         instance = self.get_object()\n         self.perform_destroy(instance)\n         \n"
+                },
+                {
+                    "date": 1726485338798,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -41,21 +41,8 @@\n             return Response({\"message\": \"Collection created successfully\"}, status=status.HTTP_201_CREATED)\n         else:\n             return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)\n     \n-    def update_collection(request, pk):\n-        try:\n-            collection = Collection.objects.get(pk=pk)\n-        except Collection.DoesNotExist:\n-            return Response({\"error\": \"Collection not found.\"}, status=status.HTTP_404_NOT_FOUND)\n-\n-        serializer = CollectionWriteSerializers(collection, data=request.data, partial=True)  # Partial allows updating specific fields\n-        if serializer.is_valid():\n-            collection = serializer.save()\n-            return Response({\"message\": \"Collection updated successfully\"}, status=status.HTTP_200_OK)\n-        else:\n-            return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)\n-    \n     def destroy(self, request, *args, **kwargs):\n         instance = self.get_object()\n         self.perform_destroy(instance)\n         \n"
                 }
             ],
             "date": 1725774275409,

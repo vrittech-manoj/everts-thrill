@@ -45,11 +45,6 @@ class MeetTeam(models.Model):
         return f"{self.member_name}-{self.id}-{self.index}"
 
     def save(self, *args, **kwargs):
-        # Check if it's a new object (without primary key) and ensure index is unique
-        if not self.pk and MeetTeam.objects.filter(index=self.index).exists():
-            raise ValidationError(f"An object with index {self.index} already exists. Please choose a different index.")
-        
-        # Proceed with saving (whether it's a new object or an update)
         super(MeetTeam, self).save(*args, **kwargs)
 
 class PrivacyPolicy(models.Model):
