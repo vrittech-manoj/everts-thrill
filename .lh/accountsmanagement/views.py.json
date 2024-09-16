@@ -3,7 +3,7 @@
     "activeCommit": 0,
     "commits": [
         {
-            "activePatchIndex": 97,
+            "activePatchIndex": 98,
             "patches": [
                 {
                     "date": 1725013363852,
@@ -396,6 +396,10 @@
                 {
                     "date": 1726033310287,
                     "content": "Index: \n===================================================================\n--- \n+++ \n@@ -25,16 +25,15 @@\n \n import random\n import string\n \n-otp_time_expired = 1200\n+otp_time_expired = 600\n site_f  = \"https://lims.dftqc.gov.np\" #http://localhost:4200\"#\"https://dev-lims.netlify.app\"#\"https://lims.dftqc.gov.np\"\n \n class EmailCheckView(generics.GenericAPIView):\n \n     def generate_otp(self,user):\n         # Generate a random 6-digit OTP\n-        \n         user = str(user)\n         return user[0]+''.join(random.choices(string.digits, k=4)) + user[-1]\n     \n     serializer_class = EmailNumberSerializer\n"
+                },
+                {
+                    "date": 1726493366852,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -315,10 +315,10 @@\n     context = {\n         'admin_name': admin_name,\n         'recipient_name': book.full_name,  \n         'contact': book.phone_number, \n-        'activity': book.activity.name,  \n-        'package': book.package.name,  \n+        # 'activity': book.activity.name,  \n+        # 'package': book.package.name,  \n         'destination': book.destination.destination_title,  \n         'arrival_date': book.arrival_date.strftime('%d/%m/%Y'),  \n         'departure_date': book.departure_date.strftime('%d/%m/%Y'),  \n         'preferred_service_type': book.service_type, \n"
                 }
             ],
             "date": 1725013363852,

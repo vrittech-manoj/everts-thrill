@@ -11,7 +11,7 @@ from rest_framework import status
 class destinationbookViewsets(viewsets.ModelViewSet):
     serializer_class = DestinationBookListSerializers
     permission_classes = [bookingPermission]
-    authentication_classes = [JWTAuthentication]
+    # authentication_classes = [JWTAuthentication]
     pagination_class = MyPageNumberPagination
     queryset = DestinationBook.objects.all().order_by("-created_date")
     lookup_field = "slug"

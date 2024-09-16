@@ -3,7 +3,7 @@
     "activeCommit": 0,
     "commits": [
         {
-            "activePatchIndex": 12,
+            "activePatchIndex": 13,
             "patches": [
                 {
                     "date": 1724817730658,
@@ -56,6 +56,10 @@
                 {
                     "date": 1724844156423,
                     "content": "Index: \n===================================================================\n--- \n+++ \n@@ -47,9 +47,9 @@\n             return True\n         elif view.action in ['retrieve']:\n             return True\n         elif view.action in ['create','update']:\n-            return IsAuthenticated(request)\n+            return True\n             return ObjectBOwner(request) #third level\n         elif view.action == \"partial_update\":\n             return IsAuthenticated(request)\n         elif view.action == 'destroy':\n"
+                },
+                {
+                    "date": 1726493184175,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -50,8 +50,8 @@\n         elif view.action in ['create','update']:\n             return True\n             return ObjectBOwner(request) #third level\n         elif view.action == \"partial_update\":\n-            return IsAuthenticated(request)\n+            return True\n         elif view.action == 'destroy':\n             return AdminLevel(request)\n \n"
                 }
             ],
             "date": 1724817730658,

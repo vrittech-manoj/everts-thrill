@@ -3,7 +3,7 @@
     "activeCommit": 0,
     "commits": [
         {
-            "activePatchIndex": 87,
+            "activePatchIndex": 88,
             "patches": [
                 {
                     "date": 1725014377388,
@@ -356,6 +356,10 @@
                 {
                     "date": 1726134236262,
                     "content": "Index: \n===================================================================\n--- \n+++ \n@@ -101,9 +101,9 @@\n </head>\n <body>\n     <div class=\"email-container\">\n         <div class=\"header\">\n-            <img src=\"https://api.everestthrills.com/gallery/images/Logo_fNOYaHP.png\" alt=\"Everest Thrill Logo\">\n+            <img src=\"https://api.everestthrills.com/media/gallery/images/Logo_fNOYaHP.png\" alt=\"Everest Thrill Logo\">\n         </div>\n         <div class=\"content\">\n             <h1>New Trip Booking Notification – {{ destination }}</h1>\n             <p>Dear {{ recipient_name }},</p>\n"
+                },
+                {
+                    "date": 1726493297416,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -111,10 +111,10 @@\n             <div class=\"trip-details-box\">\n                 <div class=\"trip-details-text\">\n                     <p><strong style=\"color: #00008B;\">Trip Details:</strong></p>\n                     <p><strong>Contact:</strong> {{ contact }}</p>\n-                    <p><strong>Activity:</strong> {{ activity }}</p>\n-                    <p><strong>Package:</strong> {{ package }}</p>\n+                    <!-- <p><strong>Activity:</strong> {{ activity }}</p>\n+                    <p><strong>Package:</strong> {{ package }}</p> -->\n                     <p><strong>Destination:</strong> {{ destination }}</p>\n                     <p><strong>Arrival Date:</strong> {{ arrival_date }}</p>\n                     <p><strong>Departure Date:</strong> {{ departure_date }}</p>\n                     <p><strong>Preferred Service Type:</strong> {{ preferred_service_type|capfirst }}\n"
                 }
             ],
             "date": 1725014377388,
