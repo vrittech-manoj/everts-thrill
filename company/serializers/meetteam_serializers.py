@@ -4,7 +4,7 @@ from ..models import MeetTeam
 class MeetTeamListSerializers(serializers.ModelSerializer):
     class Meta:
         model = MeetTeam
-        fields = ['id','index','member_name']
+        fields = '__all__'
 
 class MeetTeamRetrieveSerializers(serializers.ModelSerializer):
     class Meta:

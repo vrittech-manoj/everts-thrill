@@ -1,0 +1,22 @@
+{
+    "sourceFile": "company/serializers/meetteam_serializers.py",
+    "activeCommit": 0,
+    "commits": [
+        {
+            "activePatchIndex": 1,
+            "patches": [
+                {
+                    "date": 1726478194263,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n"
+                },
+                {
+                    "date": 1726478201373,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -3,9 +3,9 @@\n \n class MeetTeamListSerializers(serializers.ModelSerializer):\n     class Meta:\n         model = MeetTeam\n-        fields = __\n+        fields = '__all__\n \n class MeetTeamRetrieveSerializers(serializers.ModelSerializer):\n     class Meta:\n         model = MeetTeam\n"
+                }
+            ],
+            "date": 1726478194263,
+            "name": "Commit-0",
+            "content": "from rest_framework import serializers\nfrom ..models import MeetTeam\n\nclass MeetTeamListSerializers(serializers.ModelSerializer):\n    class Meta:\n        model = MeetTeam\n        fields = __\n\nclass MeetTeamRetrieveSerializers(serializers.ModelSerializer):\n    class Meta:\n        model = MeetTeam\n        fields = '__all__'\n\nclass MeetTeamWriteSerializers(serializers.ModelSerializer):\n    class Meta:\n        model = MeetTeam\n        fields = '__all__'"
+        }
+    ]
+}
