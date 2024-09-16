@@ -26,8 +26,8 @@ class DestinationBook(models.Model):
     country = models.CharField(max_length=45)
     airlines = models.CharField(max_length=450,null=True,blank=True)
     number_of_travelers = models.IntegerField(default = 1) #if group companions then specify numbers
-    activity = models.ForeignKey(Activity,related_name = 'activity_booking', on_delete = models.CASCADE)
-    package = models.ForeignKey(Package,related_name = 'package_booking', on_delete = models.CASCADE)
+    activity = models.ForeignKey(Activity,related_name = 'activity_booking', on_delete = models.CASCADE,null=True,blank=True)
+    package = models.ForeignKey(Package,related_name = 'package_booking', on_delete = models.CASCADE,null=True,blank=True)
     arrival_date = models.DateField()
     departure_date = models.DateField()
     service_type = models.CharField(max_length=20, choices=SERVICE_TYPES)
