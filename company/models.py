@@ -31,7 +31,7 @@ class MeetTeam(models.Model):
     def __str__(self):
         return f"{self.member_name}-{self.id}-{self.index}"
 
-   from django.core.exceptions import ValidationError
+   
 
 class MeetTeam(models.Model):
     member_name = models.CharField(max_length=200, null=True)
