@@ -3,7 +3,7 @@
     "activeCommit": 0,
     "commits": [
         {
-            "activePatchIndex": 25,
+            "activePatchIndex": 26,
             "patches": [
                 {
                     "date": 1725257908537,
@@ -108,6 +108,10 @@
                 {
                     "date": 1726487295832,
                     "content": "Index: \n===================================================================\n--- \n+++ \n@@ -64,9 +64,9 @@\n         #scp -r -o StrictHostKeyChecking=no ./* ubuntu@$SERVER_IP:$PROJECT_FOLDER/\n \n         # Run deployment commands on the server\n         echo \"Running deployment commands on the server\"\n-        ssh -o StrictHostKeyChecking=no ubuntu@$SERVER_IP \"cd $PROJECT_FOLDER && python3 -m venv venv && source venv/bin/activate && pip install -r requirements.txt && python manage.py migrate && python manage.py collectstatic --noinput\"\n+        # ssh -o StrictHostKeyChecking=no ubuntu@$SERVER_IP \"cd $PROJECT_FOLDER && python3 -m venv venv && source venv/bin/activate && pip install -r requirements.txt && python manage.py migrate && python manage.py collectstatic --noinput\"\n         \n \n \n         #echo \"Running deployment commands on the server\" &&\n"
+                },
+                {
+                    "date": 1726487323780,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -69,7 +69,7 @@\n         \n \n \n         #echo \"Running deployment commands on the server\" &&\n-        ssh -o StrictHostKeyChecking=no ubuntu@$SERVER_IP \"cd $PROJECT_FOLDER && python3 -m venv venv && source venv/bin/activate && pip install -r requirements.txt && python manage.py migrate && python manage.py collectstatic --noinput && screen -ls | grep $SCREEN_NAME | awk '{print $1}' | xargs -r -I{} screen -X -S {} quit && screen -dmS $SCREEN_NAME bash -c 'source venv/bin/activate && python manage.py runserver 0.0.0.0:$PORT'\"\n+        # ssh -o StrictHostKeyChecking=no ubuntu@$SERVER_IP \"cd $PROJECT_FOLDER && python3 -m venv venv && source venv/bin/activate && pip install -r requirements.txt && python manage.py migrate && python manage.py collectstatic --noinput && screen -ls | grep $SCREEN_NAME | awk '{print $1}' | xargs -r -I{} screen -X -S {} quit && screen -dmS $SCREEN_NAME bash -c 'source venv/bin/activate && python manage.py runserver 0.0.0.0:$PORT'\"\n \n #AmazonEC2FullAccess\n\\ No newline at end of file\n"
                 }
             ],
             "date": 1725257908537,
