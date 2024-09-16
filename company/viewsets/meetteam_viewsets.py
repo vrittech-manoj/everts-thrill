@@ -4,10 +4,11 @@ from django_filters.rest_framework import DjangoFilterBackend
 from ..models import MeetTeam
 from ..serializers.meetteam_serializers import MeetTeamListSerializers, MeetTeamRetrieveSerializers, MeetTeamWriteSerializers
 from ..utilities.importbase import *
+from rest_framework.decorators import action
 
 class meetteamViewsets(viewsets.ModelViewSet):
     serializer_class = MeetTeamListSerializers
-    permission_classes = [companyPermission]
+    # permission_classes = [companyPermission]
     pagination_class = MyPageNumberPagination
     queryset = MeetTeam.objects.all().order_by("index")
 
@@ -33,7 +34,47 @@ class meetteamViewsets(viewsets.ModelViewSet):
             return MeetTeamRetrieveSerializers
         return super().get_serializer_class()
 
-    # @action(detail=False, methods=['get'], name="action_name", url_path="url_path")
-    # def action_name(self, request, *args, **kwargs):
-    #     return super().list(request, *args, **kwargs)
+    @action(detail=False, methods=['get'], name="dragable", url_path="drag-team")
+    def Dragable(self, request, *args, **kwargs):
+        target = request.GET.get('target')  # ID of the target object (elephant)
+        goal = request.GET.get('goal')  # ID of the goal object (ball)
 
+        from rest_framework.response import Response
+
+        # Fetch the target and goal objects
+        try:
+            target_obj = MeetTeam.objects.get(id=target)
+            goal_obj = MeetTeam.objects.get(id=goal)
+        except MeetTeam.DoesNotExist:
+            return Response({"error": "Target or Goal object not found"}, status=400)
+
+        target_index = target_obj.index
+        goal_index = goal_obj.index
+
+        if target_index < goal_index:
+            # Moving target down (target goes after goal)
+            affected_objs = MeetTeam.objects.filter(index__gt=target_index, index__lte=goal_index).order_by('index')
+            
+            # Decrement index of all affected objects
+            for obj in affected_objs:
+                obj.index -= 1
+                obj.save()
+            
+            # Set target object's new index
+            target_obj.index = goal_index
+            target_obj.save()
+
+        else:
+            # Moving target up (target goes before goal)
+            affected_objs = MeetTeam.objects.filter(index__lt=target_index, index__gt=goal_index).order_by('-index')
+            
+            # Increment index of all affected objects
+            for obj in affected_objs:
+                obj.index += 1
+                obj.save()
+            
+            # Set target object's new index
+            target_obj.index = goal_index+1  # Ensure target is placed right after the goal
+            target_obj.save()
+
+        return Response({"status": "success"})

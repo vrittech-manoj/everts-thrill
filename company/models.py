@@ -25,6 +25,9 @@ class MeetTeam(models.Model):
     image = models.ImageField(upload_to='components/meetteam', null=True, blank=True)
     url = models.URLField(null=True, blank=True)
 
+    def __str__(self) -> str:
+        return f"{self.member_name}-{self.id}-{self.index}"
+
 class PrivacyPolicy(models.Model):
     description = models.TextField()
     
