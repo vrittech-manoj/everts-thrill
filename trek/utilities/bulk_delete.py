@@ -23,7 +23,7 @@ VALID_TYPES = {
     "booking": DestinationBook,
     "activities": Activity,
     "collection": Collection,
-    "review": Review
+    "review": Review,
 }
 
 class BulkDelete(APIView):
