@@ -3,7 +3,7 @@
     "activeCommit": 0,
     "commits": [
         {
-            "activePatchIndex": 1,
+            "activePatchIndex": 11,
             "patches": [
                 {
                     "date": 1726478194263,
@@ -12,6 +12,46 @@
                 {
                     "date": 1726478201373,
                     "content": "Index: \n===================================================================\n--- \n+++ \n@@ -3,9 +3,9 @@\n \n class MeetTeamListSerializers(serializers.ModelSerializer):\n     class Meta:\n         model = MeetTeam\n-        fields = __\n+        fields = '__all__\n \n class MeetTeamRetrieveSerializers(serializers.ModelSerializer):\n     class Meta:\n         model = MeetTeam\n"
+                },
+                {
+                    "date": 1726548428046,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -3,9 +3,9 @@\n \n class MeetTeamListSerializers(serializers.ModelSerializer):\n     class Meta:\n         model = MeetTeam\n-        fields = '__all__\n+        fields = '__all__'\n \n class MeetTeamRetrieveSerializers(serializers.ModelSerializer):\n     class Meta:\n         model = MeetTeam\n@@ -13,5 +13,12 @@\n \n class MeetTeamWriteSerializers(serializers.ModelSerializer):\n     class Meta:\n         model = MeetTeam\n-        fields = '__all__'\n\\ No newline at end of file\n+        fields = '__all__'\n+    \n+        def validate(self, data):\n+        # Check if the index already exists in another collection\n+        index = data.get('index')\n+        if Collection.objects.filter(index=index).exists():\n+            raise serializers.ValidationError({\"index\": \"A collection with this index already exists.\"})\n+        return data\n\\ No newline at end of file\n"
+                },
+                {
+                    "date": 1726548433132,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -17,8 +17,8 @@\n         fields = '__all__'\n     \n         def validate(self, data):\n         # Check if the index already exists in another collection\n-        index = data.get('index')\n-        if Collection.objects.filter(index=index).exists():\n-            raise serializers.ValidationError({\"index\": \"A collection with this index already exists.\"})\n-        return data\n\\ No newline at end of file\n+            index = data.get('index')\n+            if Collection.objects.filter(index=index).exists():\n+                raise serializers.ValidationError({\"index\": \"A collection with this index already exists.\"})\n+            return data\n\\ No newline at end of file\n"
+                },
+                {
+                    "date": 1726548488326,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -15,10 +15,10 @@\n     class Meta:\n         model = MeetTeam\n         fields = '__all__'\n     \n-        def validate(self, data):\n+    def validate(self, data):\n         # Check if the index already exists in another collection\n             index = data.get('index')\n-            if Collection.objects.filter(index=index).exists():\n+            if MeetTeam.objects.filter(index=index).exists():\n                 raise serializers.ValidationError({\"index\": \"A collection with this index already exists.\"})\n             return data\n\\ No newline at end of file\n"
+                },
+                {
+                    "date": 1726548498614,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -17,8 +17,8 @@\n         fields = '__all__'\n     \n     def validate(self, data):\n         # Check if the index already exists in another collection\n-            index = data.get('index')\n             if MeetTeam.objects.filter(index=index).exists():\n                 raise serializers.ValidationError({\"index\": \"A collection with this index already exists.\"})\n+            index = data.get('index')\n             return data\n\\ No newline at end of file\n"
+                },
+                {
+                    "date": 1726548505012,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -17,8 +17,9 @@\n         fields = '__all__'\n     \n     def validate(self, data):\n         # Check if the index already exists in another collection\n+            index = data.get('index')\n+            index = data.get('index')\n             if MeetTeam.objects.filter(index=index).exists():\n                 raise serializers.ValidationError({\"index\": \"A collection with this index already exists.\"})\n-            index = data.get('index')\n             return data\n\\ No newline at end of file\n"
+                },
+                {
+                    "date": 1726548548701,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -17,9 +17,8 @@\n         fields = '__all__'\n     \n     def validate(self, data):\n         # Check if the index already exists in another collection\n-            index = data.get('index')\n-            index = data.get('index')\n+        index = data.get('index')\n             if MeetTeam.objects.filter(index=index).exists():\n                 raise serializers.ValidationError({\"index\": \"A collection with this index already exists.\"})\n             return data\n\\ No newline at end of file\n"
+                },
+                {
+                    "date": 1726548554043,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -18,7 +18,7 @@\n     \n     def validate(self, data):\n         # Check if the index already exists in another collection\n         index = data.get('index')\n-            if MeetTeam.objects.filter(index=index).exists():\n-                raise serializers.ValidationError({\"index\": \"A collection with this index already exists.\"})\n-            return data\n\\ No newline at end of file\n+        if MeetTeam.objects.filter(index=index).exists():\n+            raise serializers.ValidationError({\"index\": \"A collection with this index already exists.\"})\n+        return data\n\\ No newline at end of file\n"
+                },
+                {
+                    "date": 1726548573400,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -19,6 +19,6 @@\n     def validate(self, data):\n         # Check if the index already exists in another collection\n         index = data.get('index')\n         if MeetTeam.objects.filter(index=index).exists():\n-            raise serializers.ValidationError({\"index\": \"A collection with this index already exists.\"})\n+            raise serializers.ValidationError({\"index\": \"Team Rank with this index already exists.\"})\n         return data\n\\ No newline at end of file\n"
+                },
+                {
+                    "date": 1726549828414,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -19,6 +19,6 @@\n     def validate(self, data):\n         # Check if the index already exists in another collection\n         index = data.get('index')\n         if MeetTeam.objects.filter(index=index).exists():\n-            raise serializers.ValidationError({\"index\": \"Team Rank with this index already exists.\"})\n+            raise serializers.ValidationError({\"Team Rank with this index already exists.\"})\n         return data\n\\ No newline at end of file\n"
+                },
+                {
+                    "date": 1726549836909,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -19,6 +19,6 @@\n     def validate(self, data):\n         # Check if the index already exists in another collection\n         index = data.get('index')\n         if MeetTeam.objects.filter(index=index).exists():\n-            raise serializers.ValidationError({\"Team Rank with this index already exists.\"})\n+            raise serializers.ValidationError({\"Team Rank with this Rank already exists.\"})\n         return data\n\\ No newline at end of file\n"
                 }
             ],
             "date": 1726478194263,

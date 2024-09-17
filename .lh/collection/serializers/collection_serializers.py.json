@@ -3,7 +3,7 @@
     "activeCommit": 0,
     "commits": [
         {
-            "activePatchIndex": 7,
+            "activePatchIndex": 12,
             "patches": [
                 {
                     "date": 1726483867337,
@@ -36,6 +36,26 @@
                 {
                     "date": 1726485483125,
                     "content": "Index: \n===================================================================\n--- \n+++ \n@@ -54,6 +54,5 @@\n         model = Collection\n         fields = '__all__'\n         \n     def get_destinations_collection_detail(self,object):\n-        return DestinationSerializers(object.destination_collection,many=True).data\n-    \n\\ No newline at end of file\n+        return DestinationSerializers(object.destination_collection,many=True).data  \n\\ No newline at end of file\n"
+                },
+                {
+                    "date": 1726548325031,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -54,5 +54,6 @@\n         model = Collection\n         fields = '__all__'\n         \n     def get_destinations_collection_detail(self,object):\n-        return DestinationSerializers(object.destination_collection,many=True).data  \n\\ No newline at end of file\n+        return DestinationSerializers(object.destination_collection,many=True).data  \n+    \n\\ No newline at end of file\n"
+                },
+                {
+                    "date": 1726548334758,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -55,5 +55,10 @@\n         fields = '__all__'\n         \n     def get_destinations_collection_detail(self,object):\n         return DestinationSerializers(object.destination_collection,many=True).data  \n-    \n\\ No newline at end of file\n+    def validate(self, data):\n+        # Check if the index already exists in another collection\n+        index = data.get('index')\n+        if Collection.objects.filter(index=index).exists():\n+            raise serializers.ValidationError({\"index\": \"A collection with this index already exists.\"})\n+        return data\n\\ No newline at end of file\n"
+                },
+                {
+                    "date": 1726549800231,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -59,6 +59,6 @@\n     def validate(self, data):\n         # Check if the index already exists in another collection\n         index = data.get('index')\n         if Collection.objects.filter(index=index).exists():\n-            raise serializers.ValidationError({\"index\": \"A collection with this index already exists.\"})\n+            raise serializers.ValidationError({\"index\"A collection with this index already exists.\"})\n         return data\n\\ No newline at end of file\n"
+                },
+                {
+                    "date": 1726549806165,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -59,6 +59,6 @@\n     def validate(self, data):\n         # Check if the index already exists in another collection\n         index = data.get('index')\n         if Collection.objects.filter(index=index).exists():\n-            raise serializers.ValidationError({\"index\"A collection with this index already exists.\"})\n+            raise serializers.ValidationError({\"index\": \"A collection with this index already exists.\"})\n         return data\n\\ No newline at end of file\n"
+                },
+                {
+                    "date": 1726549812335,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -59,6 +59,6 @@\n     def validate(self, data):\n         # Check if the index already exists in another collection\n         index = data.get('index')\n         if Collection.objects.filter(index=index).exists():\n-            raise serializers.ValidationError({\"index\": \"A collection with this index already exists.\"})\n+            raise serializers.ValidationError({\"\"A collection with this index already exists.\"})\n         return data\n\\ No newline at end of file\n"
                 }
             ],
             "date": 1726483867337,

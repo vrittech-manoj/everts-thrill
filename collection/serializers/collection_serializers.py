@@ -56,3 +56,9 @@ class CollectionWriteSerializers(serializers.ModelSerializer):
         
     def get_destinations_collection_detail(self,object):
         return DestinationSerializers(object.destination_collection,many=True).data  
+    def validate(self, data):
+        # Check if the index already exists in another collection
+        index = data.get('index')
+        if Collection.objects.filter(index=index).exists():
+            raise serializers.ValidationError({"A collection with this index already exists."})
+        return data

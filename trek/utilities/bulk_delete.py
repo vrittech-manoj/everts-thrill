@@ -13,6 +13,7 @@ from queries.models import Queries
 from booking.models import DestinationBook
 from activities.models import Activity
 from collection.models import Collection
+from review.models import Review
 
 VALID_TYPES = {
     "blog": Blog,
@@ -21,7 +22,8 @@ VALID_TYPES = {
     "queries": Queries,
     "booking": DestinationBook,
     "activities": Activity,
-    "collection": Collection
+    "collection": Collection,
+    "review": Review
 }
 
 class BulkDelete(APIView):
