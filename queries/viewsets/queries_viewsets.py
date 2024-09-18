@@ -13,7 +13,7 @@ class QueriesViewsets(viewsets.ModelViewSet):
     permission_classes = [AdminViewSetsPermission]
     authentication_classes = [JWTAuthentication]
     pagination_class = MyPageNumberPagination
-    queryset = Queries.objects.all()
+    queryset = Queries.objects.all().order_by("created_date_time")
     
     filter_backends = [SearchFilter, DjangoFilterBackend, OrderingFilter]
     search_fields = ['name', 'phone', 'email', 'message', 'created_date', 'updated_date', ]

@@ -25,10 +25,10 @@ from ..utilities.destination_filter import DestinationFilter
 class DestinationViewsets(viewsets.ModelViewSet):
     permission_classes = [destinationPermission]
     pagination_class = MyPageNumberPagination
-    queryset = Destination.objects.all().order_by("-destination_title")
+    queryset = Destination.objects.all().order_by("destination_title")
 
     filter_backends = [SearchFilter, DjangoFilterBackend, OrderingFilter]
-    search_fields = ['destination_title','id', 'packages', 'price', 'price_type', 'is_price', 'featured_image', 'overview', 'inclusion_and_exclusion', 'ltinerary', 'trip_map_url', 'trip_map_image', 'gear_and_equipment', 'useful_information', 'duration', 'trip_grade', 'best_season', 'max_altitude', 'meals', 'nature_of_trip', 'accommodation', 'group_size', ]
+    search_fields = ['destination_title','id', 'price', 'price_type', 'is_price', 'featured_image', 'overview', 'inclusion_and_exclusion', 'ltinerary', 'trip_map_url', 'trip_map_image', 'gear_and_equipment', 'useful_information', 'duration', 'trip_grade', 'best_season', 'max_altitude', 'meals', 'nature_of_trip', 'accommodation', 'group_size', ]
     ordering_fields = ['destination_title', 'id','duration']
     filterset_class = DestinationFilter
     lookup_field = "slug"

@@ -3,7 +3,7 @@
     "activeCommit": 0,
     "commits": [
         {
-            "activePatchIndex": 50,
+            "activePatchIndex": 51,
             "patches": [
                 {
                     "date": 1724847125107,
@@ -208,6 +208,10 @@
                 {
                     "date": 1726489296711,
                     "content": "Index: \n===================================================================\n--- \n+++ \n@@ -25,10 +25,10 @@\n     phone_number = models.CharField(max_length=15,null=True,blank=True)\n     country = models.CharField(max_length=45)\n     airlines = models.CharField(max_length=450,null=True,blank=True)\n     number_of_travelers = models.IntegerField(default = 1) #if group companions then specify numbers\n-    activity = models.ForeignKey(Activity,related_name = 'activity_booking', on_delete = models.CASCADE,null=True,blank=)\n-    package = models.ForeignKey(Package,related_name = 'package_booking', on_delete = models.CASCADE)\n+    activity = models.ForeignKey(Activity,related_name = 'activity_booking', on_delete = models.CASCADE,null=True,blank=True)\n+    package = models.ForeignKey(Package,related_name = 'package_booking', on_delete = models.CASCADEnull=True,blank=True)\n     arrival_date = models.DateField()\n     departure_date = models.DateField()\n     service_type = models.CharField(max_length=20, choices=SERVICE_TYPES)\n     destination = models.ForeignKey(Destination,related_name = 'destination_book', on_delete = models.CASCADE)\n"
+                },
+                {
+                    "date": 1726641331370,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -21,14 +21,14 @@\n     public_id = models.UUIDField(default=uuid.uuid4,editable=False,unique=True)\n     slug = models.SlugField(unique=True,blank = True)\n     full_name = models.CharField(max_length=45,null=True,blank=True)\n     email = models.EmailField(null=True,blank=True)\n-    phone_number = models.CharField(max_length=15,null=True,blank=True)\n+    phone_number = models.CharField(max_length=,null=True,blank=True)\n     country = models.CharField(max_length=45)\n     airlines = models.CharField(max_length=450,null=True,blank=True)\n     number_of_travelers = models.IntegerField(default = 1) #if group companions then specify numbers\n     activity = models.ForeignKey(Activity,related_name = 'activity_booking', on_delete = models.CASCADE,null=True,blank=True)\n-    package = models.ForeignKey(Package,related_name = 'package_booking', on_delete = models.CASCADEnull=True,blank=True)\n+    package = models.ForeignKey(Package,related_name = 'package_booking', on_delete = models.CASCADE,null=True,blank=True)\n     arrival_date = models.DateField()\n     departure_date = models.DateField()\n     service_type = models.CharField(max_length=20, choices=SERVICE_TYPES)\n     destination = models.ForeignKey(Destination,related_name = 'destination_book', on_delete = models.CASCADE)\n"
                 }
             ],
             "date": 1724847125106,

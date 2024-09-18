@@ -3,7 +3,7 @@
     "activeCommit": 0,
     "commits": [
         {
-            "activePatchIndex": 9,
+            "activePatchIndex": 10,
             "patches": [
                 {
                     "date": 1725521159356,
@@ -44,6 +44,10 @@
                 {
                     "date": 1725789387812,
                     "content": "Index: \n===================================================================\n--- \n+++ \n@@ -11,24 +11,7 @@\n     name = models.CharField(max_length = 100,null = True, blank = True)\n     phone = models.CharField(max_length=15,null=True , default = '')\n     email = models.EmailField(null=True,blank=True)\n     message = models.TextField(null = True, blank = True)\n-    created_date = models(auto_now_add=True, null = True,blank = True)\n+    created_date = models.DateField(auto_now_add=True, null = True,blank = True)\n     created_date_time = models.DateTimeField(auto_now_add=True, null = True,blank = True)\n-    updated_date = models.DateTimeField(auto_now=True, null = True,blank = True)\n-from django.db import models\n-from accounts.models import CustomUser\n-\n-# Create your models here.\n-# class Queries(models.Model):\n-#     user = models.ForeignKey(CustomUser,on_delete = models.CASCADE)\n-#     message =  models.TextField()\n-#     created_date = models.DateTimeField(auto_now_add=True)\n-\n-class Queries(models.Model):\n-    name = models.CharField(max_length = 100,null = True, blank = True)\n-    phone = models.CharField(max_length=15,null=True , default = '')\n-    email = models.EmailField(null=True,blank=True)\n-    message = models.TextField(null = True, blank = True)\n-    created_date = models.DateTimeField(auto_now_add=True, null = True,blank = True)\n-    created_date_time = models.DateTimeField(auto_now_add=True, null = True,blank = True)\n     updated_date = models.DateTimeField(auto_now=True, null = True,blank = True)\n\\ No newline at end of file\n"
+                },
+                {
+                    "date": 1726656320719,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -0,0 +1,17 @@\n+from django.db import models\n+from accounts.models import CustomUser\n+\n+# Create your models here.\n+# class Queries(models.Model):\n+#     user = models.ForeignKey(CustomUser,on_delete = models.CASCADE)\n+#     message =  models.TextField()\n+#     created_date = models.DateTimeField(auto_now_add=True)\n+\n+class Queries(models.Model):\n+    name = models.CharField(max_length = 100,null = True, blank = True)\n+    phone = models.CharField(max_length=15,null=True , default = '')\n+    email = models.EmailField(null=True,blank=True)\n+    message = models.TextField(null = True, blank = True)\n+    created_date = models.DateField(auto_now_add=True, null = True,blank = True)\n+    created_date_time = models.DateTimeField(auto_now_add=True, null = True,blank = True)\n+    updated_date = models.DateTimeField(auto_now=True, null = True,blank = True)\n\\ No newline at end of file\n"
                 }
             ],
             "date": 1725521159356,

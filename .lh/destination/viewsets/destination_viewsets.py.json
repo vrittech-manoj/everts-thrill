@@ -3,7 +3,7 @@
     "activeCommit": 0,
     "commits": [
         {
-            "activePatchIndex": 28,
+            "activePatchIndex": 30,
             "patches": [
                 {
                     "date": 1724818676603,
@@ -120,6 +120,14 @@
                 {
                     "date": 1725958665638,
                     "content": "Index: \n===================================================================\n--- \n+++ \n@@ -59,9 +59,4 @@\n         return Response(\n             {\"detail\": \"Item/s successfully deleted.\"}, \n             status=status.HTTP_200_OK\n         )\n-\n-    def get_serializer_context(self):\n-        context = super().get_serializer_context()\n-        context['request'] = self.request  # Ensure the request context is passed to the serializer\n-        return context\n"
+                },
+                {
+                    "date": 1726656211346,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -24,9 +24,9 @@\n \n class DestinationViewsets(viewsets.ModelViewSet):\n     permission_classes = [destinationPermission]\n     pagination_class = MyPageNumberPagination\n-    queryset = Destination.objects.all().order_by(\"-destination_title\")\n+    queryset = Destination.objects.all().order_by(\"destination_title\")\n \n     filter_backends = [SearchFilter, DjangoFilterBackend, OrderingFilter]\n     search_fields = ['destination_title','id', 'packages', 'price', 'price_type', 'is_price', 'featured_image', 'overview', 'inclusion_and_exclusion', 'ltinerary', 'trip_map_url', 'trip_map_image', 'gear_and_equipment', 'useful_information', 'duration', 'trip_grade', 'best_season', 'max_altitude', 'meals', 'nature_of_trip', 'accommodation', 'group_size', ]\n     ordering_fields = ['destination_title', 'id','duration']\n"
+                },
+                {
+                    "date": 1726660391376,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -27,9 +27,9 @@\n     pagination_class = MyPageNumberPagination\n     queryset = Destination.objects.all().order_by(\"destination_title\")\n \n     filter_backends = [SearchFilter, DjangoFilterBackend, OrderingFilter]\n-    search_fields = ['destination_title','id', 'packages', 'price', 'price_type', 'is_price', 'featured_image', 'overview', 'inclusion_and_exclusion', 'ltinerary', 'trip_map_url', 'trip_map_image', 'gear_and_equipment', 'useful_information', 'duration', 'trip_grade', 'best_season', 'max_altitude', 'meals', 'nature_of_trip', 'accommodation', 'group_size', ]\n+    search_fields = ['destination_title','id', 'price', 'price_type', 'is_price', 'featured_image', 'overview', 'inclusion_and_exclusion', 'ltinerary', 'trip_map_url', 'trip_map_image', 'gear_and_equipment', 'useful_information', 'duration', 'trip_grade', 'best_season', 'max_altitude', 'meals', 'nature_of_trip', 'accommodation', 'group_size', ]\n     ordering_fields = ['destination_title', 'id','duration']\n     filterset_class = DestinationFilter\n     lookup_field = \"slug\"\n \n"
                 }
             ],
             "date": 1724818676603,

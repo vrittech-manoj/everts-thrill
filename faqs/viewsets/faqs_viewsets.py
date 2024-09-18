@@ -9,7 +9,7 @@ class faqsViewsets(viewsets.ModelViewSet):
     serializer_class = FaqsListSerializers
     permission_classes = [faqsPermission]
     pagination_class = MyPageNumberPagination
-    queryset = Faqs.objects.all()#.order_by("title")
+    queryset = Faqs.objects.all().order_by("created_date_time")
 
     filter_backends = [SearchFilter, DjangoFilterBackend, OrderingFilter]
     search_fields = ['title']

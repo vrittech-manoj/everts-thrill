@@ -10,18 +10,20 @@ from rest_framework.response import Response
 from rest_framework import status
 
 class BlogViewSets(viewsets.ModelViewSet):
-    queryset = Blog.objects.all().order_by('-created_date')
+    queryset = Blog.objects.all().order_by('created_date')
     serializer_class = BlogListSerializer
     permission_classes = [AdminViewSetsPermission] 
     pagination_class = MyPageNumberPagination 
     filter_backends = [SearchFilter, DjangoFilterBackend, OrderingFilter]
-    search_fields = ['title']
+    search_fields = ['title','description','short_description','read_time','created_date','created_by']
+    # ('public_id', 'user', 'slug', 'title', 'description', 'short_description', 'featured_image', 'created_date', 'created_date_time', 'created_by', 'updated_date', 'read_time', 'is_popular', 'meta_title', 'meta_description', 'meta_keywords', )
     ordering_fields = ['id', 'title', 'created_date']
     lookup_field = "slug"
     
     filterset_fields = {
         'title': ['exact'],
         'is_popular': ['exact'],
+        'created_date': ['exact','lte','gte'],
     }
 
     def get_queryset(self):

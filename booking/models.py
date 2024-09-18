@@ -22,7 +22,7 @@ class DestinationBook(models.Model):
     slug = models.SlugField(unique=True,blank = True)
     full_name = models.CharField(max_length=45,null=True,blank=True)
     email = models.EmailField(null=True,blank=True)
-    phone_number = models.CharField(max_length=15,null=True,blank=True)
+    phone_number = models.CharField(max_length=20,null=True,blank=True)
     country = models.CharField(max_length=45)
     airlines = models.CharField(max_length=450,null=True,blank=True)
     number_of_travelers = models.IntegerField(default = 1) #if group companions then specify numbers

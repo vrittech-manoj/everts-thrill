@@ -12,7 +12,7 @@ class activityViewsets(viewsets.ModelViewSet):
     # permission_classes = [activitiesPermission]
     authentication_classes = [JWTAuthentication]
     pagination_class = MyPageNumberPagination
-    queryset = Activity.objects.all().order_by("-name")
+    queryset = Activity.objects.all().order_by("name")
 
     filter_backends = [SearchFilter, DjangoFilterBackend, OrderingFilter]
     search_fields = ['id','name']

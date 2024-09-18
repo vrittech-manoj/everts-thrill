@@ -3,7 +3,7 @@
     "activeCommit": 0,
     "commits": [
         {
-            "activePatchIndex": 10,
+            "activePatchIndex": 13,
             "patches": [
                 {
                     "date": 1725166549730,
@@ -48,6 +48,18 @@
                 {
                     "date": 1725969242680,
                     "content": "Index: \n===================================================================\n--- \n+++ \n@@ -17,9 +17,9 @@\n \n     filterset_fields = {\n         'title': ['exact'],\n         'destination': ['exact'],\n-        'destination': ['exact'],\n+        'faq_type': ['exact'],\n     }\n \n     def get_queryset(self):\n         queryset = super().get_queryset()\n"
+                },
+                {
+                    "date": 1726656264209,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -8,9 +8,9 @@\n class faqsViewsets(viewsets.ModelViewSet):\n     serializer_class = FaqsListSerializers\n     permission_classes = [faqsPermission]\n     pagination_class = MyPageNumberPagination\n-    queryset = Faqs.objects.all()#.order_by(\"title\")\n+    queryset = Faqs.objects.all().order_by(\"title\")\n \n     filter_backends = [SearchFilter, DjangoFilterBackend, OrderingFilter]\n     search_fields = ['title']\n     ordering_fields = ['id']\n"
+                },
+                {
+                    "date": 1726656271643,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -8,9 +8,9 @@\n class faqsViewsets(viewsets.ModelViewSet):\n     serializer_class = FaqsListSerializers\n     permission_classes = [faqsPermission]\n     pagination_class = MyPageNumberPagination\n-    queryset = Faqs.objects.all().order_by(\"title\")\n+    queryset = Faqs.objects.all().order_by(\"created_date\")\n \n     filter_backends = [SearchFilter, DjangoFilterBackend, OrderingFilter]\n     search_fields = ['title']\n     ordering_fields = ['id']\n"
+                },
+                {
+                    "date": 1726656284809,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -8,9 +8,9 @@\n class faqsViewsets(viewsets.ModelViewSet):\n     serializer_class = FaqsListSerializers\n     permission_classes = [faqsPermission]\n     pagination_class = MyPageNumberPagination\n-    queryset = Faqs.objects.all().order_by(\"created_date\")\n+    queryset = Faqs.objects.all().order_by(\"created_date_time\")\n \n     filter_backends = [SearchFilter, DjangoFilterBackend, OrderingFilter]\n     search_fields = ['title']\n     ordering_fields = ['id']\n"
                 }
             ],
             "date": 1725166549730,

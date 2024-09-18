@@ -3,7 +3,7 @@
     "activeCommit": 0,
     "commits": [
         {
-            "activePatchIndex": 36,
+            "activePatchIndex": 39,
             "patches": [
                 {
                     "date": 1724906622951,
@@ -152,6 +152,18 @@
                 {
                     "date": 1726373785299,
                     "content": "Index: \n===================================================================\n--- \n+++ \n@@ -34,9 +34,9 @@\n         # Auto-populate meta fields if not provided\n         if not self.meta_title:\n             self.meta_title = self.title  \n         if not self.meta_description:\n-            self.meta_description = self.short_description or self.description[:100]  # Default to short description or first 160 chars of description\n+            self.meta_description = self.short_description or self.description[:100]  \n         if not self.meta_keywords:\n             self.meta_keywords = ', '.join(self.title.split())\n         \n         super(Blog, self).save(*args, **kwargs)\n"
+                },
+                {
+                    "date": 1726641052270,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -29,8 +29,9 @@\n \n     def save(self, *args, **kwargs):\n         if not self.slug:\n             self.slug = f'{slugify(self.title)}'\n+            self.slug = slugify(self.title)[:200]\n         \n         # Auto-populate meta fields if not provided\n         if not self.meta_title:\n             self.meta_title = self.title  \n"
+                },
+                {
+                    "date": 1726641064962,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -28,9 +28,8 @@\n         return self.title\n \n     def save(self, *args, **kwargs):\n         if not self.slug:\n-            self.slug = f'{slugify(self.title)}'\n             self.slug = slugify(self.title)[:200]\n         \n         # Auto-populate meta fields if not provided\n         if not self.meta_title:\n"
+                },
+                {
+                    "date": 1726641091092,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -7,9 +7,9 @@\n class Blog(models.Model):\n     public_id = models.UUIDField(default=uuid.uuid4, editable=False, unique=True)\n     user = models.ForeignKey(CustomUser, related_name=\"user_blog\", on_delete=models.CASCADE, null=True)\n     slug = models.SlugField(unique=True, blank=True)\n-    title = models.CharField(max_length=150, unique=True)\n+    title = models.CharField( unique=True)\n     description = models.TextField(blank=True, null=True)\n     short_description = models.TextField(blank=True, null=True)\n     featured_image = models.ImageField(upload_to=\"blog/images\", null=True, blank=True)\n     created_date = models.DateField(auto_now_add=True, null=True, blank=True)\n"
                 }
             ],
             "date": 1724906622951,

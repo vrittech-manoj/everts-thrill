@@ -8,7 +8,7 @@ class Blog(models.Model):
     public_id = models.UUIDField(default=uuid.uuid4, editable=False, unique=True)
     user = models.ForeignKey(CustomUser, related_name="user_blog", on_delete=models.CASCADE, null=True)
     slug = models.SlugField(unique=True, blank=True)
-    title = models.CharField(max_length=150, unique=True)
+    title = models.CharField(unique=True)
     description = models.TextField(blank=True, null=True)
     short_description = models.TextField(blank=True, null=True)
     featured_image = models.ImageField(upload_to="blog/images", null=True, blank=True)
@@ -29,7 +29,7 @@ class Blog(models.Model):
 
     def save(self, *args, **kwargs):
         if not self.slug:
-            self.slug = f'{slugify(self.title)}'
+            self.slug = slugify(self.title)[:200]
         
         # Auto-populate meta fields if not provided
         if not self.meta_title:
