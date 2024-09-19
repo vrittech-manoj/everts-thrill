@@ -3,7 +3,7 @@
     "activeCommit": 0,
     "commits": [
         {
-            "activePatchIndex": 26,
+            "activePatchIndex": 29,
             "patches": [
                 {
                     "date": 1725257908537,
@@ -112,6 +112,18 @@
                 {
                     "date": 1726487323780,
                     "content": "Index: \n===================================================================\n--- \n+++ \n@@ -69,7 +69,7 @@\n         \n \n \n         #echo \"Running deployment commands on the server\" &&\n-        ssh -o StrictHostKeyChecking=no ubuntu@$SERVER_IP \"cd $PROJECT_FOLDER && python3 -m venv venv && source venv/bin/activate && pip install -r requirements.txt && python manage.py migrate && python manage.py collectstatic --noinput && screen -ls | grep $SCREEN_NAME | awk '{print $1}' | xargs -r -I{} screen -X -S {} quit && screen -dmS $SCREEN_NAME bash -c 'source venv/bin/activate && python manage.py runserver 0.0.0.0:$PORT'\"\n+        # ssh -o StrictHostKeyChecking=no ubuntu@$SERVER_IP \"cd $PROJECT_FOLDER && python3 -m venv venv && source venv/bin/activate && pip install -r requirements.txt && python manage.py migrate && python manage.py collectstatic --noinput && screen -ls | grep $SCREEN_NAME | awk '{print $1}' | xargs -r -I{} screen -X -S {} quit && screen -dmS $SCREEN_NAME bash -c 'source venv/bin/activate && python manage.py runserver 0.0.0.0:$PORT'\"\n \n #AmazonEC2FullAccess\n\\ No newline at end of file\n"
+                },
+                {
+                    "date": 1726725293624,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -44,9 +44,9 @@\n         PROJECT_FOLDER: \"/home/ubuntu/evrest_thrill\"\n \n       run: |\n         mkdir -p ~/.ssh\n-        echo \"${{ secrets.SSH_PRIVATE_KEY_MAIN_2 }}\" > ~/.ssh/id_rsa\n+        echo \"${{ secrets.SSH_PRIVATE_KEY }}\" > ~/.ssh/id_rsa\n         chmod 600 ~/.ssh/id_rsa\n \n         # Install rsync\n         #sudo apt-get install -y rsync\n@@ -64,9 +64,9 @@\n         #scp -r -o StrictHostKeyChecking=no ./* ubuntu@$SERVER_IP:$PROJECT_FOLDER/\n \n         # Run deployment commands on the server\n         echo \"Running deployment commands on the server\"\n-        # ssh -o StrictHostKeyChecking=no ubuntu@$SERVER_IP \"cd $PROJECT_FOLDER && python3 -m venv venv && source venv/bin/activate && pip install -r requirements.txt && python manage.py migrate && python manage.py collectstatic --noinput\"\n+        ssh -o StrictHostKeyChecking=no ubuntu@$SERVER_IP \"cd $PROJECT_FOLDER && python3 -m venv venv && source venv/bin/activate && pip install -r requirements.txt && python manage.py migrate && python manage.py collectstatic --noinput\"\n         \n \n \n         #echo \"Running deployment commands on the server\" &&\n"
+                },
+                {
+                    "date": 1726725303297,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -37,9 +37,9 @@\n         AWS_DEFAULT_REGION: ap-southeast-2\n         BACKEND_USER: backend\n         BACKEND_PASSWORD: backend\n         SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}\n-        SERVER_IP: 3.106.16.113 #3.6.202.215 #\"13.237.94.113\"\n+        SERVER_IP: #3.106.16.113 #3.6.202.215 #\"13.237.94.113\"\n         PORT: \"8006\"\n         SCREEN_NAME: \"evrest_thrill\"\n         PROJECT_FOLDER: \"/home/ubuntu/evrest_thrill\"\n \n"
+                },
+                {
+                    "date": 1726725311788,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -37,9 +37,9 @@\n         AWS_DEFAULT_REGION: ap-southeast-2\n         BACKEND_USER: backend\n         BACKEND_PASSWORD: backend\n         SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}\n-        SERVER_IP: #3.106.16.113 #3.6.202.215 #\"13.237.94.113\"\n+        SERVER_IP: 13.237.94.113 #3.106.16.113 #3.6.202.215 #\"13.237.94.113\"\n         PORT: \"8006\"\n         SCREEN_NAME: \"evrest_thrill\"\n         PROJECT_FOLDER: \"/home/ubuntu/evrest_thrill\"\n \n"
                 }
             ],
             "date": 1725257908537,
