@@ -5,6 +5,7 @@ import ast
 from django.db import transaction
 from rest_framework.exceptions import ValidationError
 from django.db.models import Q
+import json
 
 MONTHS_MAPPING = {
     'january': 1, 'february': 2, 'march': 3, 'april': 4,
@@ -47,6 +48,7 @@ class DepartureSerializer(serializers.ModelSerializer):
     class Meta:
         model = Departure
         fields = '__all__'
+
 
 class DestinationlistUserSerializers(serializers.ModelSerializer):
     galleryimages = DestinationGalleryImagesSerializer(many=True, read_only=True)
@@ -204,9 +206,13 @@ class DestinationWriteSerializers(serializers.ModelSerializer):
     def create(self, validated_data):
         packages_data = validated_data.pop('packages', [])
 
-        departures_data = self.context.get('request').data.get('departures')
-        import json
-        departures_data =  json.loads(departures_data)
+        # Assuming `validated_data` has the departures as a string
+        departures_str = validated_data.pop('departures', '[]')  # Default to empty list if not provided
+        departures_data = json.loads(departures_str)  # Convert the string into a list of dictionaries
+
+        # Ensure the 'upcoming_departure_status' is converted to boolean
+        for departure in departures_data:
+            departure['upcoming_departure_status'] = str(departure.get('upcoming_departure_status', '')).lower() == 'true'
        
 
         images_data = []
@@ -215,13 +221,14 @@ class DestinationWriteSerializers(serializers.ModelSerializer):
                 images_data.append(self.context['request'].FILES[key])
 
         destination = Destination.objects.create(**validated_data)
-        departures_data = [ {'destination_trip':destination.id,**departure} for departure in departures_data]
-        
-        departure_serializers = DepartureSerializer(data=departures_data,many=True)
-        if departure_serializers.is_valid(raise_exception=True):
-            departure_serializers.save()
+        departures_data = [{'destination_trip': destination.id, **departure} for departure in departures_data]
+
+        # Proceed with creating departures using the serializer
+        departure_serializer = DepartureSerializer(data=departures_data, many=True)
+        if departure_serializer.is_valid(raise_exception=True):
+            departure_serializer.save()
         else:
-            print("This  is not valid ")
+            print("Departures data is not valid.")
         
         if packages_data:
             destination.packages.set(packages_data)

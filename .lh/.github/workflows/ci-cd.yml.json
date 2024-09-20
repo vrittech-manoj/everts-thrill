@@ -3,7 +3,7 @@
     "activeCommit": 0,
     "commits": [
         {
-            "activePatchIndex": 29,
+            "activePatchIndex": 32,
             "patches": [
                 {
                     "date": 1725257908537,
@@ -124,6 +124,18 @@
                 {
                     "date": 1726725311788,
                     "content": "Index: \n===================================================================\n--- \n+++ \n@@ -37,9 +37,9 @@\n         AWS_DEFAULT_REGION: ap-southeast-2\n         BACKEND_USER: backend\n         BACKEND_PASSWORD: backend\n         SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}\n-        SERVER_IP: #3.106.16.113 #3.6.202.215 #\"13.237.94.113\"\n+        SERVER_IP: 13.237.94.113 #3.106.16.113 #3.6.202.215 #\"13.237.94.113\"\n         PORT: \"8006\"\n         SCREEN_NAME: \"evrest_thrill\"\n         PROJECT_FOLDER: \"/home/ubuntu/evrest_thrill\"\n \n"
+                },
+                {
+                    "date": 1726725648550,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -37,9 +37,10 @@\n         AWS_DEFAULT_REGION: ap-southeast-2\n         BACKEND_USER: backend\n         BACKEND_PASSWORD: backend\n         SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}\n-        SERVER_IP: 13.237.94.113 #3.106.16.113 #3.6.202.215 #\"13.237.94.113\"\n+        \n+        \n         PORT: \"8006\"\n         SCREEN_NAME: \"evrest_thrill\"\n         PROJECT_FOLDER: \"/home/ubuntu/evrest_thrill\"\n \n"
+                },
+                {
+                    "date": 1726725660986,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -37,10 +37,10 @@\n         AWS_DEFAULT_REGION: ap-southeast-2\n         BACKEND_USER: backend\n         BACKEND_PASSWORD: backend\n         SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}\n-        \n-        \n+        SERVER_IP: 13.237.94.113 #3.106.16.113 #3.6.202.215 #\"13.237.94.113\"\n+        # SERVER_IP:  #3.106.16.113 #3.6.202.215 #\"13.237.94.113\"\n         PORT: \"8006\"\n         SCREEN_NAME: \"evrest_thrill\"\n         PROJECT_FOLDER: \"/home/ubuntu/evrest_thrill\"\n \n"
+                },
+                {
+                    "date": 1726725666274,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -38,9 +38,9 @@\n         BACKEND_USER: backend\n         BACKEND_PASSWORD: backend\n         SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}\n         SERVER_IP: 13.237.94.113 #3.106.16.113 #3.6.202.215 #\"13.237.94.113\"\n-        # SERVER_IP:  #3.106.16.113 #3.6.202.215 #\"13.237.94.113\"\n+        # SERVER_IP: 3.106.16.113 #3.6.202.215 #\"13.237.94.113\"\n         PORT: \"8006\"\n         SCREEN_NAME: \"evrest_thrill\"\n         PROJECT_FOLDER: \"/home/ubuntu/evrest_thrill\"\n \n"
                 }
             ],
             "date": 1725257908537,
