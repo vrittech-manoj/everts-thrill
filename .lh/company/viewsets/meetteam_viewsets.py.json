@@ -3,7 +3,7 @@
     "activeCommit": 0,
     "commits": [
         {
-            "activePatchIndex": 11,
+            "activePatchIndex": 13,
             "patches": [
                 {
                     "date": 1726114691731,
@@ -52,6 +52,14 @@
                 {
                     "date": 1726486694009,
                     "content": "Index: \n===================================================================\n--- \n+++ \n@@ -65,17 +65,17 @@\n             target_obj.save()\n \n         else:\n           # Moving target up (target goes before goal)\n-        affected_objs = MeetTeam.objects.filter(index__lt=target_index, index__gte=goal_index).order_by('-index')\n+            affected_objs = MeetTeam.objects.filter(index__lt=target_index, index__gte=goal_index).order_by('-index')\n \n-        # Increment index of all affected objects by 1\n-        for obj in affected_objs:\n-            obj.index += 1\n-            obj.save()\n+            # Increment index of all affected objects by 1\n+            for obj in affected_objs:\n+                obj.index += 1\n+                obj.save()\n \n-        # Set target object's new index (exact position of the goal)\n-        target_obj.index = goal_index  # Place the target in the goal's position\n-        target_obj.save()\n+            # Set target object's new index (exact position of the goal)\n+            target_obj.index = goal_index  # Place the target in the goal's position\n+            target_obj.save()\n \n \n         return Response({\"status\": \"success\"})\n"
+                },
+                {
+                    "date": 1726831447499,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -3,8 +3,9 @@\n from django_filters.rest_framework import DjangoFilterBackend\n from ..models import MeetTeam\n from ..serializers.meetteam_serializers import MeetTeamListSerializers, MeetTeamRetrieveSerializers, MeetTeamWriteSerializers\n from ..utilities.importbase import *\n+from \n from rest_framework.decorators import action\n \n class meetteamViewsets(viewsets.ModelViewSet):\n     serializer_class = MeetTeamListSerializers\n"
+                },
+                {
+                    "date": 1726831456297,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -3,9 +3,9 @@\n from django_filters.rest_framework import DjangoFilterBackend\n from ..models import MeetTeam\n from ..serializers.meetteam_serializers import MeetTeamListSerializers, MeetTeamRetrieveSerializers, MeetTeamWriteSerializers\n from ..utilities.importbase import *\n-from \n+from ..utilities.pagination import \n from rest_framework.decorators import action\n \n class meetteamViewsets(viewsets.ModelViewSet):\n     serializer_class = MeetTeamListSerializers\n"
                 }
             ],
             "date": 1726114691731,
