@@ -206,13 +206,10 @@ class DestinationWriteSerializers(serializers.ModelSerializer):
     def create(self, validated_data):
         packages_data = validated_data.pop('packages', [])
 
-        # Assuming `validated_data` has the departures as a string
-        departures_str = validated_data.pop('departures', '[]')  # Default to empty list if not provided
-        departures_data = json.loads(departures_str)  # Convert the string into a list of dictionaries
-
-        # Ensure the 'upcoming_departure_status' is converted to boolean
-        for departure in departures_data:
-            departure['upcoming_departure_status'] = str(departure.get('upcoming_departure_status', '')).lower() == 'true'
+       # Load departures data from request and parse JSON
+        departures_data = self.context.get('request').data.get('departures')
+        import json
+        departures_data = json.loads(departures_data)
        
 
         images_data = []
@@ -221,14 +218,16 @@ class DestinationWriteSerializers(serializers.ModelSerializer):
                 images_data.append(self.context['request'].FILES[key])
 
         destination = Destination.objects.create(**validated_data)
+        # Map destination ID to departures data
         departures_data = [{'destination_trip': destination.id, **departure} for departure in departures_data]
 
-        # Proceed with creating departures using the serializer
-        departure_serializer = DepartureSerializer(data=departures_data, many=True)
-        if departure_serializer.is_valid(raise_exception=True):
-            departure_serializer.save()
+        # Validate and save departures data
+        departure_serializers = DepartureSerializer(data=departures_data, many=True)
+        if departure_serializers.is_valid(raise_exception=True):
+            departure_serializers.save()
         else:
-            print("Departures data is not valid.")
+            print("Departures data is not valid")
+
         
         if packages_data:
             destination.packages.set(packages_data)
@@ -245,6 +244,7 @@ class DestinationWriteSerializers(serializers.ModelSerializer):
         import json
         if departures_data:
             departures_data = json.loads(departures_data)
+
 
         # Parse images data from request
         images_data = []
@@ -270,32 +270,28 @@ class DestinationWriteSerializers(serializers.ModelSerializer):
 
             # Update or create departures
             for departure_data in departures_data:
-                import json
-                print(type(departure_data['upcoming_departure_status']))
                 departure_id = departure_data.pop('id', None)
-                destination_id = departure_data.pop('destination_trip', None)
-                upcoming_departure_status = departure_data.pop('upcoming_departure_status','false')
-                
-                if upcoming_departure_status == 'true':
-                    departure_data['upcoming_departure_status'] = True
-                else:
-                    departure_data['upcoming_departure_status'] = False
-                    
-                print("departure id updating",departure_data,instance)
-                print("destination_id updating",departure_data,instance)
+                upcoming_departure_status = departure_data.get('upcoming_departure_status', False)
+
+                # Handle upcoming_departure_status conversion from string to boolean
+                if isinstance(upcoming_departure_status, str):
+                    upcoming_departure_status = True if upcoming_departure_status.lower() == 'true' else False
+                departure_data['upcoming_departure_status'] = upcoming_departure_status
+
                 if departure_id:
                     # Update the existing departure
-                    departure_instance = Departure.objects.get(id=departure_id, destination_trip=instance)
-                    print(departure_instance,"here is the *******************")
-                    for key, value in departure_data.items():
-                        setattr(departure_instance, key, value)
-                    print("departure id exists")
-                    print(departure_instance)
-                    departure_instance.save()
+                    try:
+                        departure_instance = Departure.objects.get(id=departure_id, destination_trip=instance)
+                        for key, value in departure_data.items():
+                            setattr(departure_instance, key, value)
+                        departure_instance.save()
+                    except Departure.DoesNotExist:
+                        # Handle the case if the departure with given ID does not exist
+                        Departure.objects.create(destination_trip=instance, **departure_data)
                 else:
                     # Create a new departure if the departure does not exist
                     Departure.objects.create(destination_trip=instance, **departure_data)
-        
+
         else:
             # Set departures to None if no departure data is provided
             Departure.objects.filter(destination_trip=instance).delete()
