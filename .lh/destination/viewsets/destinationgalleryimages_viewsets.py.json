@@ -3,7 +3,7 @@
     "activeCommit": 0,
     "commits": [
         {
-            "activePatchIndex": 3,
+            "activePatchIndex": 4,
             "patches": [
                 {
                     "date": 1726996450127,
@@ -20,6 +20,10 @@
                 {
                     "date": 1726996510559,
                     "content": "Index: \n===================================================================\n--- \n+++ \n@@ -7,8 +7,9 @@\n from ..utilities.importbase import *\n \n class destinationgalleryimagesViewsets(viewsets.ModelViewSet):\n     serializer_class = DestinationGalleryImagesListSerializers\n+    pagination_class = MyPageNumberPagination\n     queryset = DestinationGalleryImages.objects.all()\n \n     filter_backends = [SearchFilter, DjangoFilterBackend, OrderingFilter]\n     search_fields = ['id']\n"
+                },
+                {
+                    "date": 1726996743663,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -20,9 +20,9 @@\n     # }\n \n     def get_queryset(self):\n         queryset = super().get_queryset()\n-        #return queryset.filter(user_id=self.request.user.id)\n+        return queryset.filter(user_id=self.request.user.id)\n \n     def get_serializer_class(self):\n         if self.action in ['create', 'update', 'partial_update']:\n             return DestinationGalleryImagesWriteSerializers\n"
                 }
             ],
             "date": 1726996450127,
