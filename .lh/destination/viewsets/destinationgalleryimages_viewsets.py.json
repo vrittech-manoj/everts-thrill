@@ -3,7 +3,7 @@
     "activeCommit": 0,
     "commits": [
         {
-            "activePatchIndex": 4,
+            "activePatchIndex": 9,
             "patches": [
                 {
                     "date": 1726996450127,
@@ -24,6 +24,26 @@
                 {
                     "date": 1726996743663,
                     "content": "Index: \n===================================================================\n--- \n+++ \n@@ -20,9 +20,9 @@\n     # }\n \n     def get_queryset(self):\n         queryset = super().get_queryset()\n-        #return queryset.filter(user_id=self.request.user.id)\n+        return queryset.filter(user_id=self.request.user.id)\n \n     def get_serializer_class(self):\n         if self.action in ['create', 'update', 'partial_update']:\n             return DestinationGalleryImagesWriteSerializers\n"
+                },
+                {
+                    "date": 1726996878960,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -8,8 +8,9 @@\n \n class destinationgalleryimagesViewsets(viewsets.ModelViewSet):\n     serializer_class = DestinationGalleryImagesListSerializers\n     pagination_class = MyPageNumberPagination\n+    permission_classes = [bookingPermission]\n     queryset = DestinationGalleryImages.objects.all()\n \n     filter_backends = [SearchFilter, DjangoFilterBackend, OrderingFilter]\n     search_fields = ['id']\n@@ -20,9 +21,9 @@\n     # }\n \n     def get_queryset(self):\n         queryset = super().get_queryset()\n-        return queryset.filter(user_id=self.request.user.id)\n+        return queryset\n \n     def get_serializer_class(self):\n         if self.action in ['create', 'update', 'partial_update']:\n             return DestinationGalleryImagesWriteSerializers\n"
+                },
+                {
+                    "date": 1726996887135,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -8,9 +8,9 @@\n \n class destinationgalleryimagesViewsets(viewsets.ModelViewSet):\n     serializer_class = DestinationGalleryImagesListSerializers\n     pagination_class = MyPageNumberPagination\n-    permission_classes = [bookingPermission]\n+    permission_classes = [destinationPermissions]\n     queryset = DestinationGalleryImages.objects.all()\n \n     filter_backends = [SearchFilter, DjangoFilterBackend, OrderingFilter]\n     search_fields = ['id']\n"
+                },
+                {
+                    "date": 1726996898950,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -4,8 +4,9 @@\n from ..models import DestinationGalleryImages\n from ..utilities.permissions import destinationPermission\n from ..serializers.destinationgalleryimages_serializers import DestinationGalleryImagesListSerializers, DestinationGalleryImagesRetrieveSerializers, DestinationGalleryImagesWriteSerializers\n from ..utilities.importbase import *\n+from ..utilities\n \n class destinationgalleryimagesViewsets(viewsets.ModelViewSet):\n     serializer_class = DestinationGalleryImagesListSerializers\n     pagination_class = MyPageNumberPagination\n"
+                },
+                {
+                    "date": 1726996905753,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -4,9 +4,9 @@\n from ..models import DestinationGalleryImages\n from ..utilities.permissions import destinationPermission\n from ..serializers.destinationgalleryimages_serializers import DestinationGalleryImagesListSerializers, DestinationGalleryImagesRetrieveSerializers, DestinationGalleryImagesWriteSerializers\n from ..utilities.importbase import *\n-from ..utilities\n+from ..utilities.permissions import \n \n class destinationgalleryimagesViewsets(viewsets.ModelViewSet):\n     serializer_class = DestinationGalleryImagesListSerializers\n     pagination_class = MyPageNumberPagination\n"
+                },
+                {
+                    "date": 1726996913753,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -4,9 +4,9 @@\n from ..models import DestinationGalleryImages\n from ..utilities.permissions import destinationPermission\n from ..serializers.destinationgalleryimages_serializers import DestinationGalleryImagesListSerializers, DestinationGalleryImagesRetrieveSerializers, DestinationGalleryImagesWriteSerializers\n from ..utilities.importbase import *\n-from ..utilities.permissions import \n+from ..utilities.permissions import de\n \n class destinationgalleryimagesViewsets(viewsets.ModelViewSet):\n     serializer_class = DestinationGalleryImagesListSerializers\n     pagination_class = MyPageNumberPagination\n"
                 }
             ],
             "date": 1726996450127,

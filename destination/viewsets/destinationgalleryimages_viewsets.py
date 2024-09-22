@@ -5,10 +5,12 @@ from ..models import DestinationGalleryImages
 from ..utilities.permissions import destinationPermission
 from ..serializers.destinationgalleryimages_serializers import DestinationGalleryImagesListSerializers, DestinationGalleryImagesRetrieveSerializers, DestinationGalleryImagesWriteSerializers
 from ..utilities.importbase import *
+from ..utilities.permissions import destinationPermission
 
 class destinationgalleryimagesViewsets(viewsets.ModelViewSet):
     serializer_class = DestinationGalleryImagesListSerializers
     pagination_class = MyPageNumberPagination
+    permission_classes = [destinationPermission]
     queryset = DestinationGalleryImages.objects.all()
 
     filter_backends = [SearchFilter, DjangoFilterBackend, OrderingFilter]
