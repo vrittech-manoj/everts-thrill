@@ -297,7 +297,6 @@ class DestinationWriteSerializers(serializers.ModelSerializer):
             Departure.objects.filter(destination_trip=instance).delete()
         
         for image_file in images_data:
-             DestinationGalleryImages.objects.create(destination_trip=instance, image=image_file)
+            DestinationGalleryImages.objects.create(destination_trip=instance, image=image_file)
 
         return instance
-
