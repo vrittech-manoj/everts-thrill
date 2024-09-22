@@ -3,7 +3,7 @@
     "activeCommit": 0,
     "commits": [
         {
-            "activePatchIndex": 37,
+            "activePatchIndex": 38,
             "patches": [
                 {
                     "date": 1725257908537,
@@ -156,6 +156,10 @@
                 {
                     "date": 1727005509258,
                     "content": "Index: \n===================================================================\n--- \n+++ \n@@ -36,9 +36,9 @@\n         AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}\n         AWS_DEFAULT_REGION: ap-southeast-2\n         BACKEND_USER: backend\n         BACKEND_PASSWORD: backend\n-        SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}\n+        # SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}\n         SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY_MAIN_2 }}\n         # SERVER_IP: 13.237.94.113 #3.106.16.113 #3.6.202.215 #\"13.237.94.113\"\n         SERVER_IP: 3.106.16.113 #3.6.202.215 #\"13.237.94.113\"\n         PORT: \"8006\"\n@@ -73,5 +73,6 @@\n \n         #echo \"Running deployment commands on the server\" &&\n         # ssh -o StrictHostKeyChecking=no ubuntu@$SERVER_IP \"cd $PROJECT_FOLDER && python3 -m venv venv && source venv/bin/activate && pip install -r requirements.txt && python manage.py migrate && python manage.py collectstatic --noinput && screen -ls | grep $SCREEN_NAME | awk '{print $1}' | xargs -r -I{} screen -X -S {} quit && screen -dmS $SCREEN_NAME bash -c 'source venv/bin/activate && python manage.py runserver 0.0.0.0:$PORT'\"\n \n+        \n #AmazonEC2FullAccess\n\\ No newline at end of file\n"
+                },
+                {
+                    "date": 1727007134946,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -71,8 +71,6 @@\n         \n \n \n         #echo \"Running deployment commands on the server\" &&\n-        # ssh -o StrictHostKeyChecking=no ubuntu@$SERVER_IP \"cd $PROJECT_FOLDER && python3 -m venv venv && source venv/bin/activate && pip install -r requirements.txt && python manage.py migrate && python manage.py collectstatic --noinput && screen -ls | grep $SCREEN_NAME | awk '{print $1}' | xargs -r -I{} screen -X -S {} quit && screen -dmS $SCREEN_NAME bash -c 'source venv/bin/activate && python manage.py runserver 0.0.0.0:$PORT'\"\n-\n-        \n+        # ssh -o StrictHostKeyChecking=no ubuntu@$SERVER_IP \"cd $PROJECT_FOLDER && python3 -m venv venv && source venv/bin/activate && pip install -r requirements.txt && python manage.py migrate && python manage.py collectstatic --noinput && screen -ls | grep $SCREEN_NAME | awk '{print $1}' | xargs -r -I{} screen -X -S {} quit && screen -dmS $SCREEN_NAME bash -c 'source venv/bin/activate && python manage.py runserver 0.0.0.0:$PORT'\"   \n #AmazonEC2FullAccess\n\\ No newline at end of file\n"
                 }
             ],
             "date": 1725257908537,
