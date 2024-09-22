@@ -3,7 +3,7 @@
     "activeCommit": 0,
     "commits": [
         {
-            "activePatchIndex": 38,
+            "activePatchIndex": 39,
             "patches": [
                 {
                     "date": 1725257908537,
@@ -160,6 +160,10 @@
                 {
                     "date": 1727007134946,
                     "content": "Index: \n===================================================================\n--- \n+++ \n@@ -71,8 +71,6 @@\n         \n \n \n         #echo \"Running deployment commands on the server\" &&\n-        # ssh -o StrictHostKeyChecking=no ubuntu@$SERVER_IP \"cd $PROJECT_FOLDER && python3 -m venv venv && source venv/bin/activate && pip install -r requirements.txt && python manage.py migrate && python manage.py collectstatic --noinput && screen -ls | grep $SCREEN_NAME | awk '{print $1}' | xargs -r -I{} screen -X -S {} quit && screen -dmS $SCREEN_NAME bash -c 'source venv/bin/activate && python manage.py runserver 0.0.0.0:$PORT'\"\n-\n-        \n+        # ssh -o StrictHostKeyChecking=no ubuntu@$SERVER_IP \"cd $PROJECT_FOLDER && python3 -m venv venv && source venv/bin/activate && pip install -r requirements.txt && python manage.py migrate && python manage.py collectstatic --noinput && screen -ls | grep $SCREEN_NAME | awk '{print $1}' | xargs -r -I{} screen -X -S {} quit && screen -dmS $SCREEN_NAME bash -c 'source venv/bin/activate && python manage.py runserver 0.0.0.0:$PORT'\"   \n #AmazonEC2FullAccess\n\\ No newline at end of file\n"
+                },
+                {
+                    "date": 1727007306565,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -71,6 +71,7 @@\n         \n \n \n         #echo \"Running deployment commands on the server\" &&\n-        # ssh -o StrictHostKeyChecking=no ubuntu@$SERVER_IP \"cd $PROJECT_FOLDER && python3 -m venv venv && source venv/bin/activate && pip install -r requirements.txt && python manage.py migrate && python manage.py collectstatic --noinput && screen -ls | grep $SCREEN_NAME | awk '{print $1}' | xargs -r -I{} screen -X -S {} quit && screen -dmS $SCREEN_NAME bash -c 'source venv/bin/activate && python manage.py runserver 0.0.0.0:$PORT'\"   \n+        ssh -o StrictHostKeyChecking=no ubuntu@$SERVER_IP \"cd $PROJECT_FOLDER && python3 -m venv venv && source venv/bin/activate && pip install -r requirements.txt && python manage.py migrate && python manage.py collectstatic --noinput && screen -ls | grep $SCREEN_NAME | awk '{print $1}' | xargs -r -I{} screen -X -S {} quit && screen -dmS $SCREEN_NAME bash -c 'source venv/bin/activate && python manage.py runserver 0.0.0.0:$PORT'\"\n+\n #AmazonEC2FullAccess\n\\ No newline at end of file\n"
                 }
             ],
             "date": 1725257908537,
