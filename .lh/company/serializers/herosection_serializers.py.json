@@ -1,0 +1,26 @@
+{
+    "sourceFile": "company/serializers/herosection_serializers.py",
+    "activeCommit": 0,
+    "commits": [
+        {
+            "activePatchIndex": 2,
+            "patches": [
+                {
+                    "date": 1726982110353,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n"
+                },
+                {
+                    "date": 1726982339025,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -30,9 +30,9 @@\n             # Check if the 'video' field exists and is a string\n             video_url = data.get('video', '')\n             if isinstance(video_url, str):\n                 # Replace 'http' with 'https' only if it exists in the string\n-                data['video'] = video_url.replace('http', 'http', 1)\n+                data['video'] = video_url.replace('http', 'https', 1)\n \n             return data\n         except:\n             return data\n"
+                },
+                {
+                    "date": 1726982349464,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -23,20 +23,20 @@\n     class Meta:\n         model = HeroSection\n         fields = '__all__'\n \n-    def to_representation(self, instance):\n-        data = super().to_representation(instance)\n-        try:            \n-            # Check if the 'video' field exists and is a string\n-            video_url = data.get('video', '')\n-            if isinstance(video_url, str):\n-                # Replace 'http' with 'https' only if it exists in the string\n-                data['video'] = video_url.replace('http', 'https', 1)\n+    # def to_representation(self, instance):\n+    #     data = super().to_representation(instance)\n+    #     try:            \n+    #         # Check if the 'video' field exists and is a string\n+    #         video_url = data.get('video', '')\n+    #         if isinstance(video_url, str):\n+    #             # Replace 'http' with 'https' only if it exists in the string\n+    #             data['video'] = video_url.replace('http', 'https', 1)\n \n-            return data\n-        except:\n-            return data\n+    #         return data\n+    #     except:\n+    #         return data\n \n class HeroSectionWriteSerializers(serializers.ModelSerializer):\n     class Meta:\n         model = HeroSection\n"
+                }
+            ],
+            "date": 1726982110353,
+            "name": "Commit-0",
+            "content": "from rest_framework import serializers\nfrom ..models import HeroSection\n\nclass HeroSectionListSerializers(serializers.ModelSerializer):\n    class Meta:\n        model = HeroSection\n        fields = '__all__'\n    \n    def to_representation(self, instance):\n        data = super().to_representation(instance)\n        try:            \n            # Check if the 'video' field exists and is a string\n            video_url = data.get('video', '')\n            if isinstance(video_url, str):\n                # Replace 'http' with 'https' only if it exists in the string\n                data['video'] = video_url.replace('http', 'https', 1)\n\n            return data\n        except:\n            return data\n\nclass HeroSectionRetrieveSerializers(serializers.ModelSerializer):\n    class Meta:\n        model = HeroSection\n        fields = '__all__'\n\n    def to_representation(self, instance):\n        data = super().to_representation(instance)\n        try:            \n            # Check if the 'video' field exists and is a string\n            video_url = data.get('video', '')\n            if isinstance(video_url, str):\n                # Replace 'http' with 'https' only if it exists in the string\n                data['video'] = video_url.replace('http', 'http', 1)\n\n            return data\n        except:\n            return data\n\nclass HeroSectionWriteSerializers(serializers.ModelSerializer):\n    class Meta:\n        model = HeroSection\n        fields = '__all__'"
+        }
+    ]
+}
