@@ -3,7 +3,7 @@
     "activeCommit": 0,
     "commits": [
         {
-            "activePatchIndex": 1,
+            "activePatchIndex": 5,
             "patches": [
                 {
                     "date": 1725789652716,
@@ -12,6 +12,22 @@
                 {
                     "date": 1725789662469,
                     "content": "Index: \n===================================================================\n--- \n+++ \n@@ -6,5 +6,6 @@\n     name = models.CharField(max_length = 500 , null = True,blank = True)\n     image = models.ImageField(max_length = 500,upload_to = 'gallery/images')\n     created_date = models.DateField(auto_now_add=True, null = True,blank = True)\n     created_date_time = models.DateTimeField(auto_now_add=True, null = True,blank = True)\n+    updated_date_time = models.DateTimeField(auto_now_add=True, null = True,blank = True)\n \n"
+                },
+                {
+                    "date": 1727260474711,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -6,6 +6,9 @@\n     name = models.CharField(max_length = 500 , null = True,blank = True)\n     image = models.ImageField(max_length = 500,upload_to = 'gallery/images')\n     created_date = models.DateField(auto_now_add=True, null = True,blank = True)\n     created_date_time = models.DateTimeField(auto_now_add=True, null = True,blank = True)\n-    updated_date_time = models.DateTimeField(auto_now_add=True, null = True,blank = True)\n+    updated_date_time = models.DateTimeField(auto_now=True, null = True,blank = True)\n+    \n+     def __str__(self) -> str:\n+        return f\"{str(self.full_name)}:{str(self.destination.destination_title)}\"\n \n"
+                },
+                {
+                    "date": 1727260484940,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -8,7 +8,7 @@\n     created_date = models.DateField(auto_now_add=True, null = True,blank = True)\n     created_date_time = models.DateTimeField(auto_now_add=True, null = True,blank = True)\n     updated_date_time = models.DateTimeField(auto_now=True, null = True,blank = True)\n     \n-     def __str__(self) -> str:\n-        return f\"{str(self.full_name)}:{str(self.destination.destination_title)}\"\n+    def __str__(self) -> str:\n+        return f\"{str(self.name)}:{str(self.destination.destination_title)}\"\n \n"
+                },
+                {
+                    "date": 1727260491797,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -9,6 +9,6 @@\n     created_date_time = models.DateTimeField(auto_now_add=True, null = True,blank = True)\n     updated_date_time = models.DateTimeField(auto_now=True, null = True,blank = True)\n     \n     def __str__(self) -> str:\n-        return f\"{str(self.name)}:{str(self.destination.destination_title)}\"\n+        return f\"{str(self.name)}:{str(selfcreated_date)}\"\n \n"
+                },
+                {
+                    "date": 1727260499356,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -9,6 +9,6 @@\n     created_date_time = models.DateTimeField(auto_now_add=True, null = True,blank = True)\n     updated_date_time = models.DateTimeField(auto_now=True, null = True,blank = True)\n     \n     def __str__(self) -> str:\n-        return f\"{str(self.name)}:{str(selfcreated_date)}\"\n+        return f\"{str(self.name)}:{str(self.created_date)}\"\n \n"
                 }
             ],
             "date": 1725789652716,

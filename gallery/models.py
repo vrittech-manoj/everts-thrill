@@ -8,4 +8,7 @@ class Gallery(models.Model):
     created_date = models.DateField(auto_now_add=True, null = True,blank = True)
     created_date_time = models.DateTimeField(auto_now_add=True, null = True,blank = True)
     updated_date_time = models.DateTimeField(auto_now=True, null = True,blank = True)
+    
+    def __str__(self) -> str:
+        return f"{str(self.name)}:{str(self.created_date)}"
 
