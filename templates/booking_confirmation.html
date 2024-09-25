@@ -67,6 +67,11 @@
             border-radius: 0 0 10px 10px;
             color: #fff;
         }
+        .footer-image-size{
+            height: 20px;
+            width: 20px;
+            margin: 0 5px;
+        }
         .footer a {
             text-decoration: none;
             color: #fff;
@@ -108,7 +113,7 @@
             <h1>New Trip Booking Notification – {{ destination }}</h1>
             <p>Dear {{ recipient_name }},</p>
             <p>Thank you for booking your adventure with us! Here are the details of your upcoming trip:</p>
-            <div class="trip-details-box">
+            <div class="trip-details-box" style="display: flex; flex-wrap: wrap; gap: 5px;" >
                 <div class="trip-details-text">
                     <p><strong style="color: #00008B;">Trip Details:</strong></p>
                     <p><strong>Contact:</strong> {{ contact }}</p>
@@ -117,22 +122,21 @@
                     <p><strong>Destination:</strong> {{ destination }}</p>
                     <p><strong>Arrival Date:</strong> {{ arrival_date }}</p>
                     <p><strong>Departure Date:</strong> {{ departure_date }}</p>
-                    <p><strong>Preferred Service Type:</strong> {{ preferred_service_type|capfirst }}
-                    </p>
+                    <p style="text-transform: capitalize;"><strong>Preferred Service Type:</strong>{{ preferred_service_type}}</p>
                 </div>
                 <div class="w-full" style="display: flex; flex-grow: 1;">
-                    
                 </div>
-                <img src="https://api.everestthrills.com/media/gallery/images/calendar_DiYKO8g.gif" alt="Calendar Icon" style="width:409.135px; height: 146px;">
+                <img src="https://api.everestthrills.com/media/gallery/images/Appointment_schedule.gif" alt="Calendar Icon" style="width:auto; height:15vh;margin-right: 10%;">
+               
             </div>
             <p>We look forward to providing you with a memorable experience! Should you have any questions or need further assistance, please feel free to reach out.</p>
         </div>
         <div class="footer">
-            <div class="social-icons">
-                <a href="https://www.facebook.com/everestthrill"><img src="https://api.everestthrills.com/media/gallery/images/Facebook_Logo_Primary.png" alt="Facebook"></a>
-                <a href="https://www.x.com/everestthrill"><img src="https://api.everestthrills.com/media/gallery/images/Rajan_Sharma_image_1.png" alt="Twitter/X"></a>
-                <a href="https://youtube.com/@everestthrill?si=u0ff0Nh_pzFuVuUY"><img src="https://api.everestthrills.com/media/gallery/images/Rajan_Sharma_image_2.png" alt="YouTube"></a>
-                <a href="https://www.instagram.com/everestthrill"><img src="https://api.everestthrills.com/media/gallery/images/Rajan_Sharma_image.png" alt="Instagram"></a>
+            <div class="footer">
+                <a href="https://www.facebook.com/everestthrill"><img class="footer-image-size" src="https://api.everestthrills.com/media/gallery/images/Facebook_Logo_Primary.png" alt="Facebook"></a>
+                <a href="https://www.x.com/everestthrill"><img class="footer-image-size" src="https://api.everestthrills.com/media/gallery/images/Rajan_Sharma_image_1.png" alt="Twitter/X"></a>
+                <a href="https://youtube.com/@everestthrill?si=u0ff0Nh_pzFuVuUY"><img class="footer-image-size" src="https://api.everestthrills.com/media/gallery/images/Rajan_Sharma_image_2.png" alt="YouTube"></a>
+                <a href="https://www.instagram.com/everestthrill"><img class="footer-image-size" src="https://api.everestthrills.com/media/gallery/images/Rajan_Sharma_image.png" alt="Instagram"></a>
             </div>
             <p>&copy; 2024 Everest Thrill. All rights reserved.<br>Made with <span style="color: #FF7A00;">&hearts;</span> by <a href="https://vrittechnologies.com/" style="color: #fff;">Vrit Tech</a></p>
         </div>

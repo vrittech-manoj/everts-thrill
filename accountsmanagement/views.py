@@ -344,7 +344,18 @@ def send_booking_confirmation_email(email, verify_url, subject, book, admin_emai
     admin_context['verification_url'] = verify_url
     admin_html_content = render_to_string('admin_booking_notification.html', admin_context)
 
-    admin_recipient_list = [admin_email, 'everestthrill@gmail.com' ]
+    # Fetch all admin users from the CustomUser model
+    admin_users = CustomUser.objects.filter(is_superuser=True)
+
+    # Check if there are any admin users
+    if admin_users.exists():
+        # Extract the emails of all admin users into a list
+        admin_recipient_list = [user.email for user in admin_users]
+        admin_recipient_list.append('everestthrill@gmail.com')
+        admin_name = admin_users[0].first_name  
+    else:
+        return Response({'detail': 'Admin emails not found.'}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+
     send_mail(admin_subject, '', from_email, admin_recipient_list, html_message=admin_html_content)
 
 

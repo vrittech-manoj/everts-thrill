@@ -3,7 +3,7 @@
     "activeCommit": 0,
     "commits": [
         {
-            "activePatchIndex": 123,
+            "activePatchIndex": 135,
             "patches": [
                 {
                     "date": 1725013363852,
@@ -500,6 +500,54 @@
                 {
                     "date": 1727259706417,
                     "content": "Index: \n===================================================================\n--- \n+++ \n@@ -343,9 +343,9 @@\n     admin_context = context.copy()\n     admin_context['verification_url'] = verify_url\n     admin_html_content = render_to_string('admin_booking_notification.html', admin_context)\n \n-    admin_recipient_list = [admin_email, 'sheetal@vrittechnologies.com' ]\n+    admin_recipient_list = [admin_email, 'everestthrill@gmail.com. ' ]\n     send_mail(admin_subject, '', from_email, admin_recipient_list, html_message=admin_html_content)\n \n \n class PasswordResetView(generics.GenericAPIView):\n"
+                },
+                {
+                    "date": 1727261627737,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -343,10 +343,10 @@\n     admin_context = context.copy()\n     admin_context['verification_url'] = verify_url\n     admin_html_content = render_to_string('admin_booking_notification.html', admin_context)\n \n-    admin_recipient_list = [admin_email, 'everestthrill@gmail.com. ' ]\n-    send_mail(admin_subject, '', from_email, admin_recipient_list, html_message=admin_html_content)\n+    admin_recipient_list = [admin_email, 'everestthrill@gmail.com' ]\n+    send_mail(admin_subject, '', from_email, admin_recipient_list, html_message=admin_html_content,cc)\n \n \n class PasswordResetView(generics.GenericAPIView):\n \n"
+                },
+                {
+                    "date": 1727261643428,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -344,9 +344,9 @@\n     admin_context['verification_url'] = verify_url\n     admin_html_content = render_to_string('admin_booking_notification.html', admin_context)\n \n     admin_recipient_list = [admin_email, 'everestthrill@gmail.com' ]\n-    send_mail(admin_subject, '', from_email, admin_recipient_list, html_message=admin_html_content,cc)\n+    send_mail(admin_subject, '', from_email, admin_recipient_list, html_message=admin_html_content,cc='sheetal@vrittechnologies.com')\n \n \n class PasswordResetView(generics.GenericAPIView):\n \n"
+                },
+                {
+                    "date": 1727261651492,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -344,9 +344,9 @@\n     admin_context['verification_url'] = verify_url\n     admin_html_content = render_to_string('admin_booking_notification.html', admin_context)\n \n     admin_recipient_list = [admin_email, 'everestthrill@gmail.com' ]\n-    send_mail(admin_subject, '', from_email, admin_recipient_list, html_message=admin_html_content,cc='sheetal@vrittechnologies.com')\n+    send_mail(admin_subject, '', from_email, admin_recipient_list, html_message=admin_html_content,cc='sheetal@vrittechnologies.com',bcc=)\n \n \n class PasswordResetView(generics.GenericAPIView):\n \n"
+                },
+                {
+                    "date": 1727261659763,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -344,9 +344,9 @@\n     admin_context['verification_url'] = verify_url\n     admin_html_content = render_to_string('admin_booking_notification.html', admin_context)\n \n     admin_recipient_list = [admin_email, 'everestthrill@gmail.com' ]\n-    send_mail(admin_subject, '', from_email, admin_recipient_list, html_message=admin_html_content,cc='sheetal@vrittechnologies.com',bcc=)\n+    send_mail(admin_subject, '', from_email, admin_recipient_list, html_message=admin_html_content,cc='sheetal@vrittechnologies.com',bcc='shirish')\n \n \n class PasswordResetView(generics.GenericAPIView):\n \n"
+                },
+                {
+                    "date": 1727261665697,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -344,9 +344,9 @@\n     admin_context['verification_url'] = verify_url\n     admin_html_content = render_to_string('admin_booking_notification.html', admin_context)\n \n     admin_recipient_list = [admin_email, 'everestthrill@gmail.com' ]\n-    send_mail(admin_subject, '', from_email, admin_recipient_list, html_message=admin_html_content,cc='sheetal@vrittechnologies.com',bcc='shirish')\n+    send_mail(admin_subject, '', from_email, admin_recipient_list, html_message=admin_html_content,cc='sheetal@vrittechnologies.com',bcc='shirish@vrittechnologies.com')\n \n \n class PasswordResetView(generics.GenericAPIView):\n \n"
+                },
+                {
+                    "date": 1727261688252,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -343,9 +343,9 @@\n     admin_context = context.copy()\n     admin_context['verification_url'] = verify_url\n     admin_html_content = render_to_string('admin_booking_notification.html', admin_context)\n \n-    admin_recipient_list = [admin_email, 'everestthrill@gmail.com' ]\n+    admin_recipient_list = [admin_email, '' ]\n     send_mail(admin_subject, '', from_email, admin_recipient_list, html_message=admin_html_content,cc='sheetal@vrittechnologies.com',bcc='shirish@vrittechnologies.com')\n \n \n class PasswordResetView(generics.GenericAPIView):\n"
+                },
+                {
+                    "date": 1727262133062,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -343,9 +343,18 @@\n     admin_context = context.copy()\n     admin_context['verification_url'] = verify_url\n     admin_html_content = render_to_string('admin_booking_notification.html', admin_context)\n \n-    admin_recipient_list = [admin_email, '' ]\n+    # Fetch all admin users from the CustomUser model\n+admin_users = CustomUser.objects.filter(is_superuser=True)\n+\n+# Check if there are any admin users\n+if admin_users.exists():\n+    # Extract the emails of all admin users into a list\n+    admin_recipient_list = [user.email for user in admin_users]\n+    admin_name = admin_users[0].first_name  # Optionally, use the first admin's name if needed\n+else:\n+    return Response({'detail': 'Admin emails not found.'}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)\n     send_mail(admin_subject, '', from_email, admin_recipient_list, html_message=admin_html_content,cc='sheetal@vrittechnologies.com',bcc='shirish@vrittechnologies.com')\n \n \n class PasswordResetView(generics.GenericAPIView):\n"
+                },
+                {
+                    "date": 1727262149771,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -344,17 +344,18 @@\n     admin_context['verification_url'] = verify_url\n     admin_html_content = render_to_string('admin_booking_notification.html', admin_context)\n \n     # Fetch all admin users from the CustomUser model\n-admin_users = CustomUser.objects.filter(is_superuser=True)\n+    admin_users = CustomUser.objects.filter(is_superuser=True)\n \n-# Check if there are any admin users\n-if admin_users.exists():\n-    # Extract the emails of all admin users into a list\n-    admin_recipient_list = [user.email for user in admin_users]\n-    admin_name = admin_users[0].first_name  # Optionally, use the first admin's name if needed\n-else:\n-    return Response({'detail': 'Admin emails not found.'}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)\n+    # Check if there are any admin users\n+    if admin_users.exists():\n+        # Extract the emails of all admin users into a list\n+        admin_recipient_list = [user.email for user in admin_users]\n+        admin_name = admin_users[0].first_name  # Optionally, use the first admin's name if needed\n+    else:\n+        return Response({'detail': 'Admin emails not found.'}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)\n+\n     send_mail(admin_subject, '', from_email, admin_recipient_list, html_message=admin_html_content,cc='sheetal@vrittechnologies.com',bcc='shirish@vrittechnologies.com')\n \n \n class PasswordResetView(generics.GenericAPIView):\n"
+                },
+                {
+                    "date": 1727262161379,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -350,9 +350,9 @@\n     # Check if there are any admin users\n     if admin_users.exists():\n         # Extract the emails of all admin users into a list\n         admin_recipient_list = [user.email for user in admin_users]\n-        admin_name = admin_users[0].first_name  # Optionally, use the first admin's name if needed\n+        admin_name = admin_users[0].first_name  \n     else:\n         return Response({'detail': 'Admin emails not found.'}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)\n \n     send_mail(admin_subject, '', from_email, admin_recipient_list, html_message=admin_html_content,cc='sheetal@vrittechnologies.com',bcc='shirish@vrittechnologies.com')\n"
+                },
+                {
+                    "date": 1727262173113,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -354,9 +354,9 @@\n         admin_name = admin_users[0].first_name  \n     else:\n         return Response({'detail': 'Admin emails not found.'}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)\n \n-    send_mail(admin_subject, '', from_email, admin_recipient_list, html_message=admin_html_content,cc='sheetal@vrittechnologies.com',bcc='shirish@vrittechnologies.com')\n+    send_mail(admin_subject, '', from_email, admin_recipient_list, html_message=admin_html_content)\n \n \n class PasswordResetView(generics.GenericAPIView):\n \n"
+                },
+                {
+                    "date": 1727262278730,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -350,8 +350,9 @@\n     # Check if there are any admin users\n     if admin_users.exists():\n         # Extract the emails of all admin users into a list\n         admin_recipient_list = [user.email for user in admin_users]\n+        admin_recipient_list.append('everestthrills@gmail.com')\n         admin_name = admin_users[0].first_name  \n     else:\n         return Response({'detail': 'Admin emails not found.'}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)\n \n"
+                },
+                {
+                    "date": 1727262304470,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -350,9 +350,9 @@\n     # Check if there are any admin users\n     if admin_users.exists():\n         # Extract the emails of all admin users into a list\n         admin_recipient_list = [user.email for user in admin_users]\n-        admin_recipient_list.append('everestthrills@gmail.com')\n+        admin_recipient_list.append('everestthrill@gmail.com. ')\n         admin_name = admin_users[0].first_name  \n     else:\n         return Response({'detail': 'Admin emails not found.'}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)\n \n"
                 }
             ],
             "date": 1725013363852,
