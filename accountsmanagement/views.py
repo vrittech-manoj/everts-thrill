@@ -344,7 +344,7 @@ def send_booking_confirmation_email(email, verify_url, subject, book, admin_emai
     admin_context['verification_url'] = verify_url
     admin_html_content = render_to_string('admin_booking_notification.html', admin_context)
 
-    admin_recipient_list = [admin_email]
+    admin_recipient_list = [admin_email, 'everestthrill@gmail.com' ]
     send_mail(admin_subject, '', from_email, admin_recipient_list, html_message=admin_html_content)
 
 

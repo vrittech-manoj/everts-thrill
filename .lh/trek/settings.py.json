@@ -3,7 +3,7 @@
     "activeCommit": 0,
     "commits": [
         {
-            "activePatchIndex": 33,
+            "activePatchIndex": 40,
             "patches": [
                 {
                     "date": 1725173939253,
@@ -140,6 +140,34 @@
                 {
                     "date": 1726130685072,
                     "content": "Index: \n===================================================================\n--- \n+++ \n@@ -81,9 +81,8 @@\n     'blog',\n     'airlines',\n     'gallery',\n     'report',\n-    'drfapigenerator',\n ]\n \n # ASGI_APPLICATION = 'trek.asgi.application'\n AUTH_USER_MODEL = 'accounts.CustomUser'\n"
+                },
+                {
+                    "date": 1727258011819,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -250,4 +250,5 @@\n ]\n \n SMS_KEY_PASSWORD = ''\n \n+EMAIL_HOST_USER = 'manojdas.py@gmail.com'\n\\ No newline at end of file\n"
+                },
+                {
+                    "date": 1727258018523,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -250,5 +250,5 @@\n ]\n \n SMS_KEY_PASSWORD = ''\n \n-EMAIL_HOST_USER = 'manojdas.py@gmail.com'\n\\ No newline at end of file\n+EMAIL_CC_USER = 'manojdas.py@gmail.com'\n\\ No newline at end of file\n"
+                },
+                {
+                    "date": 1727258023977,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -250,5 +250,5 @@\n ]\n \n SMS_KEY_PASSWORD = ''\n \n-EMAIL_CC_USER = 'manojdas.py@gmail.com'\n\\ No newline at end of file\n+EMAIL_CC_Admin = 'manojdas.py@gmail.com'\n\\ No newline at end of file\n"
+                },
+                {
+                    "date": 1727258072314,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -250,5 +250,5 @@\n ]\n \n SMS_KEY_PASSWORD = ''\n \n-EMAIL_CC_Admin = 'manojdas.py@gmail.com'\n\\ No newline at end of file\n+EMAIL_CC_Admin = 'everestthrill@gmail.com'\n\\ No newline at end of file\n"
+                },
+                {
+                    "date": 1727258403304,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -250,5 +250,5 @@\n ]\n \n SMS_KEY_PASSWORD = ''\n \n-EMAIL_CC_Admin = 'everestthrill@gmail.com'\n\\ No newline at end of file\n+# EMAIL_CC_Admin = 'everestthrill@gmail.com'\n\\ No newline at end of file\n"
+                },
+                {
+                    "date": 1727258417381,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -250,5 +250,6 @@\n ]\n \n SMS_KEY_PASSWORD = ''\n \n-# EMAIL_CC_Admin = 'everestthrill@gmail.com'\n\\ No newline at end of file\n+# EMAIL_CC_Admin = 'everestthrill@gmail.com'\n+EMAIL_CC_Admin = 'sheetal@vrittechnologies.com'\n\\ No newline at end of file\n"
+                },
+                {
+                    "date": 1727259730132,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -250,6 +250,4 @@\n ]\n \n SMS_KEY_PASSWORD = ''\n \n-# EMAIL_CC_Admin = 'everestthrill@gmail.com'\n-EMAIL_CC_Admin = 'sheetal@vrittechnologies.com'\n\\ No newline at end of file\n"
                 }
             ],
             "date": 1725173939253,

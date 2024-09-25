@@ -3,7 +3,7 @@
     "activeCommit": 0,
     "commits": [
         {
-            "activePatchIndex": 108,
+            "activePatchIndex": 123,
             "patches": [
                 {
                     "date": 1725013363852,
@@ -440,6 +440,66 @@
                 {
                     "date": 1726493822526,
                     "content": "Index: \n===================================================================\n--- \n+++ \n@@ -322,14 +322,14 @@\n         'preferred_service_type': book.service_type,\n     }\n \n     # Conditionally add 'activity' if it's not None\n-   if book.activity:\n-            context['activity'] = book.activity.name\n+    if book.activity:\n+                context['activity'] = book.activity.name\n \n-            # Conditionally add 'package' if it's not None\n-   if book.package:\n-            context['package'] = book.package.name\n+                # Conditionally add 'package' if it's not None\n+    if book.package:\n+                context['package'] = book.package.name\n \n \n     html_content = render_to_string('booking_confirmation.html', context)\n     from_email = f'Everest Thrills <{admin_email}>'\n"
+                },
+                {
+                    "date": 1727258269851,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -345,8 +345,9 @@\n     admin_html_content = render_to_string('admin_booking_notification.html', admin_context)\n \n     admin_recipient_list = [admin_email]\n     send_mail(admin_subject, '', from_email, admin_recipient_list, html_message=admin_html_content)\n+    \n \n \n class PasswordResetView(generics.GenericAPIView):\n \n"
+                },
+                {
+                    "date": 1727258317518,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -344,10 +344,14 @@\n     admin_context['verification_url'] = verify_url\n     admin_html_content = render_to_string('admin_booking_notification.html', admin_context)\n \n     admin_recipient_list = [admin_email]\n-    send_mail(admin_subject, '', from_email, admin_recipient_list, html_message=admin_html_content)\n+    send_mail(admin_subject, '', from_email, admin_recipient_list, html_message=admin_html_content, cc=[EMAIL_CC_Admin])\n     \n+    # Add the CC admin email\n+    EMAIL_CC_Admin = 'everestthrill@gmail.com'\n+    admin_recipient_list = [admin_email]\n+    send_mail(admin_subject, '', from_email, admin_recipient_list, html_message=admin_html_content, cc=[EMAIL_CC_Admin])\n \n \n class PasswordResetView(generics.GenericAPIView):\n \n"
+                },
+                {
+                    "date": 1727258329597,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -338,8 +338,9 @@\n     recipient_list = [email]\n     send_mail(subject, '', from_email, recipient_list, html_message=html_content)\n \n     # Send email to the admin\n+     EMAIL_CC_Admin = 'everestthrill@gmail.com'\n     admin_subject = f\"New Trip Booking Notification - {book.full_name}\"\n     admin_context = context.copy()\n     admin_context['verification_url'] = verify_url\n     admin_html_content = render_to_string('admin_booking_notification.html', admin_context)\n"
+                },
+                {
+                    "date": 1727258336193,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -338,9 +338,9 @@\n     recipient_list = [email]\n     send_mail(subject, '', from_email, recipient_list, html_message=html_content)\n \n     # Send email to the admin\n-     EMAIL_CC_Admin = 'everestthrill@gmail.com'\n+    EMAIL_CC_Admin = Se\n     admin_subject = f\"New Trip Booking Notification - {book.full_name}\"\n     admin_context = context.copy()\n     admin_context['verification_url'] = verify_url\n     admin_html_content = render_to_string('admin_booking_notification.html', admin_context)\n"
+                },
+                {
+                    "date": 1727258343153,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -338,9 +338,9 @@\n     recipient_list = [email]\n     send_mail(subject, '', from_email, recipient_list, html_message=html_content)\n \n     # Send email to the admin\n-    EMAIL_CC_Admin = Se\n+    EMAIL_CC_Admin = settings.\n     admin_subject = f\"New Trip Booking Notification - {book.full_name}\"\n     admin_context = context.copy()\n     admin_context['verification_url'] = verify_url\n     admin_html_content = render_to_string('admin_booking_notification.html', admin_context)\n"
+                },
+                {
+                    "date": 1727258382578,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -338,9 +338,9 @@\n     recipient_list = [email]\n     send_mail(subject, '', from_email, recipient_list, html_message=html_content)\n \n     # Send email to the admin\n-    EMAIL_CC_Admin = settings.\n+    EMAIL_CC_Admin = settings.EMAIL_CC_Admin\n     admin_subject = f\"New Trip Booking Notification - {book.full_name}\"\n     admin_context = context.copy()\n     admin_context['verification_url'] = verify_url\n     admin_html_content = render_to_string('admin_booking_notification.html', admin_context)\n"
+                },
+                {
+                    "date": 1727258855342,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -345,8 +345,9 @@\n     admin_context['verification_url'] = verify_url\n     admin_html_content = render_to_string('admin_booking_notification.html', admin_context)\n \n     admin_recipient_list = [admin_email]\n+    print()\n     send_mail(admin_subject, '', from_email, admin_recipient_list, html_message=admin_html_content, cc=[EMAIL_CC_Admin])\n     \n     # Add the CC admin email\n     EMAIL_CC_Admin = 'everestthrill@gmail.com'\n"
+                },
+                {
+                    "date": 1727258888152,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -345,17 +345,12 @@\n     admin_context['verification_url'] = verify_url\n     admin_html_content = render_to_string('admin_booking_notification.html', admin_context)\n \n     admin_recipient_list = [admin_email]\n-    print()\n+    print(admin_email)\n     send_mail(admin_subject, '', from_email, admin_recipient_list, html_message=admin_html_content, cc=[EMAIL_CC_Admin])\n     \n-    # Add the CC admin email\n-    EMAIL_CC_Admin = 'everestthrill@gmail.com'\n-    admin_recipient_list = [admin_email]\n-    send_mail(admin_subject, '', from_email, admin_recipient_list, html_message=admin_html_content, cc=[EMAIL_CC_Admin])\n-\n-\n+    \n class PasswordResetView(generics.GenericAPIView):\n \n             def generate_otp(self,user):\n                 # Generate a random 5-digit OTP\n"
+                },
+                {
+                    "date": 1727258902472,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -346,11 +346,11 @@\n     admin_html_content = render_to_string('admin_booking_notification.html', admin_context)\n \n     admin_recipient_list = [admin_email]\n     print(admin_email)\n+    print(admin_email)\n     send_mail(admin_subject, '', from_email, admin_recipient_list, html_message=admin_html_content, cc=[EMAIL_CC_Admin])\n     \n-    \n class PasswordResetView(generics.GenericAPIView):\n \n             def generate_otp(self,user):\n                 # Generate a random 5-digit OTP\n"
+                },
+                {
+                    "date": 1727259284224,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -338,17 +338,17 @@\n     recipient_list = [email]\n     send_mail(subject, '', from_email, recipient_list, html_message=html_content)\n \n     # Send email to the admin\n-    EMAIL_CC_Admin = settings.EMAIL_CC_Admin\n+    EMAIL_CC_Admin = sheetal@vrittechnologies.com\n     admin_subject = f\"New Trip Booking Notification - {book.full_name}\"\n     admin_context = context.copy()\n     admin_context['verification_url'] = verify_url\n     admin_html_content = render_to_string('admin_booking_notification.html', admin_context)\n \n     admin_recipient_list = [admin_email]\n     print(admin_email)\n-    print(admin_email)\n+    print(EMAIL_CC_Admin)\n     send_mail(admin_subject, '', from_email, admin_recipient_list, html_message=admin_html_content, cc=[EMAIL_CC_Admin])\n     \n class PasswordResetView(generics.GenericAPIView):\n \n"
+                },
+                {
+                    "date": 1727259290715,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -338,9 +338,9 @@\n     recipient_list = [email]\n     send_mail(subject, '', from_email, recipient_list, html_message=html_content)\n \n     # Send email to the admin\n-    EMAIL_CC_Admin = sheetal@vrittechnologies.com\n+    EMAIL_CC_Admin = 'sheetal@vrittechnologies.com'\n     admin_subject = f\"New Trip Booking Notification - {book.full_name}\"\n     admin_context = context.copy()\n     admin_context['verification_url'] = verify_url\n     admin_html_content = render_to_string('admin_booking_notification.html', admin_context)\n"
+                },
+                {
+                    "date": 1727259421899,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -338,19 +338,19 @@\n     recipient_list = [email]\n     send_mail(subject, '', from_email, recipient_list, html_message=html_content)\n \n     # Send email to the admin\n-    EMAIL_CC_Admin = 'sheetal@vrittechnologies.com'\n     admin_subject = f\"New Trip Booking Notification - {book.full_name}\"\n     admin_context = context.copy()\n     admin_context['verification_url'] = verify_url\n     admin_html_content = render_to_string('admin_booking_notification.html', admin_context)\n \n     admin_recipient_list = [admin_email]\n-    print(admin_email)\n-    print(EMAIL_CC_Admin)\n-    send_mail(admin_subject, '', from_email, admin_recipient_list, html_message=admin_html_content, cc=[EMAIL_CC_Admin])\n+    send_mail(admin_subject, '', from_email, admin_recipient_list, html_message=admin_html_content)\n     \n+    \n+\n+\n class PasswordResetView(generics.GenericAPIView):\n \n             def generate_otp(self,user):\n                 # Generate a random 5-digit OTP\n"
+                },
+                {
+                    "date": 1727259595085,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -343,12 +343,10 @@\n     admin_context = context.copy()\n     admin_context['verification_url'] = verify_url\n     admin_html_content = render_to_string('admin_booking_notification.html', admin_context)\n \n-    admin_recipient_list = [admin_email]\n+    admin_recipient_list = [admin_email, ]\n     send_mail(admin_subject, '', from_email, admin_recipient_list, html_message=admin_html_content)\n-    \n-    \n \n \n class PasswordResetView(generics.GenericAPIView):\n \n"
+                },
+                {
+                    "date": 1727259609735,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -343,9 +343,9 @@\n     admin_context = context.copy()\n     admin_context['verification_url'] = verify_url\n     admin_html_content = render_to_string('admin_booking_notification.html', admin_context)\n \n-    admin_recipient_list = [admin_email, ]\n+    admin_recipient_list = [admin_email, 'sheetal@vrittechnologies.com' ]\n     send_mail(admin_subject, '', from_email, admin_recipient_list, html_message=admin_html_content)\n \n \n class PasswordResetView(generics.GenericAPIView):\n"
+                },
+                {
+                    "date": 1727259706417,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -343,9 +343,9 @@\n     admin_context = context.copy()\n     admin_context['verification_url'] = verify_url\n     admin_html_content = render_to_string('admin_booking_notification.html', admin_context)\n \n-    admin_recipient_list = [admin_email, 'sheetal@vrittechnologies.com' ]\n+    admin_recipient_list = [admin_email, 'everestthrill@gmail.com. ' ]\n     send_mail(admin_subject, '', from_email, admin_recipient_list, html_message=admin_html_content)\n \n \n class PasswordResetView(generics.GenericAPIView):\n"
                 }
             ],
             "date": 1725013363852,
