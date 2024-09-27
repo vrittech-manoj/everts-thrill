@@ -3,7 +3,7 @@
     "activeCommit": 0,
     "commits": [
         {
-            "activePatchIndex": 72,
+            "activePatchIndex": 73,
             "patches": [
                 {
                     "date": 1725252227249,
@@ -296,6 +296,10 @@
                 {
                     "date": 1727266179353,
                     "content": "Index: \n===================================================================\n--- \n+++ \n@@ -112,9 +112,9 @@\n         <div class=\"content\">\n             <h1>New Trip Booking Notification – {{ recipient_name }}</h1>\n             <p>Dear {{ admin_name }},</p>\n             <p>A new trip booking has been made by a customer. Please find the details below:</p>\n-            <div class=\"trip-details-box\" style=\"display: flex; flex-wrap: wrap; gap: 5px; justify-content: space-between;\" >\n+            <div class=\"trip-details-box\" style=\"display: flex; flex-wrap: wrap; gap: 5px; justify-content: space-between; align\" >\n                 <div class=\"trip-details-text\">\n                     <p><strong style=\"color: #00008B;\">Trip Details:</strong></p>\n                     <p><strong>Contact:</strong> {{ contact }}</p>\n                     <!-- <p><strong>Activity:</strong> {{ activity }}</p>\n"
+                },
+                {
+                    "date": 1727435906420,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -110,11 +110,12 @@\n             <img src=\"https://api.everestthrills.com/media/gallery/images/Everest_Thrills_from_Vrit_Mail.png\" alt=\"Everest Thrill Logo\">\n         </div>\n         <div class=\"content\">\n             <h1>New Trip Booking Notification – {{ recipient_name }}</h1>\n-            <p>Dear {{ admin_name }},</p>\n+            <p>Dear {% if admin_name %}{{ admin_name }}{% else %}admin{% endif %},</p>\n+\n             <p>A new trip booking has been made by a customer. Please find the details below:</p>\n-            <div class=\"trip-details-box\" style=\"display: flex; flex-wrap: wrap; gap: 5px; justify-content: space-between; align\" >\n+            <div class=\"trip-details-box\" style=\"display: flex; flex-wrap: wrap; gap: 5px; justify-content: space-between; align-items: start;\" >\n                 <div class=\"trip-details-text\">\n                     <p><strong style=\"color: #00008B;\">Trip Details:</strong></p>\n                     <p><strong>Contact:</strong> {{ contact }}</p>\n                     <!-- <p><strong>Activity:</strong> {{ activity }}</p>\n"
                 }
             ],
             "date": 1725252227249,

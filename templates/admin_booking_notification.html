@@ -111,7 +111,7 @@
         </div>
         <div class="content">
             <h1>New Trip Booking Notification – {{ recipient_name }}</h1>
-            <p>Dear {{ admin_name }},</p>
+            <p>Dear {% if admin_name %}{{ admin_name }}{% else %}admin{% endif %},</p>
             <p>A new trip booking has been made by a customer. Please find the details below:</p>
             <div class="trip-details-box" style="display: flex; flex-wrap: wrap; gap: 5px; justify-content: space-between; align-items: start;" >
                 <div class="trip-details-text">
